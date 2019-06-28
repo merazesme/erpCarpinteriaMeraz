@@ -16,16 +16,30 @@
 					<div class="col-lg-6">
 						<div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Fisicamente en caja chica</h4>
-                                <h6 class="card-subtitle">Gastos internos de oficina</h6>
+                            	<div class="row">
+                            		<div class="col-lg-7">
+                            			<h4 class="card-title">Fisicamente en caja chica</h4>
+                                		<h6 class="card-subtitle">Gastos internos de oficina</h6>
+                            		</div>
+                            		<div class="col-lg-5">
+                            			<h1 class="card-title">$3674.50</h1>
+                            		</div>
+                            	</div>
                             </div>
                         </div>
 					</div>
 					<div class="col-lg-6">
                     	<div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Trabajadores</h4>
-                                <h6 class="card-subtitle">Prestamos de caja chica a trabajadores</h6>
+                            	<div class="row">
+	                            	<div class="col-lg-7">
+		                                <h4 class="card-title"><b>Total </b></h4>
+		                                <h6 class="card-subtitle"><b>Dinero que hay en caja chica</b></h6>
+	                        		</div>
+	                        		<div class="col-lg-5">
+	                        			<h1 class="card-title text-info"><b>$4000.00</b></h1>
+	                        		</div> 
+                            	</div>
                             </div>
                         </div>
                     </div>
@@ -53,10 +67,10 @@
                                                 <td>$60.00</td>
                                                 <td class="text-nowrap">
 		                                            <a href="#modalModificarRegistro" data-toggle="modal"> 
-		                                            	<i class="fa fa-pencil text-primary m-r-10"></i> 
+		                                            	<i class="icon-pencil text-primary m-r-10"></i> 
 		                                            </a>
 		                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
-		                                            	<i class="fa fa-close text-danger"></i>
+		                                            	<i class="icon-close text-danger"></i>
 		                                            </a>
 		                                        </td>
                                             </tr>
@@ -92,10 +106,10 @@
                                                 <td>$100.00</td>
                                                 <td class="text-nowrap">
 		                                            <a href="#modalModificarRegistro" data-toggle="modal"> 
-		                                            	<i class="fa fa-pencil text-primary m-r-10"></i> 
+		                                            	<i class="icon-pencil text-primary m-r-10"></i> 
 		                                            </a>
 		                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
-		                                            	<i class="fa fa-close text-danger"></i>
+		                                            	<i class="icon-close text-danger"></i>
 		                                            </a>
 		                                        </td>
                                             </tr>
@@ -133,10 +147,10 @@
                                                 <td>$200.00</td>
                                                 <td class="text-nowrap">
 		                                            <a href="#modalModificarRegistro" data-toggle="modal"> 
-		                                            	<i class="fa fa-pencil text-primary m-r-10"></i> 
+		                                            	<i class="icon-pencil text-primary m-r-10"></i> 
 		                                            </a>
 		                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
-		                                            	<i class="fa fa-close text-danger"></i>
+		                                            	<i class="icon-close text-danger"></i>
 		                                            </a>
 		                                        </td>
                                             </tr>
@@ -172,10 +186,10 @@
                                                 <td>$34.50</td>
                                                 <td class="text-nowrap">
 		                                            <a href="#modalModificarRegistro" data-toggle="modal"> 
-		                                            	<i class="fa fa-pencil text-primary m-r-10"></i> 
+		                                            	<i class="icon-pencil text-primary m-r-10"></i> 
 		                                            </a>
 		                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
-		                                            	<i class="fa fa-close text-danger"></i>
+		                                            	<i class="icon-close text-danger"></i>
 		                                            </a>
 		                                        </td>
                                             </tr>
@@ -196,17 +210,17 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Agregar concepto</h4>
+                                    <h4 class="modal-title">Modificar</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                 </div>
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-group">
-                                            <label>Fecha de vencimento</label>
+                                            <label>Fecha</label>
                                             <input class="form-control" type="date" placeholder="Selecione una fecha" id="example-date-input">
                                         </div>
                                         <div class="form-group">
-                                            <label>Nombre del concepto</label>
+                                            <label>Nombre o concepto</label>
                                             <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="example-text-input">
                                         </div>
                                         <div class="form-group">

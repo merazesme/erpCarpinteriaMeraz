@@ -33,10 +33,10 @@
                                         <td>Pagado</td>
                                         <td class="text-nowrap">
                                             <a href="#modalAdjuntarPagodelMes" data-toggle="modal"> 
-                                            	<i class="fa fa-check text-success m-r-10"></i> 
+                                            	<i class="icon-check text-success m-r-10"></i> 
                                             </a>
-                                            <a href="#" data-toggle="tooltip" data-original-title="Eliminar pago"> 
-                                            	<i class="fa fa-close text-danger"></i>
+                                            <a href="#" data-toggle="modal" id="sa-warning"> 
+                                                <i class="icon-close text-danger"></i>
                                             </a>
                                         </td>
                                     </tr>
