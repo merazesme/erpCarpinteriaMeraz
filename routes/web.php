@@ -11,24 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('content');
+Route::get('/', function(){
+	$modulo = "Home";
+	return view('content', compact('modulo'));
 });
 
 Route::get('/modal', function(){
-	return view('modal');
+	$modulo = "Modal";
+	return view('modal', compact('modulo'));
 });
 
 Route::get('/trabajadores', function(){
-	return view('trabajadores');
+	$modulo = "Trabajadores";
+	return view('trabajadores', compact('modulo'));
 });
 
 Route::get('/agregarTrabajadores', function(){
-	return view('agregarTrabajadores');
+	$modulo = "Agregar trabajador";
+	return view('agregarTrabajadores', compact('modulo'));
 });
 
 Route::get('/proveedores', function(){
-	return view('proveedores');
+	$modulo = "Proveedores";
+	return view('proveedores', compact('modulo'));
+});
 
 Route::get('/dashboard', function(){
 	$modulo = "Dashboard";
