@@ -26,3 +26,7 @@ Route::get('/trabajadores', function(){
 Route::get('/agregarTrabajadores', function(){
 	return view('agregarTrabajadores');
 });
+
+Route::get('/proveedores', function(){
+	return view('proveedores');
+});
