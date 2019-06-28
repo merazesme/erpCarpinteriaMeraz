@@ -13,7 +13,7 @@
 				@section('breadcrumbs')
 				@parent
 				<div class="card">
-					
+					<h1>jala</h1>
 				</div>
 			</div>
 		</div>

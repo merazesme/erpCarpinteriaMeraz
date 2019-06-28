@@ -14,7 +14,6 @@
     <script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{asset('js/custom.min.js')}}"></script>
-<<<<<<< HEAD
 		<script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
@@ -34,18 +33,7 @@
     <script src="{{asset('plugins/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
 		<script src="{{asset('plugins/wizard/steps.js')}}"></script>
     <!-- ============================================================== -->
-		<!-- Select 2 -->
-=======
-        <script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
-    <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
-    <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
-        <!-- Sweet-Alert  -->
-    <script src="{{asset('plugins/sweetalert/sweetalert.min.js')}}"></script>
-    <script src="{{asset('plugins/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
-        <script src="{{asset('plugins/wizard/steps.js')}}"></script>
-    <!-- ============================================================== -->
-        <!-- Select 2 -->
->>>>>>> 8a906181fdf231319246e88cfa3701fd16e98f34
+    <!-- Select 2 -->
     <!-- ============================================================== -->
     <script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
     <script src="{{asset('plugins/select2/dist/js/select2.full.min.js')}}" type="text/javascript"></script>
