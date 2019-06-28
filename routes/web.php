@@ -12,9 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('content');
 });
 
-Route::get('/content', function(){
-	return view('content');
+Route::get('/modal', function(){
+	return view('modal');
+});
+
+Route::get('/trabajadores', function(){
+	return view('trabajadores');
+});
+
+Route::get('/agregarTrabajadores', function(){
+	return view('agregarTrabajadores');
 });

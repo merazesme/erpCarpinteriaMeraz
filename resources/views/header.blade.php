@@ -13,6 +13,17 @@
     <title>Admin Pro Admin Template - The Ultimate Bootstrap 4 Admin Template</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('plugins/wizard/steps.css')}}" rel="stylesheet">
+    <!--alerts CSS -->
+    <link href="{{asset('plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
+    <!-- Single select2 CSS -->
+    <link href="{{asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('plugins/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" />
+    <link href="{{asset('plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('plugins/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
@@ -44,7 +55,7 @@
 	            <!-- Logo text --><span>
 	             <!-- dark Logo text -->
 	             <img src="{{asset('images/logo-text.png')}}" alt="homepage" class="dark-logo" />
-	             <!-- Light Logo text -->    
+	             <!-- Light Logo text -->
 	             <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /></span> </a>
 	    </div>
 	    <!-- ============================================================== -->
@@ -284,7 +295,7 @@
 	                    <ul class="dropdown-user">
 	                        <li>
 	                            <div class="dw-user-box">
-	                                <div class="u-img"><img src="asset('images/users/1.jpg')" alt="user"></div>
+	                                <div class="u-img"><img src="{{asset('images/users/1.jpg')}}" alt="user"></div>
 	                                <div class="u-text">
 	                                    <h4>Steave Jobs</h4>
 	                                    <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
