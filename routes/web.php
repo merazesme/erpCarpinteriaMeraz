@@ -59,3 +59,18 @@ Route::get('/cajachica', function(){
 	$modulo = "Caja chica";
 	return view('cajachica', compact('modulo'));
 });
+
+Route::get('/clientes', function(){
+	$modulo = "Clientes";
+	return view('clientes', compact('modulo'));
+});
+
+Route::get('/agregarCliente', function(){
+	$modulo = "Agregar Cliente";
+	return view('agregarCliente', compact('modulo'));
+});
+
+Route::get('/modificarCliente', function(){
+	$modulo = "Modificar Cliente";
+	return view('agregarCliente', compact('modulo'));
+});
