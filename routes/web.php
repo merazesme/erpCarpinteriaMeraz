@@ -59,3 +59,31 @@ Route::get('/cajachica', function(){
 	$modulo = "Caja chica";
 	return view('cajachica', compact('modulo'));
 });
+
+Route::prefix('proveedores')->group(function () {
+	/** Temporal routes */
+    Route::get('lista', function () {
+		$modulo = 'Proveedores';
+		return view('proveedores_show', compact('modulo'));
+	});
+	Route::get('agregar', function () {
+		$modulo = 'Agregar proveedor';
+		return view('proveedores_agregar', compact('modulo'));
+	});
+	Route::get('editar/{id}', function () {
+		$modulo = 'Editar proveedor';
+		return view('proveedores_agregar', compact('modulo'));
+	});
+	Route::get('gasolina', function () {
+		$modulo = 'Gasolina';
+		return view('proveedores_gasolina', compact('modulo'));
+	});
+});
+
+Route::prefix('facturas_sobrantes')->group(function () {
+	/** Temporal routes */
+    Route::get('lista', function () {
+		$modulo = 'Facturas sobrantes';
+		return view('facturas_sobrantes_show', compact('modulo'));
+	});
+});
