@@ -31,9 +31,9 @@ Route::get('/agregarTrabajadores', function(){
 	return view('agregarTrabajadores', compact('modulo'));
 });
 
-Route::get('/proveedores', function(){
-	$modulo = "Proveedores";
-	return view('proveedores', compact('modulo'));
+Route::get('/prestamos', function(){
+	$modulo = "Prestamos";
+	return view('prestamos', compact('modulo'));
 });
 
 Route::get('/dashboard', function(){
@@ -58,4 +58,24 @@ Route::get('/pagosdelmes_conceptos', function(){
 Route::get('/cajachica', function(){
 	$modulo = "Caja chica";
 	return view('cajachica', compact('modulo'));
+});
+
+Route::get('/materiales', function(){
+	$modulo = "Materiales";
+	return view('materiales', compact('modulo'));
+});
+
+Route::get('/orden_compra', function(){
+	$modulo = "Orden de Compra";
+	return view('orden_compra', compact('modulo'));
+});
+
+Route::get('/orden_salida', function(){
+	$modulo = "Orden de Salida";
+	return view('orden_salida', compact('modulo'));
+});
+
+Route::get('/movimientos', function(){
+	$modulo = "Movimientos";
+	return view('movimientos', compact('modulo'));
 });

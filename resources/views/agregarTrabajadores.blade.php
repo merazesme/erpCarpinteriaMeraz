@@ -90,56 +90,6 @@
 							                                        <option value="OR">Oregon</option>
 							                                        <option value="WA">Washington</option>
 							                                    </optgroup>
-							                                    <optgroup label="Mountain Time Zone">
-							                                        <option value="AZ">Arizona</option>
-							                                        <option value="CO">Colorado</option>
-							                                        <option value="ID">Idaho</option>
-							                                        <option value="MT">Montana</option>
-							                                        <option value="NE">Nebraska</option>
-							                                        <option value="NM">New Mexico</option>
-							                                        <option value="ND">North Dakota</option>
-							                                        <option value="UT">Utah</option>
-							                                        <option value="WY">Wyoming</option>
-							                                    </optgroup>
-							                                    <optgroup label="Central Time Zone">
-							                                        <option value="AL">Alabama</option>
-							                                        <option value="AR">Arkansas</option>
-							                                        <option value="IL">Illinois</option>
-							                                        <option value="IA">Iowa</option>
-							                                        <option value="KS">Kansas</option>
-							                                        <option value="KY">Kentucky</option>
-							                                        <option value="LA">Louisiana</option>
-							                                        <option value="MN">Minnesota</option>
-							                                        <option value="MS">Mississippi</option>
-							                                        <option value="MO">Missouri</option>
-							                                        <option value="OK">Oklahoma</option>
-							                                        <option value="SD">South Dakota</option>
-							                                        <option value="TX">Texas</option>
-							                                        <option value="TN">Tennessee</option>
-							                                        <option value="WI">Wisconsin</option>
-							                                    </optgroup>
-							                                    <optgroup label="Eastern Time Zone">
-							                                        <option value="CT">Connecticut</option>
-							                                        <option value="DE">Delaware</option>
-							                                        <option value="FL">Florida</option>
-							                                        <option value="GA">Georgia</option>
-							                                        <option value="IN">Indiana</option>
-							                                        <option value="ME">Maine</option>
-							                                        <option value="MD">Maryland</option>
-							                                        <option value="MA">Massachusetts</option>
-							                                        <option value="MI">Michigan</option>
-							                                        <option value="NH">New Hampshire</option>
-							                                        <option value="NJ">New Jersey</option>
-							                                        <option value="NY">New York</option>
-							                                        <option value="NC">North Carolina</option>
-							                                        <option value="OH">Ohio</option>
-							                                        <option value="PA">Pennsylvania</option>
-							                                        <option value="RI">Rhode Island</option>
-							                                        <option value="SC">South Carolina</option>
-							                                        <option value="VT">Vermont</option>
-							                                        <option value="VA">Virginia</option>
-							                                        <option value="WV">West Virginia</option>
-							                                    </optgroup>
 							                                </select>
 					                                </div>
 	                                    </div>
@@ -185,6 +135,50 @@
 																		</div>
 																	</div>
 	                            </section>
+															<!-- Contrato -->
+	                            <h6>Contrato</h6>
+															<section>
+																<br>
+																<div class="row">
+																	<label class="col-md-6">Tipo de contrato: <span class="danger">*</span> </label>
+																			<div class="col-md-9">
+																					<div class="radio-list">
+																							<label class="custom-control custom-radio">
+																									<input id="temporal" name="Temporal" type="radio" checked="" class="custom-control-input">
+																									<span class="custom-control-indicator"></span>
+																									<span class="custom-control-description">Temporal</span>
+																							</label>
+																							<label class="custom-control custom-radio">
+																									<input id="base" name="Base" type="radio" class="custom-control-input">
+																									<span class="custom-control-indicator"></span>
+																									<span class="custom-control-description">Base</span>
+																							</label>
+																					</div>
+																			</div>
+																	</div>
+																	<div class="row">
+	                                    <div class="col-md-6">
+	                                        <div class="form-group">
+																							<label for="fecha_inicio">Fecha de inicio: <span class="danger">*</span> </label>
+																							<input type="date" class="form-control required" id="fecha_inicio" name="Fecha_inicio">
+	                                        </div>
+	                                    </div>
+																			<div class="col-md-6">
+	                                        <div class="form-group">
+																							<label for="fecha_final">Fecha final: <span class="danger">*</span> </label>
+																							<input type="date" class="form-control required" id="fecha_final" name="Fecha_final">
+	                                        </div>
+	                                    </div>
+																	</div>
+																	<div class="row">
+																    <div class="col-md-6">
+																        <div class="form-group">
+																						<label for="sueldo">Sueldo: <span class="danger">*</span> </label>
+																						<input type="text" class="form-control required" id="sueldo" name="Sueldo">
+																        </div>
+																    </div>
+																	</div>
+	                            </section>
 	                        </form>
 	                    </div>
 	                </div>
@@ -195,6 +189,54 @@
 		</div>
 		@section('footer')
 		@parent
+		<script>
+    jQuery(document).ready(function() {
+        // Switchery
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        $('.js-switch').each(function() {
+            new Switchery($(this)[0], $(this).data());
+        });
+        // For select 2
+        $(".select2").select2();
+        $('.selectpicker').selectpicker();
+        //Bootstrap-TouchSpin
+        $(".vertical-spin").TouchSpin({
+            verticalbuttons: true,
+            verticalupclass: 'ti-plus',
+            verticaldownclass: 'ti-minus'
+        });
+        var vspinTrue = $(".vertical-spin").TouchSpin({
+            verticalbuttons: true
+        });
+        if (vspinTrue) {
+            $('.vertical-spin').prev('.bootstrap-touchspin-prefix').remove();
+        }
+        $("input[name='tch1']").TouchSpin({
+            min: 0,
+            max: 100,
+            step: 0.1,
+            decimals: 2,
+            boostat: 5,
+            maxboostedstep: 10,
+            postfix: '%'
+        });
+        $("input[name='tch2']").TouchSpin({
+            min: -1000000000,
+            max: 1000000000,
+            stepinterval: 50,
+            maxboostedstep: 10000000,
+            prefix: '$'
+        });
+        $("input[name='tch3']").TouchSpin();
+        $("input[name='tch3_22']").TouchSpin({
+            initval: 40
+        });
+        $("input[name='tch5']").TouchSpin({
+            prefix: "pre",
+            postfix: "post"
+        });
+    });
+    </script>
 	</div>
 @endsection
 @endsection

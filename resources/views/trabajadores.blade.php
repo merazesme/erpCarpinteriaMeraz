@@ -26,6 +26,7 @@
                                       <th>Nombre</th>
                                       <th>Puesto</th>
 																			<th>Fecha de liquidación</th>
+																			<th>Estado</th>
 																			<th>Acciones</th>
                                   </tr>
                               </thead>
@@ -34,6 +35,7 @@
                                       <th>Nombre</th>
                                       <th>Puesto</th>
 																			<th>Fecha de liquidación</th>
+																			<th>Estado</th>
 																			<th>Acciones</th>
                                   </tr>
                               </tfoot>
@@ -42,11 +44,12 @@
                                       <td>Toluco el loco</td>
                                       <td>Repartidor</td>
                                       <td>28/12/2019</td>
+																			<td>Activo</td>
 																			<td class="text-nowrap">
 	                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
 	                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-	                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																				<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
+	                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+																				<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class=" icon-phon text-inverse em-r-10"></i> </a>
 	                                  	</td>
 																			<!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
                                   </tr>
