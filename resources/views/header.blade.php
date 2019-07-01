@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
-    <title>Admin Pro Admin Template - The Ultimate Bootstrap 4 Admin Template</title>
+    <title>Carpintería Meraz</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('plugins/wizard/steps.css')}}" rel="stylesheet">
@@ -42,21 +42,23 @@
 	    <!-- ============================================================== -->
 	    <!-- Logo -->
 	    <!-- ============================================================== -->
-	    <div class="navbar-header">
+	    <div class="navbar-header mx-auto">
 	        <a class="navbar-brand" href="index.html">
-	            <!-- Logo icon --><b>
+	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->
-	                <img src="{{asset('images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
+	                <img src="{{asset('images/logo.jpg')}}" alt="Carpintería Meraz" class="w-75"  />
 	                <!-- Light Logo icon -->
-	                <img src="{{asset('images/logo-light-icon.png')}}" alt="homepage" class="light-logo" />
-	            </b>
+	                <!-- <img src="{{asset('images/logo-light-icon.png')}}" alt="homepage" class="light-logo" /> -->
 	            <!--End Logo icon -->
-	            <!-- Logo text --><span>
+	            <!-- Logo text -->
+	            <!-- <span> -->
 	             <!-- dark Logo text -->
-	             <img src="{{asset('images/logo-text.png')}}" alt="homepage" class="dark-logo" />
+	             <!-- <img src="{{asset('images/logo.jpg')}}" alt="homepage" class="dark-logo" /> -->
 	             <!-- Light Logo text -->
-	             <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /></span> </a>
+	             <!-- <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /> -->
+		         <!-- </span>  -->
+		     </a>
 	    </div>
 	    <!-- ============================================================== -->
 	    <!-- End Logo -->

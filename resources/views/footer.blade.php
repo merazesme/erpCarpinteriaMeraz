@@ -44,6 +44,12 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
+
+
+    <!-- ======================= JS de los módulos ===================================== -->
+    <script src="{{asset('modulos/clientes.js')}}"></script>
+    <script src="{{asset('modulos/cotizaciones.js')}}"></script>
+
 </body>
 </html>
 @show

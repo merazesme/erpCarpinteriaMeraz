@@ -30,7 +30,7 @@ $(".validation-wizard").steps({
         return form.validate().settings.ignore = ":disabled", form.valid()
     }
     , onFinished: function (event, currentIndex) {
-         swal("Proceso finalizado!", "Se agrego exitosamente.");
+         swal("Enviado", "Se ha enviado con éxito");
     }
 }), $(".validation-wizard").validate({
     ignore: "input[type=hidden]"
