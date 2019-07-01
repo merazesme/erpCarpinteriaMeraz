@@ -45,9 +45,15 @@
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 
+
 		<script src="{{asset('plugins/footable/js/footable.all.min.js')}}"></script>
     <!--FooTable init-->
     <script src="{{asset('js/footable-init.js')}}"></script>
+
+    <!-- ======================= JS de los módulos ===================================== -->
+    <script src="{{asset('modulos/clientes.js')}}"></script>
+    <script src="{{asset('modulos/cotizaciones.js')}}"></script>
+
 </body>
 </html>
 @show
