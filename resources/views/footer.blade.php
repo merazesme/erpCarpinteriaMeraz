@@ -44,6 +44,10 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
+
+		<script src="{{asset('plugins/footable/js/footable.all.min.js')}}"></script>
+    <!--FooTable init-->
+    <script src="{{asset('js/footable-init.js')}}"></script>
 </body>
 </html>
 @show

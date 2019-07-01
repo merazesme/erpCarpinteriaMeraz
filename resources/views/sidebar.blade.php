@@ -13,7 +13,7 @@
                   </ul>
               </li>
               <li class="nav-devider"></li>
-              <li> 
+              <li>
                 <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                   <i class="mdi mdi-gauge"></i>
                   <span class="hide-menu">Nómina
@@ -21,13 +21,13 @@
                   </span>
                 </a>
                 <ul aria-expanded="false" class="collapse">
-                    <li><a href="index.html">Semanal</a></li>
+                    <li><a href="nominaSemanal">Semanal</a></li>
                     <li><a href="index2.html">Utilidades</a></li>
-                    <li><a href="index3.html">Aguinaldo</a></li>
-                    <li><a href="index4.html">Vacaciones</a></li>
+                    <li><a href="nominaAguinaldo">Aguinaldo</a></li>
+                    <li><a href="nominaVacacional">Vacaciones</a></li>
                 </ul>
               </li>
-              <li> 
+              <li>
                 <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bullseye"></i><span class="hide-menu">Trabajadores</span></a>
                 <ul aria-expanded="false" class="collapse">
                     <li><a href="trabajadores">Listado</a></li>
@@ -37,7 +37,7 @@
               </li>
               <li> <a href="#" aria-expanded="false"><i class="mdi mdi-email"></i><span class="hide-menu">Caja chica</span></a>
               </li>
-              <li> 
+              <li>
                 <a href="clientes" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i>
                   <span class="hide-menu">Clientes
                     <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
@@ -56,7 +56,7 @@
               </li>
               <li> <a href="#" aria-expanded="false"><i class="mdi mdi-widgets"></i><span class="hide-menu">Movimientos</span></a>
               </li>
-              <li> 
+              <li>
                 <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                   <i class="mdi mdi-book-multiple"></i>
                   <span class="hide-menu">Proveedores</span>
@@ -66,7 +66,7 @@
                     <li><a href="layout-fix-header.html">Gasolina</a></li>
                 </ul>
               </li>
-              <li> 
+              <li>
                 <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                   <i class="mdi mdi-book-open-variant"></i>
                   <span class="hide-menu">Pagos del mes

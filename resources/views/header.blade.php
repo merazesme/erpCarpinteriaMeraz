@@ -28,6 +28,7 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
+    <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -84,7 +85,7 @@
 	                <form class="app-search">
 	                    <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
 	            </li>
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- Messages -->
 	            <!-- ============================================================== -->
@@ -96,7 +97,7 @@
 	                        <li>
 	                            <div class="drop-title">Caja chica</div>
 	                        </li>
-	                        <li> 
+	                        <li>
 	                        	<div class="table-responsive">
 				                    <table class="table">
 				                        <tbody>
@@ -137,11 +138,11 @@
 	                    </ul>
 	                </div>
 	            </li>
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- End Messages -->
 	            <!-- ============================================================== -->
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- Profile -->
 	            <!-- ============================================================== -->
