@@ -74,3 +74,18 @@ Route::get('/modificarCliente', function(){
 	$modulo = "Modificar Cliente";
 	return view('agregarCliente', compact('modulo'));
 });
+
+Route::get('/cotizaciones', function(){
+	$modulo = "Cotizaciones";
+	return view('cotizaciones', compact('modulo'));
+});
+
+Route::get('/nuevaCotizacion', function(){
+	$modulo = "Nueva Cotización";
+	return view('nuevaCotizacion', compact('modulo'));
+});
+
+Route::get('/modificarCotizacion', function(){
+	$modulo = "Modificar Cotización";
+	return view('nuevaCotizacion', compact('modulo'));
+});

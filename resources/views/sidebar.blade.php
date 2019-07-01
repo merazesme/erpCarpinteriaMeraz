@@ -45,7 +45,7 @@
                 </a>
               </li>
               <!-- <li class="nav-small-cap">FORMS, TABLE &amp; WIDGETS</li> -->
-              <li> <a href="#" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Cotizaciones</span></a>
+              <li> <a href="cotizaciones" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Cotizaciones</span></a>
               </li>
               <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Inventario</span></a>
                   <ul aria-expanded="false" class="collapse">
