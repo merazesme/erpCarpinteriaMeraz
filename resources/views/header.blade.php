@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
-    <title>Admin Pro Admin Template - The Ultimate Bootstrap 4 Admin Template</title>
+    <title>Carpintería Meraz</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('plugins/wizard/steps.css')}}" rel="stylesheet">
@@ -28,6 +28,7 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
+    <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,21 +43,23 @@
 	    <!-- ============================================================== -->
 	    <!-- Logo -->
 	    <!-- ============================================================== -->
-	    <div class="navbar-header">
+	    <div class="navbar-header mx-auto">
 	        <a class="navbar-brand" href="index.html">
-	            <!-- Logo icon --><b>
+	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->
-	                <img src="{{asset('images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
+	                <img src="{{asset('images/logo.jpg')}}" alt="Carpintería Meraz" class="w-75"  />
 	                <!-- Light Logo icon -->
-	                <img src="{{asset('images/logo-light-icon.png')}}" alt="homepage" class="light-logo" />
-	            </b>
+	                <!-- <img src="{{asset('images/logo-light-icon.png')}}" alt="homepage" class="light-logo" /> -->
 	            <!--End Logo icon -->
-	            <!-- Logo text --><span>
+	            <!-- Logo text -->
+	            <!-- <span> -->
 	             <!-- dark Logo text -->
-	             <img src="{{asset('images/logo-text.png')}}" alt="homepage" class="dark-logo" />
+	             <!-- <img src="{{asset('images/logo.jpg')}}" alt="homepage" class="dark-logo" /> -->
 	             <!-- Light Logo text -->
-	             <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /></span> </a>
+	             <!-- <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /> -->
+		         <!-- </span>  -->
+		     </a>
 	    </div>
 	    <!-- ============================================================== -->
 	    <!-- End Logo -->
@@ -82,7 +85,7 @@
 	                <form class="app-search">
 	                    <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
 	            </li>
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- Messages -->
 	            <!-- ============================================================== -->
@@ -94,7 +97,7 @@
 	                        <li>
 	                            <div class="drop-title">Caja chica</div>
 	                        </li>
-	                        <li> 
+	                        <li>
 	                        	<div class="table-responsive">
 				                    <table class="table">
 				                        <tbody>
@@ -135,11 +138,11 @@
 	                    </ul>
 	                </div>
 	            </li>
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- End Messages -->
 	            <!-- ============================================================== -->
-	            
+
 	            <!-- ============================================================== -->
 	            <!-- Profile -->
 	            <!-- ============================================================== -->

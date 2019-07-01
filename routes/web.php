@@ -31,9 +31,9 @@ Route::get('/agregarTrabajadores', function(){
 	return view('agregarTrabajadores', compact('modulo'));
 });
 
-Route::get('/proveedores', function(){
-	$modulo = "Proveedores";
-	return view('proveedores', compact('modulo'));
+Route::get('/prestamos', function(){
+	$modulo = "Prestamos";
+	return view('prestamos', compact('modulo'));
 });
 
 Route::get('/dashboard', function(){
@@ -86,4 +86,68 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		$modulo = 'Facturas sobrantes';
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
+});
+Route::get('/materiales', function(){
+	$modulo = "Materiales";
+	return view('materiales', compact('modulo'));
+});
+
+Route::get('/orden_compra', function(){
+	$modulo = "Orden de Compra";
+	return view('orden_compra', compact('modulo'));
+});
+
+Route::get('/orden_salida', function(){
+	$modulo = "Orden de Salida";
+	return view('orden_salida', compact('modulo'));
+});
+
+Route::get('/movimientos', function(){
+	$modulo = "Movimientos";
+	return view('movimientos', compact('modulo'));
+});
+
+Route::get('/clientes', function(){
+	$modulo = "Clientes";
+	return view('clientes', compact('modulo'));
+});
+
+Route::get('/agregarCliente', function(){
+	$modulo = "Agregar Cliente";
+	return view('agregarCliente', compact('modulo'));
+});
+
+Route::get('/modificarCliente', function(){
+	$modulo = "Modificar Cliente";
+	return view('agregarCliente', compact('modulo'));
+});
+
+Route::get('/cotizaciones', function(){
+	$modulo = "Cotizaciones";
+	return view('cotizaciones', compact('modulo'));
+});
+
+Route::get('/nuevaCotizacion', function(){
+	$modulo = "Nueva Cotización";
+	return view('nuevaCotizacion', compact('modulo'));
+});
+
+Route::get('/modificarCotizacion', function(){
+	$modulo = "Modificar Cotización";
+	return view('nuevaCotizacion', compact('modulo'));
+});
+
+Route::get('/nominaVacacional', function(){
+	$modulo = "Nómina Vacacional";
+	return view('nominaVacacional', compact('modulo'));
+});
+
+Route::get('/nominaAguinaldo', function(){
+	$modulo = "Nómina Aguinaldo";
+	return view('nominaAguinaldo', compact('modulo'));
+});
+
+Route::get('/nominaSemanal', function(){
+	$modulo = "Nómina Semanal";
+	return view('nominaSemanal', compact('modulo'));
 });
