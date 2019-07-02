@@ -53,8 +53,8 @@
 
                     </div>
                     <div class="form-actions">
-                        <button type="button" id="btn_guardar" class="btn btn-success"> <i class="fa fa-check"></i> Guardar</button>
-                        <button type="button" onclick="cancelar_registro()" class="btn btn-danger">Cancelar</button>
+                        <button type="button" id="btn_guardar" class="btn btn-success float-right"> <i class="fa fa-check"></i> Guardar</button>
+                        <button type="button" onclick="cancelar_registro()" class="btn btn-danger float-right m-r-10">Cancelar</button>
                     </div>
                 </form>
             </div>

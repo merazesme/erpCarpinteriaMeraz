@@ -15,11 +15,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-8 col-md-8 col-sm-6">
                             <h4 class="card-title">Lista de facturas sobrantes</h4>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-primary"
+                        <div class="col-lg-4 col-md-4 col-sm-6 d-inline-flex">
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-primary ml-auto"
                                     onclick="abrir_modal_agregar_factura_sobrante()">
                                 <i class="fa fa-plus"></i>
                                 Agregar factura
@@ -63,28 +63,28 @@
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Pendiente</span></td>
+                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
                                     title="Clic para editar 2" onclick="abrir_modal_actualizar_factura_sobrante(2)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Pendiente</span></td>
+                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
                                     title="Clic para editar 3" onclick="abrir_modal_actualizar_factura_sobrante(3)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-success">Completo</span></td>
+                                    <td><span class="w-100 badge badge-pill badge-success">Pagado</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
                                     title="Clic para editar 4" onclick="abrir_modal_actualizar_factura_sobrante(4)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Pendiente</span></td>
+                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
                                 </tr>
                             </tbody>
                         </table>

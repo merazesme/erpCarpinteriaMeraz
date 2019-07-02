@@ -61,8 +61,8 @@
                   <span class="hide-menu">Proveedores</span>
                 </a>
                 <ul aria-expanded="false" class="collapse">
-                    <li><a href="layout-single-column.html">Listado</a></li>
-                    <li><a href="layout-fix-header.html">Gasolina</a></li>
+                    <li><a href="/proveedores/lista">Listado</a></li>
+                    <li><a href="/proveedores/gasolina">Gasolina</a></li>
                 </ul>
               </li>
               <li>
@@ -77,7 +77,7 @@
                     <li><a href="pages-blank.html">Conceptos</a></li>
                 </ul>
               </li>
-              <li> <a href="#" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
+              <li> <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
               </li>
           </ul>
       </nav>

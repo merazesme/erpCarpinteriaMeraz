@@ -18,8 +18,8 @@
                         <div class="col-lg-9">
                             <h4 class="card-title">Lista de proveedores</h4>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-primary"
+                        <div class="col-lg-3 col-md-3 col-sm-6 d-inline-flex">
+                            <button type="button" class="btn waves-effect waves-light btn-block btn-primary ml-auto"
                                     onclick="agregar_proveedor()">
                                 <i class="fa fa-plus"></i>
                                 Agregar proveedor
