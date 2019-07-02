@@ -17,7 +17,7 @@
               <div class="card">
                   <div class="card-body">
                       <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-                      <a  class="btn waves-effect waves-light btn-primary float-right" href="/agregarCliente"> <i class="fa fa-plus"></i> Agregar cliente</a>
+                      <button data-toggle="modal" data-target="#modalAgregar" type="button" class="btn waves-effect waves-light btn-primary float-right"> <i class="fa fa-plus"></i> Agregar cliente</button>
                       <h4 class="card-title">Lista de Clientes</h4>
                       <div class="table-responsive m-t-40">
                           <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -43,7 +43,9 @@
                                       <td>itzel@gmail.com</td>
                                       <td><a href="tel:669 986 8966">669 986 8966</a></td>
 																			<td class="text-nowrap">
-	                                      <a href="/modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+	                                      <span data-toggle="modal" data-target="#modalAgregar">
+                                         <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a> 
+                                        </span>
 	                                      <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
 	                                      <span data-toggle="modal" data-target="#modalDetalles">
                                           <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
@@ -55,7 +57,9 @@
                                       <td>itzel@gmail.com</td>
                                       <td><a href="tel:669 986 8966">669 986 8966</a></td>
                                       <td class="text-nowrap">
-                                        <a href="/modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        <span data-toggle="modal" data-target="#modalAgregar">
+                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        </span>
                                         <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                         <span data-toggle="modal" data-target="#modalDetalles">
                                           <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
@@ -67,7 +71,9 @@
                                       <td>itzel@gmail.com</td>
                                       <td><a href="tel:669 986 8966">669 986 8966</a></td>
                                       <td class="text-nowrap">
-                                        <a href="/modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        <span data-toggle="modal" data-target="#modalAgregar">
+                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        </span>
                                         <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                         <span data-toggle="modal" data-target="#modalDetalles">
                                           <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
@@ -79,7 +85,9 @@
                                       <td>itzel@gmail.com</td>
                                       <td><a href="tel:669 986 8966">669 986 8966</a></td>
                                       <td class="text-nowrap">
-                                        <a href="/modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        <span data-toggle="modal" data-target="#modalAgregar">
+                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                        </span>
                                         <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                         <span data-toggle="modal" data-target="#modalDetalles">
                                           <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
@@ -148,6 +156,59 @@
         </div>
     </div>
     <!-- Fin modal info extra  -->
+
+    <!-- Modal de agregar cliente -->
+    <div id="modalAgregar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Agregar Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="">
+                      <!-- Datos Personales -->
+                      <h6>Datos Personales</h6>
+                      <section>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="nombre">Nombre(s): <span class="danger">*</span> </label>
+                                      <input type="text" class="form-control required" id="nombre" name="Nombre">
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="apellidos">Apellidos: <span class="danger">*</span> </label>
+                                      <input type="text" class="form-control required" id="apellidos" name="Apellidos">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="celular">Email: <span class="danger">*</span> </label>
+                                    <input type="email" class="form-control required" id="email" name="email">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="numero_alternativo">Teléfono: <span class="danger">*</span> </label>
+                                      <input type="tel" class="form-control required" id="telefono" name="telefono">
+                                  </div>
+                              </div>
+                          </div>
+                      </section>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success waves-effect" data-dismiss="modal"><i class="mdi mdi-content-save"></i> Aceptar</button>
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin modal agregar cliente  -->
 		@section('footer')
 		@parent
 		<script>
