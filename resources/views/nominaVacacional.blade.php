@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,8 +9,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
 				<div class="row">
           <div class="col-12">
               <div class="card">
@@ -29,7 +26,7 @@
                                     <th>Bono Extra</th>
                                     <th>Infonavit</th>
                                     <th>Total</th>
-																		
+
 
                                   </tr>
                               </thead>
@@ -145,7 +142,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection
