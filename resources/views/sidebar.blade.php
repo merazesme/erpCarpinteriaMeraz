@@ -49,7 +49,7 @@
                   <ul aria-expanded="false" class="collapse">
                       <li><a href="/materiales">Materiales</a></li>
                       <li><a href="/orden_compra">Orden de Compra</a></li>
-                      <li><a href="/orden_salida">Orden de Venta</a></li>
+                      <li><a href="/orden_salida">Orden de Salida</a></li>
                   </ul>
               </li>
               <li> <a href="/movimientos" aria-expanded="false"><i class="mdi mdi-widgets"></i><span class="hide-menu">Movimientos</span></a>

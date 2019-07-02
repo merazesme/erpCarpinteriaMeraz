@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,8 +9,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
         <div class="row">
             <div class="card">
 
@@ -51,7 +48,6 @@
                                       <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -63,7 +59,6 @@
                                       <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,7 +70,6 @@
                                       <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -87,7 +81,6 @@
                                       <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -99,7 +92,6 @@
                                       <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                       <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -191,7 +183,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

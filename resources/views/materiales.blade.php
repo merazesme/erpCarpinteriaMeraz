@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,203 +9,89 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
           <!-- -->
           <div class="row">
               <div class="card">
 
                     <!-- Table -->
-										<div class="card-body">
-															<h4 class="card-title">Materiales</h4>
-															<h6 class="card-subtitle">Exportar datos a copia, CSV, Excel, PDF & impresión</h6>
-															<!-- <a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="/agregar_material"><i class="fa fa-plus"></i>  Agregar material</a> -->
-															<a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="#modal_agregar_material" data-toggle="modal"><i class="fa fa-plus"></i>  Agregar material</a>
-															<div class="table-responsive m-t-40">
-																	<table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-																			<thead>
-																					<tr>
-																						<th>Nombre</th>
-																						<th>Concepto</th>
-																						<th>Estado</th>
-																						<th>Existencia</th>
-																						<th>Acciones</th>
-																					</tr>
-																			</thead>
-																			<tfoot>
-																					<tr>
-																						<th>Nombre</th>
-																						<th>Concepto</th>
-																						<th>Estado</th>
-																						<th>Existencia</th>
-																						<th>Acciones</th>
-																					</tr>
-																			</tfoot>
-																			<tbody>
-																					<tr>
-																							<td>Tiger Nixon</td>
-																							<td>System Architect</td>
-																							<td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
-																							<td>61</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Garrett Winters</td>
-																							<td>Accountant</td>
-																							<td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Activo</font></font></span></td>
-																							<td>63</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Ashton Cox</td>
-																							<td>Junior Technical Author</td>
-																							<td>San Francisco</td>
-																							<td>66</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Cedric Kelly</td>
-																							<td>Senior Javascript Developer</td>
-																							<td>Edinburgh</td>
-																							<td>22</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Airi Satou</td>
-																							<td>Accountant</td>
-																							<td>Tokyo</td>
-																							<td>33</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Brielle Williamson</td>
-																							<td>Integration Specialist</td>
-																							<td>New York</td>
-																							<td>61</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Herrod Chandler</td>
-																							<td>Sales Assistant</td>
-																							<td>San Francisco</td>
-																							<td>59</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Rhona Davidson</td>
-																							<td>Integration Specialist</td>
-																							<td>Tokyo</td>
-																							<td>55</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Colleen Hurst</td>
-																							<td>Javascript Developer</td>
-																							<td>San Francisco</td>
-																							<td>39</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Sonya Frost</td>
-																							<td>Software Engineer</td>
-																							<td>Edinburgh</td>
-																							<td>23</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Jena Gaines</td>
-																							<td>Office Manager</td>
-																							<td>London</td>
-																							<td>30</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Quinn Flynn</td>
-																							<td>Support Lead</td>
-																							<td>Edinburgh</td>
-																							<td>22</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																					<tr>
-																							<td>Charde Marshall</td>
-																							<td>Regional Director</td>
-																							<td>San Francisco</td>
-																							<td>36</td>
-																							<td class="text-nowrap">
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-																								<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
-					                                  	</td>
-																					</tr>
-																			</tbody>
-																	</table>
-															</div>
-													</div>
+				<div class="card-body">
+					<h4 class="card-title">Materiales</h4>
+					<h6 class="card-subtitle">Exportar datos a copia, CSV, Excel, PDF & impresión</h6>
+					<!-- <a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="/agregar_material"><i class="fa fa-plus"></i>  Agregar material</a> -->
+					<a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="#modal_agregar_material" data-toggle="modal"><i class="fa fa-plus"></i>  Agregar material</a>
+					<div class="table-responsive m-t-40">
+						<table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Concepto</th>
+									<th>Existencia</th>
+									<th>Estado</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Nombre</th>
+									<th>Concepto</th>
+									<th>Existencia</th>
+									<th>Estado</th>
+									<th>Acciones</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr>
+								    <td>Tiger Nixon</td>
+									<td>System Architect</td>
+									<td>61</td>
+									<td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
+									<td class="text-nowrap">
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+									</td>
+								</tr>
+								<tr>
+								    <td>Tiger Nixon</td>
+									<td>System Architect</td>
+									<td>61</td>
+									<td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Activo</font></font></span></td>
+									<td class="text-nowrap">
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+									</td>
+								</tr>
+								<tr>
+								    <td>Tiger Nixon</td>
+									<td>System Architect</td>
+									<td>61</td>
+									<td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Activo</font></font></span></td>
+									<td class="text-nowrap">
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+									</td>
+								</tr>
+								<tr>
+								    <td>Tiger Nixon</td>
+									<td>System Architect</td>
+									<td>61</td>
+									<td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
+									<td class="text-nowrap">
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+	                                  <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+									</td>
+								</tr>		
+							</tbody>
+						</table>
+					</div>
+				</div>
 										<!-- Table -->
 
 										<!-- Modal -->
-										<div id="modal_agregar_material" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+						<div id="modal_agregar_material" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -240,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-										<!-- Modal -->
+					<!-- Modal -->
 
               </div>
           </div>
@@ -250,7 +135,7 @@
 		@section('footer')
 		@parent
 		<script>
-    $(document).ready(function() {
+    	$(document).ready(function() {
         $('#myTable').DataTable();
         $(document).ready(function() {
             var table = $('#example').DataTable({
@@ -297,7 +182,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

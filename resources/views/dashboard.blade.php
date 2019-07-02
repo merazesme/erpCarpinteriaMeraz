@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')	
 
@@ -18,8 +17,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')	
-				@parent
 				 <!-- ============================================================== -->
                 <!-- Citas y pendientes -->
                 <!-- ============================================================== -->
@@ -342,7 +339,6 @@
 		@section('footer')
 		@parent
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

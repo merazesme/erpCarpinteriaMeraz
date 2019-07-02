@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,8 +9,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
 				<div class="card">
 					<!-- Validation wizard -->
 	        <div class="row" id="validation">
@@ -238,7 +235,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

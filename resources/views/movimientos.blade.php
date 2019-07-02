@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,8 +9,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -19,18 +16,19 @@
               <div class="card-body">
                         <h4 class="card-title">Movimientos</h4>
                         <h6 class="card-subtitle">Exportar datos a copia, CSV, Excel, PDF & impresión</h6>
-                        <!-- <a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="/agregar_material"><i class="fa fa-plus"></i>  Agregar material</a> -->
-                        <!-- <a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="#modal_agregar_material" data-toggle="modal"><i class="fa fa-plus"></i>  Agregar material</a> -->
+                        <select class="custom-select b-0">
+                            <option selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Facturas</font></font></option>
+                            <option value="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cheques</font></font></option>
+                            <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Transferencias</font></font></option>
+                            <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depósitos</font></font></option>
+                        </select>
                         <div class="table-responsive m-t-40">
                             <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                      <th>Factura</th>
                                       <th>Procedencia</th>
-                                      <th>Movimiento</th>
-                                      <th>#Depósito</th>
-                                      <th>#Cheque</th>
                                       <th>Fecha</th>
+                                      <th>Factura</th>
                                       <th>Subtotal</th>
                                       <th>IVA</th>
                                       <th>Total</th>
@@ -38,12 +36,9 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                      <th>Factura</th>
                                       <th>Procedencia</th>
-                                      <th>Movimiento</th>
-                                      <th>#Depósito</th>
-                                      <th>#Cheque</th>
                                       <th>Fecha</th>
+                                      <th>Factura</th>
                                       <th>Subtotal</th>
                                       <th>IVA</th>
                                       <th>Total</th>
@@ -52,69 +47,51 @@
                                 <tbody>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                     <tr>
                                         <td>Tiger Nixon</td>
-                                        <td>De alla</td>
+                                        <td>02/07/2019</td>
                                         <td>System Architect</td>
                                         <td>61</td>
-                                        <td>61</td>
-                                        <td>28/06/2019</td>
-                                        <td>61</td>
-                                        <td>16</td>
-                                        <td>214</td>
+                                        <td>13</td>
+                                        <td>13123</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -176,7 +153,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
@@ -10,8 +9,6 @@
     @parent
     <div class="page-wrapper">
         <div class="container-fluid">
-            @section('breadcrumbs')
-            @parent
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -131,7 +128,6 @@
 
 </script>
 </div>
-@endsection
 @endsection
 @endsection
 @endsection
