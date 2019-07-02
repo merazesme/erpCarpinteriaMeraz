@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')	
 
@@ -10,12 +9,17 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')	
-				@parent
 				<div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Listado</h4>
-                        <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF &amp; Print</h6>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <h4 class="card-title">Pagos del mes</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF &amp; Print</h6>
+                            </div>
+                            <div class="col-lg-3">
+                                <button type="button" class="btn waves-effect waves-light btn-block btn-primary" href="#modalConceptoPagodelMes" data-toggle="modal"><i class="fa fa-plus"></i>Agregar concepto</button>
+                            </div>
+                        </div>
                         <div class="table-responsive m-t-40">
 
                             <table id="example23" class="display nowrap table table-hover table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;">
@@ -33,10 +37,13 @@
                                         <td>Pagado</td>
                                         <td class="text-nowrap">
                                             <a href="#modalAdjuntarPagodelMes" data-toggle="modal"> 
-                                            	<i class="fa fa-check text-success m-r-10"></i> 
+                                            	<i class="icon-check text-success m-r-10"></i> 
                                             </a>
-                                            <a href="#" data-toggle="tooltip" data-original-title="Eliminar pago"> 
-                                            	<i class="fa fa-close text-danger"></i>
+                                            <a href="#modalConceptoPagodelMes" data-toggle="modal"> 
+                                                <i class="icon-pencil text-primary m-r-10"></i> 
+                                            </a>
+                                            <a href="#" data-toggle="modal" id="sa-warning"> 
+                                                <i class="icon-close text-danger"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -62,6 +69,40 @@
 			                                        <span class="custom-file-control"></span>
 			                                    </label>
 			                                </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                                                <!-- .modal for add task -->
+                        <div class="modal fade" id="modalConceptoPagodelMes" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Agregar concepto</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label>Fecha de vencimento</label>
+                                                <input class="form-control" type="date" placeholder="Selecione una fecha" id="example-date-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nombre del concepto</label>
+                                                <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="example-text-input">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Cantidad</label>
+                                                <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="example-number-input">
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -144,7 +185,6 @@
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

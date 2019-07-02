@@ -101,17 +101,17 @@
 				                            <tr>
 				                                <td>Oficina</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$400.00</td>
+				                                <td>$60.00</td>
 				                            </tr>
 				                            <tr>
 				                                <td>Trabajadores</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$800.00</td>
+				                                <td>$100.00</td>
 				                            </tr>
 				                            <tr>
 				                                <td>Caja chica</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$2800.00</td>
+				                                <td>$3674.50</td>
 				                            </tr>
 				                            <tr>
 				                                <td>Toluco</td>
@@ -121,7 +121,7 @@
 				                            <tr>
 				                                <td>Debe</td>
 				                                <td><i class="ti-minus" style="color: red"></i></td>
-				                                <td>$200.00</td>
+				                                <td>$34.50</td>
 				                            </tr>
 				                            <tr>
 				                                <td><b>Total</b></td>

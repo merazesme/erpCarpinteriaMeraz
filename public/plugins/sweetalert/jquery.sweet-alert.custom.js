@@ -25,15 +25,15 @@
     //Warning Message
     $('#sa-warning').click(function(){
         swal({   
-            title: "Are you sure?",   
-            text: "You will not be able to recover this imaginary file!",   
+            title: "¿Eliminar registro?",   
+            text: "Esta acción ya no se podra revertir",   
             type: "warning",   
             showCancelButton: true,   
             confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Yes, delete it!",   
+            confirmButtonText: "Eliminar",   
             closeOnConfirm: false 
         }, function(){   
-            swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
+            swal("Eliminado", "El registro ha sido eliminado", "success"); 
         });
     });
 

@@ -1,5 +1,4 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')	
 
@@ -10,8 +9,6 @@
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')	
-				@parent
 				<div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -39,10 +36,10 @@
                                         <td>$1500.00</td>
                                         <td class="text-nowrap">
                                             <a href="#modalConceptoPagodelMes" data-toggle="modal"> 
-                                            	<i class="fa fa-pencil text-primary m-r-10"></i> 
+                                            	<i class="icon-pencil text-primary m-r-10"></i> 
                                             </a>
                                             <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
-                                            	<i class="fa fa-close text-danger"></i>
+                                            	<i class="icon-close text-danger"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -155,7 +152,6 @@
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection
