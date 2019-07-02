@@ -13,7 +13,7 @@
 
 Route::get('/', function(){
 	$modulo = "Home";
-	return view('content', compact('modulo'));
+	return view('dashboard', compact('modulo'));
 });
 
 Route::get('/modal', function(){
@@ -34,11 +34,6 @@ Route::get('/agregarTrabajadores', function(){
 Route::get('/prestamos', function(){
 	$modulo = "Prestamos";
 	return view('prestamos', compact('modulo'));
-});
-
-Route::get('/dashboard', function(){
-	$modulo = "Dashboard";
-	return view('dashboard', compact('modulo'));
 });
 
 Route::get('/login', function(){

@@ -65,16 +65,11 @@
                 </ul>
               </li>
               <li>
-                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                <a class="waves-effect waves-dark" href="/pagosdelmes_lista" aria-expanded="false">
                   <i class="mdi mdi-book-open-variant"></i>
                   <span class="hide-menu">Pagos del mes
-                    <!-- <span class="label label-rouded label-success pull-right">25</span> -->
                   </span>
                 </a>
-                <ul aria-expanded="false" class="collapse">
-                    <li><a href="starter-kit.html">Listado</a></li>
-                    <li><a href="pages-blank.html">Conceptos</a></li>
-                </ul>
               </li>
               <li> <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
               </li>
