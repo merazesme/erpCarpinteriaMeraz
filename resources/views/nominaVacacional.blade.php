@@ -3,21 +3,6 @@
 @extends('sidebar')
 @extends('header')
 
-<!-- Route::get('/nominaVacacional', function(){
-	$modulo = "Nómina Vacacional";
-	return view('nominaVacacional', compact('modulo'));
-});
-
-Route::get('/nominaAguinaldo', function(){
-	$modulo = "Nómina Aguinaldo";
-	return view('nominaAguinaldo', compact('modulo'));
-});
-
-Route::get('/nominaSemanal', function(){
-	$modulo = "Nómina Semanal";
-	return view('nominaSemanal', compact('modulo'));
-}); -->
-
 	<div id="main-wrapper">
 		@section('header')
 		@parent
@@ -31,9 +16,9 @@ Route::get('/nominaSemanal', function(){
           <div class="col-12">
               <div class="card">
                   <div class="card-body">
-                      <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-                      <h4 class="card-title">Vacaciones 2018-2019</h4>
-                      <div class="table-responsive m-t-40">
+											<button id="genera" type="button" class="btn waves-effect waves-light btn-primary float-right"><i class="fa fa-plus"></i> Generar vacaciones 2019</button>
+                      <h4 class="card-title">Listado de vacaciones</h4>
+                      <div class="table-responsive m-t-40" id="tabla">
                           <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
@@ -44,11 +29,21 @@ Route::get('/nominaSemanal', function(){
                                     <th>Bono Extra</th>
                                     <th>Infonavit</th>
                                     <th>Total</th>
-
+																		
 
                                   </tr>
                               </thead>
-
+															<tfoot>
+																<tr>
+																	<th>Totales</th>
+																	<th>76565</th>
+																	<th>78678</th>
+																	<th>786786</th>
+																	<th>89797</th>
+																	<th>67576</th>
+																	<th>8676</th>
+																</tr>
+															</tfoot>
                               <tbody>
                                   <tr>
                                       <td>Itzel Rendón</td>
@@ -86,17 +81,7 @@ Route::get('/nominaSemanal', function(){
                                       <td>123</td>
                                       <td>123</td>
                                   </tr>
-																	<tr>
-                                    <th>Totales</th>
-                                    <th>76565</th>
-                                    <th>78678</th>
-                                    <th>786786</th>
-                                    <th>89797</th>
-                                    <th>67576</th>
-                                    <th>8676</th>
 
-
-                                  </tr>
                               </tbody>
                           </table>
                       </div>
@@ -110,6 +95,10 @@ Route::get('/nominaSemanal', function(){
 		@parent
 		<script>
     $(document).ready(function() {
+				$('#genera').on('click', function() {
+						$('#tabla').show();
+				});
+				$('#tabla').hide();
         $('#myTable').DataTable();
         $(document).ready(function() {
             var table = $('#example').DataTable({

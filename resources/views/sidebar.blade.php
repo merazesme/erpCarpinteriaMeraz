@@ -22,7 +22,7 @@
                 </a>
                 <ul aria-expanded="false" class="collapse">
                     <li><a href="nominaSemanal">Semanal</a></li>
-                    <li><a href="index2.html">Utilidades</a></li>
+                    <li><a href="nominaUtilidad">Utilidades</a></li>
                     <li><a href="nominaAguinaldo">Aguinaldo</a></li>
                     <li><a href="nominaVacacional">Vacaciones</a></li>
                 </ul>
