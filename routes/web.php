@@ -141,3 +141,8 @@ Route::get('/nominaSemanal', function(){
 	$modulo = "Nómina Semanal";
 	return view('nominaSemanal', compact('modulo'));
 });
+
+Route::get('/nominaUtilidad', function(){
+	$modulo = "Nómina de utilidades";
+	return view('nominaUtilidad', compact('modulo'));
+});

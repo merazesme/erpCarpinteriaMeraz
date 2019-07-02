@@ -17,8 +17,9 @@
               <div class="card">
                   <div class="card-body">
                       <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-                      <h4 class="card-title">Aguinaldos 2018</h4>
-                      <div class="table-responsive m-t-40">
+											<button id="genera" type="button" class="btn waves-effect waves-light btn-primary float-right"><i class="fa fa-plus"></i> Generar Aguinaldos 2018 - 2019</button>
+                      <h4 class="card-title">Listado de aguinaldos</h4>
+                      <div class="table-responsive m-t-40" id="tabla">
                           <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
@@ -32,7 +33,17 @@
 
                                   </tr>
                               </thead>
-
+															<tfoot>
+																<tr>
+																	<th></th>
+																	<th></th>
+																	<th>Totales</th>
+																	<th>12313</th>
+																	<th>234</th>
+																	<th>14124</th>
+																	<th>123123</th>
+																</tr>
+                              </tfoot>
                               <tbody>
                                   <tr>
                                       <td>Itzel Rendón</td>
@@ -70,15 +81,6 @@
                                       <td>123</td>
                                       <td>123</td>
                                   </tr>
-																	<tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Totales</th>
-                                    <th>12313</th>
-                                    <th>234</th>
-                                    <th>14124</th>
-                                    <th>123123</th>
-                                  </tr>
                               </tbody>
                           </table>
                       </div>
@@ -92,6 +94,10 @@
 		@parent
 		<script>
     $(document).ready(function() {
+				$('#genera').on('click', function() {
+						$('#tabla').show();
+				});
+				$('#tabla').hide();
         $('#myTable').DataTable();
         $(document).ready(function() {
             var table = $('#example').DataTable({
