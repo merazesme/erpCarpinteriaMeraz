@@ -22,7 +22,7 @@
                 </a>
                 <ul aria-expanded="false" class="collapse">
                     <li><a href="nominaSemanal">Semanal</a></li>
-                    <li><a href="index2.html">Utilidades</a></li>
+                    <li><a href="nominaUtilidad">Utilidades</a></li>
                     <li><a href="nominaAguinaldo">Aguinaldo</a></li>
                     <li><a href="nominaVacacional">Vacaciones</a></li>
                 </ul>
@@ -31,7 +31,6 @@
                   <ul aria-expanded="false" class="collapse">
                       <li><a href="/trabajadores">Listado</a></li>
                       <li><a href="/prestamos">Prestamos</a></li>
-                      <li><a href="app-ticket.html">Liquidaciones</a></li>
                   </ul>
               </li>
               <li> <a href="/cajachica" aria-expanded="false"><i class="mdi mdi-email"></i><span class="hide-menu">Caja chica</span></a>

@@ -20,3 +20,8 @@ $(".eliminarCliente").click(function(e){
 $(".detalleClientes").click(function(e){
     e.preventDefault();
 })
+
+$(".modificarCliente").click(function(e){
+    // e.preventDefault();
+})
+

@@ -13,53 +13,99 @@
 				@section('breadcrumbs')
 				@parent
 				<div class="row">
-          <div class="col-12">
+          <div class="col-md-12">
               <div class="card">
-                  <div class="card-body">
-                      <h4 class="card-title">Trabajadores</h4>
-                      <h6 class="card-subtitle">Lista de trabajadores</h6>
-                      <a style="float:right; margin: -58px  0   22px   860px;" class="btn waves-effect waves-light btn-primary" href="/agregarTrabajadores"> <i class="fa fa-plus"></i> Agregar trabajador</a>
-                      <div class="table-responsive m-t-40">
-                          <table id="trabajadores" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                              <thead>
-                                  <tr>
-                                      <th>Nombre</th>
-                                      <th>Puesto</th>
-																			<th>Fecha de liquidación</th>
-																			<th>Estado</th>
-																			<th>Acciones</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                  <tr>
-                                      <th>Nombre</th>
-                                      <th>Puesto</th>
-																			<th>Fecha de liquidación</th>
-																			<th>Estado</th>
-																			<th>Acciones</th>
-                                  </tr>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                      <td>Toluco el loco</td>
-                                      <td>Repartidor</td>
-                                      <td>28/12/2019</td>
-																			<td>Activo</td>
-																			<td class="text-nowrap">
-	                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-	                                      <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-	                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-																				<a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class=" icon-phon text-inverse em-r-10"></i> </a>
-	                                  	</td>
-																			<!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
-                                  </tr>
-                              </tbody>
-                          </table>
+                  <div class="card-body p-b-0">
+                      <a class="btn waves-effect waves-light btn-primary float-right" href="/agregarTrabajadores"> <i class="fa fa-plus"></i> Agregar trabajador</a>
+                      <h4 class="card-title">Lista de trabajadores</h4>
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Activos</span></a> </li>
+                          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Inactivos</span></a> </li>
+                      </ul>
+                      <!-- Tab panes -->
+                      <div class="tab-content tabcontent-border">
+                          <div class="tab-pane active" id="home" role="tabpanel">
+                              <div class="p-20">
+                                  <div class="table-responsive">
+                                      <table id="trabajadoresActivos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                          <thead>
+                                              <tr>
+                                                  <th>Nombre</th>
+                                                  <th>Puesto</th>
+                                                  <th>Fecha de liquidación</th>
+                                                  <th>Acciones</th>
+                                              </tr>
+                                          </thead>
+                                          <tfoot>
+                                              <tr>
+                                                  <th>Nombre</th>
+                                                  <th>Puesto</th>
+                                                  <th>Fecha de liquidación</th>
+                                                  <th>Acciones</th>
+                                              </tr>
+                                          </tfoot>
+                                          <tbody>
+                                              <tr>
+                                                  <td>Toluco el loco</td>
+                                                  <td>Repartidor</td>
+                                                  <td>28/12/2019</td>
+                                                  <td class="text-nowrap">
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
+                                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
+                                                  </td>
+                                                  <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane" id="profile" role="tabpanel">
+                              <div class="p-20">
+                                    <div class="table-responsive">
+                                        <table id="trabajadoresInactivos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Puesto</th>
+                                                    <th>Fecha de liquidación</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Puesto</th>
+                                                    <th>Fecha de liquidación</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Adriana Hernández</td>
+                                                    <td>Jefa de Producción</td>
+                                                    <td>28/12/2019</td>
+                                                    <td class="text-nowrap">
+                                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
+                                                      <a href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
+                                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
+                                                    </td>
+                                                    <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                          </div>
                       </div>
                   </div>
               </div>
           </div>
-      </div>
+        </div>
 			</div>
 		</div>
 		@section('footer')
@@ -104,7 +150,13 @@
             });
         });
     });
-    $('#trabajadores').DataTable({
+    $('#trabajadoresActivos').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+    $('#trabajadoresInactivos').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
