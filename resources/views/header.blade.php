@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/icon.png')}}">
+    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -9,7 +11,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
     <title>Carpintería Meraz</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -48,17 +49,17 @@
 	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->
-	                <img src="{{asset('images/logo.jpg')}}" alt="Carpintería Meraz" class="w-75"  />
+	                <img src="{{asset('images/logo-iconC.png')}}" alt="Carpintería Meraz" />
 	                <!-- Light Logo icon -->
 	                <!-- <img src="{{asset('images/logo-light-icon.png')}}" alt="homepage" class="light-logo" /> -->
 	            <!--End Logo icon -->
 	            <!-- Logo text -->
-	            <!-- <span> -->
+	            <span>
 	             <!-- dark Logo text -->
-	             <!-- <img src="{{asset('images/logo.jpg')}}" alt="homepage" class="dark-logo" /> -->
+	             <img src="{{asset('images/logo-textC.png')}}" alt="homepage" class="dark-logo" />
 	             <!-- Light Logo text -->
 	             <!-- <img src="{{asset('images/logo-light-text.png')}}" class="light-logo" alt="homepage" /> -->
-		         <!-- </span>  -->
+		         </span>
 		     </a>
 	    </div>
 	    <!-- ============================================================== -->
