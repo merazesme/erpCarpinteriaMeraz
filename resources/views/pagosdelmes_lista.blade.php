@@ -34,7 +34,7 @@
                                         <td>2008/11/28</td>
                                         <td class="sorting_1">Airi Satou</td>
                                         <td>$1500.00</td>
-                                        <td>Pagado</td>
+                                        <td><span class="badge badge-success">Pagado</span></td>
                                         <td class="text-nowrap">
                                             <a href="#modalAdjuntarPagodelMes" data-toggle="modal"> 
                                             	<i class="icon-check text-success m-r-10"></i> 
