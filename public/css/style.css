@@ -802,7 +802,7 @@ sidebar navigation
       list-style: none; }
       .sidebar-nav ul li a {
         color: #ffffff;
-        padding: 8px 35px 8px 15px;
+        padding: 8px 35px 0 15px;
         display: block;
         font-size: 14px;
         font-weight: 400; }
@@ -845,7 +845,7 @@ sidebar navigation
     /*color: #26c6da; */
   }
   .sidebar-nav > ul > li {
-    margin-bottom: 5px; }
+    margin-bottom: 0; }
     .sidebar-nav > ul > li.active > a {
       color: #068F66;
       font-weight: 500; }
