@@ -44,7 +44,7 @@
                                       <td><a href="tel:669 986 8966">669 986 8966</a></td>
 																			<td class="text-nowrap">
 	                                      <span data-toggle="modal" data-target="#modalAgregar">
-                                         <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a> 
+                                         <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
                                         </span>
 	                                      <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
 	                                      <span data-toggle="modal" data-target="#modalDetalles">
@@ -203,7 +203,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success waves-effect" data-dismiss="modal"><i class="mdi mdi-content-save"></i> Aceptar</button>
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
                 </div>
             </div>
         </div>
@@ -220,7 +220,7 @@
           ]
       });
     });
-   
+
     </script>
 	</div>
 @endsection

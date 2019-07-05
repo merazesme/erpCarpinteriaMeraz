@@ -71,7 +71,11 @@
                   </span>
                 </a>
               </li>
-              <li> <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
+              <li>
+                  <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
+              </li>
+              <li>
+                  <a href="/configuracion" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Configuraciones</span></a>
               </li>
           </ul>
       </nav>
