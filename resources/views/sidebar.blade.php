@@ -73,6 +73,13 @@
               </li>
               <li> <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
               </li>
+              <li>
+                <a href="carro" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i>
+                  <span class="hide-menu">Carros
+                    <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
+                  </span>
+                </a>
+              </li>
           </ul>
       </nav>
       <!-- End Sidebar navigation -->

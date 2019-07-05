@@ -141,3 +141,8 @@ Route::get('/nominaUtilidad', function(){
 	$modulo = "Nómina de utilidades";
 	return view('nominaUtilidad', compact('modulo'));
 });
+
+Route::get('/carro', function(){
+	$modulo = "Carros";
+	return view('carro', compact('modulo'));
+});
