@@ -60,28 +60,28 @@
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
+                                    <td><span class="badge badge-danger">Sin pagar</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 2" onclick="abrir_modal_actualizar_factura_sobrante(2)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
+                                    <td><span class="badge badge-danger">Sin pagar</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 3" onclick="abrir_modal_actualizar_factura_sobrante(3)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-success">Pagado</span></td>
+                                    <td><span class="badge badge-success">Pagado</span></td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 4" onclick="abrir_modal_actualizar_factura_sobrante(4)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
-                                    <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
+                                    <td><span class="badge badge-danger">Sin pagar</span></td>
                                 </tr>
                             </tbody>
                         </table>
