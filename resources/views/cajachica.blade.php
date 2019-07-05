@@ -1,11 +1,11 @@
 @extends('footer')
 @extends('sidebar')
-@extends('header')  
+@extends('header')
 
+@section('header')
+@parent
     <div id="main-wrapper">
-        @section('header')
-        @parent
-        @section('sidebar') 
+        @section('sidebar')
         @parent
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -49,7 +49,7 @@
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <h2 class="card-title text-info">$4000.00</h2>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,12 +78,12 @@
                                                                 <td>$60.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -121,12 +121,12 @@
                                                                 <td>$100.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -166,12 +166,12 @@
                                                                 <td>$200.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -209,12 +209,12 @@
                                                                 <td>$34.50</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -319,7 +319,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         @section('footer')

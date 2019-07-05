@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 <div id="main-wrapper">
-    @section('header')
-    @parent
     @section('sidebar')
     @parent
     <div class="page-wrapper">
         <div class="container-fluid">
-            @section('breadcrumbs')
-            @parent
             <button type="button" onclick="regresar()" class="btn btn-dark float-right"> <i class="mdi mdi-arrow-left"></i> Regresar</button>
             <div class="card-body">
                 <form action="#" id="form_proveedor">
@@ -58,7 +55,7 @@
                     </div>
                 </form>
             </div>
-            
+
         </div>
     </div>
 
@@ -92,7 +89,6 @@
     }
 </script>
 </div>
-@endsection
 @endsection
 @endsection
 @endsection

@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
 				<div class="row">
           <div class="col-md-12">
               <div class="card">
@@ -164,7 +161,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

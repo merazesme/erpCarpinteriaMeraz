@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 <div id="main-wrapper">
-    @section('header')
-    @parent
     @section('sidebar')
     @parent
     <div class="page-wrapper">
         <div class="container-fluid">
-            @section('breadcrumbs')
-            @parent
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -34,7 +31,7 @@
                                     Pagar ticket(s)
                                 </button>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -73,7 +70,7 @@
                                         </tr>
                                     </tfoot>
                                     <tbody style="cursor: pointer;">
-                                        <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                        <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                             title="Clic para editar 1" onclick="ver_factura(1)">
                                             <td>DD/MM/AAAA</td>
                                             <td>000 lts</td>
@@ -88,7 +85,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 hide" id="gasolina_vista_previa">
                             <i class="mdi mdi-close-box float-right" style="cursor: pointer" onclick="cerrar_vista_previa()"></i>
                             <h5 align="center"><strong> Vista previa</strong></h5>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXZGTJ2qiKr-gp14DRCyyxO-FzPa7wtndG5qqH5MFPykGBzdVIJQ" 
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXZGTJ2qiKr-gp14DRCyyxO-FzPa7wtndG5qqH5MFPykGBzdVIJQ"
                                  alt="imagen" class="img-responsive img-fluid img-thumbnail">
                         </div>
                     </div>
@@ -103,7 +100,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                         </div>
                         <div class="modal-body">
-                            <form>                            
+                            <form>
                                 <div class="row p-t-10">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -130,7 +127,7 @@
                                     </div>
                                     <!--/span-->
                                 </div>
-                                
+
                                 <div class="row" style="max-height: 200px;">
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <label for="">Imagen de la factura</label>
@@ -157,7 +154,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                         </div>
                         <div class="modal-body">
-                            <form>                            
+                            <form>
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -252,11 +249,10 @@
     $('.dropify').dropify();
 
 
-    
+
 
 </script>
 </div>
-@endsection
 @endsection
 @endsection
 @endsection

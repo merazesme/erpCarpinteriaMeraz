@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
         <div class="row">
             <div class="card">
 
@@ -26,12 +23,10 @@
                             <thead>
                                 <tr>
                                   <th>#Nota</th>
-                                  <th>Factura</th>
-                                  <th>Proveedor</th>
-                                  <th>Movimiento</th>
                                   <th>Fecha</th>
+                                  <th>Proveedor</th>
                                   <th>Cantidad</th>
-                                  <th>Abono</th>
+                                  <th>Factura</th>
                                   <th>Estado</th>
                                   <th>Acciones</th>
                                 </tr>
@@ -39,12 +34,10 @@
                             <tfoot>
                                 <tr>
                                   <th>#Nota</th>
-                                  <th>Factura</th>
-                                  <th>Proveedor</th>
-                                  <th>Movimiento</th>
                                   <th>Fecha</th>
+                                  <th>Proveedor</th>
                                   <th>Cantidad</th>
-                                  <th>Abono</th>
+                                  <th>Factura</th>
                                   <th>Estado</th>
                                   <th>Acciones</th>
                                 </tr>
@@ -52,66 +45,54 @@
                             <tbody>
                                 <tr>
                                   <td>1</td>
+                                  <td>02/07/2019</td>
+                                  <td>Ferreteria</td>
+                                  <td>20</td>
                                   <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>61</td>
-                                  <td>61</td>
-                                  <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Activo</font></font></span></td>
+                                  <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pagado</font></font></span></td>
                                   <td class="text-nowrap">
                                     <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td>1</td>
+                                  <td>02/07/2019</td>
+                                  <td>Ferreteria</td>
+                                  <td>20</td>
                                   <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>61</td>
-                                  <td>61</td>
-                                  <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
+                                  <td><span class="label label-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En curso</font></font></span></td>
                                   <td class="text-nowrap">
                                     <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td>1</td>
+                                  <td>02/07/2019</td>
+                                  <td>Ferreteria</td>
+                                  <td>20</td>
                                   <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>61</td>
-                                  <td>61</td>
-                                  <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
+                                  <td><span class="label label-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recibido</font></font></span></td>
                                   <td class="text-nowrap">
                                     <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                   </td>
                                 </tr>
                                 <tr>
                                   <td>1</td>
+                                  <td>02/07/2019</td>
+                                  <td>Ferreteria</td>
+                                  <td>20</td>
                                   <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>System Architect</td>
-                                  <td>61</td>
-                                  <td>61</td>
-                                  <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inactivo</font></font></span></td>
+                                  <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cancelado</font></font></span></td>
                                   <td class="text-nowrap">
                                     <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
                                     <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-eye "></i> </a>
                                   </td>
                                 </tr>
                             </tbody>
@@ -130,16 +111,24 @@
                       </div>
                       <div class="modal-body">
                           <form>
-                              <div class="form-group">
-                                  <label for="recipient-name" class="control-label">#Nota</label>
-                                  <input type="text" class="form-control" id="recipient-name">
-                              </div>
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Concepto</label>
+																<select class="form-control">
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Madera</font></font></option>
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pegamento</font></font></option>
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pintura</font></font></option>
+														</select>
+														</div>
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Proveedor</label>
+																<select class="form-control">
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ferreteria</font></font></option>
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Constructor</font></font></option>
+																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Etc</font></font></option>
+														</select>
+														</div>
                               <div class="form-group">
                                   <label for="message-text" class="control-label">Cantidad:</label>
-                                  <input type="text" class="form-control" id="recipient-name">
-                              </div>
-                              <div class="form-group">
-                                  <label for="message-text" class="control-label">Concepto:</label>
                                   <input type="text" class="form-control" id="recipient-name">
                               </div>
                           </form>
@@ -207,7 +196,6 @@
     });
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

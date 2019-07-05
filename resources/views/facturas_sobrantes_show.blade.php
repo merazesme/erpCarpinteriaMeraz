@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 <div id="main-wrapper">
-    @section('header')
-    @parent
     @section('sidebar')
     @parent
     <div class="page-wrapper">
         <div class="container-fluid">
-            @section('breadcrumbs')
-            @parent
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -58,28 +55,28 @@
                                 </tr>
                             </tfoot>
                             <tbody style="cursor: pointer;">
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 1" onclick="abrir_modal_actualizar_factura_sobrante(1)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
                                     <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 2" onclick="abrir_modal_actualizar_factura_sobrante(2)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
                                     <td><span class="w-100 badge badge-pill badge-danger">Sin pagar</span></td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 3" onclick="abrir_modal_actualizar_factura_sobrante(3)">
                                     <td>####</td>
                                     <td>Material x</td>
                                     <td>$0000.00 MXN</td>
                                     <td><span class="w-100 badge badge-pill badge-success">Pagado</span></td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 4" onclick="abrir_modal_actualizar_factura_sobrante(4)">
                                     <td>####</td>
                                     <td>Material x</td>
@@ -88,7 +85,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
             </div>
@@ -102,7 +99,7 @@
                         </div>
                         <div class="modal-body">
                             <form>
-                                                         
+
                                 <div class="row p-t-10">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -137,7 +134,7 @@
                                     <!--/span-->
                                 </div>
                                 <div class="row p-t-10" id="opcion_chequear_factura">
-                                    
+
                                     <!--/span-->
                                 </div>
                             </form>
@@ -197,7 +194,6 @@
     }
 </script>
 </div>
-@endsection
 @endsection
 @endsection
 @endsection

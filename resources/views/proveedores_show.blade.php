@@ -1,17 +1,14 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 <div id="main-wrapper">
-    @section('header')
-    @parent
     @section('sidebar')
     @parent
     <div class="page-wrapper">
         <div class="container-fluid">
-            @section('breadcrumbs')
-            @parent
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -35,7 +32,7 @@
                             style="width: 100%;">
                             <thead>
                                 <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1" 
+                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1"
                                     style="width: 151px;">
                                         Concepto
                                     </th>
@@ -67,7 +64,7 @@
                                 </tr>
                             </tfoot>
                             <tbody style="cursor: pointer;">
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 1" onclick="editar_proveedor(1)">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
@@ -75,7 +72,7 @@
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00 MXN</td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 2" onclick="editar_proveedor(2)">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
@@ -83,7 +80,7 @@
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00 MXN</td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 3" onclick="editar_proveedor(3)">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
@@ -91,7 +88,7 @@
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00 MXN</td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top" 
+                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 4" onclick="editar_proveedor(4)">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
@@ -101,7 +98,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
             </div>
@@ -131,7 +128,6 @@
 
 </script>
 </div>
-@endsection
 @endsection
 @endsection
 @endsection

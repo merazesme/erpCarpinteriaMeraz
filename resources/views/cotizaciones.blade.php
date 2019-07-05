@@ -1,23 +1,20 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')
-				@parent
 				<div class="row">
           <div class="col-12">
               <div class="card">
                   <div class="card-body">
                       <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-                      <a  class="btn waves-effect waves-light btn-primary float-right" href="/nuevaCotizacion"> <i class="fa fa-plus"></i> Nueva cotización</a>
+                      <a  class="btn waves-effect waves-light btn-primary float-right" href="/nuevaCotizacion"> <i class="fa fa-plus"></i> Generar cotización</a>
                       <h4 class="card-title">Lista de Cotizaciones</h4>
                       <div class="table-responsive m-t-40">
                           <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -174,10 +171,9 @@
           ]
       });
     });
-   
+
     </script>
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection

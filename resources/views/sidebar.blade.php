@@ -49,7 +49,7 @@
                   <ul aria-expanded="false" class="collapse">
                       <li><a href="/materiales">Materiales</a></li>
                       <li><a href="/orden_compra">Orden de Compra</a></li>
-                      <li><a href="/orden_salida">Orden de Venta</a></li>
+                      <li><a href="/orden_salida">Orden de Salida</a></li>
                   </ul>
               </li>
               <li> <a href="/movimientos" aria-expanded="false"><i class="mdi mdi-widgets"></i><span class="hide-menu">Movimientos</span></a>
@@ -71,7 +71,22 @@
                   </span>
                 </a>
               </li>
-              <li> <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
+              <li>
+                  <a href="/facturas_sobrantes/lista" aria-expanded="false"><i class="mdi mdi-file-chart"></i><span class="hide-menu">Facturas sobrantes</span></a>
+              </li>
+              <li>
+                  <a href="/configuracion" aria-expanded="false">
+                      <i class="mdi mdi-settings"></i>
+                      <span class="hide-menu">Configuraciones</span>
+                  </a>
+              </li>
+              <li>
+                <a href="carro" aria-expanded="false">
+                    <i class="mdi mdi-car"></i>
+                    <span class="hide-menu">Carros
+                    <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
+                  </span>
+                </a>
               </li>
           </ul>
       </nav>

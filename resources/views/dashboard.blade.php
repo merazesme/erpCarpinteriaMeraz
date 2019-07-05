@@ -1,11 +1,10 @@
 @extends('footer')
-@extends('breadcrumbs')
 @extends('sidebar')
-@extends('header')	
+@extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
         <style type="text/css">
             .scroll{
               display: block;
@@ -14,12 +13,10 @@
               overflow-x: auto;
             }
         </style>
-		@section('sidebar')	
+		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')	
-				@parent
 				 <!-- ============================================================== -->
                 <!-- Citas y pendientes -->
                 <!-- ============================================================== -->
@@ -41,7 +38,7 @@
                                         <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.</p>
                                         <div class="comment-footer"> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-rounded label-info">Pendiente</span> <span class="action-icons">
                                                     <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
-                                                    <a href="javascript:void(0)"><i class="ti-check"></i></a> 
+                                                    <a href="javascript:void(0)"><i class="ti-check"></i></a>
                                                 </span> </div>
                                     </div>
                                 </div>
@@ -53,7 +50,7 @@
                                         <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry..</p>
                                         <div class="comment-footer "> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-success label-rounded">Asistió</span> <span class="action-icons active">
                                                     <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
-                                                    <a href="javascript:void(0)"><i class="icon-close"></i></a>  
+                                                    <a href="javascript:void(0)"><i class="icon-close"></i></a>
                                                 </span> </div>
                                     </div>
                                 </div>
@@ -65,7 +62,7 @@
                                         <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.</p>
                                         <div class="comment-footer"> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-rounded label-danger">Cancelada</span> <span class="action-icons">
                                                     <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
-                                                    <a href="javascript:void(0)"><i class="ti-check"></i></a>   
+                                                    <a href="javascript:void(0)"><i class="ti-check"></i></a>
                                                 </span> </div>
                                     </div>
                                 </div>
@@ -99,7 +96,7 @@
                                                     <form>
                                                         <div class="form-group">
                                                             <label>Nombre del pendiente</label>
-                                                            <input type="text" class="form-control" placeholder="Describa el pendiente"> 
+                                                            <input type="text" class="form-control" placeholder="Describa el pendiente">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Asigar fecha y hora</label>
@@ -342,7 +339,6 @@
 		@section('footer')
 		@parent
 	</div>
-@endsection
 @endsection
 @endsection
 @endsection
