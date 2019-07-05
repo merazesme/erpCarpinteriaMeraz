@@ -75,7 +75,7 @@
                                             <td>DD/MM/AAAA</td>
                                             <td>000 lts</td>
                                             <td>#####</td>
-                                            <td><span class="w-100 badge badge-pill badge-success">Pagado</span></td>
+                                            <td><span class="badge badge-success">Pagado</span></td>
                                             <td>$0000.00</td>
                                         </tr>
                                     </tbody>
