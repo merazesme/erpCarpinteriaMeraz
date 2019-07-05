@@ -576,10 +576,10 @@ Labels
   background-color: #56c0d8; }
 
 .label-success {
-  background-color: #1FDBA3; }
+  background-color: #06d79c; }
 
 .label-info {
-  background-color: #068F66; }
+  background-color: #398bf7; }
 
 .label-warning {
   background-color: #ffb22b; }
@@ -1044,7 +1044,7 @@ File: scss
       .topbar .top-navbar .navbar-header .navbar-brand {
         margin-right: 0px;
         padding-bottom: 0px;
-        padding-top: 0px; 
+        padding-top: 0px;
         left: 21%;
         position: relative; }
         .topbar .top-navbar .navbar-header .navbar-brand .light-logo {
