@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/icon.png')}}">
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -82,13 +82,13 @@
 	            <!-- ============================================================== -->
 	            <!-- Search -->
 	            <!-- ============================================================== -->
-	            <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+	            <!-- <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
 	                <form class="app-search">
 	                    <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i class="ti-close"></i></a> </form>
-	            </li>
+	            </li> -->
 
 	            <!-- ============================================================== -->
-	            <!-- Messages -->
+	            <!-- caja chica -->
 	            <!-- ============================================================== -->
 	            <li class="nav-item dropdown">
 	                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-cash-multiple"></i>
@@ -141,35 +141,8 @@
 	            </li>
 
 	            <!-- ============================================================== -->
-	            <!-- End Messages -->
+	            <!-- End caja chica -->
 	            <!-- ============================================================== -->
-
-	            <!-- ============================================================== -->
-	            <!-- Profile -->
-	            <!-- ============================================================== -->
-	            <li class="nav-item dropdown">
-	                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('images/users/1.jpg')}}" alt="user" class="profile-pic" /></a>
-	                <div class="dropdown-menu dropdown-menu-right animated flipInY">
-	                    <ul class="dropdown-user">
-	                        <li>
-	                            <div class="dw-user-box">
-	                                <div class="u-img"><img src="{{asset('images/users/1.jpg')}}" alt="user"></div>
-	                                <div class="u-text">
-	                                    <h4>Steave Jobs</h4>
-	                                    <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
-	                            </div>
-	                        </li>
-	                        <li role="separator" class="divider"></li>
-	                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-	                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-	                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-	                        <li role="separator" class="divider"></li>
-	                        <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-	                        <li role="separator" class="divider"></li>
-	                        <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
-	                    </ul>
-	                </div>
-	            </li>
 	        </ul>
 	    </div>
 	</nav>
