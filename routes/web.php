@@ -151,3 +151,13 @@ Route::get('/carro', function(){
 	$modulo = "Carros";
 	return view('carro', compact('modulo'));
 });
+
+Route::get('/usuarios', function(){
+	$modulo = "Usuarios";
+	return view('usuarios', compact('modulo'));
+});
+
+Route::get('/asistencia', function(){
+	$modulo = "Asistencia";
+	return view('asistencia', compact('modulo'));
+});
