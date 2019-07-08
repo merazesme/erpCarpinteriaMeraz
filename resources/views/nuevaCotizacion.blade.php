@@ -3,9 +3,9 @@
 @extends('sidebar')
 @extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
@@ -82,7 +82,7 @@
 			                                </div>
 			                                <div class="row">
 			                                    <div class="col-md-12">
-			                                    	<button class="float-right btn waves-effect waves-light btn-info" type="button">Agregar Producto</button>	
+			                                    	<button class="float-right btn waves-effect waves-light btn-info" type="button">Agregar Producto</button>
 		                                    	</div>
 			                                </div>
 			                                <hr>

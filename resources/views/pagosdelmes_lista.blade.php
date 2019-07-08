@@ -1,11 +1,11 @@
 @extends('footer')
 @extends('sidebar')
-@extends('header')	
+@extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
-		@section('sidebar')	
+		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
@@ -34,15 +34,15 @@
                                         <td>2008/11/28</td>
                                         <td class="sorting_1">Airi Satou</td>
                                         <td>$1500.00</td>
-                                        <td>Pagado</td>
+                                        <td><span class="badge badge-success">Pagado</span></td>
                                         <td class="text-nowrap">
-                                            <a href="#modalAdjuntarPagodelMes" data-toggle="modal"> 
-                                            	<i class="icon-check text-success m-r-10"></i> 
+                                            <a href="#modalAdjuntarPagodelMes" data-toggle="modal">
+                                            	<i class="icon-check text-success m-r-10"></i>
                                             </a>
-                                            <a href="#modalConceptoPagodelMes" data-toggle="modal"> 
-                                                <i class="icon-pencil text-primary m-r-10"></i> 
+                                            <a href="#modalConceptoPagodelMes" data-toggle="modal">
+                                                <i class="icon-pencil text-primary m-r-10"></i>
                                             </a>
-                                            <a href="#" data-toggle="modal" id="sa-warning"> 
+                                            <a href="#" data-toggle="modal" id="sa-warning">
                                                 <i class="icon-close text-danger"></i>
                                             </a>
                                         </td>

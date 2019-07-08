@@ -1,11 +1,11 @@
 @extends('footer')
 @extends('sidebar')
-@extends('header')	
+@extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
-		@section('sidebar')	
+		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
@@ -20,7 +20,7 @@
                                 <button type="button" class="btn waves-effect waves-light btn-block btn-primary" href="#modalConceptoPagodelMes" data-toggle="modal"><i class="fa fa-plus"></i>Agregar concepto</button>
                             </div>
                         </div>
-                        
+
                         <div class="table-responsive m-t-40">
                             <table id="example23" class="display nowrap table table-hover table-striped table-bordered dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="example23_info" style="width: 100%;">
                                 <thead>
@@ -35,10 +35,10 @@
                                         <td class="sorting_1">Airi Satou</td>
                                         <td>$1500.00</td>
                                         <td class="text-nowrap">
-                                            <a href="#modalConceptoPagodelMes" data-toggle="modal"> 
-                                            	<i class="icon-pencil text-primary m-r-10"></i> 
+                                            <a href="#modalConceptoPagodelMes" data-toggle="modal">
+                                            	<i class="icon-pencil text-primary m-r-10"></i>
                                             </a>
-                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                            <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                             	<i class="icon-close text-danger"></i>
                                             </a>
                                         </td>

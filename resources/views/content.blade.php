@@ -1,16 +1,16 @@
 @extends('footer')
 @extends('breadcrumbs')
 @extends('sidebar')
-@extends('header')	
+@extends('header')
 
+@section('header')
+@parent
 	<div id="main-wrapper">
-		@section('header')
-		@parent
-		@section('sidebar')	
+		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				@section('breadcrumbs')	
+				@section('breadcrumbs')
 				@parent
 				<div class="card">
 					<h1>jala</h1>

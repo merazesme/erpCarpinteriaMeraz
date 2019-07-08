@@ -1,11 +1,11 @@
 @extends('footer')
 @extends('sidebar')
-@extends('header')  
+@extends('header')
 
+@section('header')
+@parent
     <div id="main-wrapper">
-        @section('header')
-        @parent
-        @section('sidebar') 
+        @section('sidebar')
         @parent
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -15,20 +15,21 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-9">
-                                        <h3 class="card-title">Caja chica</h3>
+                                        <h4 class="card-title">Caja chica</h4>
                                         <h6 class="card-subtitle">Movimientos de caja chica</h6>
                                     </div>
                                     <div class="col-lg-3">
                                         <button type="button" class="btn waves-effect waves-light btn-block btn-primary" href="#modalAgregarRegistroCajaChica" data-toggle="modal"><i class="fa fa-plus"></i>Agregar registro</button>
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="row" style="margin-top: 2%">
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-7">
-                                                        <h4 class="card-title">Fisicamente</h4>
+                                                        <h5 class="card-title">Fisicamente</h5>
                                                         <h6 class="card-subtitle">Gastos internos de oficina</h6>
                                                     </div>
                                                     <div class="col-lg-5">
@@ -43,12 +44,12 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-7">
-                                                        <h4 class="card-title">Total </h4>
+                                                        <h5 class="card-title">Total </h5>
                                                         <h6 class="card-subtitle">Dinero que hay en caja chica</h6>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <h2 class="card-title text-info">$4000.00</h2>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,7 +59,7 @@
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Oficina</h4>
+                                                <h5 class="card-title">Oficina</h5>
                                                 <h6 class="card-subtitle">Gastos internos de oficina</h6>
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -77,12 +78,12 @@
                                                                 <td>$60.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -101,7 +102,7 @@
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Trabajadores</h4>
+                                                <h5 class="card-title">Trabajadores</h5>
                                                 <h6 class="card-subtitle">Prestamos de caja chica a trabajadores</h6>
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -120,12 +121,12 @@
                                                                 <td>$100.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -146,7 +147,7 @@
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Mandados</h4>
+                                                <h5 class="card-title">Mandados</h5>
                                                 <h6 class="card-subtitle">Gastos de compras de improvisto</h6>
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -165,12 +166,12 @@
                                                                 <td>$200.00</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -189,7 +190,7 @@
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Adeudo de nomina</h4>
+                                                <h5 class="card-title">Adeudo de nomina</h5>
                                                 <h6 class="card-subtitle">Adeudo a trabajadores por falta de feria al pagar</h6>
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -208,12 +209,12 @@
                                                                 <td>$34.50</td>
                                                                 <td class="text-nowrap">
                                                                     <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal"> 
-                                                                            <i class="icon-pencil text-primary m-r-10"></i> 
+                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
+                                                                            <i class="icon-pencil text-primary m-r-10"></i>
                                                                         </a>
                                                                     </span>
                                                                     <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning"> 
+                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
                                                                             <i class="icon-close text-danger"></i>
                                                                         </a>
                                                                     </span>
@@ -236,7 +237,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Modificar</h4>
+                                                    <h5 class="modal-title">Modificar</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                                 </div>
                                                 <div class="modal-body">
@@ -269,7 +270,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Agregar registro</h4>
+                                                    <h5 class="modal-title">Agregar registro</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                                 </div>
                                                 <div class="modal-body">
@@ -318,7 +319,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         @section('footer')
