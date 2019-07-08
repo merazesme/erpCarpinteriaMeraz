@@ -115,7 +115,7 @@ a.link:hover, a.link:focus {
 
 @media (min-width: 768px) {
   .mini-sidebar .sidebar-nav #sidebarnav > li > ul {
-    background: #1c2128; } }
+    background: #413937; } }
 
 .sidebar-nav {
   background: #413937; }
@@ -131,13 +131,13 @@ a.link:hover, a.link:focus {
 
 .sidebar-nav > ul > li.active > a {
   color: #ffffff;
-  border-color: #398bf7; 
+  border-color: #398bf7;
   background: #413937;}
   .sidebar-nav > ul > li.active > a i {
     color: #ffffff;  }
 
 .sidebar-nav ul li a.active, .sidebar-nav ul li a:hover {
-  color: #b7b4b4; 
+  color: #b7b4b4;
   background: #413937;}
   .sidebar-nav ul li a.active i, .sidebar-nav ul li a:hover i {
     color: #b7b4b4; }
@@ -147,4 +147,4 @@ a.link:hover, a.link:focus {
 
 @media (min-width: 768px) {
   .mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
-    background: #1c2128; } }
+    background: #413937; } }

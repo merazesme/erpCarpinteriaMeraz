@@ -24,7 +24,7 @@
 							<thead>
 								<tr>
 									<th>Nombre</th>
-									<th>Concepto</th>
+									<th>Categoria</th>
 									<th>Existencia</th>
 									<th>Estado</th>
 									<th>Acciones</th>
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-					<!-- Modal -->
+							<!-- Modal -->
 
               </div>
           </div>
