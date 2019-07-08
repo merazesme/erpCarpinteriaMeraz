@@ -118,9 +118,21 @@
 																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pintura</font></font></option>
 														</select>
 														</div>
-                              <div class="form-group">
+															<div class="form-group">
+																	<label for="recipient-name" class="control-label">Trabajador</label>
+																	<select class="form-control">
+																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Toluco</font></font></option>
+																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano</font></font></option>
+																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano2</font></font></option>
+															</select>
+															</div>
+															<div class="form-group">
                                   <label for="recipient-name" class="control-label">Cantidad</label>
                                   <input type="text" class="form-control" id="recipient-name">
+                              </div>
+															<div class="form-group">
+                                  <label for="recipient-name" class="control-label">Descripción</label>
+                                  <textarea class="form-control" rows="2"></textarea>
                               </div>
                           </form>
                       </div>

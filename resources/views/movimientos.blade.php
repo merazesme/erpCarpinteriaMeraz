@@ -22,6 +22,12 @@
                             <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Transferencias</font></font></option>
                             <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depósitos</font></font></option>
                         </select>
+												<select class="custom-select b-0">
+                            <option selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Enero</font></font></option>
+                            <option value="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Febrero</font></font></option>
+                            <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Marzo</font></font></option>
+                            <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Abril</font></font></option>
+                        </select>
                         <div class="table-responsive m-t-40">
                             <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>

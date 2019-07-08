@@ -24,7 +24,7 @@
 							<thead>
 								<tr>
 									<th>Nombre</th>
-									<th>Concepto</th>
+									<th>Categoria</th>
 									<th>Existencia</th>
 									<th>Estado</th>
 									<th>Acciones</th>
@@ -83,7 +83,7 @@
 	                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
 	                                  <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
 									</td>
-								</tr>		
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-					<!-- Modal -->
+							<!-- Modal -->
 
               </div>
           </div>
