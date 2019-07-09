@@ -86,6 +86,7 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
 });
+
 Route::get('/materiales', function(){
 	$modulo = "Materiales";
 	return view('materiales', compact('modulo'));
