@@ -48,7 +48,7 @@
                                         </span>
 	                                      <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
 	                                      <span data-toggle="modal" data-target="#modalDetalles">
-                                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                                          <a cliente="1" class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                                         </span>
 	                                  	</td>
                                   </tr>
