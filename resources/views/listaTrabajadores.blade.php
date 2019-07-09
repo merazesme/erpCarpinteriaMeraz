@@ -13,7 +13,7 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-body p-b-0">
-                      <a class="btn waves-effect waves-light btn-primary float-right" href="/agregarTrabajadores"> <i class="fa fa-plus"></i> Agregar trabajador</a>
+                      <a class="btn waves-effect waves-light btn-primary float-right" href="/trabajadores/agregar"> <i class="fa fa-plus"></i> Agregar trabajador</a>
                       <h4 class="card-title">Lista de trabajadores</h4>
                       <!-- Nav tabs -->
                       <ul class="nav nav-tabs" role="tablist">

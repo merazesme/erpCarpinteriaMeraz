@@ -25,8 +25,9 @@
                       <span class="hide-menu">Trabajadores</span>
                   </a>
                   <ul aria-expanded="false" class="collapse">
-                      <li><a href="/trabajadores">Listado</a></li>
-                      <li><a href="/prestamos">Prestamos</a></li>
+                      <li><a href="/trabajadores/lista">Listado</a></li>
+                      <li><a href="/trabajadores/asistencia">Asistencia</a></li>
+                      <li><a href="/trabajadores/prestamos">Prestamos</a></li>
                   </ul>
               </li>
               <li>

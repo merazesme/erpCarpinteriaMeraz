@@ -14,6 +14,10 @@
     <script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{asset('js/custom.min.js')}}"></script>
+		<script src="{{asset('js/jasny-bootstrap.js')}}"></script>
+		<!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 		<script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
