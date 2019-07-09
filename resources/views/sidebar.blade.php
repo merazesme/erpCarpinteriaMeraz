@@ -48,14 +48,14 @@
                   </span>
                 </a>
                 <ul aria-expanded="false" class="collapse">
-                    <li><a href="nominaSemanal">Semanal</a></li>
-                    <li><a href="nominaUtilidad">Utilidades</a></li>
-                    <li><a href="nominaAguinaldo">Aguinaldo</a></li>
-                    <li><a href="nominaVacacional">Vacaciones</a></li>
+                    <li><a href="/nominaSemanal">Semanal</a></li>
+                    <li><a href="/nominaUtilidad">Utilidades</a></li>
+                    <li><a href="/nominaAguinaldo">Aguinaldo</a></li>
+                    <li><a href="/nominaVacacional">Vacaciones</a></li>
                 </ul>
               </li>
               <li>
-                <a href="clientes" aria-expanded="false">
+                <a href="/clientes" aria-expanded="false">
                     <i class="mdi mdi-account"></i>
                     <span class="hide-menu">Clientes
                     <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
@@ -64,7 +64,7 @@
               </li>
               <!-- <li class="nav-small-cap">FORMS, TABLE &amp; WIDGETS</li> -->
               <li>
-                  <a href="cotizaciones" aria-expanded="false">
+                  <a href="/cotizaciones" aria-expanded="false">
                       <i class="mdi mdi-file"></i>
                       <span class="hide-menu">Cotizaciones</span>
                   </a>
@@ -93,7 +93,7 @@
                 </ul>
               </li>
               <li>
-                <a href="carro" aria-expanded="false">
+                <a href="/carro" aria-expanded="false">
                     <i class="mdi mdi-car"></i>
                     <span class="hide-menu">Carros
                     <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
