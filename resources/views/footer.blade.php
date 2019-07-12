@@ -16,6 +16,7 @@
     <script src="{{asset('js/custom.min.js')}}"></script>
 		<script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
+    {{-- <script src="{{asset('plugins/wizard/jquery.steps.js')}}"></script> Test --}}
     <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
 		<!-- This is data table -->
     <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>

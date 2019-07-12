@@ -13,9 +13,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-9">
-                            <h4 class="card-title">Lista de proveedores</h4>
+                            <h4 class="card-title">{{$modulo}}</h4>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 d-inline-flex">
+                        <div class="col-lg-4 col-md-4 col-sm-6 d-inline-flex">
                             <button type="button" class="btn waves-effect waves-light btn-block btn-primary ml-auto"
                                     onclick="agregar_proveedor()">
                                 <i class="fa fa-plus"></i>
@@ -32,24 +32,19 @@
                             style="width: 100%;">
                             <thead>
                                 <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1"
-                                    style="width: 151px;">
+                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1">
                                         Concepto
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1"
-                                        style="width: 226px;">
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         RFC
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1"
-                                        style="width: 52px;">
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Teléfono
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1"
-                                        style="width: 101px;">
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Correo electrónico
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1"
-                                        style="width: 101px;">
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Adeudo
                                     </th>
                                 </tr>
@@ -70,7 +65,7 @@
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
-                                    <td>$000.00 MXN</td>
+                                    <td>$000.00</td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 2" onclick="editar_proveedor(2)">
@@ -78,7 +73,7 @@
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
-                                    <td>$000.00 MXN</td>
+                                    <td>$000.00</td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 3" onclick="editar_proveedor(3)">
@@ -86,7 +81,7 @@
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
-                                    <td>$000.00 MXN</td>
+                                    <td>$000.00</td>
                                 </tr>
                                 <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
                                     title="Clic para editar 4" onclick="editar_proveedor(4)">
@@ -94,7 +89,7 @@
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
-                                    <td>$000.00 MXN</td>
+                                    <td>$000.00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,9 +106,7 @@
     /** Script for initialize DataTable and ToolTips */
     $('#table_proveedores').DataTable({
         dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        buttons: ['excel', 'pdf', 'print']
     });
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 </script>
