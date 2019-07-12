@@ -21,19 +21,23 @@ Route::get('/modal', function(){
 	return view('modal', compact('modulo'));
 });
 
-Route::get('/trabajadores', function(){
-	$modulo = "Trabajadores";
-	return view('trabajadores', compact('modulo'));
-});
-
-Route::get('/agregarTrabajadores', function(){
-	$modulo = "Agregar trabajador";
-	return view('agregarTrabajadores', compact('modulo'));
-});
-
-Route::get('/prestamos', function(){
-	$modulo = "Prestamos";
-	return view('prestamos', compact('modulo'));
+Route::prefix('trabajadores')->group(function () {
+		Route::get('lista', function(){
+			$modulo = "Listado trabajadores";
+			return view('listaTrabajadores', compact('modulo'));
+		});
+		Route::get('agregar', function(){
+			$modulo = "Agregar trabajador";
+			return view('agregarTrabajador', compact('modulo'));
+		});
+		Route::get('/asistencia', function(){
+			$modulo = "Asistencia";
+			return view('asistencia', compact('modulo'));
+		});
+		Route::get('prestamos', function(){
+			$modulo = "Prestamos";
+			return view('prestamos', compact('modulo'));
+		});
 });
 
 Route::get('/login', function(){
@@ -70,6 +74,7 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
 });
+
 Route::get('/materiales', function(){
 	$modulo = "Materiales";
 	return view('materiales', compact('modulo'));
@@ -143,9 +148,4 @@ Route::get('/carro', function(){
 Route::get('/usuarios', function(){
 	$modulo = "Usuarios";
 	return view('usuarios', compact('modulo'));
-});
-
-Route::get('/asistencia', function(){
-	$modulo = "Asistencia";
-	return view('asistencia', compact('modulo'));
 });

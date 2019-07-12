@@ -27,6 +27,7 @@
     <link href="{{asset('plugins/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/pages/file-upload.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
     <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
