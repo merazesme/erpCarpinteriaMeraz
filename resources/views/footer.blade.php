@@ -1,4 +1,9 @@
 @section('footer')
+	<script>
+		var base_url ="{{url('/')}}";
+		var token = "{{csrf_token()}}";
+	</script>
+
 	<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 
     <!-- Bootstrap tether Core JavaScript -->

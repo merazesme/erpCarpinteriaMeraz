@@ -100,6 +100,8 @@ Route::get('/clientes', function(){
 	return view('clientes', compact('modulo'));
 });
 
+Route::post('/nuevoCliente', 'clientes@store');
+
 Route::get('/cotizaciones', function(){
 	$modulo = "Cotizaciones";
 	return view('cotizaciones', compact('modulo'));
