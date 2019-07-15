@@ -61,10 +61,10 @@ Route::get('/cajachica', function(){
 
 Route::prefix('proveedores')->group(function () {
 	/** Temporal routes */
-	Route::get('lista', 'proveedorController@list_resources');
-	Route::get('agregar', 'proveedorController@create');
-	Route::get('editar/{id}', 'proveedorController@show');
-	Route::get('gasolina', 'proveedorController@gasoline_list');
+	Route::get('lista', 		'proveedorController@list_resources');
+	Route::get('agregar', 		'proveedorController@create');
+	Route::get('editar/{id}', 	'proveedorController@show');
+	Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
@@ -117,24 +117,38 @@ Route::get('/modificarCotizacion', function(){
 	return view('nuevaCotizacion', compact('modulo'));
 });
 
-Route::get('/nominaVacacional', function(){
-	$modulo = "Nómina Vacacional";
-	return view('nominaVacacional', compact('modulo'));
-});
+Route::prefix('nomina')->group(function () {
 
-Route::get('/nominaAguinaldo', function(){
-	$modulo = "Nómina Aguinaldo";
-	return view('nominaAguinaldo', compact('modulo'));
-});
+	Route::get('/nominaSemanal', function(){
+		$modulo = "Nómina Semanal";
+		return view('nomina/nominaSemanal', compact('modulo'));
+	});
 
-Route::get('/nominaSemanal', function(){
-	$modulo = "Nómina Semanal";
-	return view('nominaSemanal', compact('modulo'));
-});
+	Route::get('/historialNomina', function(){
+		$modulo = "Nómina Semanal";
+		return view('nomina/nominaSemanalIndex', compact('modulo'));
+	});
 
-Route::get('/nominaUtilidad', function(){
-	$modulo = "Nómina de utilidades";
-	return view('nominaUtilidad', compact('modulo'));
+	Route::get('/detalleNomina', function(){
+		$modulo = "Nómina del: ";
+		return view('nomina/detalleNomina', compact('modulo'));
+	});
+
+	Route::get('/nominaUtilidad', function(){
+		$modulo = "Nómina de utilidades";
+		return view('nomina/nominaUtilidad', compact('modulo'));
+	});
+
+	Route::get('/nominaAguinaldo', function(){
+		$modulo = "Nómina Aguinaldo";
+		return view('nomina/nominaAguinaldo', compact('modulo'));
+	});
+
+	Route::get('/nominaVacacional', function(){
+		$modulo = "Nómina Vacacional";
+		return view('nomina/nominaVacacional', compact('modulo'));
+	});
+
 });
 
 Route::get('/configuracion', function(){
