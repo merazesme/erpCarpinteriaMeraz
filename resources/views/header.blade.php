@@ -29,6 +29,7 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
     <link href="{{asset('css/pages/file-upload.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
+    <link href="{{asset('css/pages/tab-page.css')}}" rel="stylesheet">
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
     <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

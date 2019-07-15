@@ -49,10 +49,10 @@
                   </span>
                 </a>
                 <ul aria-expanded="false" class="collapse">
-                    <li><a href="/nominaSemanal">Semanal</a></li>
-                    <li><a href="/nominaUtilidad">Utilidades</a></li>
-                    <li><a href="/nominaAguinaldo">Aguinaldo</a></li>
-                    <li><a href="/nominaVacacional">Vacaciones</a></li>
+                    <li><a href="{{ url('nomina/nominaSemanal') }}">Semanal</a></li>
+                    <li><a href="{{ url('nomina/nominaUtilidad') }}">Utilidades</a></li>
+                    <li><a href="{{ url('nomina/nominaAguinaldo') }}">Aguinaldo</a></li>
+                    <li><a href="{{ url('nomina/nominaVacacional') }}">Vacaciones</a></li>
                 </ul>
               </li>
               <li>
