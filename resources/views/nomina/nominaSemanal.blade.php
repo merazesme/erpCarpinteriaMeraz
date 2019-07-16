@@ -415,6 +415,23 @@
 						$('.tabla').show();
 						$('.boton').hide();
 				});
+
+				$.ajaxSetup({
+				  headers: {
+				    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				  }
+				});
+
+				$.ajax({
+				  type: "POST",
+				  url: 'nominaSemanal/save',
+				  data: { name: 'no hay'},
+				  success:function(data){
+
+              alert(data.success);
+
+           }
+				});
 				$('.tabla').hide();
         $('#myTable').DataTable();
         $(document).ready(function() {
