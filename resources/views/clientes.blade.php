@@ -17,7 +17,7 @@
 		              <div class="card">
 		                  <div class="card-body">
 		                      <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-		                      <button data-toggle="modal" data-target="#modalAgregar" type="button" class="btn waves-effect waves-light btn-primary float-right"> <i class="fa fa-plus"></i> Agregar cliente</button>
+		                      <button type="button" class="btn waves-effect waves-light btn-primary float-right" onclick="agregarCliente()"> <i class="fa fa-plus"></i> Agregar cliente</button>
 		                      <h4 class="card-title">Lista de Clientes</h4>
 		                      <div class="table-responsive m-t-40">
 		                          <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -38,7 +38,7 @@
 		                                  </tr>
 		                              </tfoot>
 		                              <tbody>
-		                                  <tr>
+		                                  <!-- <tr>
 		                                      <td>Itzel Rendón</td>
 		                                      <td>itzel@gmail.com</td>
 		                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
@@ -93,7 +93,7 @@
 		                                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
 		                                        </span>
 		                                      </td>
-		                                  </tr>
+		                                  </tr> -->
 		                              </tbody>
 		                          </table>
 		                      </div>
@@ -162,7 +162,7 @@
 	        <div class="modal-dialog modal-lg">
 	            <div class="modal-content">
 	                <div class="modal-header">
-	                    <h4 class="modal-title" id="myModalLabel">Agregar Cliente</h4>
+	                    <h4 class="modal-title" id="agregarTitulo">Agregar Cliente</h4>
 	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	                </div>
 	                <div class="modal-body">
@@ -206,23 +206,14 @@
 	                </div>
 	                <div class="modal-footer">
 	                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
-						<button type="button" class="btn btn-success waves-effect" onclick="nuevoCliente()"><i class="mdi mdi-content-save"></i> Aceptar</button>
+						<button type="button" id="actionAgregar" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
 	                </div>
 	            </div>
 	        </div>
 	    </div>
 	    <!-- Fin modal agregar cliente  -->
-
 			@section('footer')
 			@parent
-			<script>
-			    $(document).ready(function() {
-			        $('#clientes').DataTable({
-			          dom: 'Bfrtip',
-			          buttons: ['excel', 'pdf', 'print']
-		      		});
-			    });
-	    	</script>
 	</div>
 @endsection
 @endsection

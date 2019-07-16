@@ -100,7 +100,14 @@ Route::get('/clientes', function(){
 	return view('clientes', compact('modulo'));
 });
 
-Route::post('/nuevoCliente', 'clientes@store');
+Route::prefix('/clientes')->group(function () {
+	/** Temporal routes */
+	Route::get('/lista', 'clientes@index');
+	Route::post('/agregar', 'clientes@store');
+	Route::get('/especifico/{id}', 	'clientes@edit');
+	Route::post('/modificar/{id}', 'clientes@update');
+	// Route::get('gasolina', 		'proveedorController@gasoline_list');
+});
 
 Route::get('/cotizaciones', function(){
 	$modulo = "Cotizaciones";

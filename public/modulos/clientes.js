@@ -11,9 +11,9 @@ function isValidEmailAddress(emailAddress) {
     return pattern.test(emailAddress);
 }
 
-
-$(".eliminarCliente").click(function(e){
+$("#clientes").on("click", ".eliminarCliente", function(e){
     e.preventDefault();
+    console.log($(this).parent().attr("data-cliente"));
     swal({
         title: "¿Deseas eliminar el cliente?",
         // text: "No podrás recuperarlo",
@@ -31,18 +31,42 @@ $(".eliminarCliente").click(function(e){
     });
 })
 
-$(".detalleClientes").click(function(e){
+$("#clientes").on("click", ".detalleClientes", function(e){
     e.preventDefault();
-    console.log($(this).attr("cliente"));
-
+    console.log($(this).parent().parent().attr("data-cliente"));
     //
 })
 
-$(".modificarCliente").click(function(e){
-    // e.preventDefault();
+$("#clientes").on("click",".modificarCliente", function(e){
+    var id = $(this).parent().attr("data-cliente");
+    console.log(id);
+    e.preventDefault();
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/clientes/especifico/'+id,
+		success: function (msg) {
+            var data = JSON.parse(msg)
+			console.log(data);
+            $("#txtNombre").val(data.Nombre);
+            $("#txtTelefono").val(data.Telefono);
+            $("#txtEmail").val(data.Email);
+            $("#txtApellidos").val(data.Apellidos);
+            $("#agregarTitulo").html("Modificar Cliente");
+            $("#actionAgregar").attr("onclick", "nuevoCliente("+id+")");
+            $('#modalAgregar').modal('show')
+		}
+	});
 })
 
-function nuevoCliente (){
+function agregarCliente(){
+    $("#agregarTitulo").html("Agregar Cliente");
+    $('#modalAgregar').modal('show')
+    $("#actionAgregar").attr("onclick", "nuevoCliente()");
+}
+
+function nuevoCliente(id){
     var banValidation=false;
     if($("#txtNombre").val().length == 0){
         validation($("#txtNombre"), $("#txtNombre").parent());
@@ -85,6 +109,15 @@ function nuevoCliente (){
         var datos = new FormData(document.querySelector('#frmCliente'));
         datos.append("idUsuario", "1");
         datos.append("_token", token);
+        console.log(id);
+        var url = base_url+'/clientes/agregar';
+        var mensaje = "El cliente ha sido agregado con éxito";
+        var titulo = "Nuevo Cliente";
+        if(id != undefined){
+            url = base_url+'/clientes/modificar/'+id;
+            mensaje = "El cliente ha sido actualizado con éxito";
+            titulo = "Actualizar Cliente";
+        }
         $.ajax({
             type: 'POST',
             processData: false,
@@ -93,17 +126,18 @@ function nuevoCliente (){
             data: datos,
             dataType: false,
             enctype: 'multipart/form-data',
-            url: base_url+'/nuevoCliente',
+            url: url,
             success: function(msg){
-                console.log(msg);
-                if(msg == 0){
+                var data = JSON.parse(msg)
+                if(data == 0){
                     $('#modalAgregar').modal('hide')
-                    swal("Nuevo Cliente", "El cliente ha sido agregado con éxito", "success");
+                    swal(titulo, mensaje, "success");
+                    tablaClientes();
                 }else{
-                    swal("Nuevo Cliente", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
             }, error: function(error) {
-                swal("Nuevo Cliente", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
             }
         });
     }
@@ -133,4 +167,45 @@ $("#txtEmail").on('input',function(e){
 
 $("#txtTelefono").on('input',function(e){
     validation($(this), $(this).parent())
+});
+
+function tablaClientes(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/clientes/lista',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+			console.log(data);
+            var html = "";
+            $("#clientes").DataTable().clear();
+			$("#clientes").DataTable().destroy();
+            for (var i = 0; i < data.length; i++) {
+                html+=
+                `<tr>
+                    <td>${data[i].Nombre} ${data[i].Apellidos}</td>
+                    <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
+                    <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
+                    <td class="text-nowrap" data-cliente="${data[i].id}">
+                        <a href="#" class="modificarCliente"><i class="icon-pencil text-inverse m-r-10"></i></a>
+                        <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                        <span data-toggle="modal" data-target="#modalDetalles">
+                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </span>
+                    </td>
+                </tr>`;
+            }
+            $("#clientes tbody").empty().append(html);
+            $('#clientes').DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
+            $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+		}
+	});
+}
+
+$(document).ready(function () {
+	tablaClientes();
 });
