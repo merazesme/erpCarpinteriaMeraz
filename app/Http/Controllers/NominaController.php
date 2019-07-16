@@ -26,7 +26,13 @@ class NominaController extends Controller
      */
     public function create()
     {
-
+      try{
+          $data = Nomina::all();
+          return response()->json(json_encode($data));
+      }
+      catch(\Exception $e){
+         return response()->json(json_encode(1));
+      }
     }
 
     /**

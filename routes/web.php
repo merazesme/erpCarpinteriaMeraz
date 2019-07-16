@@ -125,12 +125,12 @@ Route::get('/modificarCotizacion', function(){
 });
 
 Route::prefix('nomina')->group(function () {
-
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaController@index');
+		Route::get('/muestra', 'NominaController@create');
 		Route::post('/save', 'NominaController@store');
 	});
-	
+
 	Route::get('/historialNomina', function(){
 		$modulo = "Nómina Semanal";
 		return view('nomina/nominaSemanalIndex', compact('modulo'));
