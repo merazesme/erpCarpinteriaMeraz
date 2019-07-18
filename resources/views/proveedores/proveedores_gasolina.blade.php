@@ -204,9 +204,7 @@
     /** Script for initialize DataTable and ToolTips */
     $('#table_proveedores').DataTable({
         dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        buttons: ['excel', 'pdf', 'print']
     });
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
     $(".select2").select2();

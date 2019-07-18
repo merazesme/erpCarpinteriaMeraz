@@ -13,40 +13,47 @@
           			<div class="col-12">
 		              <div class="card">
 		                  <div class="card-body">
-													<a class="btn waves-effect waves-light btn-primary float-right" href="/"> <i class="fa fa-plus"></i> Agregar prestamo</a>
-		                      <h4 class="card-title">Prestamos</h4>
-		                      <h6 class="card-subtitle">Lista de prestamos</h6>
-		                      <div class="table-responsive m-t-40">
+		                      <h4 class="card-title">Asistencia</h4>
+		                      <h6 class="card-subtitle">Lista de trabajadores</h6>
+							  					<div class="table-responsive m-t-40">
                           <table id="trabajadores" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
 																		<th>Trabajador</th>
-										                <th>Monto</th>
-																		<th>Resta</th>
-																		<th>Fecha</th>
-																		<th>Acciones</th>
+										                <th>Mañana</th>
+																		<th>Tarde</th>
+																		<th>Hora extra</th>
                                   </tr>
                               </thead>
                               <tfoot>
                                   <tr>
 																		<th>Trabajador</th>
-                                    <th>Monto</th>
-                                    <th>Resta</th>
-																	   <th>Fecha</th>
-																		<th>Acciones</th>
+                                    <th>Mañana</th>
+																		<th>Tarde</th>
+																		<th>Hora extra</th>
                                   </tr>
                               </tfoot>
                               <tbody>
                                  	<tr>
 		                                <td>Adriana Hernández</td>
-		                                <td>$5000.00</td>
-																		<td>$1350.00</td>
-		                                <td>28/12/2019</td>
-																		<td class="text-nowrap">
-																			<a href="#" data-toggle="modal" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-			                                <a href="#modalAbonar" data-toggle="modal" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
-			                                <a data-toggle="modal" data-original-title="Liquidar" id="sa-success"> <i class="ti-check text-danger m-r-10"></i> </a>
-				                            </td>
+		                                <td>
+                                      <div class="switch">
+                                          <label>
+                                              <input type="checkbox" checked><span class="lever switch-col-teal"></span>
+																					</label>
+                                      </div>
+																		</td>
+																		<td>
+																			<div class="switch">
+                                          <label>
+                                              <input type="checkbox" checked><span class="lever switch-col-teal"></span>
+																					</label>
+                                      </div>
+																		</td>
+																		<td>
+																			<input type="checkbox" id="md_checkbox_29" class="filled-in chk-col-teal" checked />
+	                                  	<label for="md_checkbox_29">Trabajo</label>
+																		</td>
                              			</tr>
                           		</tbody>
                       		</table>
@@ -154,53 +161,6 @@
 		</div>
 		@section('footer')
 		@parent
-		<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
-                            last = group;
-                        }
-                    });
-                }
-            });
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
-        });
-    });
-    $('#trabajadores').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    </script>
 	</div>
 @endsection
 @endsection

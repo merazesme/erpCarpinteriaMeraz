@@ -13,8 +13,7 @@
           <div class="col-12">
             <div class="card">
                 <div class="card-body">
-										<button id="genera" type="button" class="btn waves-effect waves-light btn-primary float-right"><i class="fa fa-plus"></i> Generar nómina</button>
-                    <h4 class="card-title"> 23 de junio de 2019 a 29 de junio de 2019</h4>
+                    <h4 class="card-title">{{$modulo}} 23 de junio de 2019 a 29 de junio de 2019</h4>
                     <div class="table-responsive m-t-40">
                     <table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
                         <thead>

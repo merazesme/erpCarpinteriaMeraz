@@ -27,9 +27,12 @@
     <link href="{{asset('plugins/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/pages/file-upload.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
+    <link href="{{asset('css/pages/tab-page.css')}}" rel="stylesheet">
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
     <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
