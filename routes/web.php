@@ -106,6 +106,7 @@ Route::prefix('/clientes')->group(function () {
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
+	Route::post('/eliminar/{id}', 'clientes@destroy');
 	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 

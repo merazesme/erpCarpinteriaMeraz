@@ -11,24 +11,66 @@ function isValidEmailAddress(emailAddress) {
     return pattern.test(emailAddress);
 }
 
-$("#clientes").on("click", ".eliminarCliente", function(e){
+$("body").on("click", ".eliminarCliente", function(e){
     e.preventDefault();
-    console.log($(this).parent().attr("data-cliente"));
-    swal({
-        title: "¿Deseas eliminar el cliente?",
-        // text: "No podrás recuperarlo",
-        type: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Eliminar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: true
-    }, function(isConfirm){
-        if (isConfirm) {
-            swal("Eliminado", "El cliente ha sido eliminado con éxito", "success");
-        }
-    });
+    var id = $(this).parent().attr("data-cliente");
+    var estado = $(this).attr("estado");
+    console.log("estado;"+estado);
+    var estadoN = 1;
+    var titulo = "¿Deseas eliminar el cliente?",
+        type = "error",
+        confirmButtonColor = "#DD6B55",
+        confirmButtonText = "Eliminar";
+    if(estado == 1){
+        estadoN = 0;
+        titulo = "¿Deseas activar el cliente?"
+        type = "success"
+        confirmButtonText = "Activar"
+        confirmButtonColor = "#068F66"
+    }
+    if(id != undefined){
+        console.log($(this).parent().attr("data-cliente"));
+        swal({
+            title: titulo,
+            type: type,
+            showCancelButton: true,
+            confirmButtonColor: confirmButtonColor,
+            confirmButtonText: confirmButtonText,
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        }, function(isConfirm){
+            if (isConfirm) {
+                var datos = new FormData();
+                datos.append("idUsuario", "1");
+                datos.append("Estado", estadoN);
+                datos.append("_token", token);
+                $.ajax({
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    data: datos,
+                    dataType: false,
+                    enctype: 'multipart/form-data',
+                    url: base_url+'/clientes/eliminar/'+id,
+                    success: function(msg){
+                        var data = JSON.parse(msg)
+                        if(data == 0){
+                            swal("Eliminado", "El estado del cliente ha sido actuzalizado con éxito", "success");
+                            tablaClientes(0, "#clientes");
+                            tablaClientes(1, "#clientesInactivos");
+                        }else{
+                            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        }
+                    }, error: function(error) {
+                        swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                    }
+                });
+            }
+
+        });
+    }
 })
 
 $("#clientes").on("click", ".detalleClientes", function(e){
@@ -108,7 +150,7 @@ function nuevoCliente(id){
         $("#txtTelefono-error").hide();
         var datos = new FormData(document.querySelector('#frmCliente'));
         datos.append("idUsuario", "1");
-        datos.append("_token", token);
+        //datos.append("_token", token);
         console.log(id);
         var url = base_url+'/clientes/agregar';
         var mensaje = "El cliente ha sido agregado con éxito";
@@ -117,7 +159,10 @@ function nuevoCliente(id){
             url = base_url+'/clientes/modificar/'+id;
             mensaje = "El cliente ha sido actualizado con éxito";
             titulo = "Actualizar Cliente";
+        }else{
+            datos.append("Estado", 0);
         }
+
         $.ajax({
             type: 'POST',
             processData: false,
@@ -132,7 +177,8 @@ function nuevoCliente(id){
                 if(data == 0){
                     $('#modalAgregar').modal('hide')
                     swal(titulo, mensaje, "success");
-                    tablaClientes();
+                    tablaClientes(0, "#clientes");
+                    tablaClientes(1, "#clientesInactivos");
                 }else{
                     swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
@@ -174,38 +220,61 @@ function tablaClientes(){
 		type: "GET",
 		dataType: "json",
 		enctype: "multipart/form-data",
-		url: base_url+'/clientes/lista',
+		url: base_url+'/clientes/lista/',
 		success: function (msg) {
             var data = JSON.parse(msg)
-			console.log(data);
-            var html = "";
+			// console.log(data);
             $("#clientes").DataTable().clear();
 			$("#clientes").DataTable().destroy();
+
+            $("#clientesInactivos").DataTable().clear();
+			$("#clientesInactivos").DataTable().destroy();
+            var htmlActivo="", htmlInactivo="";
             for (var i = 0; i < data.length; i++) {
-                html+=
+                var localhtml = "";
+                localhtml=
                 `<tr>
                     <td>${data[i].Nombre} ${data[i].Apellidos}</td>
                     <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
                     <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
                     <td class="text-nowrap" data-cliente="${data[i].id}">
-                        <a href="#" class="modificarCliente"><i class="icon-pencil text-inverse m-r-10"></i></a>
-                        <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                        <span data-toggle="modal" data-target="#modalDetalles">
-                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        <a href="#" class="modificarCliente"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
+
+                if(data[i].Estado == 1){
+                    htmlInactivo += localhtml +
+                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Activar"> <i class="icon-check text-success m-r-10"></i> </a>
+                         <span data-toggle="modal" data-target="#modalDetalles">
+                            <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                         </span>
                     </td>
                 </tr>`;
+                }else{
+                    htmlActivo += localhtml +
+                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Desactivar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                         <span data-toggle="modal" data-target="#modalDetalles">
+                            <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </span>
+                    </td>
+                </tr>`;
+                }
             }
-            $("#clientes tbody").empty().append(html);
-            $('#clientes').DataTable({
+            $("#clientes tbody").empty().append(htmlActivo);
+            $("#clientes").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']
             });
-            $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+
+            $("#clientesInactivos tbody").empty().append(htmlInactivo);
+            $("#clientesInactivos").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
 		}
 	});
 }
 
 $(document).ready(function () {
 	tablaClientes();
+
+    $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 });

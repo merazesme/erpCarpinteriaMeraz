@@ -72,6 +72,7 @@
 	<script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
 
     <!-- ======================= JS de los módulos ===================================== -->
+
     <script src="{{asset('modulos/clientes.js')}}"></script>
     <script src="{{asset('modulos/cotizaciones.js')}}"></script>
 
