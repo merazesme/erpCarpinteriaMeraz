@@ -38,6 +38,7 @@ Route::prefix('trabajadores')->group(function () {
 			$modulo = "Prestamos";
 			return view('prestamos', compact('modulo'));
 		});
+		Route::get('/lista', 'Trabajadores@index');
 });
 
 Route::get('/login', function(){
