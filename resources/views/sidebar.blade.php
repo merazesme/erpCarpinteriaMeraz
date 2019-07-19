@@ -6,9 +6,9 @@
       <nav class="sidebar-nav">
           <ul id="sidebarnav">
               <li class="user-profile">
-                  <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="{{asset('images/users/profile.png')}}" alt="user" /><span class="hide-menu">Toluco Santana</span></a>
+                  <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="fa fa-user-o"></i><span class="hide-menu">Toluco Santana</span></a>
                   <ul aria-expanded="false" class="collapse">
-                      <li><a href="javascript:void()">Mi Perfil</a></li>
+                      <li><a href="perfil/ver_perfil">Mi Perfil</a></li>
                       <li><a href="javascript:void()">Cerrar Sesión</a></li>
                   </ul>
               </li>
@@ -36,9 +36,9 @@
                       <span class="hide-menu">Inventario</span>
                   </a>
                   <ul aria-expanded="false" class="collapse">
-                      <li><a href="/materiales">Materiales</a></li>
-                      <li><a href="/orden_compra">Orden de Compra</a></li>
-                      <li><a href="/orden_salida">Orden de Salida</a></li>
+                      <li><a href="inventario/materiales">Materiales</a></li>
+                      <li><a href="inventario/orden_compra">Orden de Compra</a></li>
+                      <li><a href="inventario/orden_salida">Orden de Salida</a></li>
                   </ul>
               </li>
               <li>

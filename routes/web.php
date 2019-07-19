@@ -61,6 +61,25 @@ Route::get('/cajachica', function(){
 
 Route::prefix('proveedores')->group(function () {
 	/** Temporal routes */
+    Route::get('lista', function () {
+		$modulo = 'Proveedores';
+		return view('proveedores_show', compact('modulo'));
+	});
+
+	Route::get('agregar', function () {
+		$modulo = 'Agregar proveedor';
+		return view('proveedores_agregar', compact('modulo'));
+	});
+
+	Route::get('editar/{id}', function () {
+		$modulo = 'Editar proveedor';
+		return view('proveedores_agregar', compact('modulo'));
+	});
+
+	Route::get('gasolina', function () {
+		$modulo = 'Gasolina';
+		return view('proveedores_gasolina', compact('modulo'));
+	});
 	Route::get('lista', 		'proveedorController@list_resources');
 	Route::get('agregar', 		'proveedorController@create');
 	Route::get('editar/{id}', 	'proveedorController@show');
@@ -73,6 +92,7 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		$modulo = 'Facturas sobrantes';
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
+
 });
 
 Route::get('/materiales', function(){
@@ -80,14 +100,37 @@ Route::get('/materiales', function(){
 	return view('materiales', compact('modulo'));
 });
 
-Route::get('/orden_compra', function(){
-	$modulo = "Orden de Compra";
-	return view('orden_compra', compact('modulo'));
+Route::prefix('inventario')->group(function () {
+	/** Temporal routes */
+	Route::get('materiales', function(){
+		$modulo = "Materiales";
+		return view('materiales', compact('modulo'));
+	});
+
+	Route::get('orden_compra', function(){
+		$modulo = "Orden de Compra";
+		return view('orden_compra', compact('modulo'));
+	});
+
+	Route::get('orden_salida', function(){
+		$modulo = "Orden de Salida";
+		return view('orden_salida', compact('modulo'));
+	});
+
 });
 
-Route::get('/orden_salida', function(){
-	$modulo = "Orden de Salida";
-	return view('orden_salida', compact('modulo'));
+Route::prefix('perfil')->group(function () {
+	/** Temporal routes */
+	Route::get('ver_perfil', function(){
+		$modulo = "Perfil";
+		return view('perfil', compact('modulo'));
+	});
+
+	Route::get('cerrar_sesion', function(){
+		$modulo = "Cerrar sesión";
+		return view('cerrar_sesion', compact('modulo'));
+	});
+
 });
 
 Route::get('/movimientos', function(){
@@ -126,10 +169,10 @@ Route::get('/modificarCotizacion', function(){
 });
 
 Route::prefix('nomina')->group(function () {
-
-	Route::get('/nominaSemanal', function(){
-		$modulo = "Nómina Semanal";
-		return view('nomina/nominaSemanal', compact('modulo'));
+	Route::prefix('nominaSemanal')->group(function () {
+		Route::get('/', 'NominaController@index');
+		Route::get('/muestra', 'NominaController@create');
+		Route::post('/save', 'NominaController@store');
 	});
 
 	Route::get('/historialNomina', function(){

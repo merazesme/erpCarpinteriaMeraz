@@ -24,14 +24,14 @@
 										<div class="tab-content">
 												<div class="tab-pane active" id="home7" role="tabpanel">
 														<div class="p-20">
-															<div style="text-align:center" class="boton">
+															<div style="text-align:center">
 																<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>
 															</div>
 															<br>
 															<button type="button" class="btn waves-effect waves-light btn-primary float-right tabla"><i class="fa fa-plus"></i> Guardar</button>
 															<h6 class="card-title" style="text-align:center"> 23 de junio de 2019 a 29 de junio de 2019</h6>
 
-															<div class="table-responsive m-t-40 tabla" >
+															<!-- <div class="table-responsive m-t-40 tabla" >
 																<table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
 																	<thead>
 																			<tr>
@@ -336,7 +336,7 @@
 																	</tbody>
 
 															</table>
-															</div>
+															</div> -->
 														</div>
 												</div>
 												<div class="tab-pane  p-20" id="profile7" role="tabpanel">
@@ -411,10 +411,28 @@
     $(document).ready(function() {
 			console.log('hola mundo')
 				$('#genera').on('click', function() {
-					console.log('hola')
+						// Aqui se realiza obtener los datos de todas las tablas relacionadas
+						// a nomina para hacer todos los calculos
+						$.ajax({
+						type: "GET",
+						dataType: "json",
+						url: 'muestra',
+						success: function (data) {
+				            console.log(data)
+						}
+
+						});
 						$('.tabla').show();
-						$('.boton').hide();
+						$(this).hide();
 				});
+				// 
+				// $.ajaxSetup({
+				//   headers: {
+				//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				//   }
+				// });
+
+
 				$('.tabla').hide();
         $('#myTable').DataTable();
         $(document).ready(function() {
