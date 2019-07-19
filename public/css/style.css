@@ -5910,3 +5910,7 @@ File: scss
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+button.close {
+    cursor: pointer;
+}

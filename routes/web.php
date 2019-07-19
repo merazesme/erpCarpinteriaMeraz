@@ -66,18 +66,25 @@ Route::prefix('proveedores')->group(function () {
 		$modulo = 'Proveedores';
 		return view('proveedores_show', compact('modulo'));
 	});
+
 	Route::get('agregar', function () {
 		$modulo = 'Agregar proveedor';
 		return view('proveedores_agregar', compact('modulo'));
 	});
+
 	Route::get('editar/{id}', function () {
 		$modulo = 'Editar proveedor';
 		return view('proveedores_agregar', compact('modulo'));
 	});
+
 	Route::get('gasolina', function () {
 		$modulo = 'Gasolina';
 		return view('proveedores_gasolina', compact('modulo'));
 	});
+	Route::get('lista', 		'proveedorController@list_resources');
+	Route::get('agregar', 		'proveedorController@create');
+	Route::get('editar/{id}', 	'proveedorController@show');
+	Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
@@ -86,6 +93,7 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		$modulo = 'Facturas sobrantes';
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
+
 });
 
 Route::get('/materiales', function(){
@@ -93,14 +101,37 @@ Route::get('/materiales', function(){
 	return view('materiales', compact('modulo'));
 });
 
-Route::get('/orden_compra', function(){
-	$modulo = "Orden de Compra";
-	return view('orden_compra', compact('modulo'));
+Route::prefix('inventario')->group(function () {
+	/** Temporal routes */
+	Route::get('materiales', function(){
+		$modulo = "Materiales";
+		return view('materiales', compact('modulo'));
+	});
+
+	Route::get('orden_compra', function(){
+		$modulo = "Orden de Compra";
+		return view('orden_compra', compact('modulo'));
+	});
+
+	Route::get('orden_salida', function(){
+		$modulo = "Orden de Salida";
+		return view('orden_salida', compact('modulo'));
+	});
+
 });
 
-Route::get('/orden_salida', function(){
-	$modulo = "Orden de Salida";
-	return view('orden_salida', compact('modulo'));
+Route::prefix('perfil')->group(function () {
+	/** Temporal routes */
+	Route::get('ver_perfil', function(){
+		$modulo = "Perfil";
+		return view('perfil', compact('modulo'));
+	});
+
+	Route::get('cerrar_sesion', function(){
+		$modulo = "Cerrar sesión";
+		return view('cerrar_sesion', compact('modulo'));
+	});
+
 });
 
 Route::get('/movimientos', function(){
@@ -111,6 +142,16 @@ Route::get('/movimientos', function(){
 Route::get('/clientes', function(){
 	$modulo = "Clientes";
 	return view('clientes', compact('modulo'));
+});
+
+Route::prefix('/clientes')->group(function () {
+	/** Temporal routes */
+	Route::get('/lista', 'clientes@index');
+	Route::post('/agregar', 'clientes@store');
+	Route::get('/especifico/{id}', 	'clientes@edit');
+	Route::post('/modificar/{id}', 'clientes@update');
+	Route::post('/eliminar/{id}', 'clientes@destroy');
+	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
 Route::get('/cotizaciones', function(){
@@ -128,24 +169,38 @@ Route::get('/modificarCotizacion', function(){
 	return view('nuevaCotizacion', compact('modulo'));
 });
 
-Route::get('/nominaVacacional', function(){
-	$modulo = "Nómina Vacacional";
-	return view('nominaVacacional', compact('modulo'));
-});
+Route::prefix('nomina')->group(function () {
+	Route::prefix('nominaSemanal')->group(function () {
+		Route::get('/', 'NominaController@index');
+		Route::get('/muestra', 'NominaController@create');
+		Route::post('/save', 'NominaController@store');
+	});
 
-Route::get('/nominaAguinaldo', function(){
-	$modulo = "Nómina Aguinaldo";
-	return view('nominaAguinaldo', compact('modulo'));
-});
+	Route::get('/historialNomina', function(){
+		$modulo = "Nómina Semanal";
+		return view('nomina/nominaSemanalIndex', compact('modulo'));
+	});
 
-Route::get('/nominaSemanal', function(){
-	$modulo = "Nómina Semanal";
-	return view('nominaSemanal', compact('modulo'));
-});
+	Route::get('/detalleNomina', function(){
+		$modulo = "Nómina del: ";
+		return view('nomina/detalleNomina', compact('modulo'));
+	});
 
-Route::get('/nominaUtilidad', function(){
-	$modulo = "Nómina de utilidades";
-	return view('nominaUtilidad', compact('modulo'));
+	Route::get('/nominaUtilidad', function(){
+		$modulo = "Nómina de utilidades";
+		return view('nomina/nominaUtilidad', compact('modulo'));
+	});
+
+	Route::get('/nominaAguinaldo', function(){
+		$modulo = "Nómina Aguinaldo";
+		return view('nomina/nominaAguinaldo', compact('modulo'));
+	});
+
+	Route::get('/nominaVacacional', function(){
+		$modulo = "Nómina Vacacional";
+		return view('nomina/nominaVacacional', compact('modulo'));
+	});
+
 });
 
 Route::get('/configuracion', function(){
