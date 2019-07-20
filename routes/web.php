@@ -41,10 +41,6 @@ Route::prefix('trabajadores')->group(function () {
 		Route::get('/lista', 'Trabajadores@index');
 });
 
-// Route::get('/login', function(){
-// 	return view('login');
-// });
-
 Route::get('/pagosdelmes_lista', function(){
 	$modulo = "Listado";
 	return view('pagosdelmes_lista', compact('modulo'));
@@ -61,26 +57,6 @@ Route::get('/cajachica', function(){
 });
 
 Route::prefix('proveedores')->group(function () {
-	/** Temporal routes */
-    Route::get('lista', function () {
-		$modulo = 'Proveedores';
-		return view('proveedores_show', compact('modulo'));
-	});
-
-	Route::get('agregar', function () {
-		$modulo = 'Agregar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-
-	Route::get('editar/{id}', function () {
-		$modulo = 'Editar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-
-	Route::get('gasolina', function () {
-		$modulo = 'Gasolina';
-		return view('proveedores_gasolina', compact('modulo'));
-	});
 	Route::get('lista', 		'proveedorController@list_resources');
 	Route::get('agregar', 		'proveedorController@create');
 	Route::get('editar/{id}', 	'proveedorController@show');
