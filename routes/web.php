@@ -40,9 +40,9 @@ Route::prefix('trabajadores')->group(function () {
 		});
 });
 
-Route::get('/login', function(){
-	return view('login');
-});
+// Route::get('/login', function(){
+// 	return view('login');
+// });
 
 Route::get('/pagosdelmes_lista', function(){
 	$modulo = "Listado";
@@ -65,6 +65,12 @@ Route::prefix('proveedores')->group(function () {
 	Route::get('agregar', 		'proveedorController@create');
 	Route::get('editar/{id}', 	'proveedorController@show');
 	Route::get('gasolina', 		'proveedorController@gasoline_list');
+});
+
+Route::prefix('login')->group(function () {
+	/** Temporal routes */
+	Route::get ('/', 		'loginController@index');
+	Route::post('ingresar', 'loginController@ingresar');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {

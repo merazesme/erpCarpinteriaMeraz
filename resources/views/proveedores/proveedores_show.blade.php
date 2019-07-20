@@ -47,6 +47,8 @@
                                     <th class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Adeudo
                                     </th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -56,40 +58,70 @@
                                     <th rowspan="1" colspan="1">Teléfono</th>
                                     <th rowspan="1" colspan="1">Correo electrónico</th>
                                     <th rowspan="1" colspan="1">Adeudo</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                             <tbody style="cursor: pointer;">
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
-                                    title="Clic para editar 1" onclick="editar_proveedor(1)">
+                                <tr role="row">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00</td>
+                                    <td class="odd"onclick="editar_proveedor(1)" data-toggle="tooltip" 
+                                        data-placement="top" title="Clic para editar 1">
+                                        <i class="mdi mdi-lead-pencil"></i>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(1)"
+                                        title="Clic para eliminar 1" >
+                                        <i class="mdi mdi-delete-forever"></i>
+                                    </td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
-                                    title="Clic para editar 2" onclick="editar_proveedor(2)">
+                                <tr role="row">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00</td>
+                                    <td class="odd"onclick="editar_proveedor(2)" data-toggle="tooltip" 
+                                        data-placement="top" title="Clic para editar 2">
+                                        <i class="mdi mdi-lead-pencil"></i>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(2)"
+                                        title="Clic para eliminar 2" >
+                                        <i class="mdi mdi-delete-forever"></i>
+                                    </td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
-                                    title="Clic para editar 3" onclick="editar_proveedor(3)">
+                                <tr role="row">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00</td>
+                                    <td class="odd"onclick="editar_proveedor(3)" data-toggle="tooltip" 
+                                        data-placement="top" title="Clic para editar 3">
+                                        <i class="mdi mdi-lead-pencil"></i>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(3)"
+                                        title="Clic para eliminar 3" >
+                                        <i class="mdi mdi-delete-forever"></i>
+                                    </td>
                                 </tr>
-                                <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
-                                    title="Clic para editar 4" onclick="editar_proveedor(4)">
+                                <tr role="row">
                                     <td>Material x</td>
                                     <td>xxxx-xxxx-xxxx-xxxx</td>
                                     <td>669-000-000</td>
                                     <td>correo.electronico@email.com</td>
                                     <td>$000.00</td>
+                                    <td class="odd"onclick="editar_proveedor(4)" data-toggle="tooltip" 
+                                        data-placement="top" title="Clic para editar 4">
+                                        <i class="mdi mdi-lead-pencil"></i>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(4)"
+                                        title="Clic para eliminar 4" >
+                                        <i class="mdi mdi-delete-forever"></i>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -102,6 +134,9 @@
 </div>
 @section('footer')
 @parent
+<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
 <script>
     /** Script for initialize DataTable and ToolTips */
     $('#table_proveedores').DataTable({
@@ -117,6 +152,18 @@
     }
     function editar_proveedor(id) {
         location.href = "/proveedores/editar/"+id;
+    }
+    function delete_proveedor(id) {
+        promise_alert("Proveedor", `¿Seguro que desea eliminar al proveedor ${id}?`, "warning");
+    }
+    function normal_alert(title, text, type) {
+        swal(title, text, type);
+    }
+    function promise_alert(title, text, type) {
+        swal("Click on either the button or outside the modal.")
+        .then((value) => {
+            swal(`The returned value is: ${value}`);
+        });
     }
 
 </script>
