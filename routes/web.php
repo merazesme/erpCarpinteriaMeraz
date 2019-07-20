@@ -127,7 +127,8 @@ Route::get('/modificarCotizacion', function(){
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaController@index');
-		Route::get('/muestra', 'NominaController@create');
+		Route::get('/muestra', 'NominaController@trabajadores');
+		Route::get('/prestamossum/{id}', 'NominaController@prestamos');
 		Route::post('/save', 'NominaController@store');
 	});
 

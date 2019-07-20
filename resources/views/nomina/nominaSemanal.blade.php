@@ -31,7 +31,7 @@
 															<button type="button" class="btn waves-effect waves-light btn-primary float-right tabla"><i class="fa fa-plus"></i> Guardar</button>
 															<h6 class="card-title" style="text-align:center"> 23 de junio de 2019 a 29 de junio de 2019</h6>
 
-															<!-- <div class="table-responsive m-t-40 tabla" >
+															<!--<div class="table-responsive m-t-40 tabla" >
 																<table id="demo-foo-pagination" class="table m-b-0 toggle-arrow-tiny" data-page-size="5">
 																	<thead>
 																			<tr>
@@ -142,201 +142,9 @@
 																						</div>
 																					</td>
 																			</tr>
-																			<tr>
-																					<td>Isidra</td>
-																					<td>$198712</td>
-																					<td>$81731</td>
-																					<td>8273823</td>
-																					<td class="text-nowrap" style="padding-left: 50px;">
-																							<a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-																					</td>
-																					<td >
-																						<div class="row" style="padding-top: 15px;background: gainsboro;">
-																							<div class="col-md-4">
-
-																								<table class="table .table-bordered">
-
-																									<tbody>
-																										<tr>
-																											<td><strong>Dias trabajados</strong></td>
-																											<td>2</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Faltas sin justicar</strong></td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Dias de descanso</strong></td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Horas sábado</strong></td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Horas extra</strong></td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																							<div class="col-md-4">
-																								<table class="table .table-bordered">
-																									<thead>
-																										<tr>
-																											<th colspan="2" style="text-align-last: center">Percepciones</th>
-																										</tr>
-																										<tr>
-																											<th>Concepto</th>
-																											<th>Importe</th>
-																										</tr>
-																									</thead>
-																									<tbody>
-																										<tr>
-																											<td>Sueldo Base</td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td>Hrs. Extra</td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td>Bono P y A</td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td>Bono Extra</td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																							<div class="col-md-4">
-																								<table class="table .table-bordered">
-																									<thead>
-																										<tr>
-																											<th colspan="2" style="text-align-last: center">Deducciones</th>
-																										</tr>
-																										<tr>
-																											<th>Concepto</th>
-																											<th>Importe</th>
-																										</tr>
-																									</thead>
-																									<tbody>
-																										<tr>
-																											<td>Abono prestamo</td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td>Infonavit</td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																						</div>
-																					</td>
-																			</tr>
-																			<tr>
-																					<td>Isidra</td>
-																					<td>$198712</td>
-																					<td>$81731</td>
-																					<td>8273823</td>
-																					<td class="text-nowrap" style="padding-left: 50px;">
-																							<a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-																					</td>
-																					<td >
-																						<div class="row" style="padding-top: 15px;background: gainsboro;">
-																							<div class="col-md-4">
-
-																								<table class="table .table-bordered">
-
-																									<tbody>
-																										<tr>
-																											<td><strong>Dias trabajados</strong></td>
-																											<td>2</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Faltas sin justicar</strong></td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Dias de descanso</strong></td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Horas sábado</strong></td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td><strong>Horas extra</strong></td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																							<div class="col-md-4">
-																								<table class="table .table-bordered">
-																									<thead>
-																										<tr>
-																											<th colspan="2" style="text-align-last: center">Percepciones</th>
-																										</tr>
-																										<tr>
-																											<th>Concepto</th>
-																											<th>Importe</th>
-																										</tr>
-																									</thead>
-																									<tbody>
-																										<tr>
-																											<td>Sueldo Base</td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td>Hrs. Extra</td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td>Bono P y A</td>
-																											<td>2237</td>
-																										</tr>
-																										<tr>
-																											<td>Bono Extra</td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																							<div class="col-md-4">
-																								<table class="table .table-bordered">
-																									<thead>
-																										<tr>
-																											<th colspan="2" style="text-align-last: center">Deducciones</th>
-																										</tr>
-																										<tr>
-																											<th>Concepto</th>
-																											<th>Importe</th>
-																										</tr>
-																									</thead>
-																									<tbody>
-																										<tr>
-																											<td>Abono prestamo</td>
-																											<td>1323</td>
-																										</tr>
-																										<tr>
-																											<td>Infonavit</td>
-																											<td>2237</td>
-																										</tr>
-																									</tbody>
-																								</table>
-																							</div>
-																						</div>
-																					</td>
-																			</tr>
-
 																	</tbody>
-
 															</table>
-															</div> -->
+														</div> -->
 														</div>
 												</div>
 												<div class="tab-pane  p-20" id="profile7" role="tabpanel">
@@ -409,23 +217,63 @@
 		@parent
 		<script>
     $(document).ready(function() {
-			console.log('hola mundo')
+			// Objeto de asistencia
+
+			var asistencia = {
+				diasTrabajados: 6,
+				faltasSinJustificar: 0,
+				diasDescanso: 1,
+				horasSabado: 2.5,
+				horasExtras: 5,
+			}
+
+			obtieneDatos();
+			var trabajadores = [];
+
 				$('#genera').on('click', function() {
 						// Aqui se realiza obtener los datos de todas las tablas relacionadas
 						// a nomina para hacer todos los calculos
-						$.ajax({
-						type: "GET",
-						dataType: "json",
-						url: 'muestra',
-						success: function (data) {
-				            console.log(data)
-						}
 
-						});
 						$('.tabla').show();
 						$(this).hide();
 				});
-				// 
+				function obtieneDatos() {
+					$.ajax({
+						type: "GET",
+						dataType: "json",
+						url: 'nominaSemanal/muestra',
+						success: function (data) {
+										console.log(data)
+									  trabajadores = data;
+									  muestra();
+						}
+					});
+				}
+
+				function muestra() {
+					var tamanio = trabajadores.length
+					for(var x=0; x<tamanio; x++) {
+							var tr = trabajadores[x]
+							// Percepciones
+							tr.sueldoBase = (tr.sb/48) * (asistencia.diasTrabajados * 8 ) + (asistencia.diasDescanso * 8) - 8 - (2.5) + asistencia.horasSabado;
+							tr.horasExtras = (tr.montoHoraExtra / 5) * (asistencia.horasExtras);
+							tr.bonoPyA = (tr.Bono_Produc_Asis/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1);
+							tr.bonoExtra = (tr.Bono_Extra/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1);
+							tr.totalPercepciones = tr.sueldoBase + tr.horasExtras + tr.bonoPyA + tr.bonoExtra;
+
+							// Deducciones
+							if(tr.totalPrestamos >= 100)
+								tr.abonoPrestamo = 100;
+							else
+								tr.abonoPrestamo = tr.totalPrestamos;
+							tr.totalDeducciones = tr.abonoPrestamo + tr.Infonavit;
+
+							//Total
+							tr.Total = Math.round(tr.totalPercepciones - tr.totalDeducciones);
+					}
+				}
+
+				//
 				// $.ajaxSetup({
 				//   headers: {
 				//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
