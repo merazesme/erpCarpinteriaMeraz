@@ -31,8 +31,8 @@
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 	<script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
-    <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
-    {{-- <script src="{{asset('plugins/wizard/jquery.steps.js')}}"></script> Test --}}
+    {{-- <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script> --}}
+    <script src="{{asset('plugins/wizard/jquery.steps.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
 
 	<!-- This is data table -->
