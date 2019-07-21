@@ -171,10 +171,9 @@ Route::get('/modificarCotizacion', function(){
 
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 'NominaController@index');
-		Route::get('/muestra', 'NominaController@trabajadores');
-		Route::get('/prestamossum/{id}', 'NominaController@prestamos');
-		Route::post('/save', 'NominaController@store');
+		Route::get('/', 'NominaSemanalController@index');
+		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::post('/save', 'NominaSemanalController@store');
 	});
 
 	Route::get('/historialNomina', function(){
