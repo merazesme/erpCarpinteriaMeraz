@@ -38,10 +38,7 @@ Route::prefix('trabajadores')->group(function () {
 			$modulo = "Prestamos";
 			return view('prestamos', compact('modulo'));
 		});
-});
-
-Route::get('/login', function(){
-	return view('login');
+		Route::get('/lista', 'Trabajadores@index');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -60,30 +57,16 @@ Route::get('/cajachica', function(){
 });
 
 Route::prefix('proveedores')->group(function () {
-	/** Temporal routes */
-    Route::get('lista', function () {
-		$modulo = 'Proveedores';
-		return view('proveedores_show', compact('modulo'));
-	});
-
-	Route::get('agregar', function () {
-		$modulo = 'Agregar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-
-	Route::get('editar/{id}', function () {
-		$modulo = 'Editar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-
-	Route::get('gasolina', function () {
-		$modulo = 'Gasolina';
-		return view('proveedores_gasolina', compact('modulo'));
-	});
 	Route::get('lista', 		'proveedorController@list_resources');
 	Route::get('agregar', 		'proveedorController@create');
 	Route::get('editar/{id}', 	'proveedorController@show');
 	Route::get('gasolina', 		'proveedorController@gasoline_list');
+});
+
+Route::prefix('login')->group(function () {
+	/** Temporal routes */
+	Route::get ('/', 		'loginController@index');
+	Route::post('ingresar', 'loginController@ingresar');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
@@ -153,6 +136,7 @@ Route::prefix('/clientes')->group(function () {
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
+	Route::post('/eliminar/{id}', 'clientes@destroy');
 	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
@@ -173,9 +157,9 @@ Route::get('/modificarCotizacion', function(){
 
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 'NominaController@index');
-		Route::get('/muestra', 'NominaController@create');
-		Route::post('/save', 'NominaController@store');
+		Route::get('/', 'NominaSemanalController@index');
+		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::post('/save', 'NominaSemanalController@store');
 	});
 
 	Route::get('/historialNomina', function(){

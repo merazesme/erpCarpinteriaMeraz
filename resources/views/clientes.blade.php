@@ -6,6 +6,8 @@
 @section('header')
 @parent
 	<div id="main-wrapper">
+		@csrf
+		
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
@@ -19,84 +21,92 @@
 		                      <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
 		                      <button type="button" class="btn waves-effect waves-light btn-primary float-right" onclick="agregarCliente()"> <i class="fa fa-plus"></i> Agregar cliente</button>
 		                      <h4 class="card-title">Lista de Clientes</h4>
-		                      <div class="table-responsive m-t-40">
-		                          <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-		                              <thead>
-		                                  <tr>
-		                                    <th>Nombre</th>
-		                                    <th>Correo</th>
-											<th>Teléfono</th>
-											<th>Acciones</th>
-		                                  </tr>
-		                              </thead>
-		                              <tfoot>
-		                                  <tr>
-		                                      <th>Nombre</th>
-		                                      <th>Correo</th>
-									          <th>Teléfono</th>
-											  <th>Acciones</th>
-		                                  </tr>
-		                              </tfoot>
-		                              <tbody>
-		                                  <!-- <tr>
-		                                      <td>Itzel Rendón</td>
-		                                      <td>itzel@gmail.com</td>
-		                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
-		    								  <td class="text-nowrap">
-				                                  <span data-toggle="modal" data-target="#modalAgregar">
-			                                      	<a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
-			                                      </span>
-				                                  <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-				                                  <span data-toggle="modal" data-target="#modalDetalles">
-			                                      	<a cliente="1" class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-			                                      </span>
-			                                  </td>
-		                                  </tr>
-		                                   <tr>
-		                                      <td>Itzel Rendón</td>
-		                                      <td>itzel@gmail.com</td>
-		                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
-		                                      <td class="text-nowrap">
-		                                        <span data-toggle="modal" data-target="#modalAgregar">
-		                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-		                                        </span>
-		                                        <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-		                                        <span data-toggle="modal" data-target="#modalDetalles">
-		                                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-		                                        </span>
-		                                      </td>
-		                                  </tr>
-		                                   <tr>
-		                                      <td>Itzel Rendón</td>
-		                                      <td>itzel@gmail.com</td>
-		                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
-		                                      <td class="text-nowrap">
-		                                        <span data-toggle="modal" data-target="#modalAgregar">
-		                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-		                                        </span>
-		                                        <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-		                                        <span data-toggle="modal" data-target="#modalDetalles">
-		                                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-		                                        </span>
-		                                      </td>
-		                                  </tr>
-		                                   <tr>
-		                                      <td>Itzel Rendón</td>
-		                                      <td>itzel@gmail.com</td>
-		                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
-		                                      <td class="text-nowrap">
-		                                        <span data-toggle="modal" data-target="#modalAgregar">
-		                                          <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-		                                        </span>
-		                                        <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-		                                        <span data-toggle="modal" data-target="#modalDetalles">
-		                                          <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-		                                        </span>
-		                                      </td>
-		                                  </tr> -->
-		                              </tbody>
-		                          </table>
-		                      </div>
+
+							  <ul class="nav nav-tabs" role="tablist">
+		                          <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#activo" role="tab"><span class="hidden-sm-up"><i class="icon-user"></i></span> <span class="hidden-xs-down">Activos</span></a> </li>
+		                          <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#inactivo" role="tab"><span class="hidden-sm-up"><i class="icon-user-unfollow"></i></span> <span class="hidden-xs-down">Inactivos</span></a> </li>
+		                      </ul>
+
+							  <div class="tab-content tabcontent-border">
+		                          <div class="tab-pane active" id="activo" role="tabpanel">
+									  <div class="table-responsive p-20">
+				                          <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+				                              <thead>
+				                                  <tr>
+				                                    <th>Nombre</th>
+				                                    <th>Correo</th>
+													<th>Teléfono</th>
+													<th>Acciones</th>
+				                                  </tr>
+				                              </thead>
+				                              <tfoot>
+				                                  <tr>
+				                                      <th>Nombre</th>
+				                                      <th>Correo</th>
+											          <th>Teléfono</th>
+													  <th>Acciones</th>
+				                                  </tr>
+				                              </tfoot>
+				                              <tbody>
+				                                  <!-- <tr>
+				                                      <td>Itzel Rendón</td>
+				                                      <td>itzel@gmail.com</td>
+				                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
+				    								  <td class="text-nowrap">
+						                                  <span data-toggle="modal" data-target="#modalAgregar">
+					                                      	<a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+					                                      </span>
+						                                  <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+						                                  <span data-toggle="modal" data-target="#modalDetalles">
+					                                      	<a cliente="1" class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+					                                      </span>
+					                                  </td>
+				                                  </tr>-->
+				                              </tbody>
+				                          </table>
+				                      </div>
+								  </div>
+								  <div class="tab-pane" id="inactivo" role="tabpanel">
+									  <div class="table-responsive p-20">
+				                          <table id="clientesInactivos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+				                              <thead>
+				                                  <tr>
+				                                    <th>Nombre</th>
+				                                    <th>Correo</th>
+													<th>Teléfono</th>
+													<th>Acciones</th>
+				                                  </tr>
+				                              </thead>
+				                              <tfoot>
+				                                  <tr>
+				                                      <th>Nombre</th>
+				                                      <th>Correo</th>
+											          <th>Teléfono</th>
+													  <th>Acciones</th>
+				                                  </tr>
+				                              </tfoot>
+				                              <tbody>
+				                                  <!-- <tr>
+				                                      <td>Itzel Rendón</td>
+				                                      <td>itzel@gmail.com</td>
+				                                      <td><a href="tel:669 986 8966">669 986 8966</a></td>
+				    								  <td class="text-nowrap">
+						                                  <span data-toggle="modal" data-target="#modalAgregar">
+					                                      	<a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+					                                      </span>
+						                                  <a class="eliminarCliente" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+						                                  <span data-toggle="modal" data-target="#modalDetalles">
+					                                      	<a cliente="1" class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+					                                      </span>
+					                                  </td>
+				                                  </tr>-->
+				                              </tbody>
+				                          </table>
+				                      </div>
+								 </div>
+							  </div>
+
+
 		                  </div>
 		              </div>
 		          </div>

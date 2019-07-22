@@ -31,8 +31,8 @@
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 	<script src="{{asset('plugins/moment/min/moment.min.js')}}"></script>
-    <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script>
-    {{-- <script src="{{asset('plugins/wizard/jquery.steps.js')}}"></script> Test --}}
+    {{-- <script src="{{asset('plugins/wizard/jquery.steps.min.js')}}"></script> --}}
+    <script src="{{asset('plugins/wizard/jquery.steps.js')}}"></script>
     <script src="{{asset('plugins/wizard/jquery.validate.min.js')}}"></script>
 
 	<!-- This is data table -->
@@ -72,6 +72,7 @@
 	<script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
 
     <!-- ======================= JS de los módulos ===================================== -->
+
     <script src="{{asset('modulos/clientes.js')}}"></script>
     <script src="{{asset('modulos/cotizaciones.js')}}"></script>
 		<script src="{{asset('modulos/materiales.js')}}"></script>
