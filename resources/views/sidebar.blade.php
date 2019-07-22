@@ -36,9 +36,9 @@
                       <span class="hide-menu">Inventario</span>
                   </a>
                   <ul aria-expanded="false" class="collapse">
-                      <li><a href="inventario/materiales">Materiales</a></li>
-                      <li><a href="inventario/orden_compra">Orden de Compra</a></li>
-                      <li><a href="inventario/orden_salida">Orden de Salida</a></li>
+                      <li><a href="/inventario/materiales">Materiales</a></li>
+                      <li><a href="/inventario/orden_compra">Orden de Compra</a></li>
+                      <li><a href="/inventario/orden_salida">Orden de Salida</a></li>
                   </ul>
               </li>
               <li>
