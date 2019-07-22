@@ -74,6 +74,7 @@
     <!-- ======================= JS de los módulos ===================================== -->
     <script src="{{asset('modulos/clientes.js')}}"></script>
     <script src="{{asset('modulos/cotizaciones.js')}}"></script>
+		<script src="{{asset('modulos/materiales.js')}}"></script>
 
 </body>
 </html>

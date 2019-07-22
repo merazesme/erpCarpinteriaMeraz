@@ -95,24 +95,28 @@ Route::prefix('facturas_sobrantes')->group(function () {
 
 });
 
-Route::get('/materiales', function(){
-	$modulo = "Materiales";
-	return view('materiales', compact('modulo'));
-});
-
 Route::prefix('inventario')->group(function () {
+	// Rutas para las web services
+	Route::prefix('materiales')->group(function () {
+		Route::get('/lista', 'materiales@index');
+		Route::get('/tipo_material', 'clasificacion_materiales@index');
+		Route::post('/agregar_material', 'materiales@store');
+		Route::get('/especifico/{id}', 'materiales@edit');
+		Route::post('/modificar/{id}', 'materiales@update');
+		Route::post('/eliminar/{id}', 'materiales@status');
+	});
 	/** Temporal routes */
-	Route::get('materiales', function(){
+	Route::get('/materiales', function(){
 		$modulo = "Materiales";
 		return view('materiales', compact('modulo'));
 	});
 
-	Route::get('orden_compra', function(){
+	Route::get('/orden_compra', function(){
 		$modulo = "Orden de Compra";
 		return view('orden_compra', compact('modulo'));
 	});
 
-	Route::get('orden_salida', function(){
+	Route::get('/orden_salida', function(){
 		$modulo = "Orden de Salida";
 		return view('orden_salida', compact('modulo'));
 	});
