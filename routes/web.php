@@ -22,14 +22,19 @@ Route::get('/modal', function(){
 });
 
 Route::prefix('trabajadores')->group(function () {
-		Route::get('lista', function(){
-			$modulo = "Listado trabajadores";
+		Route::get('/lista', function(){
+			$modulo = "Listado de trabajadores";
 			return view('listaTrabajadores', compact('modulo'));
 		});
+		Route::get('/tabla', 'Trabajadores@index');
+
 		Route::get('agregar', function(){
 			$modulo = "Agregar trabajador";
 			return view('agregarTrabajador', compact('modulo'));
 		});
+
+		Route::post('/agregar', 'Trabajadores@store');
+
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
 			return view('asistencia', compact('modulo'));
@@ -38,7 +43,6 @@ Route::prefix('trabajadores')->group(function () {
 			$modulo = "Prestamos";
 			return view('prestamos', compact('modulo'));
 		});
-		Route::get('/lista', 'Trabajadores@index');
 });
 
 Route::get('/pagosdelmes_lista', function(){

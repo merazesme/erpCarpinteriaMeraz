@@ -15,7 +15,7 @@
 	            <div class="col-12">
 	                <div class="card wizard-content">
 	                    <div class="card-body">
-	                        <form action="#" class="validation-wizard wizard-circle">
+	                        <form action="#" id="formularioTrabajador" class="validation-wizard wizard-circle">
 	                            <!-- Datos Personales -->
 	                            <h6>Datos Personales</h6>
 	                            <section>
@@ -23,13 +23,13 @@
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 	                                            <label for="nombre">Nombre(s): <span class="danger">*</span> </label>
-	                                            <input type="text" class="form-control required" id="nombre" name="Nombre">
+	                                            <input type="text" class="form-control required" id="nombre" name="nombre">
 																					</div>
 	                                    </div>
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 	                                            <label for="apellidos">Apellidos: <span class="danger">*</span> </label>
-	                                            <input type="text" class="form-control required" id="apellidos" name="Apellidos">
+	                                            <input type="text" class="form-control required" id="apellidos" name="apellidos">
 																					</div>
 	                                    </div>
 	                                </div>
@@ -37,13 +37,13 @@
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 																							<label for="celular">Celular: <span class="danger">*</span> </label>
-																							<input type="tel" class="form-control required" id="celular" name="Celular">
+																							<input type="tel" class="form-control required" id="celular" name="celular">
 																					</div>
 	                                    </div>
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 	                                            <label for="numero_alternativo">Número alternativo: <span class="danger">*</span> </label>
-	                                            <input type="tel" class="form-control required" id="numero_alternativo" name="Numero_alternativo">
+	                                            <input type="tel" class="form-control required" id="numero_alternativo" name="numero_alternativo">
 																					</div>
 	                                    </div>
 	                                </div>
@@ -51,13 +51,13 @@
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 																						<label for="domicilio">Domicilio: <span class="danger">*</span> </label>
-																						<input type="text" class="form-control required" id="domicilio" name="Domicilio">
+																						<input type="text" class="form-control required" id="domicilio" name="domicilio">
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 																							<label for="estado_civil">Estado Civil: <span class="danger">*</span> </label>
-																							<select class="custom-select form-control required" id="estado_civil" name="Estado_civil">
+																							<select class="custom-select form-control required" id="estado_civil" name="estado_civil">
 																									<option value=""></option>
 																									<option value="Soltero">Soltero(a)</option>
 																									<option value="Casado">Casado(a)</option>
@@ -69,7 +69,7 @@
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
 																							<label for="fecha_nacimiento">Fecha de Nacimiento: <span class="danger">*</span> </label>
-																							<input type="date" class="form-control required" id="fecha_nacimiento" name="Fecha_nacimiento">
+																							<input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento">
 	                                        </div>
 	                                    </div>
 	                                    <div class="col-md-6">
@@ -95,13 +95,13 @@
 																    <div class="col-md-6">
 																        <div class="form-group">
 																						<label for="escolaridad">Escolaridad: </label>
-																						<input type="text" class="form-control" id="escolaridad" name="Escolaridad">
+																						<input type="text" class="form-control" id="escolaridad" name="escolaridad">
 																        </div>
 																    </div>
 																    <div class="col-md-6">
 																        <div class="form-group">
 																						<label for="apodo">Apodo: <span class="danger">*</span> </label>
-																						<input type="text" class="form-control required" id="apodo" name="Apodo">
+																						<input type="text" class="form-control required" id="apodo" name="apodo">
 																        </div>
 																    </div>
 																	</div>
@@ -113,13 +113,13 @@
 																    <div class="col-md-6">
 																        <div class="form-group">
 																						<label for="nss">NSS: <span class="danger">*</span> </label>
-																						<input type="text" class="form-control required" id="nss" name="NSS">
+																						<input type="text" class="form-control required" id="NSS" name="NSS">
 																        </div>
 																    </div>
 																    <div class="col-md-6">
 																        <div class="form-group">
 																            <label for="infonavit">Infonavit: <span class="danger">*</span> </label>
-																            <input type="text" class="form-control required" id="infonavit" name="Infonavit">
+																            <input type="text" class="form-control required" id="infonavit" name="infonavit">
 																        </div>
 																    </div>
 																	</div>
@@ -127,7 +127,7 @@
 																		<div class="col-md-6">
 																				<div class="form-group">
 																						<label for="numero_credencial">Número de Credencial: <span class="danger">*</span> </label>
-																						<input type="text" class="form-control required" id="numero_credencial" name="Numero_credencial">
+																						<input type="text" class="form-control required" id="numero_credencial" name="numero_credencial">
 																				</div>
 																		</div>
 																	</div>
@@ -141,12 +141,12 @@
 																			<div class="col-md-9">
 																					<div class="radio-list">
 																							<label class="custom-control custom-radio">
-																									<input id="temporal" name="Temporal" type="radio" checked="" class="custom-control-input">
+																									<input id="temporal" name="temporal" type="radio" checked="" class="custom-control-input">
 																									<span class="custom-control-indicator"></span>
 																									<span class="custom-control-description">Temporal</span>
 																							</label>
 																							<label class="custom-control custom-radio">
-																									<input id="base" name="Base" type="radio" class="custom-control-input">
+																									<input id="base" name="base" type="radio" class="custom-control-input">
 																									<span class="custom-control-indicator"></span>
 																									<span class="custom-control-description">Base</span>
 																							</label>
@@ -176,6 +176,9 @@
 																    </div>
 																	</div>
 	                            </section>
+															<div class="modal-footer">
+							                    <button type="button" id="agregarTrabajador" class="btn btn-info waves-effect">Aceptar</button>
+							                </div>
 	                        </form>
 	                    </div>
 	                </div>
