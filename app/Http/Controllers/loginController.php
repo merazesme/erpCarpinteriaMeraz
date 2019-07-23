@@ -18,8 +18,9 @@ class loginController extends Controller
      */
     public function index()
     {
-        return view('login');
+        // return view('login');
         if(session()) {
+            
             return redirect('/');
         } else {
             return view('login');
