@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Nomina;
 use Illuminate\Support\Facades\DB;
 
-class NominaController extends Controller
+class NominaSemanalController extends Controller
 {
     /**
      * Display a listing of the resource.

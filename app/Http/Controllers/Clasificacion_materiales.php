@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-//modelo
-use App\Cliente;
-class Clientes extends Controller
+use App\Clasificacion_materiale;
+use DB;
+class Clasificacion_materiales extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class Clientes extends Controller
     {
         //
         try{
-            $data = Cliente::all();
+            $data = Clasificacion_materiale::all();
             return response()->json(json_encode($data));
         }
         catch(\Exception $e){
@@ -45,22 +45,6 @@ class Clientes extends Controller
     public function store(Request $request)
     {
         //
-        //modelo
-        try{
-            $data=new Cliente();
-            $data->Nombre=$request->input('txtNombre');
-            $data->Apellidos=$request->input('txtApellidos');
-            $data->Email=$request->input('txtEmail');
-            $data->Telefono=$request->input('txtTelefono');
-            $data->idUsuario=$request->input('idUsuario');
-
-            $data->save();
-            return response()->json(json_encode(0));
-       }
-       catch(\Exception $e){
-          return response()->json(json_encode(1));
-       }
-
     }
 
     /**
@@ -83,14 +67,6 @@ class Clientes extends Controller
     public function edit($id)
     {
         //
-        try{
-            $data = Cliente::find($id);
-            return response()->json(json_encode($data));
-        }
-        catch(\Exception $e){
-           return response()->json(json_encode(1));
-        }
-
     }
 
     /**
@@ -103,20 +79,6 @@ class Clientes extends Controller
     public function update(Request $request, $id)
     {
         //
-        try{
-            $data = Cliente::find($id);
-            $data->Nombre=$request->input('txtNombre');
-            $data->Apellidos=$request->input('txtApellidos');
-            $data->Email=$request->input('txtEmail');
-            $data->Telefono=$request->input('txtTelefono');
-            $data->idUsuario=$request->input('idUsuario');
-
-            $data->save();
-            return response()->json(json_encode(0));
-        }
-        catch(\Exception $e){
-           return response()->json(json_encode(1));
-        }
     }
 
     /**
