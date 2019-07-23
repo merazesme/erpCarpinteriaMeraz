@@ -11,6 +11,8 @@
                         <span class="hide-menu">
                             @if (session())
                                 {{ session('Nombre').', idUsuario: '.session('idUsuario').', idRol: '.session('idRol') }}
+                            @else
+                                No tiene iniciada la sesión
                             @endif
                         </span>
                     </a>
