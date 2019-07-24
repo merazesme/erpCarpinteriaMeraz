@@ -52,7 +52,7 @@
 	    <!-- Logo -->
 	    <!-- ============================================================== -->
 	    <div class="navbar-header mx-auto">
-	        <a class="navbar-brand" href="/">
+	        <a class="navbar-brand" href="index.html">
 	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->
