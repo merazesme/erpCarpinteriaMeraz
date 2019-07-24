@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Nomina;
+use Illuminate\Support\Facades\DB;
 
-class NominaController extends Controller
+class NominaSemanalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,12 +27,29 @@ class NominaController extends Controller
      */
     public function create()
     {
+
+    }
+
+    public function trabajadores() {
       try{
-          $data = Nomina::all();
-          return response()->json(json_encode($data));
+          $data = DB::table('trabajadores')
+                    ->select('id', 'Nombre', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'sb', 'montoHoraExtra', 'Infonavit')
+                    ->where('Estado',1)
+                    ->get();
+
+          foreach ($data as $trabajadores) { // Se consulta el totaL de prestamo que tiene cada empleado
+            $monto = DB::table('trabajadores')
+                      ->select(DB::raw('SUM(prestamos.Monto) as monto'))
+                      ->join('prestamos', 'prestamos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.id',$trabajadores->id)
+                      ->first();
+            //dd($monto->monto);
+            $trabajadores->totalPrestamos = $monto->monto;
+          }
+         return response()->json($data);
       }
       catch(\Exception $e){
-         return response()->json(json_encode(1));
+         return response()->json(1);
       }
     }
 
