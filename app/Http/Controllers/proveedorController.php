@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use App\proveedore as Proveedor;
 
 class proveedorController extends Controller
 {
@@ -50,6 +52,41 @@ class proveedorController extends Controller
         //
     }
 
+    /** 
+     * Store a newly created provider resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function agregar_proveedor(Request $request)
+    {
+        if(!session('Usuario')) {
+            return 'session';
+        }
+        if(
+            empty( $request->input('proveedor_nombre') )    ||
+            empty( $request->input('proveedor_rfc') )       ||
+            empty( $request->input('proveedor_correo') )    ||
+            empty( $request->input('proveedor_telefono') )
+        ) {
+            return 'empty';
+        }
+
+        $proveedor = new Proveedor();
+
+        $proveedor->RFC         = $request->input('proveedor_rfc');
+        $proveedor->Nombre      = $request->input('proveedor_nombre');
+        $proveedor->Telefono    = $request->input('proveedor_telefono');
+        $proveedor->Email       = $request->input('proveedor_correo');
+        $proveedor->Adeudo      = 0;
+        $proveedor->estatus     = 0;
+        $proveedor->idUsuario   = session('idUsuario');
+
+        if(!$proveedor->save()) {
+            return 'error';
+        }
+        return 'true';
+    }
+
     /**
      * Display the specified resource.
      *
@@ -73,6 +110,21 @@ class proveedorController extends Controller
 		return view('proveedores.proveedores_show', compact('modulo'));
     }
 
+    /** 
+     * Return all the resources
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function datos_proveedores() 
+    {
+        // $query = 
+        //     DB::table('proveedores')
+        //     ->  select('*')
+        //     ->  get();
+        // return $query;
+        return Proveedor::all();;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -82,6 +134,27 @@ class proveedorController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    /**
+     * Update the specified status in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_proveedor_estatus($id) {
+        if(!session('Usuario')) {
+            return 'session';
+        }
+        $proveedor  = Proveedor::find($id);
+        $estatus    = $proveedor->estatus == 0 ? 1 : 0;
+        $proveedor->estatus = $estatus;
+
+        if(!$proveedor->update()) {
+            return 'false';
+        }
+        return 'true';
     }
 
     /**

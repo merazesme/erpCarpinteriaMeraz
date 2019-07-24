@@ -9,7 +9,7 @@
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="fa fa-user-o"></i>
                         <span class="hide-menu">
-                            @if (session())
+                            @if (session('Usuario'))
                                 {{ session('Nombre').', idUsuario: '.session('idUsuario').', idRol: '.session('idRol') }}
                             @else
                                 No tiene iniciada la sesión
@@ -18,7 +18,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="perfil/ver_perfil">Mi Perfil</a></li>
-                        <li><a href="javascript:void()">Cerrar Sesión</a></li>
+                        <li><a href="#" onclick="cerrar_sesion()">Cerrar Sesión</a></li>
                     </ul>
                 </li>
                 <li class="nav-devider"></li>

@@ -4,6 +4,12 @@
 
 @section('header')
 @parent
+<div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label">Carpintería Meraz</p>
+    </div>
+</div>
 <div id="main-wrapper">
     @section('sidebar')
     @parent
@@ -27,32 +33,31 @@
                     <div class="table-responsive m-t-40" style="height:auto;">
 
                         <table id="table_proveedores"
-                            class="display nowrap table table-hover table-striped table-bordered dataTable"
-                            cellspacing="0" width="100%" role="grid" aria-describedby="table_proveedores_info"
-                            style="width: 100%;">
+                            class="display table table-hover table-striped table-bordered"
+                            cellspacing="0" width="100%" role="grid" aria-describedby="table_proveedores_info">
                             <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1">
+                                <tr role="row" align="center">
+                                    <th style="cursor:pointer;" class="sorting_asc" tabindex="0" rowspan="1" colspan="1">
                                         Concepto
-                                    </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    </ths>
+                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         RFC
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Teléfono
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Correo electrónico
                                     </th>
-                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
                                         Adeudo
                                     </th>
-                                    <th></th>
-                                    <th></th>
+                                    <th data-orderable="false"></th>
+                                    <th data-orderable="false"></th>
                                 </tr>
                             </thead>
                             <tfoot>
-                                <tr>
+                                <tr align="center">
                                     <th rowspan="1" colspan="1">Concepto</th>
                                     <th rowspan="1" colspan="1">RFC</th>
                                     <th rowspan="1" colspan="1">Teléfono</th>
@@ -62,67 +67,7 @@
                                     <th></th>
                                 </tr>
                             </tfoot>
-                            <tbody style="cursor: pointer;">
-                                <tr role="row">
-                                    <td>Material x</td>
-                                    <td>xxxx-xxxx-xxxx-xxxx</td>
-                                    <td>669-000-000</td>
-                                    <td>correo.electronico@email.com</td>
-                                    <td>$000.00</td>
-                                    <td class="odd"onclick="editar_proveedor(1)" data-toggle="tooltip" 
-                                        data-placement="top" title="Clic para editar 1">
-                                        <i class="mdi mdi-lead-pencil"></i>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(1)"
-                                        title="Clic para eliminar 1" >
-                                        <i class="mdi mdi-delete-forever"></i>
-                                    </td>
-                                </tr>
-                                <tr role="row">
-                                    <td>Material x</td>
-                                    <td>xxxx-xxxx-xxxx-xxxx</td>
-                                    <td>669-000-000</td>
-                                    <td>correo.electronico@email.com</td>
-                                    <td>$000.00</td>
-                                    <td class="odd"onclick="editar_proveedor(2)" data-toggle="tooltip" 
-                                        data-placement="top" title="Clic para editar 2">
-                                        <i class="mdi mdi-lead-pencil"></i>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(2)"
-                                        title="Clic para eliminar 2" >
-                                        <i class="mdi mdi-delete-forever"></i>
-                                    </td>
-                                </tr>
-                                <tr role="row">
-                                    <td>Material x</td>
-                                    <td>xxxx-xxxx-xxxx-xxxx</td>
-                                    <td>669-000-000</td>
-                                    <td>correo.electronico@email.com</td>
-                                    <td>$000.00</td>
-                                    <td class="odd"onclick="editar_proveedor(3)" data-toggle="tooltip" 
-                                        data-placement="top" title="Clic para editar 3">
-                                        <i class="mdi mdi-lead-pencil"></i>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(3)"
-                                        title="Clic para eliminar 3" >
-                                        <i class="mdi mdi-delete-forever"></i>
-                                    </td>
-                                </tr>
-                                <tr role="row">
-                                    <td>Material x</td>
-                                    <td>xxxx-xxxx-xxxx-xxxx</td>
-                                    <td>669-000-000</td>
-                                    <td>correo.electronico@email.com</td>
-                                    <td>$000.00</td>
-                                    <td class="odd"onclick="editar_proveedor(4)" data-toggle="tooltip" 
-                                        data-placement="top" title="Clic para editar 4">
-                                        <i class="mdi mdi-lead-pencil"></i>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" onclick="delete_proveedor(4)"
-                                        title="Clic para eliminar 4" >
-                                        <i class="mdi mdi-delete-forever"></i>
-                                    </td>
-                                </tr>
+                            <tbody>
                             </tbody>
                         </table>
 
@@ -145,26 +90,21 @@
     });
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 </script>
+<script src="{{asset('modulos/proveedores.js')}}"></script>
 <script>
-    /** Scripts */
-    function agregar_proveedor() {
-        location.href = "/proveedores/agregar";
-    }
-    function editar_proveedor(id) {
-        location.href = "/proveedores/editar/"+id;
-    }
-    function delete_proveedor(id) {
-        promise_alert("Proveedor", `¿Seguro que desea eliminar al proveedor ${id}?`, "warning");
-    }
-    function normal_alert(title, text, type) {
-        swal(title, text, type);
-    }
-    function promise_alert(title, text, type) {
-        swal("Click on either the button or outside the modal.")
-        .then((value) => {
-            swal(`The returned value is: ${value}`);
-        });
-    }
+    // /** Scripts */
+    // function agregar_proveedor() {
+    //     location.href = "/proveedores/agregar";
+    // }
+    // function editar_proveedor(id) {
+    //     location.href = "/proveedores/editar/"+id;
+    // }
+    // function delete_proveedor(id) {
+    //     promise_alert("Proveedor", `¿Seguro que desea eliminar al proveedor ${id}?`, "warning");
+    // }
+    // function normal_alert(title, text, type) {
+    //     swal(title, text, type);
+    // }
 
 </script>
 </div>

@@ -1,8 +1,11 @@
 @section('footer')
 	<script>
 		var base_url ="{{url('/')}}";
-		var token = "{{csrf_token()}}";
+        var token = "{{csrf_token()}}";
 	</script>
+
+    {{-- Global functions --}}
+    <script src="{{asset('js/global.js')}}"></script>
 
 	<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 
@@ -75,7 +78,7 @@
 
     <script src="{{asset('modulos/clientes.js')}}"></script>
     <script src="{{asset('modulos/cotizaciones.js')}}"></script>
-		<script src="{{asset('modulos/materiales.js')}}"></script>
+    <script src="{{asset('modulos/materiales.js')}}"></script>
 
 </body>
 </html>

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/icon.png')}}">
     <title>Carpintería Meraz - Iniciar sesión</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
