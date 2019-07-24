@@ -24,24 +24,31 @@ Route::get('/modal', function(){
 Route::prefix('trabajadores')->group(function () {
 		Route::get('/lista', function(){
 			$modulo = "Listado de trabajadores";
-			return view('listaTrabajadores', compact('modulo'));
+			return view('trabajadores/listaTrabajadores', compact('modulo'));
 		});
 		Route::get('/tabla', 'Trabajadores@index');
 
 		Route::get('agregar', function(){
 			$modulo = "Agregar trabajador";
-			return view('agregarTrabajador', compact('modulo'));
+			return view('trabajadores/agregarTrabajador', compact('modulo'));
 		});
 
-		Route::post('/agregar', 'Trabajadores@store');
+		Route::post('/agregarTrabajador', 'Trabajadores@store');
+
+		Route::get('editar', function(){
+			$modulo = "Editar trabajador";
+			return view('trabajadores/agregarTrabajador', compact('modulo'));
+		});
+
+		Route::get('/editarTrabajador/{id}', 'Trabajadores@edit');
 
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
-			return view('asistencia', compact('modulo'));
+			return view('trabajadores/asistencia', compact('modulo'));
 		});
 		Route::get('prestamos', function(){
 			$modulo = "Prestamos";
-			return view('prestamos', compact('modulo'));
+			return view('trabajadores/prestamos', compact('modulo'));
 		});
 });
 

@@ -132,8 +132,8 @@
 													<div class="row">
 															<div class="col-md-6">
 																	<div class="form-group">
-																		<label for="monto" class="control-label">Monto:</label>
-																		<input type="text" class="form-control" id="monto">
+																		<label for="monto2" class="control-label">Monto:</label>
+																		<input type="text" class="form-control" id="monto2">
 																	</div>
 															</div>
 															<div class="col-md-6">
