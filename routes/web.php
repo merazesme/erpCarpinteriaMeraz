@@ -129,14 +129,12 @@ Route::get('/movimientos', function(){
 	return view('movimientos', compact('modulo'));
 });
 
-//Clientes vista
-Route::get('/clientes', function(){
-	$modulo = "Clientes";
-	return view('clientes/clientes', compact('modulo'));
-});
-
 //Clientes funciones de datos
 Route::prefix('/clientes')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Clientes";
+		return view('clientes/clientes', compact('modulo'));
+	});
 	Route::get('/lista', 'clientes@index');
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
@@ -144,14 +142,13 @@ Route::prefix('/clientes')->group(function () {
 	Route::post('/eliminar/{id}', 'clientes@destroy');
 });
 
-//Cotizacion vista principal
-Route::get('/cotizaciones', function(){
-	$modulo = "Cotizaciones";
-	return view('cotizaciones/cotizaciones', compact('modulo'));
-});
-
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Cotizaciones";
+		return view('cotizaciones/cotizaciones', compact('modulo'));
+	});
+
 	Route::get('/nueva', function(){
 		$modulo = "Nueva Cotización";
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
@@ -198,12 +195,13 @@ Route::prefix('nomina')->group(function () {
 });
 
 //Configuraciones vista principa
-Route::get('/configuraciones', function(){
-	$modulo = "Configuraciones";
-	return view('configuracion/configuracion');
-});
+
 
 Route::prefix('/configuraciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Configuraciones";
+		return view('configuracion/configuracion');
+	});
 	Route::post('/actualizarGeneral', 'configuraciones@storeGeneral');
 	Route::post('/actualizarHorario', 'configuraciones@storeHorario');
 	Route::get('/datos/{id}', 'configuraciones@show');
