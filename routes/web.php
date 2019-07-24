@@ -138,34 +138,38 @@ Route::get('/movimientos', function(){
 	return view('movimientos', compact('modulo'));
 });
 
+//Clientes vista
 Route::get('/clientes', function(){
 	$modulo = "Clientes";
-	return view('clientes', compact('modulo'));
+	return view('clientes/clientes', compact('modulo'));
 });
 
+//Clientes funciones de datos
 Route::prefix('/clientes')->group(function () {
-	/** Temporal routes */
 	Route::get('/lista', 'clientes@index');
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
-	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
+//Cotizacion vista principal
 Route::get('/cotizaciones', function(){
 	$modulo = "Cotizaciones";
-	return view('cotizaciones', compact('modulo'));
+	return view('cotizaciones/cotizaciones', compact('modulo'));
 });
 
-Route::get('/nuevaCotizacion', function(){
-	$modulo = "Nueva Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
-});
+//Cotizacion vistas y funciones
+Route::prefix('/cotizaciones')->group(function () {
+	Route::get('/nueva', function(){
+		$modulo = "Nueva Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 
-Route::get('/modificarCotizacion', function(){
-	$modulo = "Modificar Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
+	Route::get('/modificar', function(){
+		$modulo = "Modificar Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 });
 
 Route::prefix('nomina')->group(function () {
@@ -202,9 +206,16 @@ Route::prefix('nomina')->group(function () {
 
 });
 
-Route::get('/configuracion', function(){
+//Configuraciones vista principa
+Route::get('/configuraciones', function(){
 	$modulo = "Configuraciones";
-	return view('configuracion', compact('modulo'));
+	return view('configuracion/configuracion');
+});
+
+Route::prefix('/configuraciones')->group(function () {
+	Route::post('/actualizarGeneral', 'configuraciones@storeGeneral');
+	Route::post('/actualizarHorario', 'configuraciones@storeHorario');
+	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
 Route::get('/carro', function(){
