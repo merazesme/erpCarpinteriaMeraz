@@ -71,12 +71,27 @@
     <script src="{{asset('js/footable-init.js')}}"></script>
 	<script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
 
-    <!-- ======================= JS de los módulos ===================================== -->
+	<!-- Mask  -->
+	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
 
-    <script src="{{asset('modulos/clientes.js')}}"></script>
-    <script src="{{asset('modulos/cotizaciones.js')}}"></script>
-		<script src="{{asset('modulos/materiales.js')}}"></script>
+	<!-- Clock Plugin JavaScript -->
+    <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 
+	<!-- ======================= JS de los módulos ===================================== -->
+	@if(Request::segment(1) == "clientes")
+	<script src="{{asset('modulos/clientes.js')}}"></script>
+	@endif
+
+	@if(Request::segment(1) == "cotizaciones")
+	<script src="{{asset('modulos/cotizaciones.js')}}"></script>
+	@endif
+
+	@if(Request::segment(1) == "configuraciones")
+	<script src="{{asset('modulos/configuraciones.js')}}"></script>
+	@endif
+
+	
+	<script src="{{asset('modulos/materiales.js')}}"></script>
 </body>
 </html>
 @show

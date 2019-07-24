@@ -136,41 +136,44 @@ Route::get('/movimientos', function(){
 	return view('movimientos', compact('modulo'));
 });
 
-Route::get('/clientes', function(){
-	$modulo = "Clientes";
-	return view('clientes', compact('modulo'));
-});
-
+//Clientes funciones de datos
 Route::prefix('/clientes')->group(function () {
-	/** Temporal routes */
+	Route::get('/', function(){
+		$modulo = "Clientes";
+		return view('clientes/clientes', compact('modulo'));
+	});
 	Route::get('/lista', 'clientes@index');
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
-	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
-Route::get('/cotizaciones', function(){
-	$modulo = "Cotizaciones";
-	return view('cotizaciones', compact('modulo'));
-});
+//Cotizacion vistas y funciones
+Route::prefix('/cotizaciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Cotizaciones";
+		return view('cotizaciones/cotizaciones', compact('modulo'));
+	});
 
-Route::get('/nuevaCotizacion', function(){
-	$modulo = "Nueva Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
-});
+	Route::get('/nueva', function(){
+		$modulo = "Nueva Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 
-Route::get('/modificarCotizacion', function(){
-	$modulo = "Modificar Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
+	Route::get('/modificar', function(){
+		$modulo = "Modificar Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 });
 
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/muestra', 'NominaSemanalController@trabajadores');
-		Route::post('/save', 'NominaSemanalController@store');
+		Route::post('/saveNomina', 'NominaSemanalController@nomina');
+		Route::post('/saveDetalleNomina', 'NominaSemanalController@detalleNomina');
+		Route::post('/saveConceptoNomina', 'NominaSemanalController@conceptoNomina');
 	});
 
 	Route::get('/historialNomina', function(){
@@ -200,9 +203,17 @@ Route::prefix('nomina')->group(function () {
 
 });
 
-Route::get('/configuracion', function(){
-	$modulo = "Configuraciones";
-	return view('configuracion', compact('modulo'));
+//Configuraciones vista principa
+
+
+Route::prefix('/configuraciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Configuraciones";
+		return view('configuracion/configuracion');
+	});
+	Route::post('/actualizarGeneral', 'configuraciones@storeGeneral');
+	Route::post('/actualizarHorario', 'configuraciones@storeHorario');
+	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
 Route::get('/carro', function(){

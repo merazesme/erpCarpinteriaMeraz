@@ -1,0 +1,232 @@
+function validation(children, parent){
+    if(children.val().length == 0){
+        parent.addClass("error");
+    }else{
+        parent.removeClass("error");
+    }
+}
+
+$("#ivaConfig").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#cajaConfig").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#entrada_LV").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#salida_LV").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#entrada_S").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#salida_S").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#entrada_E").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#salida_E").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+function actualizarGeneral(){
+    var banValidation=false;
+    if($("#ivaConfig").val().length == 0){
+        validation($("#ivaConfig"), $("#ivaConfig").parent());
+        banValidation=true;
+    }
+
+    if($("#cajaConfig").val().length == 0){
+        validation($("#cajaConfig"), $("#cajaConfig").parent());
+        banValidation=true;
+    }
+
+    if(!banValidation){
+        var datos = new FormData(document.querySelector('#formGeneral'));
+        datos.append("idUsuario", "1");
+
+        $.ajax({
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: datos,
+            dataType: false,
+            enctype: 'multipart/form-data',
+            url: base_url+"/configuraciones/actualizarGeneral",
+            success: function(msg){
+                var data = JSON.parse(msg)
+                if(data == 0){
+                    $('#modalConfiguracion').modal('hide')
+                    swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                }else{
+                    swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                }
+                datosGeneral();
+            }, error: function(error) {
+                console.log(error);
+                swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+            }
+        });
+    }
+}
+
+$('.clockpicker-bottom').clockpicker({
+    autoclose: true,
+    placement: 'bottom',
+    align: 'left',
+}).find('input').change(function() {
+    validation($(this), $(this).parent())
+});
+
+$('.clockpicker-top').clockpicker({
+    autoclose: true,
+    placement: 'top',
+    align: 'left',
+}).find('input').change(function() {
+    validation($(this), $(this).parent())
+});
+
+function actualizarHorario(){
+    var banValidation=false;
+
+    if($("#entrada_LV").val().length == 0){
+        validation($("#entrada_LV"), $("#entrada_LV").parent());
+        banValidation=true;
+    }
+
+    if($("#salida_LV").val().length == 0){
+        validation($("#salida_LV"), $("#salida_LV").parent());
+        banValidation=true;
+    }
+
+    if($("#entrada_S").val().length == 0){
+        validation($("#entrada_S"), $("#entrada_S").parent());
+        banValidation=true;
+    }
+
+    if($("#salida_S").val().length == 0){
+        validation($("#salida_S"), $("#salida_S").parent());
+        banValidation=true;
+    }
+
+    if($("#entrada_E").val().length == 0){
+        validation($("#entrada_E"), $("#entrada_E").parent());
+        banValidation=true;
+    }
+
+    if($("#salida_E").val().length == 0){
+        validation($("#salida_E"), $("#salida_E").parent());
+        banValidation=true;
+    }
+
+    if(!banValidation){
+        var datos = new FormData(document.querySelector('#formHorario'));
+        datos.append("idUsuario", "1");
+
+
+        $.ajax({
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: datos,
+            dataType: false,
+            enctype: 'multipart/form-data',
+            url: base_url+"/configuraciones/actualizarHorario",
+            success: function(msg){
+                var data = JSON.parse(msg)
+                if(data == 0){
+                    $('#modalConfiguracionHorario').modal('hide')
+                    swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                }else{
+                    console.log(msg);
+                    swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                }
+                datosHorarios();
+            }, error: function(error) {
+                console.log(error);
+                swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+            }
+        });
+    }
+}
+
+function datosGeneral(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/configuraciones/datos/1',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            $("#iva_data").empty().append(data[0].IVA+"%");
+            var caja_chica = parseFloat(data[0].Minimo_caja_chica).toFixed(2);
+            $("#caja_chica_data").empty().append("$"+caja_chica);
+
+            //modal
+            $("#ivaConfig").val(data[0].IVA);
+            $("#cajaConfig").val(data[0].Minimo_caja_chica);
+		}
+	});
+}
+
+function datosHorarios(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/configuraciones/datos/2',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            console.log(data);
+
+
+            data[0].Hora_entrada = data[0].Hora_entrada.split(":");
+            data[0].Hora_entrada =data[0].Hora_entrada[0]+":"+data[0].Hora_entrada[1]
+
+            data[0].Hora_salida = data[0].Hora_salida.split(":");
+            data[0].Hora_salida =data[0].Hora_salida[0]+":"+data[0].Hora_salida[1]
+
+            data[0].Hora_entrada_Sab = data[0].Hora_entrada_Sab.split(":");
+            data[0].Hora_entrada_Sab =data[0].Hora_entrada_Sab[0]+":"+data[0].Hora_entrada_Sab[1]
+
+            data[0].Hora_salida_Sab = data[0].Hora_salida_Sab.split(":");
+            data[0].Hora_salida_Sab =data[0].Hora_salida_Sab[0]+":"+data[0].Hora_salida_Sab[1]
+
+            data[0].Hora_entrada_extra = data[0].Hora_entrada_extra.split(":");
+            data[0].Hora_entrada_extra =data[0].Hora_entrada_extra[0]+":"+data[0].Hora_entrada_extra[1]
+
+            data[0].Hora_salida_extra = data[0].Hora_salida_extra.split(":");
+            data[0].Hora_salida_extra =data[0].Hora_salida_extra[0]+":"+data[0].Hora_salida_extra[1]
+
+            $("#entrada_LV").val(data[0].Hora_entrada);
+            $("#salida_LV").val(data[0].Hora_salida);
+            $("#entrada_S").val(data[0].Hora_entrada_Sab);
+            $("#salida_S").val(data[0].Hora_salida_Sab);
+            $("#entrada_E").val(data[0].Hora_entrada_extra);
+            $("#salida_E").val(data[0].Hora_salida_extra);
+
+            $("#entradaLV_data").empty().append(data[0].Hora_entrada);
+            $("#salidaLV_data").empty().append(data[0].Hora_salida);
+            $("#entradaS_data").empty().append(data[0].Hora_entrada_Sab);
+            $("#salidaS_data").empty().append(data[0].Hora_salida_Sab);
+            $("#entradaE_data").empty().append(data[0].Hora_entrada_extra);
+            $("#salidaE_data").empty().append(data[0].Hora_salida_extra);
+		}
+	});
+}
+
+$(document).ready(function () {
+	datosGeneral();
+    datosHorarios();
+});
