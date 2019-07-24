@@ -42,7 +42,7 @@
                                                   <th>Acciones</th>
                                               </tr>
                                           </tfoot>
-                                          <tbody id="activos">
+                                          <tbody>
                                             <!-- <tr>
                                               <td>fsdfdsfs</td>
                                               <td>adasdsada</td>
@@ -53,7 +53,6 @@
                                                 <a href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
                                                 <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
                                               </td>
-                                              <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a>
                                             </tr>																						 -->
                                           </tbody>
                                       </table>
@@ -81,7 +80,7 @@
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>Adriana Hernández</td>
                                                     <td>Jefa de Producción</td>
                                                     <td>28/12/2019</td>
@@ -91,8 +90,8 @@
                                                       <a href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
                                                       <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
                                                     </td>
-                                                    <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
-                                                </tr>
+                                                    <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -147,18 +146,6 @@
                 }
             });
         });
-    });
-    $('#trabajadoresActivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    $('#trabajadoresInactivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
     });
     </script>
 	</div>

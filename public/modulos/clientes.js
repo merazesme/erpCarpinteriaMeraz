@@ -58,8 +58,7 @@ $("body").on("click", ".eliminarCliente", function(e){
                         var data = JSON.parse(msg)
                         if(data == 0){
                             swal("Eliminado", "El estado del cliente ha sido actuzalizado con éxito", "success");
-                            tablaClientes(0, "#clientes");
-                            tablaClientes(1, "#clientesInactivos");
+                            tablaClientes();
                         }else{
                             swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
                         }
@@ -73,13 +72,13 @@ $("body").on("click", ".eliminarCliente", function(e){
     }
 })
 
-$("#clientes").on("click", ".detalleClientes", function(e){
+$("body").on("click", ".detalleClientes", function(e){
     e.preventDefault();
     console.log($(this).parent().parent().attr("data-cliente"));
     //
 })
 
-$("#clientes").on("click",".modificarCliente", function(e){
+$("body").on("click",".modificarCliente", function(e){
     var id = $(this).parent().attr("data-cliente");
     console.log(id);
     e.preventDefault();
@@ -177,8 +176,7 @@ function nuevoCliente(id){
                 if(data == 0){
                     $('#modalAgregar').modal('hide')
                     swal(titulo, mensaje, "success");
-                    tablaClientes(0, "#clientes");
-                    tablaClientes(1, "#clientesInactivos");
+                    tablaClientes();
                 }else{
                     swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
@@ -223,7 +221,7 @@ function tablaClientes(){
 		url: base_url+'/clientes/lista/',
 		success: function (msg) {
             var data = JSON.parse(msg)
-			// console.log(data);
+			console.log(data);
             $("#clientes").DataTable().clear();
 			$("#clientes").DataTable().destroy();
 

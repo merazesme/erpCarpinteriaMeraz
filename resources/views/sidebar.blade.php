@@ -117,7 +117,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/configuracion" aria-expanded="false">
+                    <a href="/configuraciones" aria-expanded="false">
                         <i class="mdi mdi-settings"></i>
                         <span class="hide-menu">Configuraciones</span>
                     </a>
