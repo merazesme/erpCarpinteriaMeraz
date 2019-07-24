@@ -22,14 +22,19 @@ Route::get('/modal', function(){
 });
 
 Route::prefix('trabajadores')->group(function () {
-		Route::get('lista', function(){
-			$modulo = "Listado trabajadores";
+		Route::get('/lista', function(){
+			$modulo = "Listado de trabajadores";
 			return view('listaTrabajadores', compact('modulo'));
 		});
+		Route::get('/tabla', 'Trabajadores@index');
+
 		Route::get('agregar', function(){
 			$modulo = "Agregar trabajador";
 			return view('agregarTrabajador', compact('modulo'));
 		});
+
+		Route::post('/agregar', 'Trabajadores@store');
+
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
 			return view('asistencia', compact('modulo'));
@@ -38,7 +43,6 @@ Route::prefix('trabajadores')->group(function () {
 			$modulo = "Prestamos";
 			return view('prestamos', compact('modulo'));
 		});
-		Route::get('/lista', 'Trabajadores@index');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -78,24 +82,28 @@ Route::prefix('facturas_sobrantes')->group(function () {
 
 });
 
-Route::get('/materiales', function(){
-	$modulo = "Materiales";
-	return view('materiales', compact('modulo'));
-});
-
 Route::prefix('inventario')->group(function () {
+	// Rutas para las web services
+	Route::prefix('materiales')->group(function () {
+		Route::get('/lista', 'materiales@index');
+		Route::get('/tipo_material', 'clasificacion_materiales@index');
+		Route::post('/agregar_material', 'materiales@store');
+		Route::get('/especifico/{id}', 'materiales@edit');
+		Route::post('/modificar/{id}', 'materiales@update');
+		Route::post('/eliminar/{id}', 'materiales@status');
+	});
 	/** Temporal routes */
-	Route::get('materiales', function(){
+	Route::get('/materiales', function(){
 		$modulo = "Materiales";
 		return view('materiales', compact('modulo'));
 	});
 
-	Route::get('orden_compra', function(){
+	Route::get('/orden_compra', function(){
 		$modulo = "Orden de Compra";
 		return view('orden_compra', compact('modulo'));
 	});
 
-	Route::get('orden_salida', function(){
+	Route::get('/orden_salida', function(){
 		$modulo = "Orden de Salida";
 		return view('orden_salida', compact('modulo'));
 	});
@@ -121,34 +129,35 @@ Route::get('/movimientos', function(){
 	return view('movimientos', compact('modulo'));
 });
 
-Route::get('/clientes', function(){
-	$modulo = "Clientes";
-	return view('clientes', compact('modulo'));
-});
-
+//Clientes funciones de datos
 Route::prefix('/clientes')->group(function () {
-	/** Temporal routes */
+	Route::get('/', function(){
+		$modulo = "Clientes";
+		return view('clientes/clientes', compact('modulo'));
+	});
 	Route::get('/lista', 'clientes@index');
 	Route::post('/agregar', 'clientes@store');
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
-	// Route::get('gasolina', 		'proveedorController@gasoline_list');
 });
 
-Route::get('/cotizaciones', function(){
-	$modulo = "Cotizaciones";
-	return view('cotizaciones', compact('modulo'));
-});
+//Cotizacion vistas y funciones
+Route::prefix('/cotizaciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Cotizaciones";
+		return view('cotizaciones/cotizaciones', compact('modulo'));
+	});
 
-Route::get('/nuevaCotizacion', function(){
-	$modulo = "Nueva Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
-});
+	Route::get('/nueva', function(){
+		$modulo = "Nueva Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 
-Route::get('/modificarCotizacion', function(){
-	$modulo = "Modificar Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
+	Route::get('/modificar', function(){
+		$modulo = "Modificar Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 });
 
 Route::prefix('nomina')->group(function () {
@@ -187,9 +196,17 @@ Route::prefix('nomina')->group(function () {
 
 });
 
-Route::get('/configuracion', function(){
-	$modulo = "Configuraciones";
-	return view('configuracion', compact('modulo'));
+//Configuraciones vista principa
+
+
+Route::prefix('/configuraciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Configuraciones";
+		return view('configuracion/configuracion');
+	});
+	Route::post('/actualizarGeneral', 'configuraciones@storeGeneral');
+	Route::post('/actualizarHorario', 'configuraciones@storeHorario');
+	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
 Route::get('/carro', function(){

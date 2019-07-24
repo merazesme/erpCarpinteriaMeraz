@@ -18,8 +18,7 @@ class Trabajadores extends Controller
     public function index()
     {
         $trabajadores = Trabajador::all();
-        $jsonTrabajadores = response()->json([$trabajadores]);
-        return view('listaTrabajadores', compact('jsonTrabajadores'));
+        return response()->json(json_encode($trabajadores));
     }
 
     /**
@@ -40,7 +39,29 @@ class Trabajadores extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $trabajador = new Trabajador();
+        $trabajador->Nombre=$request->input('nombre');
+        // $trabajador->Apellidos=$request->input('apellidos');
+        $trabajador->Celular=$request->input('celular');
+        $trabajador->Num_alternativo=$request->input('numero_alternativo');
+        $trabajador->Domicilio=$request->input('domicilio');
+        $trabajador->Estado_civil=$request->input('estado_civil');
+        $trabajador->Fecha_nacimiento=$request->input('fecha_nacimiento');
+        $trabajador->Lugar_nacimiento='Mazatlán';
+        $trabajador->Estado='Sinaloa';
+        $trabajador->Escolaridad=$request->input('escolaridad');
+        $trabajador->Apodo=$request->input('apodo');
+        $trabajador->NSS=$request->input('NSS');
+        $trabajador->Infonavit=$request->input('infonavit');
+        $trabajador->Num_credencial=$request->input('numero_credencial');
+        $trabajador->Asistencia_total='0';
+        $trabajador->Contraseña='hola';
+        $trabajador->Tipo='temporal';
+        $trabajador->Nacionalidad='Mexicano';
+        $trabajador->idUsuario='0';
+
+        $trabajador->save();
+        return response()->json(['success'=>'Se agrego exitosamente']);
     }
 
     /**

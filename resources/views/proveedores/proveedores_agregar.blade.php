@@ -133,8 +133,8 @@
                 reset_form('.validation-wizard');
             }
             , labels: {
-                cancel: "Cancelar",
-                finish: "Finalizar",
+                cancel  : "Cancelar",
+                finish  : "Finalizar",
                 previous: "Anterior"
             }
             , onStepChanging: function (event, currentIndex, newIndex) {

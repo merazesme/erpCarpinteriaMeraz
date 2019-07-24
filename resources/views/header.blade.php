@@ -33,6 +33,10 @@
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
     <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- clockpicker css -->
+    <link href="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -48,7 +52,7 @@
 	    <!-- Logo -->
 	    <!-- ============================================================== -->
 	    <div class="navbar-header mx-auto">
-	        <a class="navbar-brand" href="index.html">
+	        <a class="navbar-brand" href="/">
 	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->

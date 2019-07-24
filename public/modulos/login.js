@@ -49,6 +49,7 @@ function iniciar_preloader() {
 function iniciar_sesion() {
     var datos = new FormData(document.querySelector("#login_form"));
     ajax_post('/login/ingresar', datos, function(resultado) {
+        console.log(resultado)
         if(resultado == 'true') {
             if($('#login_recuerdame').prop('checked')) {
                 var login_recuerdame = {
@@ -56,8 +57,8 @@ function iniciar_sesion() {
                     password: $('input[name=login_password]').val()
                 }
                 localStorage.setItem('login_recuerdame', JSON.stringify(login_recuerdame));
-                location.href = '/';
             }
+            location.href = '/';
         } else if(resultado == 'false' || resultado == 'inactivo') {
             $('input[name=login_usuario]').addClass('form-material-error-login');
             $('input[name=login_password]').addClass('form-material-error-login');
