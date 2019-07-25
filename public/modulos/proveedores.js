@@ -35,7 +35,7 @@ function datos_proveedor() {
                         <td>${item.Telefono}</td>
                         <td>${item.Email}</td>
                         <td align="right">$${item.Adeudo}</td>
-                        <td style="cursor:pointer" class="color-elegant-blue" onclick="editar_proveedor(${item.id})" data-toggle="tooltip" 
+                        <td style="cursor:pointer" class="color-elegant-blue" onclick="enlace_editar_proveedor(${item.id})" data-toggle="tooltip" 
                             data-placement="top" title="Clic para editar">
                             <i class="mdi mdi-lead-pencil"></i>
                         </td>
@@ -55,6 +55,17 @@ function datos_proveedor() {
             'Ha ocurrido un error al extraer los registros, inténtelo más tarde.',
             3000
         );
+    })
+}
+function datos_proveedor_especifico(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/proveedores/especifico/'+id
+    }).done(function(dato) {
+        $('#proveedor_nombre')  .val(dato.Nombre);
+        $('#proveedor_rfc')     .val(dato.RFC);
+        $('#proveedor_correo')  .val(dato.Email);
+        $('#proveedor_telefono').val(dato.Telefono);
     })
 }
 function guardar_proveedor() {
@@ -107,6 +118,63 @@ function guardar_proveedor() {
                     'error',
                     `Error: ${err}`,
                     'Ha ocurrido un error agregando el proveedor. Inténtelo más tarde',
+                    2500
+                );
+            });
+        }
+    })
+}
+function actualizar_proveedor(id) {
+    var datos = new FormData(document.querySelector("#proveedor_form"));
+    Swal.fire({
+        onOpen: function () {
+            Swal.showLoading()
+            $.ajax({
+                type: 'POST',
+                url: '/proveedores/actualizar/proveedor/'+id,
+                data: datos,
+                contentType: false,
+            	processData: false,
+            })
+            .done(function(resp) {
+                Swal.close()
+                if(resp == 'true') {
+                    alerta_temporizador(
+                        'success',
+                        'Proveedor',
+                        'El proveedor ha sido actualizado con éxito',
+                        2500
+                    );
+                    reset_form('.validation-wizard');
+                    datos_proveedor_especifico(id);
+                } else if('session'){
+                    alerta_temporizador(
+                        'error',
+                        'Error',
+                        'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
+                        2500
+                    );
+                } else if('empty') {
+                    alerta_temporizador(
+                        'error',
+                        'Proveedor',
+                        'Debe ingresar todos los campos para poder actualizar el proveedor.',
+                        2500
+                    );
+                } else if('error') {
+                    alerta_temporizador(
+                        'error',
+                        'Proveedor',
+                        'Ha ocurrido un error al actualizar el proveedor. Inténtelo más tarde.',
+                        2500
+                    );
+                }
+            })
+            .fail(function(err) {
+                alerta_temporizador(
+                    'error',
+                    `Error: ${err}`,
+                    'Ha ocurrido un error actualizando el proveedor. Inténtelo más tarde',
                     2500
                 );
             });
@@ -189,19 +257,18 @@ function type_data() {
     var url = (location.href).split("/");
     if(url[url.length - 1] == "agregar") {
         console.log("Agregar")
-        $('#btn_guardar').attr('onclick', 'proveedor_guardar()');
-        initialize_validate_form(1);
+        initialize_validate_form(1, null);
     } else if(url[url.length - 2] == "editar"){
         /** Cargar los datos de registro específico */
         console.log("Editar")
-        $('#btn_guardar').attr('onclick', 'proveedor_actualizar()');
-        initialize_validate_form(2);
+        initialize_validate_form(2, url[url.length - 1]);
+        datos_proveedor_especifico(url[url.length - 1]);
     } else {
         /** Cargar los datos de los registros en general */
         datos_proveedor();
     }
 }
-function initialize_validate_form(tipo) {
+function initialize_validate_form(tipo, id) {
     $(".validation-wizard").steps({
         headerTag: "h6"
         , bodyTag: "section"
@@ -226,15 +293,15 @@ function initialize_validate_form(tipo) {
             if(tipo == 1) {
                 guardar_proveedor();
             } else {
-                actualizar_proveedor();
+                actualizar_proveedor(id);
             }
         }
     });
     $('a[href*="#cancel"]').css({'background' : '#CC0000'});
 }
-function agregar_proveedor() {
+function enlace_agregar_proveedor() {
     location.href = "/proveedores/agregar";
 }
-function editar_proveedor(id) {
+function enlace_editar_proveedor(id) {
     location.href = "/proveedores/editar/"+id;
 }

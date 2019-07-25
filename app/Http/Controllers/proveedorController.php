@@ -122,7 +122,18 @@ class proveedorController extends Controller
         //     ->  select('*')
         //     ->  get();
         // return $query;
-        return Proveedor::all();;
+        return Proveedor::all();
+    }
+
+    /**
+     * Show the data of provider for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function datos_proveedor_especifico($id) 
+    {
+        return Proveedor::find($id);
     }
 
     /**
@@ -137,13 +148,48 @@ class proveedorController extends Controller
     }
 
     /**
-     * Update the specified status in storage.
+     * Update the specified resource (provider) in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_proveedor_estatus($id) {
+    public function actualizar_proveedor(Request $request, $id)
+    {
+        if(!session('Usuario')) {
+            return 'session';
+        }
+        if(
+            empty( $request->input('proveedor_nombre') )    ||
+            empty( $request->input('proveedor_rfc') )       ||
+            empty( $request->input('proveedor_correo') )    ||
+            empty( $request->input('proveedor_telefono') )
+        ) {
+            return 'empty';
+        }
+
+        $proveedor = Proveedor::find($id);
+
+        $proveedor->RFC         = $request->input('proveedor_rfc');
+        $proveedor->Nombre      = $request->input('proveedor_nombre');
+        $proveedor->Telefono    = $request->input('proveedor_telefono');
+        $proveedor->Email       = $request->input('proveedor_correo');
+        $proveedor->idUsuario   = session('idUsuario');
+
+        if(!$proveedor->update()) {
+            return 'error';
+        }
+        return 'true';
+    }
+
+    /**
+     * Update the specified status in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function actualizar_proveedor_estatus($id) 
+    {
         if(!session('Usuario')) {
             return 'session';
         }

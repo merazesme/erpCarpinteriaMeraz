@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-6 d-inline-flex">
                             <button type="button" class="btn waves-effect waves-light btn-block btn-primary ml-auto"
-                                    onclick="agregar_proveedor()">
+                                    onclick="enlace_agregar_proveedor()">
                                 <i class="fa fa-plus"></i>
                                 Agregar proveedor
                             </button>

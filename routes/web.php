@@ -74,10 +74,11 @@ Route::prefix('proveedores')->group(function () {
 	Route::get('editar/{id}', 	'proveedorController@show');
 	Route::get('gasolina', 		'proveedorController@gasoline_list');
 	/** Información */
-	Route::get	('lista/data',	'proveedorController@datos_proveedores');
+	Route::get	('lista/data',		'proveedorController@datos_proveedores');
+	Route::get	('especifico/{id}',	'proveedorController@datos_proveedor_especifico');
 	/** Envío de información */
 	Route::post	('agregar/proveedor',					'proveedorController@agregar_proveedor');
-	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@update_proveedor_estatus');
+	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
 	Route::post	('actualizar/proveedor/{id}',			'proveedorController@actualizar_proveedor');
 });
 
