@@ -34,7 +34,7 @@ class NominaSemanalController extends Controller
     }
 
     public function trabajadores() {
-
+      try {
           $data = DB::table('trabajadores')
                     ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
                     ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
@@ -52,6 +52,9 @@ class NominaSemanalController extends Controller
             $trabajadores->totalPrestamos = $monto->monto;
           }
          return response()->json($data);
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+      }
     }
 
     /**
@@ -98,52 +101,10 @@ class NominaSemanalController extends Controller
               }
           }
         }
-        return response()->json($data);
+        return response()->json(["success" => "Guardado exitosamente."]);
       }
       catch(\Exception $e){
-         return response()->json(1);
-      }
-    }
-
-    public function detalleNomina(Request $request) {
-
-        foreach ($request->trabajadores as $trabajador) {
-
-          $data=new DetalleNomina();
-          $data->Cantidad= $trabajador['xTotal'];
-          $data->Fecha=new DateTime();
-          $data->Estado= 1;
-          $data->idUsuario = 1;
-          $data->Nomina_idNomina = 21;
-          $data->Trabajadores_idTrabajador = 1;
-          $data->save();
-          //conceptoNomina($trabajador);
-          //return response()->json($trabajador);
-        }
-       return response()->json($data);
-
-    }
-
-    public function conceptoNomina(Request $request) {
-      try{
-        $objNomina = $request->trabajadores['Nomina'];
-        $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
-        foreach ($_arr as $key => $val) {
-            if($key == 'xPercepciones') $tipo = 1;
-            else if($key == 'xDeducciones') $tipo = 0;
-            foreach ($val as $concepto => $valor) {
-                    $data=new ConceptosNomina();
-                    $data->Descripcion= $concepto;
-                    $data->Tipo = $tipo;
-                    $data->idUsuario = 1;
-                    $data->DetalleNomina_idDetalleNomina = 29;
-                    $data->Monto = $valor;
-                    $data->save();
-            }
-        }
-      }
-      catch(\Exception $e){
-         return response()->json(1);
+         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
       }
     }
 

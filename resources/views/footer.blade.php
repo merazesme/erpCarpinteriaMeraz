@@ -78,6 +78,8 @@
     <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 
 	<!-- ======================= JS de los módulos ===================================== -->
+	@yield('java')
+	
 	@if(Request::segment(1) == "clientes")
 	<script src="{{asset('modulos/clientes.js')}}"></script>
 	@endif
@@ -90,8 +92,9 @@
 	<script src="{{asset('modulos/configuraciones.js')}}"></script>
 	@endif
 
-	
-	<script src="{{asset('modulos/materiales.js')}}"></script>
+	@if(Request::segment(1) == "inventario")
+		<script src="{{asset('modulos/materiales.js')}}"></script>
+	@endif
 </body>
 </html>
 @show
