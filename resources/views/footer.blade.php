@@ -1,8 +1,11 @@
 @section('footer')
 	<script>
 		var base_url ="{{url('/')}}";
-		var token = "{{csrf_token()}}";
+        var token = "{{csrf_token()}}";
 	</script>
+
+    {{-- Global functions --}}
+    <script src="{{asset('js/global.js')}}"></script>
 
 	<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 
@@ -73,7 +76,6 @@
 
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
-
 	<!-- Clock Plugin JavaScript -->
     <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 

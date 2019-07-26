@@ -18,9 +18,7 @@ class loginController extends Controller
      */
     public function index()
     {
-        // return view('login');
-        if(session()) {
-            
+        if(session('Usuario')) {
             return redirect('/');
         } else {
             return view('login');
@@ -43,7 +41,7 @@ class loginController extends Controller
                     ->where('Usuario',     '=', $request->input('login_usuario'))
                     ->where('Contraseña',  '=', $request->input('login_password'))
                     ->select(
-                            'usuarios.idUsuario',
+                            'usuarios.id',
                             'usuarios.Usuario',
                             'usuarios.Estado',
                             'usuarios.Roles_idRol',
@@ -52,7 +50,7 @@ class loginController extends Controller
                     ->first();
                 if($user->Estado == 0) {
                     session([
-                            'idUsuario' => $user->idUsuario,
+                            'idUsuario' => $user->id,
                             'idRol'     => $user->Roles_idRol,
                             'Usuario'   => $user->Usuario,
                             'Nombre'    => $user->Nombre,
@@ -64,6 +62,14 @@ class loginController extends Controller
                 }
         } else
             return 'false';
+    }
+
+    /**
+     * Delete the currently session
+     */
+    public function salir() {
+        Session::flush();
+        return 'true';
     }
 
     /**

@@ -76,6 +76,22 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.color-elegant-blue {
+  color: #3F729B !important;
+}
+
+.color-elegant-blue:hover, .color-elegant-blue:active {
+  color: #1C2331 !important;
+}
+
+.color-elegant-blue-green {
+  color: #2BBBAD !important;
+}
+
+.color-elegant-blue-green:hover, .color-elegant-blue-green:active {
+  color: #00695c !important;
+}
+
 a:hover,
 a:focus {
   text-decoration: none; }

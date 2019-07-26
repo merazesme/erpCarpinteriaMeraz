@@ -24,24 +24,31 @@ Route::get('/modal', function(){
 Route::prefix('trabajadores')->group(function () {
 		Route::get('/lista', function(){
 			$modulo = "Listado de trabajadores";
-			return view('listaTrabajadores', compact('modulo'));
+			return view('trabajadores/listaTrabajadores', compact('modulo'));
 		});
 		Route::get('/tabla', 'Trabajadores@index');
 
 		Route::get('agregar', function(){
 			$modulo = "Agregar trabajador";
-			return view('agregarTrabajador', compact('modulo'));
+			return view('trabajadores/agregarTrabajador', compact('modulo'));
 		});
 
-		Route::post('/agregar', 'Trabajadores@store');
+		Route::post('/agregarTrabajador', 'Trabajadores@store');
+
+		Route::get('editar', function(){
+			$modulo = "Editar trabajador";
+			return view('trabajadores/agregarTrabajador', compact('modulo'));
+		});
+
+		Route::get('/editarTrabajador/{id}', 'Trabajadores@edit');
 
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
-			return view('asistencia', compact('modulo'));
+			return view('trabajadores/asistencia', compact('modulo'));
 		});
 		Route::get('prestamos', function(){
 			$modulo = "Prestamos";
-			return view('prestamos', compact('modulo'));
+			return view('trabajadores/prestamos', compact('modulo'));
 		});
 });
 
@@ -61,16 +68,24 @@ Route::get('/cajachica', function(){
 });
 
 Route::prefix('proveedores')->group(function () {
+	/** Vistas */
 	Route::get('lista', 		'proveedorController@list_resources');
 	Route::get('agregar', 		'proveedorController@create');
 	Route::get('editar/{id}', 	'proveedorController@show');
 	Route::get('gasolina', 		'proveedorController@gasoline_list');
+	/** Información */
+	Route::get	('lista/data',		'proveedorController@datos_proveedores');
+	Route::get	('especifico/{id}',	'proveedorController@datos_proveedor_especifico');
+	/** Envío de información */
+	Route::post	('agregar/proveedor',					'proveedorController@agregar_proveedor');
+	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
+	Route::post	('actualizar/proveedor/{id}',			'proveedorController@actualizar_proveedor');
 });
 
 Route::prefix('login')->group(function () {
-	/** Temporal routes */
 	Route::get ('/', 		'loginController@index');
 	Route::post('ingresar', 'loginController@ingresar');
+	Route::get('salir',     'loginController@salir');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
