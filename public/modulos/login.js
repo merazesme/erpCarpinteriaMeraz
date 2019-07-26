@@ -25,7 +25,6 @@ function ajax_post (url, datos, callback) {
         detener_preloader();
     });
 }
-
 function verificar_datos() {
     if(localStorage.getItem('login_recuerdame')) {
         var login_recuerdame = JSON.parse(localStorage.getItem('login_recuerdame'));
@@ -57,6 +56,10 @@ function iniciar_sesion() {
                     password: $('input[name=login_password]').val()
                 }
                 localStorage.setItem('login_recuerdame', JSON.stringify(login_recuerdame));
+            } else {
+                if(localStorage.getItem('login_recuerdame')) {
+                    localStorage.removeItem('login_recuerdame');
+                }
             }
             location.href = '/';
         } else if(resultado == 'false' || resultado == 'inactivo') {
