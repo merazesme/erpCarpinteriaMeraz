@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\proveedore as Proveedor;
+use App\gasolina as Gasolina;
 
 class proveedorController extends Controller
 {
@@ -37,7 +38,7 @@ class proveedorController extends Controller
      */
     public function gasoline_list()
     {
-        $modulo = 'Gasolina';
+        $modulo = 'Facturas de gasolina';
 		return view('proveedores.proveedores_gasolina', compact('modulo'));
     }
 
@@ -123,6 +124,16 @@ class proveedorController extends Controller
         //     ->  get();
         // return $query;
         return Proveedor::all();
+    }
+
+    /** 
+     * Return all the resources
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function datos_gasolina() 
+    {
+        return Gasolina::all();
     }
 
     /**

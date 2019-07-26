@@ -76,6 +76,7 @@ Route::prefix('proveedores')->group(function () {
 	/** Información */
 	Route::get	('lista/data',		'proveedorController@datos_proveedores');
 	Route::get	('especifico/{id}',	'proveedorController@datos_proveedor_especifico');
+	Route::get	('gasolina/data',	'proveedorController@datos_gasolina');
 	/** Envío de información */
 	Route::post	('agregar/proveedor',					'proveedorController@agregar_proveedor');
 	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
