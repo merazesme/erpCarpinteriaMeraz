@@ -252,10 +252,6 @@
 		<script src="{{asset('modulos/trabajadores.js')}}"></script>
 		<script>
 		    /** Scripts */
-		    function trabajador_actualizar() {
-		        swal("¡Éxito!", "Registro actualizado con éxito", "success");
-		    }
-
 		    function cancelar_registro() {
 		        $('#formularioTrabajador')[0].reset();
 		    }
@@ -272,12 +268,16 @@
 		    function type_data() {
 		        var url = (location.href).split("/");
 		        if(url[url.length - 1] == "agregar") {
-		            console.log("Agregar");
-		            $('#btn_guardar').attr('onclick', 'agregarTrabajador()');
+		            // console.log("Agregar");
+		            // $('#btn_guardar').attr('onclick', 'agregarTrabajador()');
+								agregarTrabajador("agregar", -1);
 		        } else {
 		            /** Cargar los datos de registro específico */
-		            console.log("Editar");
-		            $('#btn_guardar').attr('onclick', 'trabajador_actualizar()');
+		            // console.log("Editar");
+		            // $('#btn_guardar').attr('onclick', 'trabajador_actualizar()');
+								var p = location.href.split('/');
+					      console.log(p[5]);
+								agregarTrabajador("editar", p[5]);
 		        }
 		    }
 
@@ -307,7 +307,7 @@
 										// console.log("Valor: " + $("#firma").val().length);
 										if($("#firma").val().length > 7){
 											$('#validarFirma').hide();
-											agregarTrabajador();
+											type_data();
 										}
 										else{
 											$('#validarFirma').show();
@@ -319,7 +319,6 @@
 		    }
 
 		    $(document).ready(function() {
-		        type_data();
 		        initialize_validate_form();
 
 						// SOLO NÚMEROS
