@@ -179,6 +179,7 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
 		Route::post('/saveDetalleNomina', 'NominaSemanalController@detalleNomina');
 		Route::post('/saveConceptoNomina', 'NominaSemanalController@conceptoNomina');

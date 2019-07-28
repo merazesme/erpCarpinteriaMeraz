@@ -20,7 +20,7 @@ class NominaSemanalController extends Controller
     public function index()
     {
         $modulo = "Nómina Semanal";
-        return view('nomina/nominaSemanal', compact('modulo'));
+        return view('nomina/semanal/nominaSemanal', compact('modulo'));
     }
 
     /**
@@ -49,7 +49,15 @@ class NominaSemanalController extends Controller
                       ->where('trabajadores.id',$trabajadores->id)
                       ->first();
             //dd($monto->monto);
+            $asistencia = DB::table('trabajadores')
+                      ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
+                                'asistencias.Hora_salida')
+                      ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.id',$trabajadores->id)
+                      ->get();
+            //dd($monto->monto);
             $trabajadores->totalPrestamos = $monto->monto;
+            $trabajadores->asistencia = $asistencia;
           }
          return response()->json($data);
       } catch (\Exception $e) {
@@ -71,6 +79,7 @@ class NominaSemanalController extends Controller
         $nominaData->Fecha= new DateTime();
         $nominaData->idUsuario=1;
         $nominaData->Tipo_nomina_idTipo_nomina= 2;
+        $nominaData->Semana = $request->input('semana');
         $nominaData->save();
 
         // Inserta los detalles de cada nomina para cada trabajador
@@ -126,6 +135,25 @@ class NominaSemanalController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * Display the history of nomina semanal.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function historialNominaSemanal()
+    {
+      try {
+          $data = DB::table('nominas')
+            ->join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
+            ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
+            ->get();
+          return response()->json($data);
+      } catch (\Exception $e) {
+        return response()->json($e);
+      }
     }
 
     /**
