@@ -42,18 +42,18 @@ function Dropify(element, options) {
         errorsPosition: 'overlay',
         allowedFormats: ['portrait', 'square', 'landscape'],
         messages: {
-            'default': 'Drag and drop a file here or click',
-            'replace': 'Drag and drop or click to replace',
-            'remove':  'Remove',
-            'error':   'Ooops, something wrong appended.'
+            'default': 'Arrastra y suelta un archivo aquí o haz clic',
+            'replace': 'Arrastra y suelta o haz clic para reemplazar',
+            'remove':  'Remover',
+            'error':   'Ooops, ha ocurrido un error.'
         },
         error: {
-            'fileSize': 'The file size is too big ({{ value }} max).',
-            'minWidth': 'The image width is too small ({{ value }}}px min).',
-            'maxWidth': 'The image width is too big ({{ value }}}px max).',
-            'minHeight': 'The image height is too small ({{ value }}}px min).',
-            'maxHeight': 'The image height is too big ({{ value }}px max).',
-            'imageFormat': 'The image format is not allowed ({{ value }} only).'
+            'fileSize': 'El peso del archivo es demasiado grande ({{ value }} max).',
+            'minWidth': 'El ancho de la imagen es muy pequeño ({{ value }}}px min).',
+            'maxWidth': 'El ancho de la imagen es muy grande ({{ value }}}px max).',
+            'minHeight': 'El alto de la imagen es muy pequeño ({{ value }}}px min).',
+            'maxHeight': 'El alto de la imagen es muy grande ({{ value }}px max).',
+            'imageFormat': 'El formato de la imagen no es válido ({{ value }} only).'
         },
         tpl: {
             wrap:            '<div class="dropify-wrapper"></div>',

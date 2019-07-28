@@ -74,6 +74,17 @@
     <script src="{{asset('js/footable-init.js')}}"></script>
 	<script src="{{asset('plugins/switchery/dist/switchery.min.js')}}"></script>
 
+	<!-- icheck -->
+	<script src="{{asset('plugins/icheck/icheck.min.js')}}"></script>
+	<script src="{{asset('plugins/icheck/icheck.init.js')}}"></script>
+	<!-- =============================================================== -->
+
+    <!-- ======================= JS de los módulos ===================================== -->
+
+    <!-- <script src="{{asset('modulos/clientes.js')}}"></script>
+    <script src="{{asset('modulos/cotizaciones.js')}}"></script> -->
+		<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
+
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
 	<!-- Clock Plugin JavaScript -->

@@ -1,6 +1,8 @@
 $(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+    initialize_data_table('#table_proveedores');
     type_data();
-});    
+});
 function datos_proveedor() {
     $.ajax({
         type: 'GET',
@@ -46,12 +48,12 @@ function datos_proveedor() {
                     </tr>
                 `);
             });
-            $('#table_proveedores').DataTable();
+            initialize_data_table('#table_proveedores');
         }
     }).fail(function(err) {
         alerta_temporizador(
             'error',
-            'Error',
+            `Error: ${err}`,
             'Ha ocurrido un error al extraer los registros, inténtelo más tarde.',
             3000
         );
@@ -256,11 +258,9 @@ function reset_form(identifier_form) {
 function type_data() {
     var url = (location.href).split("/");
     if(url[url.length - 1] == "agregar") {
-        console.log("Agregar")
         initialize_validate_form(1, null);
     } else if(url[url.length - 2] == "editar"){
         /** Cargar los datos de registro específico */
-        console.log("Editar")
         initialize_validate_form(2, url[url.length - 1]);
         datos_proveedor_especifico(url[url.length - 1]);
     } else {
@@ -269,6 +269,7 @@ function type_data() {
     }
 }
 function initialize_validate_form(tipo, id) {
+    finish = tipo == 1 ? 'Guardar' : 'Actualizar';
     $(".validation-wizard").steps({
         headerTag: "h6"
         , bodyTag: "section"
@@ -280,8 +281,8 @@ function initialize_validate_form(tipo, id) {
         }
         , labels: {
             cancel  : "Cancelar",
-            finish  : "Finalizar",
-            previous: "Anterior"
+            previous: "Anterior",
+            finish
         }
         , onStepChanging: function (event, currentIndex, newIndex) {
             return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
@@ -297,7 +298,14 @@ function initialize_validate_form(tipo, id) {
             }
         }
     });
+    delete finish;
     $('a[href*="#cancel"]').css({'background' : '#CC0000'});
+}
+function initialize_data_table(id) {
+    $(id).DataTable({
+        dom: 'Bfrtip',
+        buttons: ['excel', 'pdf', 'print']
+    });
 }
 function enlace_agregar_proveedor() {
     location.href = "/proveedores/agregar";
