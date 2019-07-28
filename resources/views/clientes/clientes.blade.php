@@ -7,7 +7,7 @@
 @parent
 	<div id="main-wrapper">
 		@csrf
-		
+
 		@section('sidebar')
 		@parent
 		<div class="page-wrapper">
@@ -28,7 +28,7 @@
 		                      </ul>
 
 							  <div class="tab-content tabcontent-border">
-		                          <div class="tab-pane active" id="activo" role="tabpanel">
+		                         <div class="tab-pane active" id="activo" role="tabpanel">
 									  <div class="table-responsive p-20">
 				                          <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 				                              <thead>

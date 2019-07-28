@@ -42,19 +42,8 @@
                                                   <th>Acciones</th>
                                               </tr>
                                           </tfoot>
-                                          <tbody id="activos">
-                                            <!-- <tr>
-                                              <td>fsdfdsfs</td>
-                                              <td>adasdsada</td>
-                                              <td>asdsadasd</td>
-                                              <td class="text-nowrap">
-                                                <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                                                <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-                                                <a href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
-                                                <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
-                                              </td>
-                                              <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a>
-                                            </tr>																						 -->
+                                          <tbody>
+																						<!-- Se agrega en trabajadores.js -->
                                           </tbody>
                                       </table>
                                   </div>
@@ -81,18 +70,7 @@
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <tr>
-                                                    <td>Adriana Hernández</td>
-                                                    <td>Jefa de Producción</td>
-                                                    <td>28/12/2019</td>
-                                                    <td class="text-nowrap">
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
-                                                    </td>
-                                                    <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
-                                                </tr>
+																							<!-- Se agrega en trabajadores.js -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -108,7 +86,7 @@
 		@section('footer')
 		@parent
 		<script src="{{asset('modulos/trabajadores.js')}}"></script>
-		<script>
+		<!-- <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
         $(document).ready(function() {
@@ -148,19 +126,7 @@
             });
         });
     });
-    $('#trabajadoresActivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    $('#trabajadoresInactivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    </script>
+    </script> -->
 	</div>
 @endsection
 @endsection

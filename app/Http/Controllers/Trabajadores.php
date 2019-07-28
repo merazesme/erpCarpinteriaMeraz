@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use DB;
+
 //Importar Modelo
 use App\Trabajador;
+use App\Contrato;
 
 class Trabajadores extends Controller
 {
@@ -17,9 +20,17 @@ class Trabajadores extends Controller
      */
     public function index()
     {
-        $trabajadores = Trabajador::all();
-        $jsonTrabajadores = response()->json([$trabajadores]);
-        return view('listaTrabajadores', compact('jsonTrabajadores'));
+        try{
+            $final = DB::table('trabajadores')
+              ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                ->select('trabajadores.id', 'trabajadores.Nombre', 'trabajadores.Apellidos', 'trabajadores.Estado', 'contratos.Puesto', 'contratos.Fecha_final')
+                  ->get();
+
+            return $final;
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
@@ -40,7 +51,52 @@ class Trabajadores extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try
+        {
+          $trabajador = new Trabajador();
+          $trabajador->Nombre=$request->input('nombre');
+          $trabajador->Apellidos=$request->input('apellidos');
+          $trabajador->Apodo=$request->input('apodo');
+          $trabajador->Fecha_nacimiento=$request->input('fecha_nacimiento');
+          $trabajador->Lugar_nacimiento=$request->input('lugar_nacimiento');
+          $trabajador->Celular=$request->input('celular');
+          $trabajador->Num_alternativo=$request->input('numero_alternativo');
+          $trabajador->NSS=$request->input('NSS');
+          $trabajador->Estado_civil=$request->input('estado_civil');
+          $trabajador->Domicilio=$request->input('domicilio');
+          $trabajador->Num_credencial=$request->input('numero_credencial');
+          $trabajador->Infonavit=$request->input('infonavit');
+          $trabajador->Escolaridad=$request->input('escolaridad');
+          $trabajador->Asistencia_total=0;
+          $trabajador->Firma=$request->input('firma');
+          $trabajador->Tipo=$request->input('tipo');
+          $trabajador->Nacionalidad='Mexicano';
+          $trabajador->Estado=1;
+          $trabajador->idUsuario=$request->input('idUsuario');
+
+          $trabajador->save();
+          $trabajador->id=$trabajador->id;
+
+          $contrato = new Contrato();
+          $contrato->Puesto=$request->input('puesto');
+          $contrato->Fecha_inicio=$request->input('fecha_inicio');
+          $contrato->Fecha_final=$request->input('fecha_final');
+          $contrato->Sueldo=$request->input('sueldo');
+          $contrato->Documento="Hola";
+          $contrato->Monto_Hora_Extra=$request->input('hora_extra');
+          $contrato->Bono_extra=$request->input('bono_extra');
+          $contrato->Bono_produc_asis=$request->input('bono_asistencia');
+          $contrato->estado=1;
+          $contrato->idUsuario=$request->input('idUsuario');
+          $contrato->Trabajadores_idTrabajador=$trabajador->id;
+
+          $contrato->save();
+
+          return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
@@ -62,7 +118,17 @@ class Trabajadores extends Controller
      */
     public function edit($id)
     {
-        //
+        try{
+            $final = DB::table('trabajadores')
+              ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                ->where('trabajadores.id', '=', $id)
+                  ->get();
+
+            return $final;
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
@@ -74,7 +140,51 @@ class Trabajadores extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try
+        {
+          // $trabajador = Trabajador::find($id);
+          // $trabajador->Nombre=$request->input('nombre');
+          // $trabajador->Apellidos=$request->input('apellidos');
+          // $trabajador->Apodo=$request->input('apodo');
+          // $trabajador->Fecha_nacimiento=$request->input('fecha_nacimiento');
+          // $trabajador->Lugar_nacimiento=$request->input('lugar_nacimiento');
+          // $trabajador->Celular=$request->input('celular');
+          // $trabajador->Num_alternativo=$request->input('numero_alternativo');
+          // $trabajador->NSS=$request->input('NSS');
+          // $trabajador->Estado_civil=$request->input('estado_civil');
+          // $trabajador->Domicilio=$request->input('domicilio');
+          // $trabajador->Num_credencial=$request->input('numero_credencial');
+          // $trabajador->Infonavit=$request->input('infonavit');
+          // $trabajador->Escolaridad=$request->input('escolaridad');
+          // $trabajador->Asistencia_total=0;
+          // $trabajador->Firma=$request->input('firma');
+          // $trabajador->Tipo=$request->input('tipo');
+          // $trabajador->Nacionalidad='Mexicano';
+          // // $trabajador->Estado=1;
+          // $trabajador->idUsuario=$request->input('idUsuario');
+          //
+          // $trabajador->save();
+
+          // $trabajador = Contrato::find($id);
+          // $contrato->Puesto=$request->input('puesto');
+          // $contrato->Fecha_inicio=$request->input('fecha_inicio');
+          // $contrato->Fecha_final=$request->input('fecha_final');
+          // $contrato->Sueldo=$request->input('sueldo');
+          // $contrato->Documento="Hola";
+          // $contrato->Monto_Hora_Extra=$request->input('hora_extra');
+          // $contrato->Bono_extra=$request->input('bono_extra');
+          // $contrato->Bono_produc_asis=$request->input('bono_asistencia');
+          // $contrato->estado=1;
+          // $contrato->idUsuario=$request->input('idUsuario');
+          // $contrato->Trabajadores_idTrabajador=$trabajador->id;
+          //
+          // $contrato->save();
+          return $id;
+          // return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**

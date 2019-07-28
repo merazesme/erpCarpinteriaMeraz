@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Nomina;
+use App\DetalleNomina;
+use App\ConceptosNomina;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class NominaSemanalController extends Controller
 {
@@ -31,10 +34,12 @@ class NominaSemanalController extends Controller
     }
 
     public function trabajadores() {
-      try{
+      try {
           $data = DB::table('trabajadores')
-                    ->select('id', 'Nombre', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'sb', 'montoHoraExtra', 'Infonavit')
-                    ->where('Estado',1)
+                    ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
+                    ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                    ->where('trabajadores.Estado',1)
+                    ->where('contratos.estado', 1)
                     ->get();
 
           foreach ($data as $trabajadores) { // Se consulta el totaL de prestamo que tiene cada empleado
@@ -47,9 +52,8 @@ class NominaSemanalController extends Controller
             $trabajadores->totalPrestamos = $monto->monto;
           }
          return response()->json($data);
-      }
-      catch(\Exception $e){
-         return response()->json(1);
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
       }
     }
 
@@ -59,15 +63,59 @@ class NominaSemanalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function nomina(Request $request)
     {
-      $data=new Nomina();
-      $data->Fecha='2019-07-02';
-      $data->idUsuario=1;
-      $data->save();
-      return response()->json($data);
-      //return 'ok';
+      try{
+        // Inserta una nueva nomina
+        $nominaData=new Nomina();
+        $nominaData->Fecha= new DateTime();
+        $nominaData->idUsuario=1;
+        $nominaData->Tipo_nomina_idTipo_nomina= 2;
+        $nominaData->save();
+
+        // Inserta los detalles de cada nomina para cada trabajador
+        foreach ($request->trabajadores as $trabajador) {
+          $dataDetalleNomina=new DetalleNomina();
+          $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
+          $dataDetalleNomina->Fecha=new DateTime();
+          $dataDetalleNomina->Estado= 1;
+          $dataDetalleNomina->idUsuario = 1;
+          $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
+          $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
+          $dataDetalleNomina->save();
+
+          // Inserta los conceptos de cada detalle de nomina de cada nomina
+          $objNomina = $trabajador['Nomina'];
+          $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
+          foreach ($_arr as $key => $val) {
+              if($key == 'xPercepciones') $tipo = 1;
+              else if($key == 'xDeducciones') $tipo = 0;
+              foreach ($val as $concepto => $valor) {
+                      $data=new ConceptosNomina();
+                      $data->Descripcion= $concepto;
+                      $data->Tipo = $tipo;
+                      $data->idUsuario = 1;
+                      $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
+                      $data->Monto = $valor;
+                      $data->save();
+              }
+          }
+        }
+        return response()->json(["success" => "Guardado exitosamente."]);
+      }
+      catch(\Exception $e){
+         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+      }
     }
+
+    function object_to_array($obj) {
+        $_arr = is_object($obj) ? get_object_vars($obj) : $obj;
+        foreach ($_arr as $key => $val) {
+                $val = (is_array($val) || is_object($val)) ? object_to_array($val) : $val;
+                $arr[$key] = $val;
+        }
+        return $arr;
+      }
 
     /**
      * Display the specified resource.

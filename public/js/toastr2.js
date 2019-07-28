@@ -4,7 +4,7 @@ Author: Wrappixel
 Email: niravjoshi87@gmail.com
 File: js
 */
-$(function() {
+
     "use strict";
       $(".tst1").click(function(){
            $.toast({
@@ -31,29 +31,25 @@ $(function() {
           });
 
      });
-      $(".tst3").click(function(){
+    function toastSuccess(mensaje){
            $.toast({
-            heading: 'Welcome to Material Pro admin',
-            text: 'Use the predefined ones, or specify a custom position object.',
+            heading: 'Carpintería Meraz',
+            text: mensaje,
             position: 'top-right',
             loaderBg:'#ff6849',
             icon: 'success',
             hideAfter: 3500,
             stack: 6
           });
+    }
 
-     });
-
-      $(".tst4").click(function(){
+    function toastError(){
            $.toast({
-            heading: 'Welcome to Material Pro admin',
-            text: 'Use the predefined ones, or specify a custom position object.',
+            heading: 'Carpintería Meraz',
+            text: 'Ha ocurrido un error en el servidor. Intentelo más tarde :(.',
             position: 'top-right',
             loaderBg:'#ff6849',
             icon: 'error',
             hideAfter: 3500
-
           });
-
-     });
-});
+     }

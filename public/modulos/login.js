@@ -25,7 +25,6 @@ function ajax_post (url, datos, callback) {
         detener_preloader();
     });
 }
-
 function verificar_datos() {
     if(localStorage.getItem('login_recuerdame')) {
         var login_recuerdame = JSON.parse(localStorage.getItem('login_recuerdame'));
@@ -49,6 +48,7 @@ function iniciar_preloader() {
 function iniciar_sesion() {
     var datos = new FormData(document.querySelector("#login_form"));
     ajax_post('/login/ingresar', datos, function(resultado) {
+        console.log(resultado)
         if(resultado == 'true') {
             if($('#login_recuerdame').prop('checked')) {
                 var login_recuerdame = {
@@ -56,8 +56,12 @@ function iniciar_sesion() {
                     password: $('input[name=login_password]').val()
                 }
                 localStorage.setItem('login_recuerdame', JSON.stringify(login_recuerdame));
-                location.href = '/';
+            } else {
+                if(localStorage.getItem('login_recuerdame')) {
+                    localStorage.removeItem('login_recuerdame');
+                }
             }
+            location.href = '/';
         } else if(resultado == 'false' || resultado == 'inactivo') {
             $('input[name=login_usuario]').addClass('form-material-error-login');
             $('input[name=login_password]').addClass('form-material-error-login');
