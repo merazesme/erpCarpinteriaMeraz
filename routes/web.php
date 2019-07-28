@@ -84,9 +84,21 @@ Route::prefix('inventario')->group(function () {
 		Route::get('/lista', 'materiales@index');
 		Route::get('/tipo_material', 'clasificacion_materiales@index');
 		Route::post('/agregar_material', 'materiales@store');
+		Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
 		Route::get('/especifico/{id}', 'materiales@edit');
 		Route::post('/modificar/{id}', 'materiales@update');
 		Route::post('/eliminar/{id}', 'materiales@status');
+		Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+	});
+	Route::prefix('orden_compra')->group(function () {
+		Route::get('/lista', 'compras@index');
+		Route::get('/lista_materiales', 'compras@datosmaterial');
+		Route::get('/lista_proveedor', 'compras@datosproveedor');
+		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
+		// Route::get('/especifico/{id}', 'materiales@edit');
+		// Route::post('/modificar/{id}', 'materiales@update');
+		// Route::post('/eliminar/{id}', 'materiales@status');
+		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
