@@ -6,7 +6,8 @@ $(document).ready(function() {
 function datos_proveedor() {
     $.ajax({
         type: 'GET',
-        url: 'lista/data'
+        url: 'lista/data',
+        dataType: 'JSON'
     }).done(function(datos) {
         if(datos.length == 0) {
             alerta_temporizador(
@@ -37,8 +38,8 @@ function datos_proveedor() {
                         <td>${item.Telefono}</td>
                         <td>${item.Email}</td>
                         <td align="right">$${item.Adeudo}</td>
-                        <td style="cursor:pointer" class="color-elegant-blue" onclick="enlace_editar_proveedor(${item.id})" data-toggle="tooltip" 
-                            data-placement="top" title="Clic para editar">
+                        <td style="cursor:pointer" class="color-elegant-blue" onclick="enlace_editar_proveedor(${item.id})" 
+                            data-toggle="tooltip" data-placement="top" title="Clic para editar">
                             <i class="mdi mdi-lead-pencil"></i>
                         </td>
                         <td style="cursor:pointer" class="${estatus.color}" data-toggle="tooltip" data-placement="top" onclick="cambiar_estatus(${item.id})"
@@ -92,21 +93,21 @@ function guardar_proveedor() {
                         2500
                     );
                     reset_form('.validation-wizard');
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('empty') {
+                } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
                         'Debe ingresar todos los campos para poder registrar el proveedor.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
@@ -149,21 +150,21 @@ function actualizar_proveedor(id) {
                     );
                     reset_form('.validation-wizard');
                     datos_proveedor_especifico(id);
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('empty') {
+                } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
                         'Debe ingresar todos los campos para poder actualizar el proveedor.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
@@ -206,14 +207,14 @@ function cambiar_estatus(id) {
                         2500
                     );
                     datos_proveedor();
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
