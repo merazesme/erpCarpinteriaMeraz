@@ -76,6 +76,34 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.color-elegant-blue {
+  color: #3F729B !important;
+}
+
+.color-elegant-blue:hover, .color-elegant-blue:active {
+  color: #1C2331 !important;
+}
+
+.color-elegant-blue-green {
+  color: #2BBBAD !important;
+}
+
+.color-elegant-blue-green:hover, .color-elegant-blue-green:active {
+  color: #00695c !important;
+}
+
+.color-elegant-orange {
+  color: #ffbb33 !important;
+}
+
+.color-elegant-orange:hover, .color-elegant-orange:active {
+  color: #FF8800 !important;
+}
+
+.vertical-align-table {
+  vertical-align:middle !important;
+}
+
 a:hover,
 a:focus {
   text-decoration: none; }
@@ -2713,6 +2741,19 @@ Form Material page
   -webkit-transition: background 0s ease-out 0s;
   -o-transition: background 0s ease-out 0s;
   transition: background 0s ease-out 0s; }
+
+.form-material-error-login {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#CC0000), to(#CC0000)), -webkit-gradient(linear, left top, left bottom, from(#e9edf2), to(#e9edf2)) !important;
+  background-image: -webkit-linear-gradient(#CC0000, #CC0000), -webkit-linear-gradient(#e9edf2, #e9edf2) !important;
+  background-image: -o-linear-gradient(#CC0000, #CC0000), -o-linear-gradient(#e9edf2, #e9edf2) !important;
+  background-image: linear-gradient(#CC0000, #CC0000), linear-gradient(#e9edf2, #e9edf2) !important;
+  border: 0 none;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  float: none;
+  color: #CC0000 !important;
+}
 
 .form-material .form-control,
 .form-material .form-control.focus,
@@ -5909,4 +5950,8 @@ File: scss
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+button.close {
+    cursor: pointer;
 }

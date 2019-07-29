@@ -22,26 +22,35 @@ Route::get('/modal', function(){
 });
 
 Route::prefix('trabajadores')->group(function () {
-		Route::get('lista', function(){
-			$modulo = "Listado trabajadores";
-			return view('listaTrabajadores', compact('modulo'));
+		Route::get('/lista', function(){
+			$modulo = "Listado de trabajadores";
+			return view('trabajadores/listaTrabajadores', compact('modulo'));
 		});
-		Route::get('agregar', function(){
+		Route::get('/tabla', 'Trabajadores@index');
+
+		Route::get('/agregar', function(){
 			$modulo = "Agregar trabajador";
-			return view('agregarTrabajador', compact('modulo'));
+			return view('trabajadores/formulario', compact('modulo'));
 		});
+
+		Route::post('/agregarTrabajador', 'Trabajadores@store');
+
+		Route::get('/editar/{id}', function(){
+			$modulo = "Editar trabajador";
+			return view('trabajadores/formulario', compact('modulo'));
+		});
+
+		Route::get('/trabajador/{id}', 'Trabajadores@edit');
+		Route::post('/editarTrabajador/{id}', 'Trabajadores@update');
+
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
-			return view('asistencia', compact('modulo'));
+			return view('trabajadores/asistencia', compact('modulo'));
 		});
-		Route::get('prestamos', function(){
+		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
-			return view('prestamos', compact('modulo'));
+			return view('trabajadores/prestamos', compact('modulo'));
 		});
-});
-
-Route::get('/login', function(){
-	return view('login');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -55,23 +64,28 @@ Route::get('/cajachica', function(){
 });
 
 Route::prefix('proveedores')->group(function () {
-	/** Temporal routes */
-    Route::get('lista', function () {
-		$modulo = 'Proveedores';
-		return view('proveedores_show', compact('modulo'));
-	});
-	Route::get('agregar', function () {
-		$modulo = 'Agregar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-	Route::get('editar/{id}', function () {
-		$modulo = 'Editar proveedor';
-		return view('proveedores_agregar', compact('modulo'));
-	});
-	Route::get('gasolina', function () {
-		$modulo = 'Gasolina';
-		return view('proveedores_gasolina', compact('modulo'));
-	});
+	/** Vistas */
+	Route::get('lista', 		'proveedorController@list_resources');
+	Route::get('agregar', 		'proveedorController@create');
+	Route::get('editar/{id}', 	'proveedorController@show');
+	Route::get('gasolina', 		'proveedorController@gasoline_list');
+	/** Información */
+	Route::get('lista/data',			'proveedorController@datos_proveedores');
+	Route::get('especifico/{id}',		'proveedorController@datos_proveedor_especifico');
+	Route::get('gasolina/data',			'proveedorController@datos_gasolina');
+	Route::get('gasolina/data/cheques',	'proveedorController@datos_gasolina_cheques');
+	Route::get('carros/data',			'proveedorController@datos_carros');
+	/** Envío de información */
+	Route::post	('agregar/proveedor',					'proveedorController@agregar_proveedor');
+	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
+	Route::post	('actualizar/proveedor/{id}',			'proveedorController@actualizar_proveedor');
+	Route::post	('agregar/factura/gasolina',			'proveedorController@agregar_factura_gasolina');
+});
+
+Route::prefix('login')->group(function () {
+	Route::get ('/', 		'loginController@index');
+	Route::post('ingresar', 'loginController@ingresar');
+	Route::get('salir',     'loginController@salir');
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
@@ -80,21 +94,61 @@ Route::prefix('facturas_sobrantes')->group(function () {
 		$modulo = 'Facturas sobrantes';
 		return view('facturas_sobrantes_show', compact('modulo'));
 	});
+
 });
 
-Route::get('/materiales', function(){
-	$modulo = "Materiales";
-	return view('materiales', compact('modulo'));
+Route::prefix('inventario')->group(function () {
+	// Rutas para las web services
+	Route::prefix('materiales')->group(function () {
+		Route::get('/lista', 'materiales@index');
+		Route::get('/tipo_material', 'clasificacion_materiales@index');
+		Route::post('/agregar_material', 'materiales@store');
+		Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
+		Route::get('/especifico/{id}', 'materiales@edit');
+		Route::post('/modificar/{id}', 'materiales@update');
+		Route::post('/eliminar/{id}', 'materiales@status');
+		Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+	});
+	Route::prefix('orden_compra')->group(function () {
+		Route::get('/lista', 'compras@index');
+		Route::get('/lista_materiales', 'compras@datosmaterial');
+		Route::get('/lista_proveedor', 'compras@datosproveedor');
+		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
+		// Route::get('/especifico/{id}', 'materiales@edit');
+		// Route::post('/modificar/{id}', 'materiales@update');
+		// Route::post('/eliminar/{id}', 'materiales@status');
+		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+	});
+	/** Temporal routes */
+	Route::get('/materiales', function(){
+		$modulo = "Materiales";
+		return view('materiales', compact('modulo'));
+	});
+
+	Route::get('/orden_compra', function(){
+		$modulo = "Orden de Compra";
+		return view('orden_compra', compact('modulo'));
+	});
+
+	Route::get('/orden_salida', function(){
+		$modulo = "Orden de Salida";
+		return view('orden_salida', compact('modulo'));
+	});
+
 });
 
-Route::get('/orden_compra', function(){
-	$modulo = "Orden de Compra";
-	return view('orden_compra', compact('modulo'));
-});
+Route::prefix('perfil')->group(function () {
+	/** Temporal routes */
+	Route::get('ver_perfil', function(){
+		$modulo = "Perfil";
+		return view('perfil', compact('modulo'));
+	});
 
-Route::get('/orden_salida', function(){
-	$modulo = "Orden de Salida";
-	return view('orden_salida', compact('modulo'));
+	Route::get('cerrar_sesion', function(){
+		$modulo = "Cerrar sesión";
+		return view('cerrar_sesion', compact('modulo'));
+	});
+
 });
 
 Route::get('/movimientos', function(){
@@ -102,49 +156,85 @@ Route::get('/movimientos', function(){
 	return view('movimientos', compact('modulo'));
 });
 
-Route::get('/clientes', function(){
-	$modulo = "Clientes";
-	return view('clientes', compact('modulo'));
+//Clientes funciones de datos
+Route::prefix('/clientes')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Clientes";
+		return view('clientes/clientes', compact('modulo'));
+	});
+	Route::get('/lista', 'clientes@index');
+	Route::post('/agregar', 'clientes@store');
+	Route::get('/especifico/{id}', 	'clientes@edit');
+	Route::post('/modificar/{id}', 'clientes@update');
+	Route::post('/eliminar/{id}', 'clientes@destroy');
 });
 
-Route::get('/cotizaciones', function(){
-	$modulo = "Cotizaciones";
-	return view('cotizaciones', compact('modulo'));
+//Cotizacion vistas y funciones
+Route::prefix('/cotizaciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Cotizaciones";
+		return view('cotizaciones/cotizaciones', compact('modulo'));
+	});
+
+	Route::get('/nueva', function(){
+		$modulo = "Nueva Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
+
+	Route::get('/modificar', function(){
+		$modulo = "Modificar Cotización";
+		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
+	});
 });
 
-Route::get('/nuevaCotizacion', function(){
-	$modulo = "Nueva Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
+Route::prefix('nomina')->group(function () {
+	Route::prefix('nominaSemanal')->group(function () {
+		Route::get('/', 'NominaSemanalController@index');
+		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
+		Route::post('/saveNomina', 'NominaSemanalController@nomina');
+		Route::post('/saveDetalleNomina', 'NominaSemanalController@detalleNomina');
+		Route::post('/saveConceptoNomina', 'NominaSemanalController@conceptoNomina');
+	});
+
+	Route::get('/historialNomina', function(){
+		$modulo = "Nómina Semanal";
+		return view('nomina/nominaSemanalIndex', compact('modulo'));
+	});
+
+	Route::get('/detalleNomina', function(){
+		$modulo = "Nómina del: ";
+		return view('nomina/detalleNomina', compact('modulo'));
+	});
+
+	Route::get('/nominaUtilidad', function(){
+		$modulo = "Nómina de utilidades";
+		return view('nomina/nominaUtilidad', compact('modulo'));
+	});
+
+	Route::get('/nominaAguinaldo', function(){
+		$modulo = "Nómina Aguinaldo";
+		return view('nomina/nominaAguinaldo', compact('modulo'));
+	});
+
+	Route::get('/nominaVacacional', function(){
+		$modulo = "Nómina Vacacional";
+		return view('nomina/nominaVacacional', compact('modulo'));
+	});
+
 });
 
-Route::get('/modificarCotizacion', function(){
-	$modulo = "Modificar Cotización";
-	return view('nuevaCotizacion', compact('modulo'));
-});
+//Configuraciones vista principa
 
-Route::get('/nominaVacacional', function(){
-	$modulo = "Nómina Vacacional";
-	return view('nominaVacacional', compact('modulo'));
-});
 
-Route::get('/nominaAguinaldo', function(){
-	$modulo = "Nómina Aguinaldo";
-	return view('nominaAguinaldo', compact('modulo'));
-});
-
-Route::get('/nominaSemanal', function(){
-	$modulo = "Nómina Semanal";
-	return view('nominaSemanal', compact('modulo'));
-});
-
-Route::get('/nominaUtilidad', function(){
-	$modulo = "Nómina de utilidades";
-	return view('nominaUtilidad', compact('modulo'));
-});
-
-Route::get('/configuracion', function(){
-	$modulo = "Configuraciones";
-	return view('configuracion', compact('modulo'));
+Route::prefix('/configuraciones')->group(function () {
+	Route::get('/', function(){
+		$modulo = "Configuraciones";
+		return view('configuracion/configuracion');
+	});
+	Route::post('/actualizarGeneral', 'configuraciones@storeGeneral');
+	Route::post('/actualizarHorario', 'configuraciones@storeHorario');
+	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
 Route::get('/carro', function(){

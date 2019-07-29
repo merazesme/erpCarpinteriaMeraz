@@ -43,18 +43,7 @@
                                               </tr>
                                           </tfoot>
                                           <tbody>
-                                              <tr>
-                                                  <td>Toluco el loco</td>
-                                                  <td>Repartidor</td>
-                                                  <td>28/12/2019</td>
-                                                  <td class="text-nowrap">
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
-                                                    <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
-                                                  </td>
-                                                  <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
-                                              </tr>
+																						<!-- Se agrega en trabajadores.js -->
                                           </tbody>
                                       </table>
                                   </div>
@@ -81,18 +70,7 @@
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <tr>
-                                                    <td>Adriana Hernández</td>
-                                                    <td>Jefa de Producción</td>
-                                                    <td>28/12/2019</td>
-                                                    <td class="text-nowrap">
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
-                                                      <a href="#" data-toggle="tooltip" data-original-title="Celular"> <i class="icon-phone text-inverse em-r-10"></i> </a>
-                                                    </td>
-                                                    <!-- <a href="tel:018007271622" style="transition-duration: 0.3s; touch-action: manipulation;"><span style="font-family: Lato; font-size: 14px;"><b>01 800 727 1622</b></span></a> -->
-                                                </tr>
+																							<!-- Se agrega en trabajadores.js -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -103,11 +81,82 @@
               </div>
           </div>
         </div>
+				<!-- MODAL VER DETALLES -->
+				<div class="modal fade bs-example-modal-lg" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="modalDetalles">
+						<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+										<div class="modal-header">
+												<h4 class="modal-title" id="exampleModalLabel1">Detalles</h4>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										</div>
+										<div class="modal-body">
+											<div id="datos" class="row">
+			                	<div class="col-md-12">
+													<div class="card">
+			                     	<div class="card-body">
+															<!-- DETALLES TRABAJADOR -->
+							                <h5 style="font-weight: bold;">DETALLES TRABAJADOR:</h5>
+							                <table id="detallesTrabajador" class="table vm no-th-brd pro-of-month">
+																<!-- <thead>
+																		<tr>
+																				<th>sdsad</th>
+																				<th>asdasdasd</th>
+																		</tr>
+																</thead> -->
+							                  <tbody>
+																	<!-- <tr>
+																			<td class="m-b-0"><strong>Celular: </strong></td>
+																			<td class="m-b-0"><strong>Número alternativo: </strong></td>
+							                    </tr>
+							                    <tr>
+							                        <td class="m-b-0"><strong>Fecha de nacimiento: </strong></td>
+							                        <td class="m-b-0"><strong>Lugar de nacimiento: </strong></td>
+							                    </tr>
+																	<tr>
+																			<td class="m-b-0"><strong>Domicilio: </strong></td>
+																			<td class="m-b-0"><strong>Estado civil:</strong></td>
+							                    </tr>
+																	<tr>
+							                        <td class="m-b-0"><strong>Apodo: </strong></td>
+							                        <td class="m-b-0"><strong>Escolaridad: </strong></td>
+							                    </tr> -->
+							                  </tbody>
+							                </table>
+															<!-- FIN DETALLES TRABAJADOR -->
+															<!-- DETALLES CONTRATO -->
+															<h5 style="font-weight: bold;">DETALLES CONTRATO:</h5>
+							                <table id="detallesContrato" class="table vm no-th-brd pro-of-month">
+							                  <tbody>
+							                    <!-- <tr>
+							                        <td class="m-b-0"><strong>Fecha inicio: </strong></td>
+							                        <td class="m-b-0"><strong>Fecha final: </strong></td>
+							                    </tr>
+							                    <tr>
+							                        <td class="m-b-0"><strong>Hora extra: </strong></td>
+							                        <td class="m-b-0"><strong>Bono extra: </strong></td>
+							                    </tr>
+																	<tr>
+																			<td class="m-b-0"><strong>Bono asistencia: </strong></td>
+																			<td class="m-b-0"><strong></strong></td>
+							                    </tr> -->
+							                  </tbody>
+							                </table>
+															<!-- FIN DETALLES CONTRATO -->
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+								</div>
+						</div>
+				</div>
+				<!-- /.MODAL VER DETALLES -->
 			</div>
 		</div>
 		@section('footer')
 		@parent
-		<script>
+		<script src="{{asset('modulos/trabajadores.js')}}"></script>
+		<!-- <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
         $(document).ready(function() {
@@ -147,19 +196,7 @@
             });
         });
     });
-    $('#trabajadoresActivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    $('#trabajadoresInactivos').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    </script>
+    </script> -->
 	</div>
 @endsection
 @endsection

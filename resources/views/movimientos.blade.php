@@ -14,20 +14,22 @@
             <div class="card">
               <!-- Table -->
               <div class="card-body">
-                        <h4 class="card-title">Movimientos</h4>
-                        <h6 class="card-subtitle">Exportar datos a copia, CSV, Excel, PDF & impresión</h6>
-                        <select class="custom-select b-0">
-                            <option selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Facturas</font></font></option>
-                            <option value="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cheques</font></font></option>
-                            <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Transferencias</font></font></option>
-                            <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depósitos</font></font></option>
-                        </select>
-												<select class="custom-select b-0">
-                            <option selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Enero</font></font></option>
-                            <option value="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Febrero</font></font></option>
-                            <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Marzo</font></font></option>
-                            <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Abril</font></font></option>
-                        </select>
+                        <h2 class="card-title">Movimientos</h2>
+												<div class="row">
+												  <div class="col-md-3">
+														<label for="recipient-name" class="control-label">Tipo de movimiento</label>
+														<select class="form-control form-control-line">
+		                            <option selected=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Facturas</font></font></option>
+		                            <option value="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cheques</font></font></option>
+		                            <option value="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Transferencias</font></font></option>
+		                            <option value="3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Depósitos</font></font></option>
+		                        </select>
+												  </div>
+													<div class="col-md-3">
+													<label for="recipient-name" class="control-label">Filtro por mes y año</label>
+													<input type="month" class="form-control" placeholder="dd/mm/yyyy">
+												  </div>
+												</div>
                         <div class="table-responsive m-t-40">
                             <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
