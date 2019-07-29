@@ -13,7 +13,7 @@
 
 Route::get('/', function(){
 	$modulo = "Home";
-	return view('dashboard', compact('modulo'));
+	return view('dashboard.dashboard', compact('modulo'));
 });
 
 Route::get('/modal', function(){
@@ -46,17 +46,12 @@ Route::get('/login', function(){
 
 Route::get('/pagosdelmes_lista', function(){
 	$modulo = "Listado";
-	return view('pagosdelmes_lista', compact('modulo'));
-});
-
-Route::get('/pagosdelmes_conceptos', function(){
-	$modulo = "Conceptos";
-	return view('pagosdelmes_conceptos', compact('modulo'));
+	return view('pagosDelMes.pagosdelmes_lista', compact('modulo'));
 });
 
 Route::get('/cajachica', function(){
 	$modulo = "Caja chica";
-	return view('cajachica', compact('modulo'));
+	return view('cajaChica.cajachica', compact('modulo'));
 });
 
 Route::prefix('proveedores')->group(function () {
@@ -161,3 +156,13 @@ Route::get('/usuarios', function(){
 	$modulo = "Usuarios";
 	return view('usuarios', compact('modulo'));
 });
+
+Route::get('/consultarClientes', 'clientes@listarClientes');
+
+Route::post('/nuevaCita', 'citas@store');
+
+Route::get('/consultarCitas/{week}', 'citas@listarCitas');
+
+Route::get('/montarDatosCita/{id}', 'citas@buscarCita');
+
+Route::post('/editarCita/{id}', 'citas@update');

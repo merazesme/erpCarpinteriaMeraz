@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon icon -->
     <title>Carpintería Meraz</title>
     <!-- Bootstrap Core CSS -->
@@ -46,7 +47,7 @@
 	    <!-- Logo -->
 	    <!-- ============================================================== -->
 	    <div class="navbar-header mx-auto">
-	        <a class="navbar-brand" href="index.html">
+	        <a class="navbar-brand" href="/">
 	            <!-- Logo icon -->
 	                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
 	                <!-- Dark Logo icon -->
