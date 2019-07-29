@@ -45,6 +45,12 @@ class Clasificacion_materiales extends Controller
     public function store(Request $request)
     {
         //
+        $data=new Clasificacion_materiale();
+        $data->Concepto=$request->input('txtNombreTipoMaterial');
+        $data->idUsuario=$request->input('idUsuario_Tipomaterial');
+
+        $data->save();
+        return response()->json(json_encode(0));
     }
 
     /**
@@ -79,6 +85,11 @@ class Clasificacion_materiales extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = Clasificacion_materiale::find($id);
+        $data->Estado=$request->input('EstadoTipoMaterial');
+
+        $data->save();
+        return response()->json(json_encode(0));
     }
 
     /**

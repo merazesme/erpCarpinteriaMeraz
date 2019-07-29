@@ -92,6 +92,18 @@ html {
   color: #00695c !important;
 }
 
+.color-elegant-orange {
+  color: #ffbb33 !important;
+}
+
+.color-elegant-orange:hover, .color-elegant-orange:active {
+  color: #FF8800 !important;
+}
+
+.vertical-align-table {
+  vertical-align:middle !important;
+}
+
 a:hover,
 a:focus {
   text-decoration: none; }

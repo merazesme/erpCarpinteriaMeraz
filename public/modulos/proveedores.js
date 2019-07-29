@@ -1,10 +1,13 @@
 $(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
+    initialize_data_table('#table_proveedores');
     type_data();
-});    
+});
 function datos_proveedor() {
     $.ajax({
         type: 'GET',
-        url: 'lista/data'
+        url: 'lista/data',
+        dataType: 'JSON'
     }).done(function(datos) {
         if(datos.length == 0) {
             alerta_temporizador(
@@ -35,8 +38,8 @@ function datos_proveedor() {
                         <td>${item.Telefono}</td>
                         <td>${item.Email}</td>
                         <td align="right">$${item.Adeudo}</td>
-                        <td style="cursor:pointer" class="color-elegant-blue" onclick="enlace_editar_proveedor(${item.id})" data-toggle="tooltip" 
-                            data-placement="top" title="Clic para editar">
+                        <td style="cursor:pointer" class="color-elegant-blue" onclick="enlace_editar_proveedor(${item.id})" 
+                            data-toggle="tooltip" data-placement="top" title="Clic para editar">
                             <i class="mdi mdi-lead-pencil"></i>
                         </td>
                         <td style="cursor:pointer" class="${estatus.color}" data-toggle="tooltip" data-placement="top" onclick="cambiar_estatus(${item.id})"
@@ -46,12 +49,12 @@ function datos_proveedor() {
                     </tr>
                 `);
             });
-            $('#table_proveedores').DataTable();
+            initialize_data_table('#table_proveedores');
         }
     }).fail(function(err) {
         alerta_temporizador(
             'error',
-            'Error',
+            `Error: ${err}`,
             'Ha ocurrido un error al extraer los registros, inténtelo más tarde.',
             3000
         );
@@ -90,21 +93,21 @@ function guardar_proveedor() {
                         2500
                     );
                     reset_form('.validation-wizard');
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('empty') {
+                } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
                         'Debe ingresar todos los campos para poder registrar el proveedor.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
@@ -147,21 +150,21 @@ function actualizar_proveedor(id) {
                     );
                     reset_form('.validation-wizard');
                     datos_proveedor_especifico(id);
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('empty') {
+                } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
                         'Debe ingresar todos los campos para poder actualizar el proveedor.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
@@ -204,14 +207,14 @@ function cambiar_estatus(id) {
                         2500
                     );
                     datos_proveedor();
-                } else if('session'){
+                } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
-                } else if('error') {
+                } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
                         'Proveedor',
@@ -256,11 +259,9 @@ function reset_form(identifier_form) {
 function type_data() {
     var url = (location.href).split("/");
     if(url[url.length - 1] == "agregar") {
-        console.log("Agregar")
         initialize_validate_form(1, null);
     } else if(url[url.length - 2] == "editar"){
         /** Cargar los datos de registro específico */
-        console.log("Editar")
         initialize_validate_form(2, url[url.length - 1]);
         datos_proveedor_especifico(url[url.length - 1]);
     } else {
@@ -269,6 +270,7 @@ function type_data() {
     }
 }
 function initialize_validate_form(tipo, id) {
+    finish = tipo == 1 ? 'Guardar' : 'Actualizar';
     $(".validation-wizard").steps({
         headerTag: "h6"
         , bodyTag: "section"
@@ -280,8 +282,8 @@ function initialize_validate_form(tipo, id) {
         }
         , labels: {
             cancel  : "Cancelar",
-            finish  : "Finalizar",
-            previous: "Anterior"
+            previous: "Anterior",
+            finish
         }
         , onStepChanging: function (event, currentIndex, newIndex) {
             return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
@@ -297,7 +299,14 @@ function initialize_validate_form(tipo, id) {
             }
         }
     });
+    delete finish;
     $('a[href*="#cancel"]').css({'background' : '#CC0000'});
+}
+function initialize_data_table(id) {
+    $(id).DataTable({
+        dom: 'Bfrtip',
+        buttons: ['excel', 'pdf', 'print']
+    });
 }
 function enlace_agregar_proveedor() {
     location.href = "/proveedores/agregar";

@@ -26,7 +26,7 @@
               <div class="card-body">
 								<ul class="nav nav-tabs customtab2" role="tablist">
 										<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-notepad"></i></span> <span class="hidden-xs-down">Semanal</span></a> </li>
-										<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
+										<li class="nav-item" id="historial"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
 								</ul>
 									<!-- Tab panes -->
 									<div class="tab-content">
@@ -159,9 +159,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="tab-pane  p-20" id="profile7" role="tabpanel">
-											<div class="table-responsive m-t-20" >
-                        <table id="myTable" class="table table-bordered table-striped">
+										<div class="tab-pane   p-20" id="profile7" role="tabpanel">
+											<div class="table-responsive m-t-20 tablaHistorial">
+                        <!--<table id="myTable" class="table table-bordered table-striped">
                           <thead>
                               <tr>
                                 <th>No. de nomina</th>
@@ -190,30 +190,9 @@
                                 <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                               </td>
                             </tr>
-                            <tr>
-                              <td>2</td>
-                              <td><i class="fa fa-clock-o"></i> 19/07/2019</td>
-                              <td>Paola Cardenas</td>
-                              <td class="text-nowrap">
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-                                <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td><i class="fa fa-clock-o"></i> 23/07/2019</td>
-                              <td>Paola Cardenas</td>
-                              <td class="text-nowrap">
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-                                <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                              </td>
-                            </tr>
+
                           </tbody>
-                        </table>
+                        </table>-->
                       </div>
 										</div>
 									</div>
@@ -228,6 +207,7 @@
 										</div>
 										<div class="modal-body">
 											<div class="container">
+												<input type="text" name="" value="" hidden id="posic">
 												<div class="row" >
 													<div class="col-md-12 col-lg-4">
 														<table class="table .table-bordered">
@@ -309,7 +289,7 @@
 															<tbody>
 																<tr>
 																	<td>Abono prestamo</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="abonoPrestamo"> </td>
+																	<td> <input type="number" name="" value="" class="form-control" id="abonoPrestamo"> </td>
 																</tr>
 																<tr>
 																	<td>Infonavit</td>
@@ -323,23 +303,24 @@
 														</table>
 													</div>
 												</div>
-												<div class="row">
-													<div class="col-md-12">
-														<div class="form-group m-t-40 row">
-
-                                <label for="total" class="col-2 col-form-label">Total</label>
-                                <div class="col-10">
-                                    <input class="form-control" type="text" value="" id="total">
-                                </div>
-
+												<div class="form-group row">
+														<div class="col-8"></div>
+                            <label for="total" class="col-2 col-form-label" style="font-weight: bold;">Total</label>
+                            <div class="col-2">
+                                <input class="form-control" type="text" value="" id="total"  style="font-weight: bold;">
                             </div>
-													</div>
-												</div>
+                        </div>
 											</div>
 										</div>
 
 										<div class="modal-footer">
-												<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+											<span id="ver">
+												<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+											</span>
+											<span id="editar">
+												<button type="button" class="btn btn-secondary waves-effect"  data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+						 						<button type="button" id="guardarDatos" class="btn btn-success waves-effect" data-dismiss="modal"><i class="mdi mdi-content-save"></i> Aceptar</button>
+											</span>
 										</div>
 									</div>
 									<!-- /.modal-content -->
@@ -357,10 +338,10 @@
 			@section('java')
 		<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 		<script src="{{asset('js/toastr2.js')}}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
 
 		<script>
     $(document).ready(function() {
+			/************** Generar nomina semanal ******************/
 			// Desactiva los inputs del modal
 			$('input').prop('disabled', true).addClass('hola');
 			// Boton para guardar nomina
@@ -384,14 +365,6 @@
 			var fechaf = moment().isoWeek(numSemana).endOf("isoweek").toObject();
 
 			$('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
-			// Objeto de asistencia
-			var asistencia = {
-				diasTrabajados: 6,
-				faltasSinJustificar: 0,
-				diasDescanso: 1,
-				horasSabado: 2.5,
-				horasExtras: 5,
-			}
 
 			// Aqui se guardan todos los datos de nomina del trabajador
 			var trabajadores = [];
@@ -400,7 +373,7 @@
 					$(this).attr('disabled', true);
 					obtieneDatos();
 			});
-
+				obtieneDatos();
 			// Funcion que obtiene los datos necesarios para generar la nomina del trabajador
 			function obtieneDatos() {
 				$.ajax({
@@ -444,16 +417,33 @@
 						trabajadores[x].Nomina = {
 							xDeducciones: {}
 						};
+						trabajadores[x]['Total Percepciones'] = 0;
+						trabajadores[x]['Total Deducciones'] = 0;
 						var tr = trabajadores[x]
+						tr.diasTrabajados = 0;
+						tr.horasExtras = 0;
+						tr.diasDescanso = 1;
+						tr.horasSabado = 2.5; // Falta por definir
+						tr.faltasSinJustificar = 0; // Falta por definir
+
+						for (var i = 0; i < tr.asistencia.length; i++) {
+							//console.log(tr.asistencia[i])
+							if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1)
+								tr.diasTrabajados ++;
+							else if(tr.asistencia[i].Hora_salida === 1 || tr.asistencia[i].Hora_entrada === 1)
+								tr.diasTrabajados +=0.5;
+							if(tr.asistencia[i].Hora_extra === 1)
+								tr.horasExtras ++;
+						}
 						tr.NombreyApodo = tr.Nombre + ' ' + tr.Apellidos + ' (' + tr.Apodo + ')'
 						// 	* 	Percepciones	* 	//
 						tr.Nomina.xPercepciones = {
-							'Sueldo':  (tr.Sueldo/48) * (asistencia.diasTrabajados * 8 ) + (asistencia.diasDescanso * 8) - 8 - (2.5) + asistencia.horasSabado,
-							'Horas Extras':  (tr.Monto_Hora_Extra / 5) * (asistencia.horasExtras),
-							'Bono P y A':  (tr.Bono_Produc_Asis/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1),
-							'Bono Extra':  (tr.Bono_Extra/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1),
+							'Sueldo': Math.round( (tr.Sueldo/48) * (tr.diasTrabajados * 8 ) + (tr.diasDescanso * 8) - 8 - (2.5) + tr.horasSabado ),
+							'Horas Extras': Math.round( (tr.Monto_Hora_Extra / 5) * (tr.horasExtras) ),
+							'Bono P y A': Math.round( (tr.Bono_Produc_Asis/6) * (tr.diasTrabajados + tr.diasDescanso - 1) ),
+							'Bono Extra': Math.round( (tr.Bono_Extra/6) * (tr.diasTrabajados + tr.diasDescanso - 1) ),
 						};
-						tr.Nomina.xPercepciones['Total Percepciones']=tr.Nomina.xPercepciones['Sueldo'] + tr.Nomina.xPercepciones['Horas Extras'] + tr.Nomina.xPercepciones['Bono P y A'] + tr.Nomina.xPercepciones['Bono Extra'];
+						tr['Total Percepciones'] = Math.round(tr.Nomina.xPercepciones['Sueldo'] + tr.Nomina.xPercepciones['Horas Extras'] + tr.Nomina.xPercepciones['Bono P y A'] + tr.Nomina.xPercepciones['Bono Extra']);
 						// * 		Deducciones		*		//
 						tr.totalPrestamos >= 100 ? tr.Nomina.xDeducciones["Abono Prestamo"] = 100 :
 						tr.totalPrestamos > 0 ? tr.Nomina.xDeducciones["Abono Prestamo"] = tr.totalPrestamos :
@@ -462,20 +452,20 @@
 						tr.Infonavit != 0 ? tr.Nomina.xDeducciones['Infonavit'] = tr.Infonavit :
 						tr.Nomina.xDeducciones['Infonavit'] = 0;
 
-						tr.Nomina.xDeducciones['Total Deducciones'] = tr.Nomina.xDeducciones["Abono Prestamo"] + tr.Nomina.xDeducciones['Infonavit'];
+						tr['Total Deducciones'] = Math.round(tr.Nomina.xDeducciones["Abono Prestamo"] + tr.Nomina.xDeducciones['Infonavit']);
 						// Redondea el total
-						tr.xTotal = Math.round(tr.Nomina.xPercepciones['Total Percepciones'] - tr.Nomina.xDeducciones['Total Deducciones']);
+						tr.xTotal = Math.round(tr['Total Percepciones'] - tr['Total Deducciones']);
 
 						html += `<tr>
 												<td>${tr.Nombre} ${tr.Apellidos}</td>
-												<td>${tr.Nomina.xPercepciones['Total Percepciones']}</td>
-												<td>${tr.Nomina.xDeducciones['Total Deducciones']}</td>
-												<td>${tr.xTotal}</td>
+												<td>$${tr['Total Percepciones']}</td>
+												<td id="deduccion${x}">$${tr['Total Deducciones']}</td>
+												<td id="total${x}">$${tr.xTotal}</td>
 												<td>
-														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" class="modal-edit">
+														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" data-posicion="${x}" class="modal-edit">
 																<a data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
 														</span>
-														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" class="modal-show">
+														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" data-posicion="${x}" class="modal-show">
 																<a data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
 														</span>
 												</td>
@@ -494,41 +484,64 @@
 			}
 
 			// Funcion que muestra los datos en el modal
-			function setData(data) {
+			function setData(data, bandera) {
 				var results = trabajadores.filter(function (trabajador) { return trabajador.id == data; });
 				var objeto = (results.length > 0) ? results[0] : null;
 				$('#nombre').text(objeto.NombreyApodo);
-				$('#diasTrabajados').val(asistencia.diasTrabajados);
-				$('#faltasSinJustificar').val(asistencia.faltasSinJustificar);
-				$('#diasDescanso').val(asistencia.diasDescanso);
-				$('#horasSabado').val(asistencia.horasSabado);
-				$('#horasExtras').val(asistencia.horasExtras);
-				$('#sueldoBase').val(objeto.Sueldo);
-				$('#horasExtrasMonto').val(objeto.Nomina.xPercepciones['Horas Extras']);
-				$('#bonopya').val(objeto.Nomina.xPercepciones['Bono P y A']);
-				$('#bonoExtra').val(objeto.Nomina.xPercepciones['Bono Extra']);
-				$('#totalPercepciones').val(objeto.Nomina.xPercepciones['Total Percepciones']);
-				$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']);
-				$('#infonavit').val(objeto.Infonavit);
-				$('#totalDeducciones').val(objeto.Nomina.xDeducciones['Total Deducciones']);
-				$('#total').val(objeto.xTotal);
+				$('#diasTrabajados').val(objeto.diasTrabajados);
+				$('#faltasSinJustificar').val(objeto.faltasSinJustificar);
+				$('#diasDescanso').val(objeto.diasDescanso);
+				$('#horasSabado').val(objeto.horasSabado);
+				$('#horasExtras').val(objeto.horasExtras);
+				$('#sueldoBase').val('$'+objeto.Sueldo);
+				$('#horasExtrasMonto').val('$'+objeto.Nomina.xPercepciones['Horas Extras']);
+				$('#bonopya').val('$'+objeto.Nomina.xPercepciones['Bono P y A']);
+				$('#bonoExtra').val('$'+objeto.Nomina.xPercepciones['Bono Extra']);
+				$('#totalPercepciones').val('$'+objeto['Total Percepciones']);
+				if(bandera == 1)
+					$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']);
+				else
+					$('#abonoPrestamo').val('$'+objeto.Nomina.xDeducciones['Abono Prestamo']);
+				$('#infonavit').val('$'+objeto.Infonavit);
+				$('#totalDeducciones').val('$'+objeto['Total Deducciones']);
+				$('#total').val('$'+objeto.xTotal);
 			}
-
+			var posicion = null;
 			// Muestra el modal para editar nomina
 			$(document).on('click','.modal-edit', function() {
 				$('.modal-title').text('Editar nómina');
-				var data = $(this).data('body')
+				var data = $(this).data('body');
+				posicion = $(this).data('posicion');
 				$('#abonoPrestamo').prop('disabled', false).removeClass('hola');
-				setData(data);
+				$('#editar').show();
+				$('#ver').hide();
+				setData(data, 1);
 			});
 
 			// Muestra el modal de detalles de nomina
 			$(document).on('click','.modal-show', function() {
 				$('.modal-title').text('Detalles nómina');
-				var data = $(this).data('body')
+				var data = $(this).data('body');
+				posicion = $(this).data('posicion');
 				$('#abonoPrestamo').prop('disabled', true).addClass('hola');
-				setData(data);
+				$('#editar').hide();
+				$('#ver').show();
+				setData(data,0);
 			});
+
+			$(document).on('click','#guardarDatos', function() {
+				$('#deduccion'+posicion).text('$'+trabajadores[posicion]['Total Deducciones']);
+				$('#total'+posicion).text('$'+trabajadores[posicion].xTotal);
+			});
+
+			$( "#abonoPrestamo" ).change(function() {
+				var nuevo = $( this ).val();
+				trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] = parseInt(nuevo);
+				trabajadores[posicion]['Total Deducciones'] = Math.round(trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] + trabajadores[posicion].Nomina.xDeducciones['Infonavit']);
+				trabajadores[posicion].xTotal = Math.round(trabajadores[posicion]['Total Percepciones'] - trabajadores[posicion]['Total Deducciones']);
+				$('#totalDeducciones').val('$'+trabajadores[posicion]['Total Deducciones']);
+				$('#total').val('$'+trabajadores[posicion].xTotal);
+			})
 
 			$(document).on('click','#btnGuardar', function() {
 					$(this).attr('disabled', true);
@@ -537,12 +550,14 @@
 
 			// Funcion que guarda la nomina en la base de datos
 			function saveNomina() {
+				console.log(trabajadores)
 				$.ajax({
 						 type: 'POST',
 						 url: 'nominaSemanal/saveNomina',
 						 data: {
 							 '_token': $('meta[name="csrf-token"]').attr('content'),
 							 'trabajadores':trabajadores,
+							 'semana': numSemana
 						 },
 						 success: function(data) {
 								 console.log(data);
@@ -556,6 +571,78 @@
 								toastError();
 						}
 				});
+			}
+
+			/************** Muestra historial semanal ******************/
+
+			var historial = [];
+
+			$(document).on('click','#historial', function() {
+				console.log('nomina historial')
+				obtieneDatosHistorial();
+			});
+
+			// Obtiene los datos del historial de nominas
+			function obtieneDatosHistorial() {
+				$.ajax({
+					type: "GET",
+					dataType: "json",
+					url: 'nominaSemanal/historialNomina',
+					success: function (data) {
+							console.log(data)
+							if(data['Error'])
+								swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+							else {
+								historial = data;
+								muestraHistorial();
+							}
+					}, error: function(error) {
+							toastError();
+					}
+				});
+			}
+
+			// Genera las filas de la tabla
+			function muestraHistorial() {
+				var tamanio = historial.length;
+				var html =
+				 `<table id="myTable" class="table table-bordered table-striped">
+					 <thead>
+							 <tr>
+								 <th>No. de nomina</th>
+								 <th>Fecha</th>
+								 <th>Elaborada por</th>
+								 <th>Acciones</th>
+							 </tr>
+					 </thead>
+					 <tfoot>
+						 <tr>
+							 <th>No. de nomina</th>
+							 <th>Fecha</th>
+							 <th>Elaborada por</th>
+							 <th>Acciones</th>
+						 </tr>
+					 </tfoot>
+					 <tbody>`;
+				for(var x=0; x<tamanio; x++) {
+
+						html += `<tr>
+											<td>${historial[x].Semana}</td>
+											<td><i class="fa fa-clock-o"></i> ${historial[x].Fecha}</td>
+											<td>${historial[x].usuario}</td>
+											<td class="text-nowrap">
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
+												<a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+											</td>
+
+										 </tr>`;
+				}
+				html += `<tbody>
+						</table>`;
+				$( ".tablaHistorial" ).append(html);
+				$('#myTable').DataTable();
 			}
 		});
     </script>

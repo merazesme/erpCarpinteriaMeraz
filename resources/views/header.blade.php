@@ -33,6 +33,8 @@
     <link href="{{asset('css/colors/default-dark.css')}}" id="theme" rel="stylesheet">
     <link href="{{asset('css/pages/footable-page.css')}}" id="theme" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <link href="{{asset('css/pages/form-icheck.css')}}" rel="stylesheet">
 
     <!-- clockpicker css -->
     <link href="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">

@@ -75,12 +75,16 @@ Route::prefix('proveedores')->group(function () {
 	Route::get('editar/{id}', 	'proveedorController@show');
 	Route::get('gasolina', 		'proveedorController@gasoline_list');
 	/** Información */
-	Route::get	('lista/data',		'proveedorController@datos_proveedores');
-	Route::get	('especifico/{id}',	'proveedorController@datos_proveedor_especifico');
+	Route::get('lista/data',			'proveedorController@datos_proveedores');
+	Route::get('especifico/{id}',		'proveedorController@datos_proveedor_especifico');
+	Route::get('gasolina/data',			'proveedorController@datos_gasolina');
+	Route::get('gasolina/data/cheques',	'proveedorController@datos_gasolina_cheques');
+	Route::get('carros/data',			'proveedorController@datos_carros');
 	/** Envío de información */
 	Route::post	('agregar/proveedor',					'proveedorController@agregar_proveedor');
 	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
 	Route::post	('actualizar/proveedor/{id}',			'proveedorController@actualizar_proveedor');
+	Route::post	('agregar/factura/gasolina',			'proveedorController@agregar_factura_gasolina');
 });
 
 Route::prefix('login')->group(function () {
@@ -104,9 +108,21 @@ Route::prefix('inventario')->group(function () {
 		Route::get('/lista', 'materiales@index');
 		Route::get('/tipo_material', 'clasificacion_materiales@index');
 		Route::post('/agregar_material', 'materiales@store');
+		Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
 		Route::get('/especifico/{id}', 'materiales@edit');
 		Route::post('/modificar/{id}', 'materiales@update');
 		Route::post('/eliminar/{id}', 'materiales@status');
+		Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+	});
+	Route::prefix('orden_compra')->group(function () {
+		Route::get('/lista', 'compras@index');
+		Route::get('/lista_materiales', 'compras@datosmaterial');
+		Route::get('/lista_proveedor', 'compras@datosproveedor');
+		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
+		// Route::get('/especifico/{id}', 'materiales@edit');
+		// Route::post('/modificar/{id}', 'materiales@update');
+		// Route::post('/eliminar/{id}', 'materiales@status');
+		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -180,6 +196,7 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
 		Route::post('/saveDetalleNomina', 'NominaSemanalController@detalleNomina');
 		Route::post('/saveConceptoNomina', 'NominaSemanalController@conceptoNomina');

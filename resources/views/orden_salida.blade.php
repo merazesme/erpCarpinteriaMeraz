@@ -110,35 +110,47 @@
                       </div>
                       <div class="modal-body">
                           <form>
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Concepto</label>
-																<select class="form-control">
-																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Madera</font></font></option>
-																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pegamento</font></font></option>
-																<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pintura</font></font></option>
-														</select>
+														<div class="row">
+														  <div class="col-md-6">
+																<div class="form-group">
+																		<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+																		<select class="form-control">
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Madera</font></font></option>
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pegamento</font></font></option>
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pintura</font></font></option>
+																		</select>
+																</div>
+														  </div>
+															<div class="col-md-6">
+																<div class="form-group">
+																		<label for="recipient-name" class="control-label">Trabajador <span class="danger">*</label>
+																		<select class="form-control">
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Toluco</font></font></option>
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano</font></font></option>
+																			<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano2</font></font></option>
+																		</select>
+																</div>
+														  </div>
 														</div>
-															<div class="form-group">
-																	<label for="recipient-name" class="control-label">Trabajador</label>
-																	<select class="form-control">
-																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Toluco</font></font></option>
-																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano</font></font></option>
-																	<option><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fulano2</font></font></option>
-															</select>
-															</div>
-															<div class="form-group">
-                                  <label for="recipient-name" class="control-label">Cantidad</label>
-                                  <input type="text" class="form-control" id="recipient-name">
-                              </div>
-															<div class="form-group">
-                                  <label for="recipient-name" class="control-label">Descripción</label>
-                                  <textarea class="form-control" rows="2"></textarea>
-                              </div>
+														<div class="row">
+															<div class="col-md-6">
+																<div class="form-group">
+	                                  <label for="recipient-name" class="control-label">Cantidad <span class="danger">*</label>
+	                                  <input type="text" class="form-control" id="recipient-name">
+	                              </div>
+														  </div>
+															<div class="col-md-6">
+																<div class="form-group">
+	                                  <label for="recipient-name" class="control-label">Descripción <span class="danger">*</label>
+	                                  <textarea class="form-control" rows="2"></textarea>
+	                              </div>
+														  </div>
+														</div>
                           </form>
                       </div>
                       <div class="modal-footer">
-                          <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-danger waves-effect waves-light">Save changes</button>
+												<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+												<button type="button" id="actionAgregar" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
                       </div>
                   </div>
               </div>

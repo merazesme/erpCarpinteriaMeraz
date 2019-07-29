@@ -21,8 +21,8 @@
                         <div class="col-lg-9">
                             <h4 class="card-title">{{$modulo}}</h4>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 d-inline-flex">
-                            <button type="button" class="btn waves-effect waves-light btn-block btn-primary ml-auto"
+                        <div class="d-inline-flex">
+                            <button type="button" class="btn btn-primary waves-effect waves-light ml-auto"
                                     onclick="enlace_agregar_proveedor()">
                                 <i class="fa fa-plus"></i>
                                 Agregar proveedor
@@ -30,26 +30,25 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive m-t-40" style="height:auto;">
+                    <div class="table-responsive m-t-40"    >
 
                         <table id="table_proveedores"
-                            class="display table table-hover table-striped table-bordered"
-                            cellspacing="0" width="100%" role="grid" aria-describedby="table_proveedores_info">
+                            class="display table table-hover table-striped table-bordered">
                             <thead>
                                 <tr role="row" align="center">
-                                    <th style="cursor:pointer;" class="sorting_asc" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" tabindex="0" rowspan="1" colspan="1">
                                         Concepto
-                                    </ths>
-                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    </th>
+                                    <th data-orderable="false" tabindex="0" rowspan="1" colspan="1">
                                         RFC
                                     </th>
-                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th data-orderable="false" tabindex="0" rowspan="1" colspan="1">
                                         Teléfono
                                     </th>
-                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" tabindex="0" rowspan="1" colspan="1">
                                         Correo electrónico
                                     </th>
-                                    <th style="cursor:pointer;" class="sorting" tabindex="0" rowspan="1" colspan="1">
+                                    <th style="cursor:pointer;" tabindex="0" rowspan="1" colspan="1">
                                         Adeudo
                                     </th>
                                     <th data-orderable="false"></th>
@@ -82,31 +81,7 @@
 <script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.js')}}"></script>
 <link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
-<script>
-    /** Script for initialize DataTable and ToolTips */
-    $('#table_proveedores').DataTable({
-        dom: 'Bfrtip',
-        buttons: ['excel', 'pdf', 'print']
-    });
-    $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-</script>
 <script src="{{asset('modulos/proveedores.js')}}"></script>
-<script>
-    // /** Scripts */
-    // function agregar_proveedor() {
-    //     location.href = "/proveedores/agregar";
-    // }
-    // function editar_proveedor(id) {
-    //     location.href = "/proveedores/editar/"+id;
-    // }
-    // function delete_proveedor(id) {
-    //     promise_alert("Proveedor", `¿Seguro que desea eliminar al proveedor ${id}?`, "warning");
-    // }
-    // function normal_alert(title, text, type) {
-    //     swal(title, text, type);
-    // }
-
-</script>
 </div>
 @endsection
 @endsection

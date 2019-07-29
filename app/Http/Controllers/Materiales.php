@@ -35,10 +35,6 @@ class Materiales extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -110,11 +106,11 @@ class Materiales extends Controller
     {
         //
         $data = Materiale::find($id);
-        $data->Clasificacion_material_idClasificacion_material=$request->input('select_tipoMateriall');
+        $data->Clasificacion_material_idClasificacion_material=$request->input('select_tipoMaterialModificar');
         $data->Estado=$request->input('estado_material');
         $data->idUsuario=$request->input('idUsuario_material');
-        $data->Existencia=$request->input('txtCantidadMaterial');
-        $data->Nombre=$request->input('txtNombreMaterial');
+        $data->Existencia=$request->input('txtCantidadMaterialModificar');
+        $data->Nombre=$request->input('txtNombreMaterialModificar');
 
         $data->save();
         return response()->json(json_encode(0));
@@ -124,11 +120,7 @@ class Materiales extends Controller
     {
         //
         $data = Materiale::find($id);
-        // $data->Clasificacion_material_idClasificacion_material=$request->input('select_tipoMateriall');
         $data->Estado=('0');
-        // $data->idUsuario=$request->input('idUsuario_material');
-        // $data->Existencia=$request->input('txtCantidadMaterial');
-        // $data->Nombre=$request->input('txtNombreMaterial');
 
         $data->save();
         return response()->json(json_encode(0));
