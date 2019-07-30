@@ -224,9 +224,7 @@ Route::prefix('nomina')->group(function () {
 
 });
 
-//Configuraciones vista principa
-
-
+//Configuraciones vista principal
 Route::prefix('/configuraciones')->group(function () {
 	Route::get('/', function(){
 		$modulo = "Configuraciones";
