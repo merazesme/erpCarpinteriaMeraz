@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Cliente;
 
 //modelo
 use App\Cliente;
@@ -42,9 +43,15 @@ class Clientes extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function listarClientes()
+    {
+        $clientes = Cliente::all();
+        return $clientes;
+    }
+
     public function store(Request $request)
     {
-        //
         //modelo
         try{
             $data=new Cliente();
@@ -60,7 +67,6 @@ class Clientes extends Controller
        catch(\Exception $e){
           return response()->json(json_encode(1));
        }
-
     }
 
     /**
@@ -82,7 +88,6 @@ class Clientes extends Controller
      */
     public function edit($id)
     {
-        //
         try{
             $data = Cliente::find($id);
             return response()->json(json_encode($data));
@@ -90,7 +95,6 @@ class Clientes extends Controller
         catch(\Exception $e){
            return response()->json(json_encode(1));
         }
-
     }
 
     /**
@@ -102,7 +106,6 @@ class Clientes extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         try{
             $data = Cliente::find($id);
             $data->Nombre=$request->input('txtNombre');

@@ -81,6 +81,76 @@
               </div>
           </div>
         </div>
+				<!-- MODAL VER DETALLES -->
+				<div class="modal fade bs-example-modal-lg" id="modalDetalles" tabindex="-1" role="dialog" aria-labelledby="modalDetalles">
+						<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+										<div class="modal-header">
+												<h4 class="modal-title" id="exampleModalLabel1">Detalles</h4>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										</div>
+										<div class="modal-body">
+											<div id="datos" class="row">
+			                	<div class="col-md-12">
+													<div class="card">
+			                     	<div class="card-body">
+															<!-- DETALLES TRABAJADOR -->
+							                <h5 style="font-weight: bold;">DETALLES TRABAJADOR:</h5>
+							                <table id="detallesTrabajador" class="table vm no-th-brd pro-of-month">
+																<!-- <thead>
+																		<tr>
+																				<th>sdsad</th>
+																				<th>asdasdasd</th>
+																		</tr>
+																</thead> -->
+							                  <tbody>
+																	<!-- <tr>
+																			<td class="m-b-0"><strong>Celular: </strong></td>
+																			<td class="m-b-0"><strong>Número alternativo: </strong></td>
+							                    </tr>
+							                    <tr>
+							                        <td class="m-b-0"><strong>Fecha de nacimiento: </strong></td>
+							                        <td class="m-b-0"><strong>Lugar de nacimiento: </strong></td>
+							                    </tr>
+																	<tr>
+																			<td class="m-b-0"><strong>Domicilio: </strong></td>
+																			<td class="m-b-0"><strong>Estado civil:</strong></td>
+							                    </tr>
+																	<tr>
+							                        <td class="m-b-0"><strong>Apodo: </strong></td>
+							                        <td class="m-b-0"><strong>Escolaridad: </strong></td>
+							                    </tr> -->
+							                  </tbody>
+							                </table>
+															<!-- FIN DETALLES TRABAJADOR -->
+															<!-- DETALLES CONTRATO -->
+															<h5 style="font-weight: bold;">DETALLES CONTRATO:</h5>
+							                <table id="detallesContrato" class="table vm no-th-brd pro-of-month">
+							                  <tbody>
+							                    <!-- <tr>
+							                        <td class="m-b-0"><strong>Fecha inicio: </strong></td>
+							                        <td class="m-b-0"><strong>Fecha final: </strong></td>
+							                    </tr>
+							                    <tr>
+							                        <td class="m-b-0"><strong>Hora extra: </strong></td>
+							                        <td class="m-b-0"><strong>Bono extra: </strong></td>
+							                    </tr>
+																	<tr>
+																			<td class="m-b-0"><strong>Bono asistencia: </strong></td>
+																			<td class="m-b-0"><strong></strong></td>
+							                    </tr> -->
+							                  </tbody>
+							                </table>
+															<!-- FIN DETALLES CONTRATO -->
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+								</div>
+						</div>
+				</div>
+				<!-- /.MODAL VER DETALLES -->
 			</div>
 		</div>
 		@section('footer')

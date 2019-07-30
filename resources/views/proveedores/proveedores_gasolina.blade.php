@@ -58,54 +58,81 @@
                         <div class="tab-pane fade show active" id="tab_factura" role="tabpanel">
                             <div class="table-responsive">
                                 <table style="display: table" id="table_gasolina"
-                                    class="table table-hover table-striped table-bordered">
+                                    class="display table table-hover table-striped table-bordered">
                                     <thead>
                                         <tr role="row">
                                             <th tabindex="0" rowspan="1" colspan="1">
                                                 Fecha
                                             </th>
+                                            <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
+                                                # ticket
+                                            </th>
                                             <th tabindex="0" rowspan="1" colspan="1">
                                                 Litros
                                             </th>
                                             <th tabindex="0" rowspan="1" colspan="1">
-                                                # cheque
+                                                Total
+                                            </th>
+                                            <th tabindex="0" rowspan="1" colspan="1">
+                                                Auto
+                                            </th>
+                                            <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
+                                                # folio
                                             </th>
                                             <th tabindex="0" rowspan="1" colspan="1">
                                                 Estado
                                             </th>
-                                            <th tabindex="0" rowspan="1" colspan="1">
-                                                Total
+                                            <th tabindex="0" rowspan="1" colspan="1" width="5%" data-orderable="false">
+
                                             </th>
-                                            <th data-orderable="false"></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">Fecha</th>
+                                            <th rowspan="1" colspan="1">Ticket</th>
                                             <th rowspan="1" colspan="1">Litros</th>
-                                            <th rowspan="1" colspan="1"># cheque</th>
-                                            <th rowspan="1" colspan="1">Estado</th>
                                             <th rowspan="1" colspan="1">Total</th>
-                                            <th></th>
+                                            <th rowspan="1" colspan="1">Auto</th>
+                                            <th rowspan="1" colspan="1"># folio</th>
+                                            <th rowspan="1" colspan="1">Estado</th>
+                                            <th rowspan="1" colspan="1"></th>
                                         </tr>
                                     </tfoot>
                                     <tbody style="cursor: pointer;">
-                                        <tr role="row" class="odd" data-toggle="tooltip" data-placement="top"
-                                            title="Clic para editar 1" onclick="ver_factura(1)">
-                                            <td>DD/MM/AAAA</td>
-                                            <td>000 lts</td>
-                                            <td>#####</td>
-                                            <td><span class="badge badge-success">Pagado</span></td>
-                                            <td>$0000.00</td>
-                                            <td></td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         
                         <div class="tab-pane fade" id="tab_cheque" role="tabpanel">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus qui reprehenderit explicabo nesciunt optio ipsam doloremque laboriosam. Corrupti aut quam, praesentium beatae alias quas consequatur fuga molestias, sunt saepe eaque.</p>
+                            <div class="table-responsive">
+                                <table style="display: table" id="table_cheques"
+                                    class="display table table-hover table-striped table-bordered w-100">
+                                    <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" rowspan="1" colspan="1">
+                                                Fecha
+                                            </th>
+                                            <th tabindex="0" rowspan="1" colspan="1">
+                                                Folio
+                                            </th>
+                                            <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
+                                                Lista de número de ticket pagados
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">Fecha</th>
+                                            <th rowspan="1" colspan="1">Folio</th>
+                                            <th rowspan="1" colspan="1">Lista de número de ticket pagados</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody style="cursor: pointer;">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
@@ -122,42 +149,35 @@
                         </div>
                         <div class="modal-body">
                             <form action="#" id="gasolina_form">
+                                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                 <div class="row p-t-10">
-                                    <div class="col" align="center">
+                                    <div class="col-2"></div>
+                                    <div class="col-4" align="center">
                                         <label class="control-label">Fecha de factura</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input type="text" class="form-control" id="mdate" placeholder="DD/MM/AAAA">
+                                            <input type="text" class="form-control" id="mdate" name="mdate" placeholder="DD/MM/AAAA">
                                         </div>
                                     </div>
                                     
-                                    <div class="col" align="center">
+                                    <div class="col-4" align="center">
                                         <label class="control-label"># ticket</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-                                            <input type="number" id="gasolina_ticket" class="form-control" placeholder="000">
+                                            <input type="number" id="gasolina_ticket" name="gasolina_ticket" class="form-control" placeholder="000">
                                         </div>
                                     </div>
-
-                                    <div class="col" align="center">
-                                        <label class="control-label">Factura folio</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-                                            <input type="number" id="gasolina_folio" class="form-control" placeholder="000">
-                                        </div>
-                                    </div>
+                                    <div class="col-2"></div>
                                 </div>
 
                                 <div class="row p-t-10">
                                     <div class="col-4" align="center">
                                         <label class="control-label">Carro</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-automobile"></i></span>
-                                            <select class="select2 form-control custom-select" style="width: 100%;" id="gasolina_auto">
-                                                <option>Select</option>
-                                                <optgroup label="Pendientes">
-                                                    <option value="AK">Primer pago</option>
-                                                    <option value="HI">Segundo pago</option>
+                                            <span class="input-group-addon" id="select_auto_span"><i class="fa fa-automobile"></i></span>
+                                            <select class="select2 form-control custom-select" style="width: 100%;" id="gasolina_auto" name="gasolina_auto">
+                                                {{-- <option>Select</option> --}}
+                                                <optgroup label="Autos">
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -166,29 +186,29 @@
                                         <label class="control-label">Litros</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">L</span>
-                                            <input type="number" id="gasolina_litros" class="form-control" placeholder="000">
+                                            <input type="number" id="gasolina_litros" name="gasolina_litros" class="form-control" placeholder="000">
                                         </div>
                                     </div>
                                     <div class="col-4" align="center">
                                         <label class="control-label">Total</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                                            <input type="text" id="gasolina_total" class="form-control" placeholder="0000.00">
+                                            <input type="text" id="gasolina_total" name="gasolina_total" class="form-control" placeholder="0000.00">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row m-b-10" style="max-height: 200px;">
                                     <div class="col">
-                                        <label for="">Archivo de la factura (PDF)</label>
-                                        <input type="file" id="gasolina_archivo" class="dropify" data-max-file-size="2M">
+                                        <label for="gasolina_archivo">Archivo de la factura (PNG|JPG)</label>
+                                        <input type="file" id="gasolina_archivo" name="gasolina_archivo" class="dropify" data-max-file-size="4M">
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" onclick="agregar_factura()" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                            <button type="button" onclick="guardar_factura_gasolina()" class="btn btn-success" data-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -204,12 +224,13 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form action="#" id="pagar_factura_form">
+                                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label">Número de cheque</label>
-                                            <input type="text" class="form-control" placeholder="#####">
+                                            <label class="control-label">Número de folio</label>
+                                            <input type="text" class="form-control" placeholder="#####" id="factura_folio" name="factura_folio">
                                         </div>
                                     </div>
                                 </div>
@@ -217,12 +238,12 @@
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label">Seleccione los ticket(s) a pagar</label>
-                                            <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir">
-                                                <option>Select</option>
+                                            <label class="control-label" id="select_tickets_label">Seleccione los ticket(s) a pagar</label>
+                                            <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir"
+                                                    id="factura_tickets" name="factura_tickets">
                                                 <optgroup label="Pendientes por pagar">
-                                                    <option value="AK">Primer pago</option>
-                                                    <option value="HI">Segundo pago</option>
+                                                    {{-- <option value="AK">Primer pago</option>
+                                                    <option value="HI">Segundo pago</option> --}}
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -233,7 +254,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" onclick="pagar_factura()" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                            <button type="button" onclick="guardar_pagar_factura()" class="btn btn-success" data-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -246,6 +267,9 @@
 </div>
 @section('footer')
 @parent
+<script>
+    const url_images = "{{asset('images')}}";
+</script>
 <script src="{{asset('js/mask.js')}}"></script>
 <link rel="stylesheet" href="{{asset('plugins/dropify/dist/css/dropify.min.css')}}">
 <script src="{{asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>

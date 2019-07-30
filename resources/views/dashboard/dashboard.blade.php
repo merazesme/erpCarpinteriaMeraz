@@ -25,45 +25,44 @@
                         <div class="card scroll">
                             <div class="card-body">
                                 <h4 class="card-title"><span class="lstick"></span>Citas</h4>
+                                <div class="d-flex row">
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="week" id="filtroCita">
+                                    </div>
+                                    <div class="ml-auto col-lg-4">
+                                        <button class="pull-right btn btn-circle btn-success" id="btnNuevaCita" data-toggle="modal" data-target="#modalCita" data-whatever="Añadir"><i class="ti-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <!-- ============================================================== -->
                             <!-- Comment widgets -->
                             <!-- ============================================================== -->
-                            <div class="comment-widgets">
+                            <div class="comment-widgets" id="contenedorCitas">
                                 <!-- Comment Row -->
                                 <div class="d-flex flex-row comment-row">
-                                    <div class="p-2"><span class="round"><img src="{{asset('images/users/1.jpg')}}" alt="user" width="50"></span></div>
+                                    <div class="p-2">
+                                        <span class="round">
+                                            <img src="{{asset('images/users/1.jpg')}}" alt="user" width="50">
+                                        </span>
+                                    </div>
                                     <div class="comment-text w-100">
                                         <h5>James Anderson</h5>
                                         <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.</p>
-                                        <div class="comment-footer"> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-rounded label-info">Pendiente</span> <span class="action-icons">
+                                        <div class="comment-footer"> 
+                                            <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-rounded label-info">Pendiente</span> 
+                                            <span class="action-icons">
+                                                <span data-toggle="tooltip" data-original-title="Editar">
                                                     <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
+                                                </span>
+                                                <span data-toggle="tooltip" data-original-title="Asistió">
                                                     <a href="javascript:void(0)"><i class="ti-check"></i></a>
-                                                </span> </div>
-                                    </div>
-                                </div>
-                                <!-- Comment Row -->
-                                <div class="d-flex flex-row comment-row active">
-                                    <div class="p-2"><span class="round"><img src="{{asset('images/users/2.jpg')}}" alt="user" width="50"></span></div>
-                                    <div class="comment-text active w-100">
-                                        <h5>Michael Jorden</h5>
-                                        <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry..</p>
-                                        <div class="comment-footer "> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-success label-rounded">Asistió</span> <span class="action-icons active">
-                                                    <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
-                                                    <a href="javascript:void(0)"><i class="icon-close"></i></a>
-                                                </span> </div>
-                                    </div>
-                                </div>
-                                <!-- Comment Row -->
-                                <div class="d-flex flex-row comment-row">
-                                    <div class="p-2"><span class="round"><img src="{{asset('images/users/3.jpg')}}" alt="user" width="50"></span></div>
-                                    <div class="comment-text w-100">
-                                        <h5>Johnathan Doeting</h5>
-                                        <p class="m-b-5">Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry.</p>
-                                        <div class="comment-footer"> <span class="text-muted pull-right">14 Julio, 2016</span> <span class="label label-rounded label-danger">Cancelada</span> <span class="action-icons">
-                                                    <a href="javascript:void(0)"><i class="ti-pencil-alt"></i></a>
-                                                    <a href="javascript:void(0)"><i class="ti-check"></i></a>
-                                                </span> </div>
+                                                </span>
+                                                <span data-toggle="tooltip" data-original-title="Cancelar">
+                                                    <a href="javascript:void(0)"><i class="ti-close"></i></a>
+                                                </span>
+                                            </span> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,43 +76,13 @@
                                         <h4 class="card-title"><span class="lstick"></span>Pendientes</h4>
                                     </div>
                                     <div class="ml-auto">
-                                        <button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#myModal"><i class="ti-plus"></i></button>
+                                        <button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#modalAgregarPendientes"><i class="ti-plus"></i></button>
                                     </div>
                                 </div>
                                 <!-- ============================================================== -->
                                 <!-- To do list widgets -->
                                 <!-- ============================================================== -->
                                 <div class="to-do-widget m-t-20">
-                                    <!-- .modal for add task -->
-                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Añadir pendiente</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label>Nombre del pendiente</label>
-                                                            <input type="text" class="form-control" placeholder="Describa el pendiente">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Asigar fecha y hora</label>
-                                                            <input class="form-control" type="datetime-local" placeholder="Seleccione una fecha y hora" id="example-datetime-local-input">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                    <!-- /.modal -->
                                     <ul class="list-task todo-list list-group m-b-0" data-role="tasklist">
                                         <li class="list-group-item" data-role="task">
                                             <div class="checkbox checkbox-info m-b-10">
@@ -142,6 +111,36 @@
                                             <div class="item-date" style="margin-top:3%"> 26 jun 2017</div>
                                         </li>
                                     </ul>
+                                    <!-- .modal for add task -->
+                                    <div class="modal fade" id="modalAgregarPendientes" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Añadir pendiente</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label>Nombre del pendiente</label>
+                                                            <input type="text" class="form-control" placeholder="Describa el pendiente">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Asigar fecha y hora</label>
+                                                            <input class="form-control" type="datetime-local" placeholder="Seleccione una fecha y hora" id="example-datetime-local-input">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                    <!-- /.modal -->
                                 </div>
                             </div>
                         </div>
@@ -335,10 +334,59 @@
                     </div>
                 </div>
 			</div>
+            <!-- .modal CITAS for add task -->
+            <div class="modal fade" id="modalCita" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="citas">
+                                <div class="form-group">
+                                    <label for="cliente">Cliente  
+                                    </label>
+                                    <select class="select2 form-control custom-select cliente" style="width: 100%; height:36px;" id="selectClientes" name="cliente">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comentario">Descripción</label>
+                                    <textarea class="form-control required comentario" id="comentario" name="comentario" aria-required="true" spellcheck="false" placeholder="Detalles de la cita"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Asigar fecha y hora</label>
+                                    <input class="form-control fecha" name="fecha" type="datetime-local" placeholder="Seleccione una fecha y hora" id="fechaCita">
+                                </div>
+                                <div class="form-group" id="estatusCita">
+                                    <label>Estado</label>
+                                    <select class="custom-select col-12" name="estatus" >
+                                        <option value="0">Escoga...</option>
+                                        <option value="1">Asistió</option>
+                                        <option value="2">Cancelado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <!-- ID del usuario que ingreso al sistema -->
+                                    <input class="idUsuario" type="hidden" value="1" name="idUsuario">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" id="btnGuardarCita" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+
+            </div>
+            <!-- /.modal -->
 		</div>
-		@section('footer')
-		@parent
 	</div>
+    @section('footer')
+    @parent
 @endsection
 @endsection
 @endsection
