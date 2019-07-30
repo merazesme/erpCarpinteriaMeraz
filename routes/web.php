@@ -191,36 +191,19 @@ Route::prefix('/cotizaciones')->group(function () {
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/muestra', 'NominaSemanalController@trabajadores');
+		Route::get('/detalles', 'NominaSemanalController@detalles');
+		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
-		Route::post('/saveDetalleNomina', 'NominaSemanalController@detalleNomina');
-		Route::post('/saveConceptoNomina', 'NominaSemanalController@conceptoNomina');
 	});
 
-	Route::get('/historialNomina', function(){
-		$modulo = "Nómina Semanal";
-		return view('nomina/nominaSemanalIndex', compact('modulo'));
-	});
-
-	Route::get('/detalleNomina', function(){
-		$modulo = "Nómina del: ";
-		return view('nomina/detalleNomina', compact('modulo'));
-	});
-
-	Route::get('/nominaUtilidad', function(){
-		$modulo = "Nómina de utilidades";
-		return view('nomina/nominaUtilidad', compact('modulo'));
-	});
-
-	Route::get('/nominaAguinaldo', function(){
-		$modulo = "Nómina Aguinaldo";
-		return view('nomina/nominaAguinaldo', compact('modulo'));
-	});
-
-	Route::get('/nominaVacacional', function(){
-		$modulo = "Nómina Vacacional";
-		return view('nomina/nominaVacacional', compact('modulo'));
+	Route::prefix('nominaAguinaldo')->group(function () {
+		Route::get('/', 'NominaAguinaldoController@index');
+		Route::get('/muestra', 'NominaAguinaldoController@create');
+		Route::get('/historialNomina', 'NominaAguinaldoController@historialNominaSemanal');
+		Route::post('/saveNomina', 'NominaAguinaldoController@nomina');
+		Route::post('/saveDetalleNomina', 'NominaAguinaldoController@detalleNomina');
+		Route::post('/saveConceptoNomina', 'NominaAguinaldoController@conceptoNomina');
 	});
 
 });

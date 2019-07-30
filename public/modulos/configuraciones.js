@@ -190,38 +190,62 @@ function datosHorarios(){
             var data = JSON.parse(msg)
             console.log(data);
 
+            if(data[0].Hora_entrada != null){
+                data[0].Hora_entrada = data[0].Hora_entrada.split(":");
+                data[0].Hora_entrada =data[0].Hora_entrada[0]+":"+data[0].Hora_entrada[1]
+                $("#entrada_LV").val(data[0].Hora_entrada);
+                $("#entradaLV_data").empty().append(data[0].Hora_entrada);
+            }
 
-            data[0].Hora_entrada = data[0].Hora_entrada.split(":");
-            data[0].Hora_entrada =data[0].Hora_entrada[0]+":"+data[0].Hora_entrada[1]
 
-            data[0].Hora_salida = data[0].Hora_salida.split(":");
-            data[0].Hora_salida =data[0].Hora_salida[0]+":"+data[0].Hora_salida[1]
+            if(data[0].Hora_salida != null){
+                data[0].Hora_salida = data[0].Hora_salida.split(":");
+                data[0].Hora_salida =data[0].Hora_salida[0]+":"+data[0].Hora_salida[1]
+                $("#salida_LV").val(data[0].Hora_salida);
+                $("#salidaLV_data").empty().append(data[0].Hora_salida);
+            }
 
-            data[0].Hora_entrada_Sab = data[0].Hora_entrada_Sab.split(":");
-            data[0].Hora_entrada_Sab =data[0].Hora_entrada_Sab[0]+":"+data[0].Hora_entrada_Sab[1]
+            if(data[0].Hora_entrada_Sab != null){
+                data[0].Hora_entrada_Sab = data[0].Hora_entrada_Sab.split(":");
+                data[0].Hora_entrada_Sab =data[0].Hora_entrada_Sab[0]+":"+data[0].Hora_entrada_Sab[1]
+                $("#entrada_S").val(data[0].Hora_entrada_Sab);
+                $("#entradaS_data").empty().append(data[0].Hora_entrada_Sab);
+            }
 
-            data[0].Hora_salida_Sab = data[0].Hora_salida_Sab.split(":");
-            data[0].Hora_salida_Sab =data[0].Hora_salida_Sab[0]+":"+data[0].Hora_salida_Sab[1]
+            if(data[0].Hora_salida_Sab != null){
+                data[0].Hora_salida_Sab = data[0].Hora_salida_Sab.split(":");
+                data[0].Hora_salida_Sab =data[0].Hora_salida_Sab[0]+":"+data[0].Hora_salida_Sab[1]
+                $("#salida_S").val(data[0].Hora_salida_Sab);
+                $("#salidaS_data").empty().append(data[0].Hora_salida_Sab);
+            }
 
-            data[0].Hora_entrada_extra = data[0].Hora_entrada_extra.split(":");
-            data[0].Hora_entrada_extra =data[0].Hora_entrada_extra[0]+":"+data[0].Hora_entrada_extra[1]
+            if(data[0].Hora_entrada_extra != null){
+                data[0].Hora_entrada_extra = data[0].Hora_entrada_extra.split(":");
+                data[0].Hora_entrada_extra =data[0].Hora_entrada_extra[0]+":"+data[0].Hora_entrada_extra[1]
+                $("#entrada_E").val(data[0].Hora_entrada_extra);
+                $("#entradaE_data").empty().append(data[0].Hora_entrada_extra);
+            }
 
-            data[0].Hora_salida_extra = data[0].Hora_salida_extra.split(":");
-            data[0].Hora_salida_extra =data[0].Hora_salida_extra[0]+":"+data[0].Hora_salida_extra[1]
+            if(data[0].Hora_salida_extra != null){
+                data[0].Hora_salida_extra = data[0].Hora_salida_extra.split(":");
+                data[0].Hora_salida_extra =data[0].Hora_salida_extra[0]+":"+data[0].Hora_salida_extra[1]
+                $("#salida_E").val(data[0].Hora_salida_extra);
+                $("#salidaE_data").empty().append(data[0].Hora_salida_extra);
+            }
 
-            $("#entrada_LV").val(data[0].Hora_entrada);
-            $("#salida_LV").val(data[0].Hora_salida);
-            $("#entrada_S").val(data[0].Hora_entrada_Sab);
-            $("#salida_S").val(data[0].Hora_salida_Sab);
-            $("#entrada_E").val(data[0].Hora_entrada_extra);
-            $("#salida_E").val(data[0].Hora_salida_extra);
+            if(data[0].Hora_entrada_obra != null){
+                data[0].Hora_entrada_obra = data[0].Hora_entrada_obra.split(":");
+                data[0].Hora_entrada_obra = data[0].Hora_entrada_obra[0]+":"+data[0].Hora_entrada_obra[1]
+                $("#entrada_obra").val(data[0].Hora_entrada_obra);
+                $("#entrada_obra_data").empty().append(data[0].Hora_entrada_obra);
+            }
 
-            $("#entradaLV_data").empty().append(data[0].Hora_entrada);
-            $("#salidaLV_data").empty().append(data[0].Hora_salida);
-            $("#entradaS_data").empty().append(data[0].Hora_entrada_Sab);
-            $("#salidaS_data").empty().append(data[0].Hora_salida_Sab);
-            $("#entradaE_data").empty().append(data[0].Hora_entrada_extra);
-            $("#salidaE_data").empty().append(data[0].Hora_salida_extra);
+            if(data[0].Hora_salida_obra != null){
+                data[0].Hora_salida_obra = data[0].Hora_salida_obra.split(":");
+                data[0].Hora_salida_obra = data[0].Hora_salida_obra[0]+":"+data[0].Hora_salida_obra[1]
+                $("#salida_obra").val(data[0].Hora_salida_obra);
+                $("#salida_obra_data").empty().append(data[0].Hora_salida_obra);
+            }
 		}
 	});
 }

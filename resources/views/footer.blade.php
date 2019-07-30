@@ -90,7 +90,7 @@
 	@yield('java')
 
 	<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
-	<script src="{{asset('js/modulos/dashboard.js')}}"></script>
+	<!-- <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
 
 
 	@if(Request::segment(1) == "clientes")
