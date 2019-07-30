@@ -24,6 +24,8 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
+								<h4 class="card-title">{{ $modulo }}</h4>
+								<br>
 								<ul class="nav nav-tabs customtab2" role="tablist">
 										<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-notepad"></i></span> <span class="hidden-xs-down">Semanal</span></a> </li>
 										<li class="nav-item" id="historial"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
@@ -361,9 +363,13 @@
 					https://es.stackoverflow.com/questions/7003/c%C3%B3mo-puedo-obtener-el-primer-y-ultimo-d%C3%ADa-de-una-semana-concreta-en-javascript
 					https://momentjs.com/docs/#/displaying/as-object/
 			*/
-			var fechai = moment().isoWeek(numSemana).startOf("isoweek").toObject();
-			var fechaf = moment().isoWeek(numSemana).endOf("isoweek").toObject();
+			var f_i = moment().isoWeek(numSemana).startOf("isoweek").toObject();
+			var f_f = moment().isoWeek(numSemana).endOf("isoweek").toObject();
+			//console.log( moment().isoWeek(numSemana).startOf("isoweek").format())
+			var fechai = moment(f_i).toObject();
+			var fechaf = moment(f_f).toObject();
 
+			var bandera = false;
 			$('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
 
 			// Aqui se guardan todos los datos de nomina del trabajador
@@ -373,13 +379,13 @@
 					$(this).attr('disabled', true);
 					obtieneDatos();
 			});
-				obtieneDatos();
+				//obtieneDatos();
 			// Funcion que obtiene los datos necesarios para generar la nomina del trabajador
 			function obtieneDatos() {
 				$.ajax({
 					type: "GET",
 					dataType: "json",
-					url: 'nominaSemanal/muestra',
+					url: 'nominaSemanal/muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
 					success: function (data) {
 							console.log(data)
 							if(data['Error'])
@@ -475,12 +481,6 @@
 				html += `<tbody>
 						</table>`;
 				$( ".tabla" ).append(html);
-				$('#demo-foo-accordion').DataTable({
-						dom: 'Bfrtip',
-						buttons: [
-								'excel', 'pdf', 'print'
-						]
-				});
 			}
 
 			// Funcion que muestra los datos en el modal
@@ -493,7 +493,7 @@
 				$('#diasDescanso').val(objeto.diasDescanso);
 				$('#horasSabado').val(objeto.horasSabado);
 				$('#horasExtras').val(objeto.horasExtras);
-				$('#sueldoBase').val('$'+objeto.Sueldo);
+				$('#sueldoBase').val('$'+objeto.Nomina.xPercepciones['Sueldo']);
 				$('#horasExtrasMonto').val('$'+objeto.Nomina.xPercepciones['Horas Extras']);
 				$('#bonopya').val('$'+objeto.Nomina.xPercepciones['Bono P y A']);
 				$('#bonoExtra').val('$'+objeto.Nomina.xPercepciones['Bono Extra']);
@@ -530,17 +530,21 @@
 			});
 
 			$(document).on('click','#guardarDatos', function() {
+				trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] = prestamoEdicion;
+				trabajadores[posicion]['Total Deducciones'] = totalDeduccionEdicion;
+				trabajadores[posicion].xTotal = totalEdicion;
 				$('#deduccion'+posicion).text('$'+trabajadores[posicion]['Total Deducciones']);
 				$('#total'+posicion).text('$'+trabajadores[posicion].xTotal);
 			});
 
+			var prestamoEdicion = 0, totalDeduccionEdicion = 0, totalEdicion = 0;
 			$( "#abonoPrestamo" ).change(function() {
 				var nuevo = $( this ).val();
-				trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] = parseInt(nuevo);
-				trabajadores[posicion]['Total Deducciones'] = Math.round(trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] + trabajadores[posicion].Nomina.xDeducciones['Infonavit']);
-				trabajadores[posicion].xTotal = Math.round(trabajadores[posicion]['Total Percepciones'] - trabajadores[posicion]['Total Deducciones']);
-				$('#totalDeducciones').val('$'+trabajadores[posicion]['Total Deducciones']);
-				$('#total').val('$'+trabajadores[posicion].xTotal);
+				prestamoEdicion = parseInt(nuevo);
+				totalDeduccionEdicion = Math.round(prestamoEdicion + trabajadores[posicion].Nomina.xDeducciones['Infonavit']);
+				totalEdicion = Math.round(trabajadores[posicion]['Total Percepciones'] - totalDeduccionEdicion);
+				$('#totalDeducciones').val('$'+totalDeduccionEdicion);
+				$('#total').val('$'+totalEdicion);
 			})
 
 			$(document).on('click','#btnGuardar', function() {
@@ -566,6 +570,12 @@
 		 						 else {
 									 toastSuccess("Nómina guardada exitosamente.");
 									 $('#guardar').hide("slow");
+									 $('#demo-foo-accordion').DataTable({
+											 dom: 'Bfrtip',
+											 buttons: [
+													 'excel', 'pdf', 'print'
+											 ]
+									 });
 								 }
 						}, error: function(error) {
 								toastError();
@@ -578,8 +588,11 @@
 			var historial = [];
 
 			$(document).on('click','#historial', function() {
-				console.log('nomina historial')
-				obtieneDatosHistorial();
+				//console.log('nomina historial')
+				if(bandera == false) {
+					obtieneDatosHistorial();
+					bandera = true;
+				}
 			});
 
 			// Obtiene los datos del historial de nominas
@@ -634,7 +647,7 @@
 												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
 												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
 												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-												<a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+												<a href="{{ url('nomina/nominaSemanal/detalles') }}" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
 											</td>
 
 										 </tr>`;

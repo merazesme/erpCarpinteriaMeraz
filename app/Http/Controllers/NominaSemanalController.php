@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Nomina;
 use App\DetalleNomina;
 use App\ConceptosNomina;
+use App\Trabajador;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
@@ -24,6 +25,17 @@ class NominaSemanalController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function detalles()
+    {
+        $modulo = "Nómina Semanal";
+        return view('nomina/semanal/detalles', compact('modulo'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -33,7 +45,7 @@ class NominaSemanalController extends Controller
 
     }
 
-    public function trabajadores() {
+    public function trabajadores($fechai, $fechaf) {
       try {
           $data = DB::table('trabajadores')
                     ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
@@ -54,6 +66,7 @@ class NominaSemanalController extends Controller
                                 'asistencias.Hora_salida')
                       ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                       ->where('trabajadores.id',$trabajadores->id)
+                      ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
                       ->get();
             //dd($monto->monto);
             $trabajadores->totalPrestamos = $monto->monto;
@@ -149,6 +162,7 @@ class NominaSemanalController extends Controller
           $data = DB::table('nominas')
             ->join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
             ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
+            ->orderBy('nominas.created_at', 'desc')
             ->get();
           return response()->json($data);
       } catch (\Exception $e) {
