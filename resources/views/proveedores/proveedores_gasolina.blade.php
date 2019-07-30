@@ -64,7 +64,7 @@
                                             <th tabindex="0" rowspan="1" colspan="1">
                                                 Fecha
                                             </th>
-                                            <th tabindex="0" rowspan="1" colspan="1">
+                                            <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
                                                 # ticket
                                             </th>
                                             <th tabindex="0" rowspan="1" colspan="1">
@@ -174,9 +174,9 @@
                                     <div class="col-4" align="center">
                                         <label class="control-label">Carro</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-automobile"></i></span>
+                                            <span class="input-group-addon" id="select_auto_span"><i class="fa fa-automobile"></i></span>
                                             <select class="select2 form-control custom-select" style="width: 100%;" id="gasolina_auto" name="gasolina_auto">
-                                                <option>Select</option>
+                                                {{-- <option>Select</option> --}}
                                                 <optgroup label="Autos">
                                                 </optgroup>
                                             </select>
@@ -224,12 +224,13 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form action="#" id="pagar_factura_form">
+                                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label">Número de folio</label>
-                                            <input type="text" class="form-control" placeholder="#####">
+                                            <input type="text" class="form-control" placeholder="#####" id="factura_folio" name="factura_folio">
                                         </div>
                                     </div>
                                 </div>
@@ -237,12 +238,12 @@
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label">Seleccione los ticket(s) a pagar</label>
-                                            <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir">
-                                                <option>Select</option>
+                                            <label class="control-label" id="select_tickets_label">Seleccione los ticket(s) a pagar</label>
+                                            <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir"
+                                                    id="factura_tickets" name="factura_tickets">
                                                 <optgroup label="Pendientes por pagar">
-                                                    <option value="AK">Primer pago</option>
-                                                    <option value="HI">Segundo pago</option>
+                                                    {{-- <option value="AK">Primer pago</option>
+                                                    <option value="HI">Segundo pago</option> --}}
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -253,7 +254,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" onclick="pagar_factura()" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                            <button type="button" onclick="guardar_pagar_factura()" class="btn btn-success" data-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

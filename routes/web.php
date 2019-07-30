@@ -85,6 +85,7 @@ Route::prefix('proveedores')->group(function () {
 	Route::post	('actualizar/proveedor/estatus/{id}',	'proveedorController@actualizar_proveedor_estatus');
 	Route::post	('actualizar/proveedor/{id}',			'proveedorController@actualizar_proveedor');
 	Route::post	('agregar/factura/gasolina',			'proveedorController@agregar_factura_gasolina');
+	Route::post	('agregar/pagar/factura',				'proveedorController@agregar_pagar_factura');
 });
 
 Route::prefix('login')->group(function () {

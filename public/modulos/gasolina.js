@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-    $(".select2").select2();
+    // $(".select2").select2();
     $('.mydatepicker, #mdate').datepicker();
     $('.dropify').dropify();
     initialize_data_table('#table_gasolina');
@@ -8,7 +8,7 @@ $(document).ready(function() {
     datos_gasolina_factura();
     datos_gasolina_cheques();
     datos_autos();
-});    
+});
 function datos_gasolina_factura() {
     $.ajax({
         type: 'GET',
@@ -24,11 +24,29 @@ function datos_gasolina_factura() {
                 3000
             );
         } else {
+            $('.select2').remove();
+            $('#select_tickets_label').after(`
+                <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir"
+                        id="factura_tickets" name="factura_tickets">
+                    <option>Elegir</option>
+                    <optgroup label="Pendientes por pagar">
+                    </optgroup>
+                </select>`
+            );
+            $(".select2").select2();
+            var band = false;
             $('#table_gasolina').DataTable().clear();
             $('#table_gasolina').DataTable().destroy();
             datos.forEach(item => {
+                if(item.Estado == 1) {
+                    if(!band) band = true;
+                    $('#factura_tickets optgroup').append(`
+                        <option value="${item.id}">Ticket #${item.Ticket}</option>
+                    `);
+                }
+
                 var td = item.Estado == 1
-                ?`<td class="vertical-align-table" align="right" id="col_folio${item.Ticket}"><span class="badge badge-warning w-100">Sin cheque</span></td>
+                ?`<td class="vertical-align-table" align="right" id="col_folio${item.Ticket}"><span class="sin_cheque badge badge-warning w-100">Sin cheque</span></td>
                   <td class="vertical-align-table"><span class="badge badge-danger w-100">Sin pagar</span></td>`
                 :`<td class="vertical-align-table" align="right" id="col_folio${item.Ticket}"></td>
                   <td class="vertical-align-table"><span class="badge badge-success w-100">Pagado</span></td>`;
@@ -51,6 +69,9 @@ function datos_gasolina_factura() {
                     </tr>
                 `);
             });
+            if(!band) {
+                $('#factura_tickets optgroup').attr('label', 'Sin tickets por pagar');
+            }
             initialize_data_table('#table_gasolina');
         }
     }).fail(function(err) {
@@ -112,6 +133,7 @@ function datos_gasolina_cheques() {
         datos.forEach(item => {
             $(`#col_folio${item.Ticket}`).html(`# ${item.Folio_pago}`);
         });
+        console.table(datos);
     })
 }
 function datos_autos() {
@@ -122,7 +144,14 @@ function datos_autos() {
     }).done(function(datos) {
         // console.table(datos);
         if(datos.length !== 0) {
-            $('#gasolina_auto optgroup').empty();
+            $('#select_auto_span').after(`
+                <select class="select2 form-control custom-select" style="width: 100%;" id="gasolina_auto" name="gasolina_auto">
+                    <option>Elegir</option>
+                    <optgroup label="Autos">
+                    </optgroup>
+                </select>`
+            );
+            $(".select2").select2();
             datos.forEach(auto => {
                 $('#gasolina_auto optgroup').append(`<option value="${auto.id}">${auto.Marca}: ${auto.Modelo}</option>`);
             });
@@ -154,6 +183,8 @@ function guardar_factura_gasolina() {
                     );
                     datos_gasolina_factura();
                     datos_gasolina_cheques();
+                    datos_autos();
+                    reset_form('#gasolina_form');
                 } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
@@ -188,6 +219,75 @@ function guardar_factura_gasolina() {
         }
     })
 }
+function guardar_pagar_factura() {
+    var datos = new FormData(document.querySelector("#pagar_factura_form"));
+    datos.append('fecha', moment().format('YYYY/MM/DD'));
+    datos.append('factura_tickets', JSON.stringify($('#factura_tickets').val()));
+    Swal.fire({
+        onOpen: function () {
+            Swal.showLoading()
+            $.ajax({
+                type: 'POST',
+                url: '/proveedores/agregar/pagar/factura',
+                data: datos,
+                contentType: false,
+            	processData: false,
+            })
+            .done(function(resp) {
+                console.log(resp);
+                Swal.close()
+                if(resp == 'true') {
+                    alerta_temporizador(
+                        'success',
+                        'Factura de gasolina',
+                        'La factura ha sido agregada con éxito',
+                        2500
+                    );
+                    datos_gasolina_factura();
+                    datos_gasolina_cheques();
+                    datos_autos();
+                    reset_form('#pagar_factura_form');
+                } else if(resp == 'session'){
+                    alerta_temporizador(
+                        'error',
+                        'Error',
+                        'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
+                        2500
+                    );
+                } else if(resp == 'empty') {
+                    alerta_temporizador(
+                        'error',
+                        'Factura de gasolina',
+                        'Debe ingresar todos los campos para poder agregar la factura.',
+                        2500
+                    );
+                } else if(resp == 'error-pago') {
+                    alerta_temporizador(
+                        'error',
+                        'Factura de gasolina',
+                        'Ha ocurrido un error al guardar el pago. Inténtelo más tarde.',
+                        2500
+                    );
+                } else if(resp == 'error-relacion') {
+                    alerta_temporizador(
+                        'error',
+                        'Factura de gasolina',
+                        'Ha ocurrido un error al guardar los tickets relacionados a la factura. Inténtelo más tarde.',
+                        2500
+                    );
+                }
+            })
+            .fail(function(err) {
+                alerta_temporizador(
+                    'error',
+                    `Error: ${err}`,
+                    'Ha ocurrido un error agregando la factura. Inténtelo más tarde',
+                    2500
+                );
+            });
+        }
+    })
+}
 function alerta_temporizador(tipo, titulo, texto, tiempo) {
     Swal.fire({
         type: tipo,
@@ -201,7 +301,7 @@ function alerta_imagen(title, imageUrl) {
     if(imageUrl == 'error') {
         imageUrl = url_images+'/error/no_image_available.jpg';
     } else {
-        imageUrl = url_images+'/modulos/proveedor/gasolina/'+imageUrl+'.jpg';
+        imageUrl = url_images+'/modulos/proveedor/gasolina/'+imageUrl;
     }
     title = `Ticket #${title}`;
 
@@ -209,9 +309,10 @@ function alerta_imagen(title, imageUrl) {
         title,
         imageUrl,
         imageWidth: 250,
-        imageHeight: 380,
+        imageHeight: 450,
         imageAlt: title,
-        animation: true
+        animation: true,
+        showConfirmButton: false
     })
 }
 // alerta_imagen('1', 'error')
@@ -230,3 +331,7 @@ function initialize_data_table(id) {
 Array.prototype.unique=function(a){
 	return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
+function reset_form(identifier_form) {
+    $(identifier_form)[0].reset();
+    $('#factura_tickets').val(null).trigger("change"); 
+}
