@@ -160,7 +160,7 @@
 <div class="preloader">
     <div class="loader">
         <div class="loader__figure"></div>
-        <p class="loader__label">Pto el que lo lea</p>
+        <p class="loader__label">Carpintería Meraz</p>
     </div>
 </div>
 @show
