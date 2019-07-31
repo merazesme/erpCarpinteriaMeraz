@@ -42,6 +42,13 @@ Route::prefix('trabajadores')->group(function () {
 
 		Route::get('/trabajador/{id}', 'Trabajadores@edit');
 		Route::post('/editarTrabajador/{id}', 'Trabajadores@update');
+		Route::post('/liquidarTrabajador/{id}', 'Trabajadores@liquidar');
+		Route::post('/contratarTrabajador/{id}', 'Trabajadores@contratar');
+
+		Route::get('/contrato/{id}', function(){
+			$modulo = "Generar contrato";
+			return view('trabajadores/formulario', compact('modulo'));
+		});
 
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
