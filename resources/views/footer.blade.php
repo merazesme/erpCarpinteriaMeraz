@@ -81,30 +81,28 @@
 	<script src="{{asset('plugins/icheck/icheck.init.js')}}"></script>
 	<!-- =============================================================== -->
 
-    <!-- ======================= JS de los módulos ===================================== -->
-
-    <!-- <script src="{{asset('modulos/clientes.js')}}"></script>
-    <script src="{{asset('modulos/cotizaciones.js')}}"></script> -->
-		<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
-
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
 	<!-- Clock Plugin JavaScript -->
     <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 
+				<!-- FAVOR DE PONER ==AQUI== LOS JS DE LOS MODULOS -->
 	<!-- ======================= JS de los módulos ===================================== -->
+				<!-- FAVOR DE PONER ==AQUI== LOS JS DE LOS MODULOS -->
 	@yield('java')
+	<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
+	<!-- <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
 
 	@if(Request::segment(1) == "clientes")
-	<script src="{{asset('modulos/clientes.js')}}"></script>
+		<script src="{{asset('modulos/clientes.js')}}"></script>
 	@endif
 
 	@if(Request::segment(1) == "cotizaciones")
-	<script src="{{asset('modulos/cotizaciones.js')}}"></script>
+		<script src="{{asset('modulos/cotizaciones.js')}}"></script>
 	@endif
 
 	@if(Request::segment(1) == "configuraciones")
-	<script src="{{asset('modulos/configuraciones.js')}}"></script>
+		<script src="{{asset('modulos/configuraciones.js')}}"></script>
 	@endif
 
 	@if(Request::segment(1) == "inventario")
