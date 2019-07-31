@@ -14,6 +14,9 @@
 	.form-control:disabled {
 		background-color: white;
 	}
+	.errorPrestamo {
+		border-color: red !important;
+	}
 </style>
 	<div id="main-wrapper">
 		@section('sidebar')
@@ -24,22 +27,24 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
+								<h4 class="card-title">{{ $modulo }}</h4>
+								<br>
 								<ul class="nav nav-tabs customtab2" role="tablist">
 										<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-notepad"></i></span> <span class="hidden-xs-down">Semanal</span></a> </li>
-										<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
+										<li class="nav-item" id="historial"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
 								</ul>
 									<!-- Tab panes -->
 									<div class="tab-content">
 										<div class="tab-pane active" id="home7" role="tabpanel">
 											<div class="p-20">
-												<div style="text-align:center">
-													<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>
+												<div class="text-center" id="btnGenerar">
+
 												</div>
 												<br>
 												<span id="guardar">
 
 												</span>
-												<span style="text-align:center">
+												<span class="text-center">
 													<h5 id="semanas"></h5>
 													<h5 id="rango-semana"></h5>
 												</span>
@@ -159,9 +164,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="tab-pane  p-20" id="profile7" role="tabpanel">
-											<div class="table-responsive m-t-20" >
-                        <table id="myTable" class="table table-bordered table-striped">
+										<div class="tab-pane   p-20" id="profile7" role="tabpanel">
+											<div class="table-responsive m-t-20 tablaHistorial">
+                        <!--<table id="myTable" class="table table-bordered table-striped">
                           <thead>
                               <tr>
                                 <th>No. de nomina</th>
@@ -190,30 +195,9 @@
                                 <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                               </td>
                             </tr>
-                            <tr>
-                              <td>2</td>
-                              <td><i class="fa fa-clock-o"></i> 19/07/2019</td>
-                              <td>Paola Cardenas</td>
-                              <td class="text-nowrap">
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-                                <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td><i class="fa fa-clock-o"></i> 23/07/2019</td>
-                              <td>Paola Cardenas</td>
-                              <td class="text-nowrap">
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                                <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-                                <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                              </td>
-                            </tr>
+
                           </tbody>
-                        </table>
+                        </table>-->
                       </div>
 										</div>
 									</div>
@@ -228,6 +212,7 @@
 										</div>
 										<div class="modal-body">
 											<div class="container">
+												<input type="text" name="" value="" hidden id="posic">
 												<div class="row" >
 													<div class="col-md-12 col-lg-4">
 														<table class="table .table-bordered">
@@ -256,6 +241,10 @@
 																<tr>
 																	<td><strong>Horas extra</strong></td>
 																	<td> <input type="text" name="" value="" class="form-control" id="horasExtras"> </td>
+																</tr>
+																<tr>
+																	<td><strong>Total prestamos</strong></td>
+																	<td> <input type="text" name="" value="" class="form-control" id="totalPrestamo"> </td>
 																</tr>
 															</tbody>
 														</table>
@@ -309,7 +298,7 @@
 															<tbody>
 																<tr>
 																	<td>Abono prestamo</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="abonoPrestamo"> </td>
+																	<td> <input type="number" name="" min="0" value="" class="form-control" id="abonoPrestamo"> </td>
 																</tr>
 																<tr>
 																	<td>Infonavit</td>
@@ -323,23 +312,24 @@
 														</table>
 													</div>
 												</div>
-												<div class="row">
-													<div class="col-md-12">
-														<div class="form-group m-t-40 row">
-
-                                <label for="total" class="col-2 col-form-label">Total</label>
-                                <div class="col-10">
-                                    <input class="form-control" type="text" value="" id="total">
-                                </div>
-
+												<div class="form-group row">
+														<div class="col-8"></div>
+                            <label for="total" class="col-2 col-form-label" style="font-weight: bold;">Total</label>
+                            <div class="col-2">
+                                <input class="form-control" type="text" value="" id="total"  style="font-weight: bold;">
                             </div>
-													</div>
-												</div>
+                        </div>
 											</div>
 										</div>
 
 										<div class="modal-footer">
-												<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+											<span id="ver">
+												<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+											</span>
+											<span id="editar">
+												<button type="button" class="btn btn-secondary waves-effect"  data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+						 						<button type="button" id="guardarDatos" class="btn btn-success waves-effect" data-dismiss="modal"><i class="mdi mdi-content-save"></i> Aceptar</button>
+											</span>
 										</div>
 									</div>
 									<!-- /.modal-content -->
@@ -357,14 +347,15 @@
 			@section('java')
 		<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 		<script src="{{asset('js/toastr2.js')}}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
 
 		<script>
     $(document).ready(function() {
+			/************** Generar nomina semanal ******************/
 			// Desactiva los inputs del modal
 			$('input').prop('disabled', true).addClass('hola');
 			// Boton para guardar nomina
 			var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
+			var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
 			// Funcion que regresa la semana del año de la fecha actual
 			Date.prototype.getWeekNumber = function () {
 			    var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
@@ -380,33 +371,44 @@
 					https://es.stackoverflow.com/questions/7003/c%C3%B3mo-puedo-obtener-el-primer-y-ultimo-d%C3%ADa-de-una-semana-concreta-en-javascript
 					https://momentjs.com/docs/#/displaying/as-object/
 			*/
-			var fechai = moment().isoWeek(numSemana).startOf("isoweek").toObject();
-			var fechaf = moment().isoWeek(numSemana).endOf("isoweek").toObject();
+			var f_i = moment().isoWeek(numSemana).startOf("isoweek").toObject();
+			var f_f = moment().isoWeek(numSemana).endOf("isoweek").toObject();
+			//console.log( moment().isoWeek(numSemana).startOf("isoweek").format())
+			var fechai = moment(f_i).toObject();
+			var fechaf = moment(f_f).toObject();
 
 			$('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
-			// Objeto de asistencia
-			var asistencia = {
-				diasTrabajados: 6,
-				faltasSinJustificar: 0,
-				diasDescanso: 1,
-				horasSabado: 2.5,
-				horasExtras: 5,
-			}
 
+			// Consulta si esta la semana guardada
+			$.ajax({
+				type: "GET",
+				dataType: "json",
+				url: 'nominaSemanal/confirma/'+numSemana,
+				success: function (data) {
+						if(data['Error'])
+							swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+						else if(data['NotFound'])
+							$('#btnGenerar').append(botonGenerar);
+						else
+							$('#btnGenerar').append('<br><h5 class="text-danger"> Ya se generó la nómina de está semana </h5>');
+				}, error: function(error) {
+						toastError();
+				}
+			});
 			// Aqui se guardan todos los datos de nomina del trabajador
 			var trabajadores = [];
 
-			$('#genera').on('click', function() {
+			$(document).on('click','#genera', function() {
 					$(this).attr('disabled', true);
 					obtieneDatos();
 			});
-
+				//obtieneDatos();
 			// Funcion que obtiene los datos necesarios para generar la nomina del trabajador
 			function obtieneDatos() {
 				$.ajax({
 					type: "GET",
 					dataType: "json",
-					url: 'nominaSemanal/muestra',
+					url: 'nominaSemanal/muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
 					success: function (data) {
 							console.log(data)
 							if(data['Error'])
@@ -436,7 +438,7 @@
 										<th data-hide="phone"> Percepciones </th>
 										<th data-hide="phone"> Deducciones </th>
 										<th data-hide="phone"> Neto a pagar </th>
-										<th data-hide="phone"> Acciones </th>
+										<th data-hide="phone" class="text-center"> Acciones </th>
 								</tr>
 						</thead>
 						<tbody>`;
@@ -444,16 +446,33 @@
 						trabajadores[x].Nomina = {
 							xDeducciones: {}
 						};
+						trabajadores[x]['Total Percepciones'] = 0;
+						trabajadores[x]['Total Deducciones'] = 0;
 						var tr = trabajadores[x]
+						tr.diasTrabajados = 0;
+						tr.horasExtras = 0;
+						tr.diasDescanso = 1;
+						tr.horasSabado = 2.5; // Falta por definir
+						tr.faltasSinJustificar = 0; // Falta por definir
+
+						for (var i = 0; i < tr.asistencia.length; i++) {
+							//console.log(tr.asistencia[i])
+							if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1)
+								tr.diasTrabajados ++;
+							else if(tr.asistencia[i].Hora_salida === 1 || tr.asistencia[i].Hora_entrada === 1)
+								tr.diasTrabajados +=0.5;
+							if(tr.asistencia[i].Hora_extra === 1)
+								tr.horasExtras ++;
+						}
 						tr.NombreyApodo = tr.Nombre + ' ' + tr.Apellidos + ' (' + tr.Apodo + ')'
 						// 	* 	Percepciones	* 	//
 						tr.Nomina.xPercepciones = {
-							'Sueldo':  (tr.Sueldo/48) * (asistencia.diasTrabajados * 8 ) + (asistencia.diasDescanso * 8) - 8 - (2.5) + asistencia.horasSabado,
-							'Horas Extras':  (tr.Monto_Hora_Extra / 5) * (asistencia.horasExtras),
-							'Bono P y A':  (tr.Bono_Produc_Asis/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1),
-							'Bono Extra':  (tr.Bono_Extra/6) * (asistencia.diasTrabajados + asistencia.diasDescanso - 1),
+							'Sueldo': Math.round( (tr.Sueldo/48) * (tr.diasTrabajados * 8 ) + (tr.diasDescanso * 8) - 8 - (2.5) + tr.horasSabado ),
+							'Horas Extras': Math.round( (tr.Monto_Hora_Extra / 5) * (tr.horasExtras) ),
+							'Bono P y A': Math.round( (tr.Bono_Produc_Asis/6) * (tr.diasTrabajados + tr.diasDescanso - 1) ),
+							'Bono Extra': Math.round( (tr.Bono_Extra/6) * (tr.diasTrabajados + tr.diasDescanso - 1) ),
 						};
-						tr.Nomina.xPercepciones['Total Percepciones']=tr.Nomina.xPercepciones['Sueldo'] + tr.Nomina.xPercepciones['Horas Extras'] + tr.Nomina.xPercepciones['Bono P y A'] + tr.Nomina.xPercepciones['Bono Extra'];
+						tr['Total Percepciones'] = Math.round(tr.Nomina.xPercepciones['Sueldo'] + tr.Nomina.xPercepciones['Horas Extras'] + tr.Nomina.xPercepciones['Bono P y A'] + tr.Nomina.xPercepciones['Bono Extra']);
 						// * 		Deducciones		*		//
 						tr.totalPrestamos >= 100 ? tr.Nomina.xDeducciones["Abono Prestamo"] = 100 :
 						tr.totalPrestamos > 0 ? tr.Nomina.xDeducciones["Abono Prestamo"] = tr.totalPrestamos :
@@ -462,20 +481,20 @@
 						tr.Infonavit != 0 ? tr.Nomina.xDeducciones['Infonavit'] = tr.Infonavit :
 						tr.Nomina.xDeducciones['Infonavit'] = 0;
 
-						tr.Nomina.xDeducciones['Total Deducciones'] = tr.Nomina.xDeducciones["Abono Prestamo"] + tr.Nomina.xDeducciones['Infonavit'];
+						tr['Total Deducciones'] = Math.round(tr.Nomina.xDeducciones["Abono Prestamo"] + tr.Nomina.xDeducciones['Infonavit']);
 						// Redondea el total
-						tr.xTotal = Math.round(tr.Nomina.xPercepciones['Total Percepciones'] - tr.Nomina.xDeducciones['Total Deducciones']);
+						tr.xTotal = Math.round(tr['Total Percepciones'] - tr['Total Deducciones']);
 
 						html += `<tr>
 												<td>${tr.Nombre} ${tr.Apellidos}</td>
-												<td>${tr.Nomina.xPercepciones['Total Percepciones']}</td>
-												<td>${tr.Nomina.xDeducciones['Total Deducciones']}</td>
-												<td>${tr.xTotal}</td>
-												<td>
-														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" class="modal-edit">
+												<td>$${tr['Total Percepciones']}</td>
+												<td id="deduccion${x}">$${tr['Total Deducciones']}</td>
+												<td id="total${x}">$${tr.xTotal}</td>
+												<td class="text-center">
+														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" data-posicion="${x}" class="modal-edit">
 																<a data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
 														</span>
-														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" class="modal-show">
+														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" data-posicion="${x}" class="modal-show">
 																<a data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
 														</span>
 												</td>
@@ -485,50 +504,89 @@
 				html += `<tbody>
 						</table>`;
 				$( ".tabla" ).append(html);
-				$('#demo-foo-accordion').DataTable({
-						dom: 'Bfrtip',
-						buttons: [
-								'excel', 'pdf', 'print'
-						]
-				});
 			}
 
 			// Funcion que muestra los datos en el modal
-			function setData(data) {
+			function setData(data, bandera) {
 				var results = trabajadores.filter(function (trabajador) { return trabajador.id == data; });
 				var objeto = (results.length > 0) ? results[0] : null;
 				$('#nombre').text(objeto.NombreyApodo);
-				$('#diasTrabajados').val(asistencia.diasTrabajados);
-				$('#faltasSinJustificar').val(asistencia.faltasSinJustificar);
-				$('#diasDescanso').val(asistencia.diasDescanso);
-				$('#horasSabado').val(asistencia.horasSabado);
-				$('#horasExtras').val(asistencia.horasExtras);
-				$('#sueldoBase').val(objeto.Sueldo);
-				$('#horasExtrasMonto').val(objeto.Nomina.xPercepciones['Horas Extras']);
-				$('#bonopya').val(objeto.Nomina.xPercepciones['Bono P y A']);
-				$('#bonoExtra').val(objeto.Nomina.xPercepciones['Bono Extra']);
-				$('#totalPercepciones').val(objeto.Nomina.xPercepciones['Total Percepciones']);
-				$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']);
-				$('#infonavit').val(objeto.Infonavit);
-				$('#totalDeducciones').val(objeto.Nomina.xDeducciones['Total Deducciones']);
-				$('#total').val(objeto.xTotal);
+				$('#diasTrabajados').val(objeto.diasTrabajados);
+				$('#faltasSinJustificar').val(objeto.faltasSinJustificar);
+				$('#diasDescanso').val(objeto.diasDescanso);
+				$('#horasSabado').val(objeto.horasSabado);
+				$('#horasExtras').val(objeto.horasExtras);
+				$('#totalPrestamo').val(objeto.totalPrestamos);
+				$('#sueldoBase').val('$'+objeto.Nomina.xPercepciones['Sueldo']);
+				$('#horasExtrasMonto').val('$'+objeto.Nomina.xPercepciones['Horas Extras']);
+				$('#bonopya').val('$'+objeto.Nomina.xPercepciones['Bono P y A']);
+				$('#bonoExtra').val('$'+objeto.Nomina.xPercepciones['Bono Extra']);
+				$('#totalPercepciones').val('$'+objeto['Total Percepciones']);
+				if(bandera == 1) {
+					$('#abonoPrestamo').get(0).type = 'number';
+					$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']).attr({
+				       "max" : objeto.totalPrestamos
+				    });
+				}
+				else {
+					$('#abonoPrestamo').get(0).type = 'text';
+					$('#abonoPrestamo').val('$'+objeto.Nomina.xDeducciones['Abono Prestamo']);
+				}
+				$('#infonavit').val('$'+objeto.Infonavit);
+				$('#totalDeducciones').val('$'+objeto['Total Deducciones']);
+				$('#total').val('$'+objeto.xTotal);
 			}
-
+			var posicion = null;
 			// Muestra el modal para editar nomina
 			$(document).on('click','.modal-edit', function() {
 				$('.modal-title').text('Editar nómina');
-				var data = $(this).data('body')
+				var data = $(this).data('body');
+				posicion = $(this).data('posicion');
 				$('#abonoPrestamo').prop('disabled', false).removeClass('hola');
-				setData(data);
+				$('#editar').show();
+				$('#ver').hide();
+				setData(data, 1);
 			});
 
 			// Muestra el modal de detalles de nomina
 			$(document).on('click','.modal-show', function() {
 				$('.modal-title').text('Detalles nómina');
-				var data = $(this).data('body')
+				var data = $(this).data('body');
+				posicion = $(this).data('posicion');
 				$('#abonoPrestamo').prop('disabled', true).addClass('hola');
-				setData(data);
+				$('#editar').hide();
+				$('#ver').show();
+				setData(data,0);
 			});
+
+			$(document).on('click','#guardarDatos', function() {
+				trabajadores[posicion].Nomina.xDeducciones["Abono Prestamo"] = prestamoEdicion;
+				trabajadores[posicion]['Total Deducciones'] = totalDeduccionEdicion;
+				trabajadores[posicion].xTotal = totalEdicion;
+				$('#deduccion'+posicion).text('$'+trabajadores[posicion]['Total Deducciones']);
+				$('#total'+posicion).text('$'+trabajadores[posicion].xTotal);
+			});
+
+			var prestamoEdicion = 0, totalDeduccionEdicion = 0, totalEdicion = 0;
+			$( "#abonoPrestamo" ).bind("keyup change", function(e){
+				console.log($( this ).val())
+				var nuevo = $( this ).val();
+				if(nuevo === '')
+					nuevo = 0;
+				if(nuevo > trabajadores[posicion]['totalPrestamos']) {
+					$('#guardarDatos').prop('disabled', true);
+					$('#abonoPrestamo').addClass('errorPrestamo');
+				}
+				else {
+					$('#guardarDatos').prop('disabled', false)
+					$('#abonoPrestamo').removeClass('errorPrestamo');
+				}
+				prestamoEdicion = parseInt(nuevo);
+				totalDeduccionEdicion = Math.round(prestamoEdicion + trabajadores[posicion].Nomina.xDeducciones['Infonavit']);
+				totalEdicion = Math.round(trabajadores[posicion]['Total Percepciones'] - totalDeduccionEdicion);
+				$('#totalDeducciones').val('$'+totalDeduccionEdicion);
+				$('#total').val('$'+totalEdicion);
+			})
 
 			$(document).on('click','#btnGuardar', function() {
 					$(this).attr('disabled', true);
@@ -537,12 +595,14 @@
 
 			// Funcion que guarda la nomina en la base de datos
 			function saveNomina() {
+				console.log(trabajadores)
 				$.ajax({
 						 type: 'POST',
 						 url: 'nominaSemanal/saveNomina',
 						 data: {
 							 '_token': $('meta[name="csrf-token"]').attr('content'),
 							 'trabajadores':trabajadores,
+							 'semana': numSemana
 						 },
 						 success: function(data) {
 								 console.log(data);
@@ -550,11 +610,93 @@
 	 								swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
 		 						 else {
 									 toastSuccess("Nómina guardada exitosamente.");
+									 $('.modal-edit').hide("slow");
 									 $('#guardar').hide("slow");
+									 $('#demo-foo-accordion').DataTable({
+											 dom: 'Bfrtip',
+											 buttons: [
+													 'excel', 'pdf', 'print'
+											 ]
+									 });
 								 }
 						}, error: function(error) {
 								toastError();
 						}
+				});
+			}
+
+			/************** Muestra historial semanal ******************/
+
+			var historial = [];
+
+			$(document).on('click','#historial', function() {
+					$("#myTable").DataTable().destroy();
+					$("#myTable" ).remove();
+					obtieneDatosHistorial();
+			});
+
+			// Obtiene los datos del historial de nominas
+			function obtieneDatosHistorial() {
+				$.ajax({
+					type: "GET",
+					dataType: "json",
+					url: 'nominaSemanal/historialNomina',
+					success: function (data) {
+							console.log(data)
+							if(data['Error'])
+								swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+							else {
+								historial = data;
+								muestraHistorial();
+							}
+					}, error: function(error) {
+							toastError();
+					}
+				});
+			}
+
+			// Genera las filas de la tabla
+			function muestraHistorial() {
+				var tamanio = historial.length;
+				var html =
+				 `<table id="myTable" class="table table-bordered table-striped">
+					 <thead>
+							 <tr>
+								 <th>No. de nomina</th>
+								 <th>Fecha</th>
+								 <th>Elaborada por</th>
+								 <th>Acciones</th>
+							 </tr>
+					 </thead>
+					 <tfoot>
+						 <tr>
+							 <th>No. de nomina</th>
+							 <th>Fecha</th>
+							 <th>Elaborada por</th>
+							 <th>Acciones</th>
+						 </tr>
+					 </tfoot>
+					 <tbody>`;
+				for(var x=0; x<tamanio; x++) {
+
+						html += `<tr>
+											<td>${historial[x].Semana}</td>
+											<td><i class="fa fa-clock-o"></i> ${historial[x].Fecha}</td>
+											<td>${historial[x].usuario}</td>
+											<td class="text-nowrap">
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
+												<button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
+												<a href="{{ url('nomina/nominaSemanal/detalles') }}" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+											</td>
+
+										 </tr>`;
+				}
+				html += `<tbody>
+						</table>`;
+				$( ".tablaHistorial" ).append(html);
+				$('#myTable').DataTable({
+					"order": [[ 1, "desc" ]]
 				});
 			}
 		});

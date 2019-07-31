@@ -14,7 +14,7 @@
               <div class="card">
                   <div class="card-body">
                       <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-                      <a  class="btn waves-effect waves-light btn-primary float-right" href="/nuevaCotizacion"> <i class="fa fa-plus"></i> Generar cotización</a>
+                      <a  class="btn waves-effect waves-light btn-primary float-right" href="/cotizaciones/nueva"> <i class="fa fa-plus"></i> Generar cotización</a>
                       <h4 class="card-title">Lista de Cotizaciones</h4>
                       <div class="table-responsive m-t-40">
                           <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -23,8 +23,8 @@
                                       <th>Descripción</th>
                                       <th>Estado</th>
                                       <th>Cliente</th>
-																			<th>Precio</th>
-																			<th>Acciones</th>
+									  <th>Precio</th>
+									  <th>Acciones</th>
                                   </tr>
                               </thead>
                               <tfoot>
@@ -33,7 +33,7 @@
                                       <th>Estado</th>
                                       <th>Cliente</th>
                                       <th>Precio</th>
-																			<th>Acciones</th>
+									  <th>Acciones</th>
                                   </tr>
                               </tfoot>
                               <tbody>
@@ -42,13 +42,13 @@
                                       <td><span class="badge badge-success">Aceptada</span></td>
                                       <td>Itzel Rendón</td>
                                       <td>$xx,xxx.xx</td>
-																			<td class="text-nowrap">
+									  <td class="text-nowrap">
 	                                      <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
 	                                      <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
 	                                      <span data-toggle="modal" data-target="#modalCotizacion">
-                                          <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                                        </span>
-	                                  	</td>
+                                          	<a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                                         </span>
+                                  	  </td>
                                   </tr>
                                    <tr>
                                       <td>Puerta de recámara</td>
