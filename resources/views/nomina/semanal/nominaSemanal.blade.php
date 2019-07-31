@@ -14,6 +14,9 @@
 	.form-control:disabled {
 		background-color: white;
 	}
+	.errorPrestamo {
+		border-color: red !important;
+	}
 </style>
 	<div id="main-wrapper">
 		@section('sidebar')
@@ -34,14 +37,14 @@
 									<div class="tab-content">
 										<div class="tab-pane active" id="home7" role="tabpanel">
 											<div class="p-20">
-												<div style="text-align:center">
-													<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>
+												<div class="text-center" id="btnGenerar">
+
 												</div>
 												<br>
 												<span id="guardar">
 
 												</span>
-												<span style="text-align:center">
+												<span class="text-center">
 													<h5 id="semanas"></h5>
 													<h5 id="rango-semana"></h5>
 												</span>
@@ -239,6 +242,10 @@
 																	<td><strong>Horas extra</strong></td>
 																	<td> <input type="text" name="" value="" class="form-control" id="horasExtras"> </td>
 																</tr>
+																<tr>
+																	<td><strong>Total prestamos</strong></td>
+																	<td> <input type="text" name="" value="" class="form-control" id="totalPrestamo"> </td>
+																</tr>
 															</tbody>
 														</table>
 													</div>
@@ -291,7 +298,7 @@
 															<tbody>
 																<tr>
 																	<td>Abono prestamo</td>
-																	<td> <input type="number" name="" value="" class="form-control" id="abonoPrestamo"> </td>
+																	<td> <input type="number" name="" min="0" value="" class="form-control" id="abonoPrestamo"> </td>
 																</tr>
 																<tr>
 																	<td>Infonavit</td>
@@ -348,6 +355,7 @@
 			$('input').prop('disabled', true).addClass('hola');
 			// Boton para guardar nomina
 			var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
+			var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
 			// Funcion que regresa la semana del año de la fecha actual
 			Date.prototype.getWeekNumber = function () {
 			    var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
@@ -369,13 +377,28 @@
 			var fechai = moment(f_i).toObject();
 			var fechaf = moment(f_f).toObject();
 
-			var bandera = false;
 			$('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
 
+			// Consulta si esta la semana guardada
+			$.ajax({
+				type: "GET",
+				dataType: "json",
+				url: 'nominaSemanal/confirma/'+numSemana,
+				success: function (data) {
+						if(data['Error'])
+							swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+						else if(data['NotFound'])
+							$('#btnGenerar').append(botonGenerar);
+						else
+							$('#btnGenerar').append('<br><h5 class="text-danger"> Ya se generó la nómina de está semana </h5>');
+				}, error: function(error) {
+						toastError();
+				}
+			});
 			// Aqui se guardan todos los datos de nomina del trabajador
 			var trabajadores = [];
 
-			$('#genera').on('click', function() {
+			$(document).on('click','#genera', function() {
 					$(this).attr('disabled', true);
 					obtieneDatos();
 			});
@@ -415,7 +438,7 @@
 										<th data-hide="phone"> Percepciones </th>
 										<th data-hide="phone"> Deducciones </th>
 										<th data-hide="phone"> Neto a pagar </th>
-										<th data-hide="phone"> Acciones </th>
+										<th data-hide="phone" class="text-center"> Acciones </th>
 								</tr>
 						</thead>
 						<tbody>`;
@@ -467,7 +490,7 @@
 												<td>$${tr['Total Percepciones']}</td>
 												<td id="deduccion${x}">$${tr['Total Deducciones']}</td>
 												<td id="total${x}">$${tr.xTotal}</td>
-												<td>
+												<td class="text-center">
 														<span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" data-posicion="${x}" class="modal-edit">
 																<a data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
 														</span>
@@ -493,15 +516,22 @@
 				$('#diasDescanso').val(objeto.diasDescanso);
 				$('#horasSabado').val(objeto.horasSabado);
 				$('#horasExtras').val(objeto.horasExtras);
+				$('#totalPrestamo').val(objeto.totalPrestamos);
 				$('#sueldoBase').val('$'+objeto.Nomina.xPercepciones['Sueldo']);
 				$('#horasExtrasMonto').val('$'+objeto.Nomina.xPercepciones['Horas Extras']);
 				$('#bonopya').val('$'+objeto.Nomina.xPercepciones['Bono P y A']);
 				$('#bonoExtra').val('$'+objeto.Nomina.xPercepciones['Bono Extra']);
 				$('#totalPercepciones').val('$'+objeto['Total Percepciones']);
-				if(bandera == 1)
-					$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']);
-				else
+				if(bandera == 1) {
+					$('#abonoPrestamo').get(0).type = 'number';
+					$('#abonoPrestamo').val(objeto.Nomina.xDeducciones['Abono Prestamo']).attr({
+				       "max" : objeto.totalPrestamos
+				    });
+				}
+				else {
+					$('#abonoPrestamo').get(0).type = 'text';
 					$('#abonoPrestamo').val('$'+objeto.Nomina.xDeducciones['Abono Prestamo']);
+				}
 				$('#infonavit').val('$'+objeto.Infonavit);
 				$('#totalDeducciones').val('$'+objeto['Total Deducciones']);
 				$('#total').val('$'+objeto.xTotal);
@@ -538,8 +568,19 @@
 			});
 
 			var prestamoEdicion = 0, totalDeduccionEdicion = 0, totalEdicion = 0;
-			$( "#abonoPrestamo" ).change(function() {
+			$( "#abonoPrestamo" ).bind("keyup change", function(e){
+				console.log($( this ).val())
 				var nuevo = $( this ).val();
+				if(nuevo === '')
+					nuevo = 0;
+				if(nuevo > trabajadores[posicion]['totalPrestamos']) {
+					$('#guardarDatos').prop('disabled', true);
+					$('#abonoPrestamo').addClass('errorPrestamo');
+				}
+				else {
+					$('#guardarDatos').prop('disabled', false)
+					$('#abonoPrestamo').removeClass('errorPrestamo');
+				}
 				prestamoEdicion = parseInt(nuevo);
 				totalDeduccionEdicion = Math.round(prestamoEdicion + trabajadores[posicion].Nomina.xDeducciones['Infonavit']);
 				totalEdicion = Math.round(trabajadores[posicion]['Total Percepciones'] - totalDeduccionEdicion);
@@ -569,6 +610,7 @@
 	 								swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
 		 						 else {
 									 toastSuccess("Nómina guardada exitosamente.");
+									 $('.modal-edit').hide("slow");
 									 $('#guardar').hide("slow");
 									 $('#demo-foo-accordion').DataTable({
 											 dom: 'Bfrtip',
@@ -588,11 +630,9 @@
 			var historial = [];
 
 			$(document).on('click','#historial', function() {
-				//console.log('nomina historial')
-				if(bandera == false) {
+					$("#myTable").DataTable().destroy();
+					$("#myTable" ).remove();
 					obtieneDatosHistorial();
-					bandera = true;
-				}
 			});
 
 			// Obtiene los datos del historial de nominas
@@ -655,7 +695,9 @@
 				html += `<tbody>
 						</table>`;
 				$( ".tablaHistorial" ).append(html);
-				$('#myTable').DataTable();
+				$('#myTable').DataTable({
+					"order": [[ 1, "desc" ]]
+				});
 			}
 		});
     </script>

@@ -195,6 +195,7 @@ Route::prefix('nomina')->group(function () {
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
+		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
 	});
 
 	Route::prefix('nominaAguinaldo')->group(function () {
