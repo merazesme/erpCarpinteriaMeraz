@@ -46,58 +46,6 @@
 					                        </tr>
 					                    </tfoot>
 					                    <tbody>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pagado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En curso</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recibido</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cancelado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
 					                    </tbody>
 					                </table>
 					            </div>
@@ -361,27 +309,128 @@
 								<div class="modal-body">
 										<form id="frmNuevaOrdenCompra" name="frmNuevaOrdenCompra">
 											<section>
-												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
-												<div class="form-group">
-														<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-														<select id="select_CompraMaterial" class="form-control">
-														</select>
-												</div>
-												<div class="form-group">
-														<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-														<select id="select_CompraProveedor" class="form-control">
-												</select>
-												</div>
-													<div class="form-group">
-															<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
-															<input type="text" class="form-control" id="cantidadOrdenCompra">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+																<select id="select_CompraMaterial" class="form-control">
+																</select>
+														</div>
 													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+																<select id="select_CompraProveedor" class="form-control">
+																</select>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="message-text" class="control-label">#Nota <span class="danger">*</label>
+																<input type="text" class="form-control" name="num_nota" id="num_nota">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
+																<input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra">
+														</div>
+													</div>
+												</div>
+												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
 											<section>
 										</form>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
 									<button type="button" id="actionAgregarNuevaCompra" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- Modal -->
+
+		<!-- Modal nueva orden de compra-->
+		<div id="modal_modificar_ordenCompra" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h4 class="modal-title" id="agregarTituloModificarCompra">Orden de compra</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								</div>
+								<div class="modal-body">
+										<form id="frmModificarOrdenCompra" name="frmModificarOrdenCompra">
+											<section>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+																<select id="select_CompraMaterialModificar" class="form-control">
+																</select>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+																<select id="select_CompraProveedorModificar" class="form-control">
+																</select>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="message-text" class="control-label">#Nota <span class="danger">*</label>
+																<input type="text" class="form-control" name="num_notaModificar" id="num_notaModificar">
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
+																<input type="text" class="form-control" name="cantidadOrdenCompraModificar" id="cantidadOrdenCompraModificar">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+													  	<label for="recipient-name" class="control-label">Estado <span class="danger">*</label>
+													</div>
+												</div>
+												<div class="row">
+														<div class="col-md-4">
+															<div class="form-check">
+																	<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1"> <!-- checked -->
+																	<label class="form-check-label" for="Estado_Curso">
+																		En curso
+																	</label>
+																</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-check">
+																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Recibido" value="2">
+																<label class="form-check-label" for="Estado_Recibido">
+																	Recibido
+																</label>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-check">
+																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Cancelado" value="3">
+																<label class="form-check-label" for="Estado_Cancelado">
+																	Cancelado
+																</label>
+															</div>
+														</div>
+												</div>
+												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
+											<section>
+										</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+									<button type="button" id="actionAgregarModificarCompra" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
 								</div>
 						</div>
 				</div>

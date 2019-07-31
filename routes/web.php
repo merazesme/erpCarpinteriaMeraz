@@ -115,10 +115,10 @@ Route::prefix('inventario')->group(function () {
 		Route::get('/lista', 'compras@index');
 		Route::get('/lista_materiales', 'compras@datosmaterial');
 		Route::get('/lista_proveedor', 'compras@datosproveedor');
-		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
-		// Route::get('/especifico/{id}', 'materiales@edit');
-		// Route::post('/modificar/{id}', 'materiales@update');
-		// Route::post('/eliminar/{id}', 'materiales@status');
+		Route::post('/agregar_ordenCompra', 'compras@store');
+		Route::get('/especifico/{id}', 'compras@show');
+		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
+		Route::get('/especificomov/{id}', 'compras@edit');
 		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
 	});
 	/** Temporal routes */
