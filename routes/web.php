@@ -208,6 +208,18 @@ Route::prefix('nomina')->group(function () {
 
 });
 
+Route::prefix('roles')->group(function () {
+	/** Vistas */
+	Route::get('/', 'rolController@index');
+	/** Obtener información */
+	Route::get('data', 					'rolController@list_resources');
+	Route::get('data/rol/usuario/{id}', 'rolController@usuarios_per_role');
+	Route::get('data/especifico', 		'rolController@specific_resource');
+	/** Mandar información */
+	Route::post('agregar', 'rolController@store');
+	Route::post('actualizar/estatus/{id}', 'rolController@update_estatus');
+});
+
 //Configuraciones vista principal
 Route::prefix('/configuraciones')->group(function () {
 	Route::get('/', function(){

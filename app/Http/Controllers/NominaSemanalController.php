@@ -126,7 +126,7 @@ class NominaSemanalController extends Controller
         return response()->json(["success" => "Guardado exitosamente."]);
       }
       catch(\Exception $e){
-         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.'.$e]);
       }
     }
 

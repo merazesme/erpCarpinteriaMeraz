@@ -117,7 +117,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/configuraciones" aria-expanded="false">
+                    <a href="/roles" aria-expanded="false">
                         <i class="mdi mdi-tag-faces"></i>
                         <span class="hide-menu">Roles</span>
                     </a>
