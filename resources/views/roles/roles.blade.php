@@ -110,11 +110,6 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label" id="select_modulos_label">Módulos disponibles</label>
-                                            {{-- <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir"
-                                                    id="rol_modulos" name="rol_modulos">
-                                                <optgroup label="Módulos">
-                                                </optgroup>
-                                            </select> --}}
                                         </div>
                                     </div>
                                     <!--/span-->
@@ -124,7 +119,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" onclick="agregar_rol()" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                            <button type="button" id="btn_guardar_rol" onclick="agregar_rol()" class="btn btn-success" data-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

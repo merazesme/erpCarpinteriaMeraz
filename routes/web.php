@@ -224,10 +224,11 @@ Route::prefix('roles')->group(function () {
 	/** Obtener información */
 	Route::get('data', 					'rolController@list_resources');
 	Route::get('data/rol/usuario/{id}', 'rolController@usuarios_per_role');
-	Route::get('data/especifico', 		'rolController@specific_resource');
+	Route::get('data/especifico/{id}', 	'rolController@show');
 	/** Mandar información */
-	Route::post('agregar', 'rolController@store');
-	Route::post('actualizar/estatus/{id}', 'rolController@update_estatus');
+	Route::post('agregar', 					'rolController@store');
+	Route::post('actualizar/{id}', 			'rolController@update');
+	Route::post('actualizar/estatus/{id}', 	'rolController@update_estatus');
 });
 
 //Configuraciones vista principal

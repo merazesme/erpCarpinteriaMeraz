@@ -58,10 +58,7 @@ class rolController extends Controller
         if(!session('Usuario')) {
             return 'session';
         }
-        if(
-            empty( $request->input('rol_nombre') )   ||
-            empty( $request->input('rol_modulos') )
-        ) {
+        if(empty( $request->input('rol_nombre') )) {
             return 'empty';
         }
 
@@ -123,6 +120,20 @@ class rolController extends Controller
     public function show($id)
     {
         //
+        $registros = DB::table('roles')
+                    ->select('roles.Nombre as nombre_rol', 'modulos.Nombre as nombre_modulo', 'modulos.id')
+                    ->join('roles_has_modulos', 'roles_has_modulos.Roles_idRol', '=', 'roles.id')
+                    ->join('modulos', 'roles_has_modulos.Modulos_idModulo', '=', 'modulos.id')
+                    ->where('roles.id', '=', $id)
+                    ->get();
+        if(sizeof($registros) <= 0) {
+            $registros = DB::table('roles')
+                    ->select('roles.Nombre as nombre_rol')
+                    ->where('roles.id', '=', $id)
+                    ->get();
+        }
+        
+        return $registros;
     }
 
     /**
@@ -146,6 +157,49 @@ class rolController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(!session('Usuario')) {
+            return 'session';
+        }
+        if(empty( $request->input('rol_nombre') )) {
+            return 'empty';
+        }
+
+        /** Registrar el rol en la tabla */
+        $rol = Rol::find($id);
+
+        $rol->Nombre    = $request->rol_nombre;
+        $rol->idUsuario = session('idUsuario');
+
+        if(!$rol->update()) {
+            return 'error-rol';
+        }
+
+        /** Guardar la nueva relación entre los tickets y pagos */
+
+        if(!$this->destroy_multiple($id)) {
+            return 'error-relacion';
+        }
+
+        $errores = 0;
+        $modulos = json_decode($request->rol_modulos);
+        foreach ($modulos as $modulo) {
+            $relacion = new Relacion();
+    
+            $relacion->Roles_idRol = $rol->id;
+            $relacion->Modulos_idModulo = $modulo;
+
+            if(!$relacion->save()) {
+                $errores++;
+            }
+        }
+
+        if($errores > 0) {
+            /** Ocurre error, borrar pago, retornar error de relación */
+            $this->destroy($rol->id);
+            return 'error-relacion';
+        }
+
+        return 'true';
     }
 
     /**
@@ -195,9 +249,8 @@ class rolController extends Controller
     public function destroy_multiple($id)
     {
         //
-        $roles = DB::table('roles')
-                    ->where('Roles_idRol', '=', $id)
-                    ->get();
+        $roles = DB::table('roles_has_modulos')
+                    ->where('Roles_idRol', '=', $id);
         if(!$roles->delete()) {
             return 'false';
         }
