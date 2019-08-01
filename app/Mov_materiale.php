@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Compra extends Model
+class Mov_materiale extends Model
 {
     //
-    protected $table = "compras";
 }
