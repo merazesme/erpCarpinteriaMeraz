@@ -200,7 +200,8 @@ Route::prefix('/cotizaciones')->group(function () {
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/detalles', 'NominaSemanalController@detalles');
+		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
+		Route::get('/detalleNomina/{semana}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
@@ -216,6 +217,19 @@ Route::prefix('nomina')->group(function () {
 		Route::post('/saveConceptoNomina', 'NominaAguinaldoController@conceptoNomina');
 	});
 
+});
+
+Route::prefix('roles')->group(function () {
+	/** Vistas */
+	Route::get('/', 'rolController@index');
+	/** Obtener información */
+	Route::get('data', 					'rolController@list_resources');
+	Route::get('data/rol/usuario/{id}', 'rolController@usuarios_per_role');
+	Route::get('data/especifico/{id}', 	'rolController@show');
+	/** Mandar información */
+	Route::post('agregar', 					'rolController@store');
+	Route::post('actualizar/{id}', 			'rolController@update');
+	Route::post('actualizar/estatus/{id}', 	'rolController@update_estatus');
 });
 
 //Configuraciones vista principal

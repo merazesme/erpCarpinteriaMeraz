@@ -29,10 +29,30 @@ class NominaSemanalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function detalles()
+    public function detalles($semana)
     {
-        $modulo = "Nómina Semanal";
-        return view('nomina/semanal/detalles', compact('modulo'));
+        $modulo = "Detalles de Nómina Semanal";
+        return view('nomina/semanal/detalles', compact('modulo', 'semana'));
+    }
+
+    public function detalleNomina($semana) {
+      try {
+        $nomina = Nomina::where('Semana', '=', $semana)->firstOrFail();
+
+        $nomina->detalleNomina = DetalleNomina::where('Nomina_idNomina', '=', $nomina->id)
+                                ->select('detalle_nominas.*', 'Nombre', 'Apellidos', 'Apodo')
+                                ->join('trabajadores', 'detalle_nominas.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                                ->get();
+        foreach ($nomina->detalleNomina as $conceptosNomina) {
+          $conceptos = ConceptosNomina::where('conceptos_nominas.DetalleNomina_idDetalleNomina',$conceptosNomina->id)
+                    ->get();
+          $conceptosNomina->conceptos = $conceptos;
+        }
+        return response()->json($nomina);
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json(['NotFound' => 'No se encontraron resultados de la consulta.']);
+
+      }
     }
 
     /**
@@ -132,7 +152,7 @@ class NominaSemanalController extends Controller
         return response()->json(["success" => "Guardado exitosamente."]);
       }
       catch(\Exception $e){
-         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.'.$e]);
       }
     }
 
