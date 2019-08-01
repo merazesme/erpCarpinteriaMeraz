@@ -23,7 +23,7 @@ class Trabajadores extends Controller
         try{
             $final = DB::table('trabajadores')
               ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
-                ->select('trabajadores.id', 'trabajadores.Nombre', 'trabajadores.Apellidos', 'trabajadores.Estado as trabajador_estado', 'contratos.id as id_contrato', 'contratos.Puesto', 'contratos.Estado as contrato_estado', 'contratos.Fecha_final')
+                ->select('trabajadores.id', 'trabajadores.Nombre', 'trabajadores.Apellidos', 'trabajadores.Estado as trabajador_estado', 'contratos.Puesto', 'contratos.Estado as contrato_estado', 'contratos.Fecha_final')
                   ->get();
 
             return $final;

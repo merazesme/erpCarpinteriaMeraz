@@ -1,6 +1,8 @@
   $(document).ready(function () {
+    // VALIDACION FORMULARIO
     initialize_validate_form();
 
+    // ACTIVAR TITULOS
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 
     // SOLO NÚMEROS
@@ -8,33 +10,44 @@
       this.value = this.value.replace(/[^0-9]/g,'');
     });
 
+    // ACTIVAR VALIDACIÓN FIRMA
     $('#validarFirma').hide();
 
-    console.log(location.href);
+    // IDENTIFICAR QUE METODO ES
+    // console.log(location.href);
+    // TABLA
   	if(location.href == base_url+'/trabajadores/lista'){
       console.log("Lista trabajadores");
       tablaTrabajadores();
     }
+    // AGREGAR
     else if(location.href == base_url+'/trabajadores/agregar'){
       console.log("Agregar trabajador");
     }
     else {
       var p = location.href.split('/');
+      // EDITAR
       if(p[4] == "editar"){
         console.log("Editar Trabajador");
-        console.log(p[5]);
+        // console.log(p[5]);
         trabajadorEspecifico(p[5], "editar");
       }
+      // CONTRATAR
       else if(p[4] == "contrato"){
         console.log("Generar Contrato");
-        console.log(p[5]);
+        // console.log(p[5]);
         contratarTrabajador(p[5]);
       }
     }
 
     // SE EJECUTA CUANDO SE CIERRA MODAL
     $("#modalDetalles").on('hidden.bs.modal', function () {
-      console.log("Se cierra modal");
+      $("#datosTrabajador").remove();
+      $("#br").remove();
+    });
+
+    // SE EJECUTA CUANDO SE CIERRA MODAL
+    $("#modalHistorial").on('hidden.bs.modal', function () {
       $("#datosTrabajador").remove();
       $("#br").remove();
     });
@@ -42,6 +55,7 @@
 
   function cancelar_registro() {
       $('#formularioTrabajador')[0].reset();
+      location.href = "/trabajadores/lista";
   }
 
   function regresar() {
@@ -61,12 +75,12 @@
       }
       else if(url[url.length - 2] == "editar") {
         var p = location.href.split('/');
-        console.log(p[5]);
+        // console.log(p[5]);
         agregarTrabajador("editar", p[5]);
       }
       else if(url[url.length - 2] == "contrato"){
         var p = location.href.split('/');
-        console.log(p[5]);
+        // console.log(p[5]);
         generarContrato(p[5]);
 
       }
@@ -133,13 +147,13 @@
               if (arreglo.indexOf(msg[x].id) === -1) {
                   arreglo.push(msg[x].id);
                   data.push(msg[x]);
-                  console.log("Arreglo: " + arreglo);
+                  // console.log("Arreglo: " + arreglo);
               } else if (arreglo.indexOf(msg[x].id) > -1) {
-                  console.log(msg[x].id + ' ya existe ese id.');
+                  // console.log(msg[x].id + ' ya existe ese id.');
               }
             }
-            console.log(arreglo);
-            console.log(data);
+            // console.log(arreglo);
+            // console.log(data);
             var htmlActivo="", htmlInactivo="";
             var tam2 = data.length;
             for (var i = 0; i < tam2; i++) {
@@ -149,9 +163,9 @@
                   <td>${data[i].Nombre} ${data[i].Apellidos}</td>
                   <td>${data[i].Puesto}</td>
                   <td>${data[i].Fecha_final}</td>
-                  <td class="text-nowrap" id="${data[i].id}" id_contrato="${data[i].id_contrato}">
-                    <a class="detallesTrabajador" href="#" data-toggle="modal" data-target="#verDetallesTrabajador" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                    <a class="historialTrabajador" href="#" data-toggle="modal" data-target="#verHistorialTrabajador" data-original-title="Ver historial"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                  <td class="text-nowrap" id="${data[i].id}">
+                    <a class="detallesTrabajador" href="#" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                    <a class="historialTrabajador" href="#" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
                     <a href="/trabajadores/editar/${data[i].id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>`;
               if(data[i].trabajador_estado == 0 && data[i].contrato_estado == 0){
                 // USUARIO INACTIVO
@@ -204,7 +218,7 @@
     // DATOS EDITAR
     else if(bandera == "editar"){
       if(id>0){
-        console.log("ENTRA A EDITAR");
+        // console.log("ENTRA A EDITAR");
         var url = base_url+'/trabajadores/editarTrabajador/'+id;
         var mensaje = "Registro actualizado con éxito.";
         var mensaje2 = "Actualizar trabajador";
@@ -227,7 +241,7 @@
           console.log(msg);
           if(msg['success'] == "Se agrego exitosamente"){
             reset_form('.validation-wizard');
-  	        swal("¡Éxito!", mensaje, "success");
+            success(mensaje);
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -239,8 +253,8 @@
   }
 
   // EDITAR TRABAJADOR
-  function trabajadorEspecifico(id, bandera, id_contrato){
-    console.log("LLEGO ESTE ID: " + id);
+  function trabajadorEspecifico(id, bandera){
+    // console.log("LLEGO ESTE ID: " + id);
     $.ajax({
         type: 'GET',
         dataType: "json",
@@ -249,24 +263,11 @@
         success: function(msg){
           console.log(msg);
           let data = msg;
+          msg.reverse();
           if(data['error'] == "Ocurrio un error"){
             console.log("Ha ocurrido un error, inténtelo más tarde.");
           }
           else{
-            // SELECCIONAR POR EL ID_CONTRATO
-            var tam = data.length;
-            if(tam > 1){
-              for (var i = 0; i < tam; i++) {
-                console.log(id_contrato);
-                console.log(data[i].id);
-                if(data[i].id == id_contrato){
-                  var k = data[i];
-                  data = [];
-                  data[0] = k;
-                }
-              }
-            }
-            // ----------------------------------------------------------
             if(bandera=="editar") {
               llenarCampos(data);
               // SECTION 3
@@ -305,8 +306,6 @@
                   <span class="label label-`+ color +` label-rounded">`+ estado + ` </span>
                 </div>
                 <br id="br">`;
-
-              $("#datos").before(htmlNombre);
 
               if(bandera == "detalles"){
                 htmlDetallesTrabajador=
@@ -347,8 +346,35 @@
                       <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Hora extra: </strong>${data[0].Monto_Hora_Extra} MXN</td>
                       <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Bono extra: </strong>${data[0].Bono_extra} MXN</td>
                   </tr>`;
+
+                $("#datos").before(htmlNombre);
                 $("#detallesTrabajador tbody").empty().append(htmlDetallesTrabajador);
                 $("#detallesContrato tbody").empty().append(htmlDetallesContrato);
+              }
+              else if(bandera == "historial"){
+                var htmlHistorialContratos="", htmlHistorialLiquidaciones="";
+                var tam3 = data.length;
+                console.log(tam3);
+                for (var c = 0; c < tam3; c++) {
+                  if(data[c].Estado==0){
+                    htmlHistorialContratos+=
+                      `<tr>
+                        <td>${data[c].Puesto}</td>
+                        <td>${data[c].Fecha_inicio}</td>
+                        <td>${data[c].Fecha_final}</td>
+                        <td>${data[c].Sueldo}</td>
+                        <td>${data[c].Monto_Hora_Extra}</td>
+                        <td>${data[c].Bono_extra}</td>
+                        <td>${data[c].Bono_produc_asis}</td>
+                      </tr>`;
+                  }
+                }
+
+                htmlHistorialLiquidaciones=
+                  ``;
+
+                $("#datos2").before(htmlNombre);
+                $("#historialContratos tbody").empty().append(htmlHistorialContratos);
               }
             }
           }
@@ -390,7 +416,7 @@
     }, function(isConfirm){
         if (isConfirm) {
           if(bandera == "liquidar"){
-            console.log("SI LIQUIDAR");
+            // console.log("SI LIQUIDAR");
             // SERVICIO
             $.ajax({
                 type: 'POST',
@@ -425,11 +451,14 @@
                                   closeOnCancel: true
                               }, function(isConfirm){
                                   if (isConfirm) {
-                                    console.log("GENERAR CONTRATO TAMBIEN");
+                                    // console.log("GENERAR CONTRATO TAMBIEN");
                                     location.href = "/trabajadores/contrato/"+id;
                                   }
                               });
                             }
+                          }
+                          else{
+                            location.href = "/trabajadores/lista";
                           }
                       });
                   }
@@ -467,12 +496,12 @@
   }
 
   function contratarTrabajador(id){
-    console.log(id);
+    // console.log(id);
     trabajadorEspecifico(id, "contratar");
   }
 
   function generarContrato(id){
-    console.log(id);
+    // console.log(id);
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
     datosTrabajador.append("idUsuario", "1");
     var url = base_url+'/trabajadores/contratarTrabajador/'+id;
@@ -489,7 +518,8 @@
         success: function(msg){
           console.log(msg);
           if(msg['success'] == "Se contrato exitosamente"){
-  	        swal("¡Éxito!", "Contrato generado con éxito.", "success");
+  	        mensaje = "Contrato generado con éxito.";
+            success(mensaje);
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal("Generar contrato", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -503,8 +533,7 @@
   // BOTON TABLA DETALLE TRABAJADOR
   $("body").on("click", ".detallesTrabajador", function(e){
     var id = $(this).parent().attr("id");
-    var id_contrato = $(this).parent().attr("id_contrato");
-    trabajadorEspecifico(id, "detalles", id_contrato);
+    trabajadorEspecifico(id, "detalles");
     $('#modalDetalles').modal('show');
   })
 
@@ -526,8 +555,13 @@
   $("body").on("click", ".contratarTrabajador", function(e){
     console.log("Contratar");
     var id = $(this).parent().attr("id");
-    console.log(id);
+    // console.log(id);
     liquidar_contratar_Trabajador("contratar", id);
+  })
+
+  $("#tipoDeDocumento").on("click", ".tipoDeDocumento", function(e){
+    console.log("DIO CLICK");
+    console.log($("#tipoDeDocumento").val());
   })
 
   function alert(heading, text, icon){
@@ -540,4 +574,17 @@
       hideAfter: 3500,
       stack: 6
     });
+  }
+
+  function success(mensaje){
+    swal({
+          title: "¡Éxito!",
+          text: mensaje,
+          type: "success",
+          closeOnConfirm: false
+      }, function(isConfirm){
+          if (isConfirm) {
+            location.href = "/trabajadores/lista";
+          }
+      });
   }

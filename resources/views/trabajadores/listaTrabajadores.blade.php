@@ -127,7 +127,7 @@
 								                </table>
 																<!-- FIN DETALLES TRABAJADOR -->
 																<div class="date-devider">
-																	<span>DETALLES CONTRATO</span>
+																	<span>DETALLES ÚLTIMO CONTRATO</span>
 																</div>
 																<!-- DETALLES CONTRATO -->
 								                <table id="detallesContrato" class="table vm no-th-brd pro-of-month">
@@ -166,7 +166,7 @@
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="modal-body">
-											<div id="datos" class="row">
+											<div id="datos2" class="row">
 			                	<div class="col-md-12">
 													<div class="card" style="margin-bottom: 0px;">
 			                     	<div class="card-body" style="padding: 0px 0px;">
@@ -178,14 +178,44 @@
                               </div>
 															<div class="activity-box">
                                 <div class="date-devider">
-																	<span>DETALLES TRABAJADOR</span>
+																	<span>HISTORIAL CONTRATOS</span>
 																</div>
-																<!-- DETALLES TRABAJADOR -->
-
-																<!-- FIN DETALLES TRABAJADOR -->
-																<div class="date-devider">
+																<!-- HISTORIAL CONTRATOS -->
+																<div class="p-20">
+																	<div class="table-responsive">
+																		<table id="historialContratos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" style="font-size:12px;">
+																				<thead>
+																						<tr>
+																								<th>Puesto</th>
+																								<th>Fecha inicio</th>
+																								<th>Fecha fin</th>
+																								<th>Sueldo</th>
+																								<th>Hora extra</th>
+																								<th>Bono extra</th>
+																								<th>Bono asistencia</th>
+																						</tr>
+																				</thead>
+																				<tfoot>
+																						<tr>
+																								<th>Puesto</th>
+																								<th>Fecha inicio</th>
+																								<th>Fecha fin</th>
+																								<th>Sueldo</th>
+																								<th>Hora extra</th>
+																								<th>Bono extra</th>
+																								<th>Bono asistencia</th>
+																						</tr>
+																				</tfoot>
+																				<tbody>
+																					<!-- Se agrega en trabajadores.js -->
+																				</tbody>
+																		</table>
+																	</div>
+																</div>
+																<!-- FIN HISTORIAL CONTRATOS -->
+																<!-- <div class="date-devider">
 																	<span>DETALLES CONTRATO</span>
-																</div>
+																</div> -->
 																<!-- DETALLES CONTRATO -->
 
 																<!-- FIN DETALLES CONTRATO -->
