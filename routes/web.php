@@ -42,6 +42,13 @@ Route::prefix('trabajadores')->group(function () {
 
 		Route::get('/trabajador/{id}', 'Trabajadores@edit');
 		Route::post('/editarTrabajador/{id}', 'Trabajadores@update');
+		Route::post('/liquidarTrabajador/{id}', 'Trabajadores@liquidar');
+		Route::post('/contratarTrabajador/{id}', 'Trabajadores@contratar');
+
+		Route::get('/contrato/{id}', function(){
+			$modulo = "Generar contrato";
+			return view('trabajadores/formulario', compact('modulo'));
+		});
 
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
@@ -114,11 +121,13 @@ Route::prefix('inventario')->group(function () {
 		Route::get('/lista', 'compras@index');
 		Route::get('/lista_materiales', 'compras@datosmaterial');
 		Route::get('/lista_proveedor', 'compras@datosproveedor');
-		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
-		// Route::get('/especifico/{id}', 'materiales@edit');
-		// Route::post('/modificar/{id}', 'materiales@update');
-		// Route::post('/eliminar/{id}', 'materiales@status');
-		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+		Route::post('/agregar_ordenCompra', 'compras@store');
+		Route::get('/especifico/{id}', 'compras@show');
+		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
+		Route::post('/modificar_material/{id}/{idmov}', 'compras@actualizarcantidad');
+		Route::get('/especificomov/{id}', 'compras@edit');
+		Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -195,6 +204,7 @@ Route::prefix('nomina')->group(function () {
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
+		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
 	});
 
 	Route::prefix('nominaAguinaldo')->group(function () {
