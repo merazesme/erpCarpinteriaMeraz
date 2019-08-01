@@ -114,20 +114,35 @@
     		enctype: "multipart/form-data",
         url: base_url+'/trabajadores/tabla',
         success: function(msg){
+          msg.reverse();
           console.log(msg);
-          let data = msg;
-          if(data['error'] == "Ocurrio un error"){
+          if(msg['error'] == "Ocurrio un error"){
             console.log("Ha ocurrido un error, inténtelo más tarde.");
           }
           else{
-            var tam = data.length;
-            console.log("tam: " + tam);
-            var htmlActivo="", htmlInactivo="";
             $("#trabajadoresActivos").DataTable().clear();
             $("#trabajadoresActivos").DataTable().destroy();
             $("#clientesInactivos").DataTable().clear();
             $("#clientesInactivos").DataTable().destroy();
-            for (var i = 0; i < tam; i++) {
+            // ARRAY CON LOS ID
+            var arreglo = [];
+            var data = [];
+            // COMPARAR SI ESTA REPETIDO ESE ID
+            var tam = msg.length;
+            for (var x = 0; x < tam; x++) {
+              if (arreglo.indexOf(msg[x].id) === -1) {
+                  arreglo.push(msg[x].id);
+                  data.push(msg[x]);
+                  console.log("Arreglo: " + arreglo);
+              } else if (arreglo.indexOf(msg[x].id) > -1) {
+                  console.log(msg[x].id + ' ya existe ese id.');
+              }
+            }
+            console.log(arreglo);
+            console.log(data);
+            var htmlActivo="", htmlInactivo="";
+            var tam2 = data.length;
+            for (var i = 0; i < tam2; i++) {
               var html="";
               html=
                 `<tr>
