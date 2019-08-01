@@ -73,7 +73,7 @@ class rolController extends Controller
             return 'error-rol';
         }
 
-        /** Guardar la relación entre los tickets y pagos */
+        /** Guardar la relación entre los módulos y el rol */
         $errores = 0;
         $modulos = json_decode($request->rol_modulos);
         foreach ($modulos as $modulo) {
@@ -88,7 +88,7 @@ class rolController extends Controller
         }
 
         if($errores > 0) {
-            /** Ocurre error, borrar pago, retornar error de relación */
+            /** Ocurre error, borrar rol, retornar error de relación */
             $this->destroy($rol->id);
             return 'error-relacion';
         }
@@ -174,7 +174,7 @@ class rolController extends Controller
             return 'error-rol';
         }
 
-        /** Guardar la nueva relación entre los tickets y pagos */
+        /** Guardar la nueva relación entre los módulos y el rol */
 
         if(!$this->destroy_multiple($id)) {
             return 'error-relacion';
@@ -194,8 +194,7 @@ class rolController extends Controller
         }
 
         if($errores > 0) {
-            /** Ocurre error, borrar pago, retornar error de relación */
-            $this->destroy($rol->id);
+            /** Ocurre error, retornar error de relación */
             return 'error-relacion';
         }
 
