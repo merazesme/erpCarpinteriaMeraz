@@ -191,7 +191,8 @@ Route::prefix('/cotizaciones')->group(function () {
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/detalles', 'NominaSemanalController@detalles');
+		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
+		Route::get('/detalleNomina/{semana}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
