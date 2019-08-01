@@ -100,7 +100,7 @@ class Compras extends Controller
 
 
           $Mov_materiale = new Mov_materiale();
-          $Mov_materiale->Tipo_mov=$request->input('Tipo_mov');
+
           $Mov_materiale->Cantidad=$request->input('CantidadMovMaterial');
           $Mov_materiale->Fecha=$request->input('FechaMovMaterial');
           $Mov_materiale->idUsuario=$request->input('idUsuarioMovMaterial');
@@ -140,7 +140,30 @@ class Compras extends Controller
                 ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
                  ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
                   ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
-                   ->select('compras.Num_nota', 'compras.Fecha', 'proveedores.Nombre AS Proveedor','proveedores.id AS ProveedorId','materiales.id AS MaterialesId', 'materiales.Nombre as Material', 'compras.Cantidad', 'compras.Estado', 'compras.id')
+                   ->select('compras.Num_nota', 'compras.Fecha', 'proveedores.Nombre AS Proveedor','proveedores.id AS Proid','materiales.id AS MaterialesId', 'materiales.Nombre as Material', 'compras.Cantidad', 'compras.Estado', 'compras.id')
+                    ->where('compras.id', '=', $id)
+                  ->get();
+
+            // dd($data);
+            return response()->json(json_encode($data));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+
+    }
+
+    public function cantidadMaterial($id)
+    {
+        //
+        try{
+            //Funcion para traer datos de dos tablas por si la okupan aki ta un ejemplo vien shido
+            $data = DB::table('compras')
+              ->join('proveedores', 'proveedores.id', '=', 'compras.Proveedores_idProveedor')
+                ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
+                 ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
+                  ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
+                   ->select('materiales.Existencia', 'materiales.id', 'mov_materiales.id AS movid', 'mov_materiales.Tipo_mov')
                     ->where('compras.id', '=', $id)
                   ->get();
 
@@ -207,6 +230,46 @@ class Compras extends Controller
           $compra->idUsuario=$request->input('idUsuario');
 
           $Mov_materiale->save();
+
+          return response()->json(json_encode(0));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+    }
+
+    public function actualizarcantidad(Request $request, $id, $idmov)
+    {
+        //
+        try
+        {
+          $material = Materiale::find($id);
+          $material->Existencia=$request->input('total');
+
+          $material->save();
+
+          $Mov_materiale = Mov_materiale::find($idmov);
+          $Mov_materiale->Tipo_mov=$request->input('Tipo_mov');
+
+          $Mov_materiale->save();
+
+          return response()->json(json_encode(0));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+    }
+
+    public function cancelar(Request $request, $id)
+    {
+        //
+        try
+        {
+          $compra = Compra::find($id);
+          $compra->Estado=$request->input('Estado_Compra');
+          $compra->idUsuario=$request->input('idUsuario');
+
+          $compra->save();
 
           return response()->json(json_encode(0));
         }

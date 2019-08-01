@@ -58,74 +58,22 @@
 					                          <th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
 					                    <tfoot>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
 					                    <tbody>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pagado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En curso</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recibido</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cancelado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
 					                    </tbody>
 					                </table>
 					            </div>
@@ -135,77 +83,25 @@
 					                <table id="tabla_cancelado" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 					                    <thead>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
 					                    <tfoot>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
 					                    <tbody>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pagado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En curso</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recibido</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cancelado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
 					                    </tbody>
 					                </table>
 					            </div>
@@ -215,77 +111,25 @@
 					                <table id="tabla_pagado" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 					                    <thead>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
 					                    <tfoot>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Cantidad</th>
 					                          <th>Concepto</th>
+					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
 					                    <tbody>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pagado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En curso</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Recibido</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
-					                        <tr>
-					                          <td>1</td>
-					                          <td>02/07/2019</td>
-					                          <td>Ferreteria</td>
-					                          <td>20</td>
-					                          <td>System Architect</td>
-					                          <!-- <td><span class="label label-danger"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cancelado</font></font></span></td> -->
-					                          <td class="text-nowrap">
-					                            <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-					                            <a href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-					                          </td>
-					                        </tr>
 					                    </tbody>
 					                </table>
 					            </div>
@@ -374,7 +218,7 @@
 													<div class="col-md-6">
 														<div class="form-group">
 																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-																<select id="select_CompraProveedorModificar" class="form-control">
+																<select id="select_proveedorCompra" class="form-control">
 																</select>
 														</div>
 													</div>
@@ -401,7 +245,7 @@
 												<div class="row">
 														<div class="col-md-4">
 															<div class="form-check">
-																	<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1"> <!-- checked -->
+																	<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1">
 																	<label class="form-check-label" for="Estado_Curso">
 																		En curso
 																	</label>

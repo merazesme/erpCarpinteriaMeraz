@@ -720,7 +720,7 @@ function tablaMateriales(){
                       <td>${data[i].Concepto}</td>
                       <td>${data[i].Existencia}</td>
                       <td class="text-nowrap" data-material="${data[i].id}">
-                          <a href="#" class="modificarMaterial" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-danger m-r-10"></i></a>
+                          <a href="#" class="modificarMaterial" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text m-r-10"></i></a>
                       </td>
                   </tr>`;
                 }else if(data[i].Estado == 1){
@@ -730,7 +730,7 @@ function tablaMateriales(){
                       <td>${data[i].Concepto}</td>
                       <td>${data[i].Existencia}</td>
                       <td class="text-nowrap" data-material="${data[i].id}">
-                        <a href="#" class="modificarMaterial" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-danger m-r-10"></i></a>
+                        <a href="#" class="modificarMaterial" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text m-r-10"></i></a>
                         <a href="#" class="eliminarMaterial" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i></a>
                       </td>
                   </tr>`;
