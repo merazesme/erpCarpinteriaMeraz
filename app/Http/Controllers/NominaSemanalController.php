@@ -124,10 +124,6 @@ class NominaSemanalController extends Controller
         $nominaData->Semana = $request->input('semana');
         $nominaData->save();
 
-        $trabajadorAsistencia = new Trabajador();
-        $trabajadorAsistencia = Trabajador::find(1);
-        $trabajadorAsistencia->Asistencia_total += 20;
-        $trabajadorAsistencia->save();
         // Inserta los detalles de cada nomina para cada trabajador
         foreach ($request->trabajadores as $trabajador) {
           $dataDetalleNomina=new DetalleNomina();
