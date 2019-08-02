@@ -55,7 +55,7 @@ class Compras extends Controller
          //
          try{
              // $data = Materiale::all();
-             $data = DB::select('SELECT materiales.Nombre, materiales.id FROM `materiales`');
+             $data = DB::select('SELECT materiales.Nombre, materiales.id, materiales.Estado FROM  `materiales`');
              return response()->json(json_encode($data));
          }
          catch(\Exception $e){
@@ -214,7 +214,7 @@ class Compras extends Controller
                 ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
                  ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
                   ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
-                   ->select('compras.id', 'compras.Num_nota', 'materiales.Nombre')
+                   ->select('compras.id', 'compras.Num_nota', 'materiales.Nombre', 'compras.Estado AS estatus')
                      ->where('compras.Proveedores_idProveedor', '=', $id)
                       ->get();
 

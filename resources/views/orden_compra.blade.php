@@ -327,6 +327,14 @@
 		<!-- End Modal pagar compras -->
 
 		<input type="text" id="validar" class="form-control d-none">
+		<!-- <div class="form-group d-none">
+				<label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
+				<input type="text" class="form-control required" id="txtCheque" name="txtCheque">
+		</div>
+		<div class="form-group d-none">
+				<label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+				<input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+		</div> -->
 
 		@section('footer')
 		@parent

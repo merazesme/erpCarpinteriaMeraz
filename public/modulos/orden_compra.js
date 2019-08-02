@@ -1,7 +1,6 @@
 //Funcion para validar campos
 function validation(children, parent){
     if (children.length == 0 ) {
-        console.log("Entra");
         parent.removeClass("error");
     }else {
       if(children.val().length == 0 ){
@@ -35,6 +34,7 @@ $('#boton_pagarCompra').on("click", function(e) {
 
   $('#select_PagarCompra').on('change',function(e){
     var tipo = $("#select_PagarCompra").val();
+    $('.select2').remove();
     if (tipo == 1) {
       var html = "";
       html+=
@@ -49,8 +49,8 @@ $('#boton_pagarCompra').on("click", function(e) {
         <div class="col-md-6">
           <div class="form-group">
               <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
-                <select id="select_OrdenCompras" class="form-control" disabled>
-                </select>
+              <select id="select_OrdenCompras" class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Seleccione" disabled>
+              </select>
           </div>
         </div>
        </div>
@@ -63,15 +63,17 @@ $('#boton_pagarCompra').on("click", function(e) {
           </div>
           <div class="col-md-6">
             <div class="form-group">
-                <label for="recipient-name" class="control-label">Total <span class="danger">*</label>
+                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
                 <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
             </div>
         </div>
       </div>`;
 
       $("#todo").empty().append(html);
+      $(".select2").select2();
     }else if (tipo == 2) {
       var html = "";
+      $('.select2').remove();
       html+=
       `<div class="row">
          <div class="col-md-6">
@@ -84,53 +86,59 @@ $('#boton_pagarCompra').on("click", function(e) {
         <div class="col-md-6">
           <div class="form-group">
               <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
-                <select id="select_OrdenCompras" class="form-control" disabled>
-                </select>
+              <select id="select_OrdenCompras" class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Seleccione" disabled>
+              </select>
           </div>
         </div>
        </div>
        <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-                <label for="recipient-name" class="control-label">Total <span class="danger">*</label>
+                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
                 <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
             </div>
         </div>
       </div>`;
       $("#todo").empty().append(html);
+      $(".select2").select2();
     }else {
       $("#todo").empty();
     }
 
     $('#select_proveedorCompraPagar').on('change',function(e){
       var tipo_pro = $("#select_proveedorCompraPagar").val();
-      $("#select_OrdenCompras").removeAttr("disabled");
 
-      $.ajax({
-      type: "GET",
-      dataType: "json",
-      enctype: "multipart/form-data",
-      url: base_url+'/inventario/orden_compra/lista_compras/'+tipo_pro,
-      success: function (msg) {
-              var data = JSON.parse(msg)
-              // console.log(data);
-              var html = "";
-              html+=
-              `<option value="0">
-                <font style="vertical-align: inherit;">Seleccione una opción</font>
-              </option>`;
-              for (var i = 0; i < data.length; i++) {
-                if (data[i].estatus !=0) {
-                  html+=
-                  `<option value="${data[i].id}">
-                    <font style="vertical-align: inherit;">${data[i].Nombre}</font>
-                  </option>`;
+      if (tipo_pro !=0) {
+        $("#select_OrdenCompras").removeAttr("disabled");
+        $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/inventario/orden_compra/lista_compras/'+tipo_pro,
+        success: function (msg) {
+                var data = JSON.parse(msg)
+                // console.log(data);
+                var html = "";
+                // html+=
+                // `<option value="0">
+                //   <font style="vertical-align: inherit;">Seleccione una opción</font>
+                // </option>`;
+                for (var i = 0; i < data.length; i++) {
+                  if (data[i].estatus == 1) {
+                    html+=
+                    `<option value="${data[i].id}">
+                      <font style="vertical-align: inherit;">${data[i].Nombre}</font>
+                    </option>`;
+                  }
                 }
-              }
 
-              $("#select_OrdenCompras").empty().append(html);
-            }
-       });
+                $("#select_OrdenCompras").empty().append(html);
+              }
+         });
+      }else {
+        console.log("0");
+        $("#select_OrdenCompras").attr("disabled",true);
+      }
     })
 
     $.ajax({
@@ -732,6 +740,35 @@ function ModificarOrdenCompra(id,idM) {
 
 }
 
+//Funcion para pagar compras al proveedor
+function pagarCompra() {
+  var bandera_validar=0;
+
+  if($("#txtCheque").val().length == 0){
+      validation($("#txtCheque"), $("#txtCheque").parent());
+      bandera_validar = bandera_validar +1;
+  }
+
+  if($("#txtTotal").val().length == 0){
+      validation($("#txtTotal"), $("#txtTotal").parent());
+      bandera_validar = bandera_validar +1;
+  }
+
+  if($("#select_proveedorCompraPagar").val() == 0){
+      validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
+      bandera_validar = bandera_validar +1;
+  }
+
+  if($("#select_OrdenCompras").val() == 0){
+      validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
+      bandera_validar = bandera_validar +1;
+  }
+
+  if (bandera_validar == 0) {
+    console.log("f");
+  }
+}
+
 //Funcion para crear y cargar los datos a la tabla
 function tablaOrdenCompra(){
     $.ajax({
@@ -846,6 +883,7 @@ function tablaOrdenCompra(){
 //Funcion para ejecuar cuando se carga este script
 $(document).ready(function () {
 	tablaOrdenCompra();
+  $(".select2").select2();
 });
 
 //Validacion de los campos
@@ -856,6 +894,12 @@ $("#num_nota").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#TotalModificarCompra").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#txtCheque").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#txtTotal").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#select_CompraMaterial").on('change',function(e){
