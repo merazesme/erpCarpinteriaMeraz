@@ -14,6 +14,7 @@
 						<div class="card">
 		          <div class="card-body">
 									<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="boton_agregarOrdenCompra"> <i class="fa fa-plus"></i> Nueva orden de compra</button>
+									<button type="button" style="margin: 0px 5px 0px 0px" class="btn waves-effect waves-light btn-primary float-right" id="boton_pagarCompra"> <i class="fa fa-money"></i>  Pagar compras</button>
 									<h4 class="card-title">Orden de compra</h4>
 									<ul class="nav nav-tabs" role="tablist">
                       <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#curso" role="tab"><span class="hidden-sm-up"><i class="icon-user-unfollow"></i></span> <span class="hidden-xs-down">En curso</span></a> </li>
@@ -142,7 +143,7 @@
 			</div>
 		</div>
 
-		<!-- Modal nueva orden de compra-->
+		<!-- Modal nueva orden de compra -->
 		<div id="modal_nueva_ordenCompra" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 				<div class="modal-dialog">
 						<div class="modal-content">
@@ -194,9 +195,9 @@
 						</div>
 				</div>
 		</div>
-		<!-- Modal -->
+		<!-- End Modal nueva orden de compra -->
 
-		<!-- Modal nueva orden de compra-->
+		<!-- Modal modificar orden de compra-->
 		<div id="modal_modificar_ordenCompra" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 				<div class="modal-dialog">
 						<div class="modal-content">
@@ -279,7 +280,94 @@
 						</div>
 				</div>
 		</div>
-		<!-- Modal -->
+		<!-- End Modal modificar orden de compra -->
+
+		<!-- Modal pagar compras -->
+		<div id="modal_pagar_ordenCompra" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h4 class="modal-title" id="agregarTituloPagarCompra">Pagar compras</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								</div>
+								<div class="modal-body">
+										<form id="frmPagarOrdenCompra" name="frmPagarOrdenCompra">
+											<section>
+												<div class="row">
+													<div class="col-md-12">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Forma de pago <span class="danger">*</label>
+																<select id="select_PagarCompra" class="form-control">
+																	<option value="0">Seleccione una opcion</option>
+																	<option value="1">Cheque</option>
+																	<option value="2">Transferencia</option>
+																</select>
+														</div>
+													</div>
+												</div>
+												<div id="todo">
+
+
+												<!-- <div class="row" id="selects"> -->
+													<!-- <div class="col-md-6">
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+																<select id="select_proveedorCompraPagar" class="form-control">
+																</select>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+																<label for="message-text" class="control-label">Orden de compras <span class="danger">*</label>
+																	<select id="select_OrdenCompras" class="form-control">
+																	</select>
+														</div>
+													</div> -->
+												<!-- </div> -->
+												<!-- <div class="row">
+													<div class="col-md-6">
+													  	<label for="recipient-name" class="control-label">Estado <span class="danger">*</label>
+													</div>
+												</div> -->
+												<!-- <div class="row"> -->
+														<!-- <div class="col-md-4">
+															<div class="form-check">
+																	<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1">
+																	<label class="form-check-label" for="Estado_Curso">
+																		En curso
+																	</label>
+																</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-check">
+																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Recibido" value="2">
+																<label class="form-check-label" for="Estado_Recibido">
+																	Recibido
+																</label>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-check">
+																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Cancelado" value="3">
+																<label class="form-check-label" for="Estado_Cancelado">
+																	Cancelado
+																</label>
+															</div>
+														</div> -->
+												<!-- </div> -->
+												</div>
+												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
+											<section>
+										</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+									<button type="button" id="actionPagarCompra" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- End Modal pagar compras -->
 
 		<input type="text" id="validar" class="form-control d-none">
 

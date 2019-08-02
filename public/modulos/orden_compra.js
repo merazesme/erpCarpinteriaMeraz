@@ -21,6 +21,103 @@ $('#boton_agregarOrdenCompra').on("click", function(e){
   cargarDatosModalAgregarCompra();
 })
 
+//Accion para abrir modal de pagar compras
+$('#boton_pagarCompra').on("click", function(e) {
+  // $("#select_CompraMaterial").empty().append(html);
+  $("#agregarTituloPagarCompra").html("Pagar compra");
+  $('#modal_pagar_ordenCompra').modal('show');
+  $("#actionPagarCompra").attr("onclick", "pagarCompra()");
+
+  $("#todo").empty();
+
+  $('#select_PagarCompra').on('change',function(e){
+    var tipo = $("#select_PagarCompra").val();
+    if (tipo == 1) {
+      var html = "";
+      html+=
+      `<div class="row" id="selects">
+         <div class="col-md-6">
+          <div class="form-group">
+              <label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+              <select id="select_proveedorCompraPagar" class="form-control">
+              </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
+                <select id="select_OrdenCompras" class="form-control">
+                </select>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+        <div class="col-md-6">
+            <label for="recipient-name" class="control-label">Estado <span class="danger">*</label>
+        </div>
+      </div>
+       <div class="row">
+           <div class="col-md-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1">
+                <label class="form-check-label" for="Estado_Curso">
+                  En curso
+                </label>
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Recibido" value="2">
+              <label class="form-check-label" for="Estado_Recibido">
+                Recibido
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Cancelado" value="3">
+              <label class="form-check-label" for="Estado_Cancelado">
+                Cancelado
+              </label>
+            </div>
+          </div>
+      </div>`;
+
+      $("#todo").empty().append(html);
+    }else if (tipo == 2) {
+
+    }else {
+      $("#todo").empty();
+    }
+
+    $.ajax({
+    type: "GET",
+    dataType: "json",
+    enctype: "multipart/form-data",
+    url: base_url+'/inventario/orden_compra/lista_proveedor/',
+    success: function (msg) {
+            var data = JSON.parse(msg)
+            // console.log(data);
+            var html = "";
+            html+=
+            `<option value="0">
+              <font style="vertical-align: inherit;">Seleccione una opción</font>
+            </option>`;
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].estatus !=0) {
+                html+=
+                `<option value="${data[i].id}">
+                  <font style="vertical-align: inherit;">${data[i].Nombre}</font>
+                </option>`;
+              }
+            }
+
+            $("#select_proveedorCompraPagar").empty().append(html);
+          }
+     });
+  });
+})
+
 //Accion para abrir el modal de modificar la orden_compra
 $('#tabla_curso').on("click",".modificarOrdenCompra", function(e){
   var id = $(this).parent().attr("data-material");
@@ -630,7 +727,7 @@ function tablaOrdenCompra(){
                       <td>${data[i].Material}</td>
                       <td>${data[i].Cantidad}</td>
                       <td class="text-nowrap" data-material="${data[i].id}">
-                          
+
                       </td>
                   </tr>`;
                 }
