@@ -1,13 +1,13 @@
 @extends('footer')
 @extends('sidebar')
 @extends('header')
+@extends('nomina/semanal/modal')
 
 @section('header')
 @parent
-<link href="{{asset('plugins/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
 
 <style media="screen">
-	.hola {
+	.deshabilitado {
 		border: none;
     background-color: white;
 	}
@@ -202,152 +202,36 @@
 										</div>
 									</div>
               </div>
-							<!-- sample modal content -->
-							<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-								<div class="modal-dialog modal-lg">
-									<div class="modal-content">
-										<div class="modal-header">
-												<h4 class="modal-title" id="myLargeModalLabel"></h4>
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										</div>
-										<div class="modal-body">
-											<div class="container">
-												<input type="text" name="" value="" hidden id="posic">
-												<div class="row" >
-													<div class="col-md-12 col-lg-4">
-														<table class="table .table-bordered">
-															<thead>
-																<tr>
-																	<th colspan="2" style="text-align-last: center"> <strong><p id="nombre"><p></strong></th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td><strong>Dias trabajados</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="diasTrabajados"> </td>
-																</tr>
-																<tr>
-																	<td><strong>Faltas sin justicar</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="faltasSinJustificar"> </td>
-																</tr>
-																<tr>
-																	<td><strong>Dias de descanso</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="diasDescanso"> </td>
-																</tr>
-																<tr>
-																	<td><strong>Horas sábado</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="horasSabado"> </td>
-																</tr>
-																<tr>
-																	<td><strong>Horas extra</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="horasExtras"> </td>
-																</tr>
-																<tr>
-																	<td><strong>Total prestamos</strong></td>
-																	<td> <input type="text" name="" value="" class="form-control" id="totalPrestamo"> </td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-													<div class="col-md-12 col-lg-4">
-														<table class="table .table-bordered">
-															<thead>
-																<tr>
-																	<th colspan="2" style="text-align-last: center">Percepciones</th>
-																</tr>
-																<tr>
-																	<th>Concepto</th>
-																	<th>Importe</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>Sueldo Base</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="sueldoBase"> </td>
-																</tr>
-																<tr>
-																	<td>Hrs. Extra</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="horasExtrasMonto"> </td>
-																</tr>
-																<tr>
-																	<td>Bono P y A</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="bonopya"> </td>
-																</tr>
-																<tr>
-																	<td>Bono Extra</td>
-																	<td> <input type="text" name="" value="" class="form-control" id="bonoExtra"> </td>
-																</tr>
-																<tr>
-																	<th><strong>Total</strong></th>
-																	<th><strong><input type="text" name="" value="" class="form-control" id="totalPercepciones"></strong></th>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-													<div class="col-md-12 col-lg-4">
-														<table class="table .table-bordered">
-															<thead>
-																<tr>
-																	<th colspan="2" style="text-align-last: center">Deducciones</th>
-																</tr>
-																<tr>
-																	<th>Concepto</th>
-																	<th>Importe</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>Abono prestamo</td>
-																	<td> <input type="number" name="" min="0" value="" class="form-control" id="abonoPrestamo"> </td>
-																</tr>
-																<tr>
-																	<td>Infonavit</td>
-																	<td><input type="text" name="" value="" class="form-control" id="infonavit"> </td>
-																</tr>
-																<tr>
-																	<th><strong>Total</strong></th>
-																	<th><strong><input type="text" name="" value="" class="form-control" id="totalDeducciones"></strong></th>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-												<div class="form-group row">
-														<div class="col-8"></div>
-                            <label for="total" class="col-2 col-form-label" style="font-weight: bold;">Total</label>
-                            <div class="col-2">
-                                <input class="form-control" type="text" value="" id="total"  style="font-weight: bold;">
-                            </div>
-                        </div>
-											</div>
-										</div>
 
-										<div class="modal-footer">
-											<span id="ver">
-												<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-											</span>
-											<span id="editar">
-												<button type="button" class="btn btn-secondary waves-effect"  data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
-						 						<button type="button" id="guardarDatos" class="btn btn-success waves-effect" data-dismiss="modal"><i class="mdi mdi-content-save"></i> Aceptar</button>
-											</span>
-										</div>
-									</div>
-									<!-- /.modal-content -->
-								</div>
-								<!-- /.modal-dialog -->
-							</div>
-							<!-- /.modal -->
             </div>
           </div>
       	</div>
 			</div>
 		</div>
+
+		<!-- Se importa el modal -->
+		@section('modal')
+		@parent
+		@stop
+
 		@section('footer')
 		@parent
 			@section('java')
 		<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 		<script src="{{asset('js/toastr2.js')}}"></script>
-		<script src="{{asset('modulos/nomina_semanal.js')}}"></script>
+		<script type="text/javascript">
+				// Funcion que regresa la semana del año de la fecha actual
+				Date.prototype.getWeekNumber = function () {
+						var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
+						d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
+						d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"
+						//Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
+						return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
+				};
+				var numSemana = new Date().getWeekNumber(); // Resultado
+		</script>
+		<script src="{{asset('modulos/nomina/nomina_semanal_index.js')}}"></script>
+		<script src="{{asset('modulos/nomina/nomina_semanal.js')}}"></script>
 	@stop
 @endsection
 @endsection

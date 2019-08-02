@@ -35,7 +35,7 @@ class NominaSemanalController extends Controller
         return view('nomina/semanal/detalles', compact('modulo', 'semana'));
     }
 
-    public function detalleNomina($semana) {
+    public function detalleNomina($semana, $fechai, $fechaf) {
       try {
         $nomina = Nomina::where('Semana', '=', $semana)->firstOrFail();
 
@@ -46,12 +46,21 @@ class NominaSemanalController extends Controller
         foreach ($nomina->detalleNomina as $conceptosNomina) {
           $conceptos = ConceptosNomina::where('conceptos_nominas.DetalleNomina_idDetalleNomina',$conceptosNomina->id)
                     ->get();
+          $asistencia = DB::table('trabajadores')
+                    ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
+                              'asistencias.Hora_salida')
+                    ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                    ->where('trabajadores.id',$conceptosNomina->Trabajadores_idTrabajador)
+                    ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
+                              ->get();
+          $conceptosNomina->asistencia = $asistencia;
           $conceptosNomina->conceptos = $conceptos;
         }
         return response()->json($nomina);
       } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         return response()->json(['NotFound' => 'No se encontraron resultados de la consulta.']);
-
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
       }
     }
 
