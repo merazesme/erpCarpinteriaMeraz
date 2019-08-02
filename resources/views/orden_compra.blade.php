@@ -225,16 +225,22 @@
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-md-6">
+													<div class="col-md-4">
 														<div class="form-group">
 																<label for="message-text" class="control-label">#Nota <span class="danger">*</label>
 																<input type="text" class="form-control" name="num_notaModificar" id="num_notaModificar">
 														</div>
 													</div>
-													<div class="col-md-6">
+													<div class="col-md-4">
 														<div class="form-group">
 																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
 																<input type="text" class="form-control" name="cantidadOrdenCompraModificar" id="cantidadOrdenCompraModificar">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+																<label for="message-text" class="control-label">Total <span class="danger">*</label>
+																<input type="text" class="form-control" name="TotalModificarCompra" id="TotalModificarCompra">
 														</div>
 													</div>
 												</div>
@@ -306,55 +312,6 @@
 													</div>
 												</div>
 												<div id="todo">
-
-
-												<!-- <div class="row" id="selects"> -->
-													<!-- <div class="col-md-6">
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-																<select id="select_proveedorCompraPagar" class="form-control">
-																</select>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="form-group">
-																<label for="message-text" class="control-label">Orden de compras <span class="danger">*</label>
-																	<select id="select_OrdenCompras" class="form-control">
-																	</select>
-														</div>
-													</div> -->
-												<!-- </div> -->
-												<!-- <div class="row">
-													<div class="col-md-6">
-													  	<label for="recipient-name" class="control-label">Estado <span class="danger">*</label>
-													</div>
-												</div> -->
-												<!-- <div class="row"> -->
-														<!-- <div class="col-md-4">
-															<div class="form-check">
-																	<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1">
-																	<label class="form-check-label" for="Estado_Curso">
-																		En curso
-																	</label>
-																</div>
-														</div>
-														<div class="col-md-4">
-															<div class="form-check">
-																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Recibido" value="2">
-																<label class="form-check-label" for="Estado_Recibido">
-																	Recibido
-																</label>
-															</div>
-														</div>
-														<div class="col-md-4">
-															<div class="form-check">
-																<input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Cancelado" value="3">
-																<label class="form-check-label" for="Estado_Cancelado">
-																	Cancelado
-																</label>
-															</div>
-														</div> -->
-												<!-- </div> -->
 												</div>
 												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
 											<section>

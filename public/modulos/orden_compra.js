@@ -29,13 +29,16 @@ $('#boton_pagarCompra').on("click", function(e) {
   $("#actionPagarCompra").attr("onclick", "pagarCompra()");
 
   $("#todo").empty();
+  $("#select_PagarCompra").val("0");
+  $("#select_OrdenCompras").val("0");
+  $("#select_proveedorCompraPagar").val("0");
 
   $('#select_PagarCompra').on('change',function(e){
     var tipo = $("#select_PagarCompra").val();
     if (tipo == 1) {
       var html = "";
       html+=
-      `<div class="row" id="selects">
+      `<div class="row">
          <div class="col-md-6">
           <div class="form-group">
               <label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
@@ -46,49 +49,89 @@ $('#boton_pagarCompra').on("click", function(e) {
         <div class="col-md-6">
           <div class="form-group">
               <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
-                <select id="select_OrdenCompras" class="form-control">
+                <select id="select_OrdenCompras" class="form-control" disabled>
                 </select>
           </div>
         </div>
        </div>
        <div class="row">
-        <div class="col-md-6">
-            <label for="recipient-name" class="control-label">Estado <span class="danger">*</label>
+           <div class="col-md-6">
+             <div class="form-group">
+                 <label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
+                 <input type="text" class="form-control required" id="txtCheque" name="txtCheque">
+             </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">Total <span class="danger">*</label>
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+            </div>
         </div>
-      </div>
-       <div class="row">
-           <div class="col-md-4">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Curso" value="1">
-                <label class="form-check-label" for="Estado_Curso">
-                  En curso
-                </label>
-              </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Recibido" value="2">
-              <label class="form-check-label" for="Estado_Recibido">
-                Recibido
-              </label>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Estado_ModificarOrden" id="Estado_Cancelado" value="3">
-              <label class="form-check-label" for="Estado_Cancelado">
-                Cancelado
-              </label>
-            </div>
-          </div>
       </div>`;
 
       $("#todo").empty().append(html);
     }else if (tipo == 2) {
-
+      var html = "";
+      html+=
+      `<div class="row">
+         <div class="col-md-6">
+          <div class="form-group">
+              <label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+              <select id="select_proveedorCompraPagar" class="form-control">
+              </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
+                <select id="select_OrdenCompras" class="form-control" disabled>
+                </select>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">Total <span class="danger">*</label>
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+            </div>
+        </div>
+      </div>`;
+      $("#todo").empty().append(html);
     }else {
       $("#todo").empty();
     }
+
+    $('#select_proveedorCompraPagar').on('change',function(e){
+      var tipo_pro = $("#select_proveedorCompraPagar").val();
+      $("#select_OrdenCompras").removeAttr("disabled");
+
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      enctype: "multipart/form-data",
+      url: base_url+'/inventario/orden_compra/lista_compras/'+tipo_pro,
+      success: function (msg) {
+              var data = JSON.parse(msg)
+              // console.log(data);
+              var html = "";
+              html+=
+              `<option value="0">
+                <font style="vertical-align: inherit;">Seleccione una opción</font>
+              </option>`;
+              for (var i = 0; i < data.length; i++) {
+                if (data[i].estatus !=0) {
+                  html+=
+                  `<option value="${data[i].id}">
+                    <font style="vertical-align: inherit;">${data[i].Nombre}</font>
+                  </option>`;
+                }
+              }
+
+              $("#select_OrdenCompras").empty().append(html);
+            }
+       });
+    })
 
     $.ajax({
     type: "GET",
@@ -120,6 +163,8 @@ $('#boton_pagarCompra').on("click", function(e) {
 
 //Accion para abrir el modal de modificar la orden_compra
 $('#tabla_curso').on("click",".modificarOrdenCompra", function(e){
+  validation($("#validar").val("1"), $("#TotalModificarCompra").parent());
+  $("#TotalModificarCompra").val("");
   var id = $(this).parent().attr("data-material");
   e.preventDefault();
   cargarDatosModalModificarCompra();
@@ -450,6 +495,11 @@ function ModificarOrdenCompra(id,idM) {
       bandera_validar = bandera_validar +1;
   }
 
+  if($("#TotalModificarCompra").val().length == 0){
+      validation($("#TotalModificarCompra"), $("#TotalModificarCompra").parent());
+      // bandera_validar = bandera_validar +1;
+  }
+
   if($("#select_CompraMaterialModificar").val() == 0){
       validation($("#select_CompraMaterialModificar"), $("#select_CompraMaterialModificar").parent());
       bandera_validar = bandera_validar +1;
@@ -480,6 +530,7 @@ function ModificarOrdenCompra(id,idM) {
     // console.log("num: ", num_notaModificar);console.log("cantidad: ",cantidad);console.log("id_estado: ",id_estado);console.log("tipo: ", tipo);console.log("tipo2: ", tipo2);
 
     //Para insertar los cantidad de material a la tabla de materiales
+    var total_m = $("#TotalModificarCompra").val();
     if (id_estado == 2) {
       $.ajax({
       type: "GET",
@@ -503,18 +554,38 @@ function ModificarOrdenCompra(id,idM) {
                       var existencia = data[0].Existencia;
                       var idMaterial = data[0].id;
                       var idMovMaterial = data[0].movid;
+                      var adeudo = data[0].Adeudo;
+                      var idprove = data[0].proveid;
 
-                      console.log("existencia: ", existencia);
+                      if (adeudo == null) {
+                        adeudo = 0;
+                      }
+                      // console.log("adeudo: ", adeudo);
+
+                      // console.log("existencia: ", existencia);
                       var total = cantidad + existencia;
-                      console.log("total: ", total);
+                      // console.log("total: ", total);
 
-                      datos_cantidad = new FormData();
-                      datos_cantidad.append("_token", token);
-                      datos_cantidad.append("idUsuario_material", "1");
-                      datos_cantidad.append("total", total);
-                      datos_cantidad.append("Tipo_mov", "1");
+                      var total_money = adeudo + parseInt(total_m);
 
-                      url = base_url+'/inventario/orden_compra/modificar_material/'+idMaterial+'/'+idMovMaterial;
+                      // console.log("total_money: ", total_money);
+
+                      if(total_m ==null){
+                        datos_cantidad = new FormData();
+                        datos_cantidad.append("_token", token);
+                        datos_cantidad.append("idUsuario_material", "1");
+                        datos_cantidad.append("total", total);
+                        datos_cantidad.append("Tipo_mov", "1");
+                      }else {
+                        datos_cantidad = new FormData();
+                        datos_cantidad.append("_token", token);
+                        datos_cantidad.append("idUsuario_material", "1");
+                        datos_cantidad.append("total", total);
+                        datos_cantidad.append("Tipo_mov", "1");
+                        datos_cantidad.append("total_money", total_money);
+                      }
+
+                      url = base_url+'/inventario/orden_compra/modificar_material/'+idMaterial+'/'+idMovMaterial+'/'+idprove;
                       mensaje = "La orden de compra ha sido actualizado con éxito";
                       titulo = "Actualizar orden de compra";
 
@@ -558,6 +629,7 @@ function ModificarOrdenCompra(id,idM) {
 
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -565,6 +637,7 @@ function ModificarOrdenCompra(id,idM) {
                                             swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -573,6 +646,7 @@ function ModificarOrdenCompra(id,idM) {
                                         swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -595,7 +669,8 @@ function ModificarOrdenCompra(id,idM) {
             }
     });
 
-  }else {
+
+  }else if(total_m ==0){
     url = base_url+'/inventario/orden_compra/modificar/'+id+'/'+idM;
     mensaje = "La orden de compra ha sido actualizado con éxito";
     titulo = "Actualizar orden de compra";
@@ -622,6 +697,7 @@ function ModificarOrdenCompra(id,idM) {
 
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
@@ -629,6 +705,7 @@ function ModificarOrdenCompra(id,idM) {
                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
@@ -637,11 +714,16 @@ function ModificarOrdenCompra(id,idM) {
             swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
         }
     });
+
+  }else {
+    swal("Error", "No se permite esa accion ", "error");
+    $("#TotalModificarCompra").val("");
   }
 
   }else {
@@ -771,6 +853,9 @@ $("#cantidadOrdenCompra").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#num_nota").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#TotalModificarCompra").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#select_CompraMaterial").on('change',function(e){

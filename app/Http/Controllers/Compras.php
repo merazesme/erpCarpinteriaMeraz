@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 //modelo
 use App\Compra;
 use App\Materiale;
-use App\proveedor;
+use App\proveedore;
 use App\Mov_materiale;
 use App\Compras_movmateriale;
 use DB;
@@ -163,7 +163,7 @@ class Compras extends Controller
                 ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
                  ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
                   ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
-                   ->select('materiales.Existencia', 'materiales.id', 'mov_materiales.id AS movid', 'mov_materiales.Tipo_mov')
+                   ->select('materiales.Existencia', 'materiales.id', 'mov_materiales.id AS movid', 'mov_materiales.Tipo_mov', 'proveedores.Adeudo', 'proveedores.id AS proveid')
                     ->where('compras.id', '=', $id)
                   ->get();
 
@@ -195,6 +195,28 @@ class Compras extends Controller
                    ->select('mov_materiales.id')
                     ->where('compras.id', '=', $id)
                   ->get();
+
+            // dd($data);
+            return response()->json(json_encode($data));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+    }
+
+    public function showcompras($id)
+    {
+        //
+        try{
+            //Funcion para traer datos de dos tablas por si la okupan aki ta un ejemplo vien shido
+            $data = DB::table('compras')
+              ->join('proveedores', 'proveedores.id', '=', 'compras.Proveedores_idProveedor')
+                ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
+                 ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
+                  ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
+                   ->select('compras.id', 'compras.Num_nota', 'materiales.Nombre')
+                     ->where('compras.Proveedores_idProveedor', '=', $id)
+                      ->get();
 
             // dd($data);
             return response()->json(json_encode($data));
@@ -238,7 +260,7 @@ class Compras extends Controller
         }
     }
 
-    public function actualizarcantidad(Request $request, $id, $idmov)
+    public function actualizarcantidad(Request $request, $id, $idmov, $idprove)
     {
         //
         try
@@ -252,6 +274,11 @@ class Compras extends Controller
           $Mov_materiale->Tipo_mov=$request->input('Tipo_mov');
 
           $Mov_materiale->save();
+
+          $proveedor = proveedore::find($idprove);
+          $proveedor->Adeudo=$request->input('total_money');
+
+          $proveedor->save();
 
           return response()->json(json_encode(0));
         }
