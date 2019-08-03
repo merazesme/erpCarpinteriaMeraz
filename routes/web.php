@@ -124,10 +124,11 @@ Route::prefix('inventario')->group(function () {
 		Route::post('/agregar_ordenCompra', 'compras@store');
 		Route::get('/especifico/{id}', 'compras@show');
 		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
-		Route::post('/modificar_material/{id}/{idmov}', 'compras@actualizarcantidad');
+		Route::post('/modificar_material/{id}/{idmov}/{idprove}', 'compras@actualizarcantidad');
 		Route::get('/especificomov/{id}', 'compras@edit');
 		Route::post('/eliminarorden/{id}', 'compras@cancelar');
 		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
+		Route::get('/lista_compras/{id}', 'compras@showcompras');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -201,7 +202,7 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
-		Route::get('/detalleNomina/{semana}', 'NominaSemanalController@detalleNomina');
+		Route::get('/detalleNomina/{semana}/{fechai}/{fechaf}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
