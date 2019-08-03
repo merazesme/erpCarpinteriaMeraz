@@ -29,13 +29,11 @@
       // EDITAR
       if(p[4] == "editar"){
         console.log("Editar Trabajador");
-        // console.log(p[5]);
         trabajadorEspecifico(p[5], "editar");
       }
       // CONTRATAR
       else if(p[4] == "contrato"){
         console.log("Generar Contrato");
-        // console.log(p[5]);
         contratarTrabajador(p[5]);
       }
     }
@@ -82,7 +80,6 @@
         var p = location.href.split('/');
         // console.log(p[5]);
         generarContrato(p[5]);
-
       }
   }
 
@@ -108,7 +105,7 @@
               return form.validate().settings.ignore = ":disabled", form.valid()
           }
           , onFinished: function (event, currentIndex) {
-              if($("#firma").val().length > 7){
+              if($("#firma").val().length == 6){
                 $('#validarFirma').hide();
                 tipoBotonFormulario();
               }
@@ -144,11 +141,11 @@
             // COMPARAR SI ESTA REPETIDO ESE ID
             var tam = msg.length;
             for (var x = 0; x < tam; x++) {
-              if (arreglo.indexOf(msg[x].id) === -1) {
-                  arreglo.push(msg[x].id);
+              if (arreglo.indexOf(msg[x].id_trabajador) === -1) {
+                  arreglo.push(msg[x].id_trabajador);
                   data.push(msg[x]);
                   // console.log("Arreglo: " + arreglo);
-              } else if (arreglo.indexOf(msg[x].id) > -1) {
+              } else if (arreglo.indexOf(msg[x].id_trabajador) > -1) {
                   // console.log(msg[x].id + ' ya existe ese id.');
               }
             }
@@ -163,10 +160,10 @@
                   <td>${data[i].Nombre} ${data[i].Apellidos}</td>
                   <td>${data[i].Puesto}</td>
                   <td>${data[i].Fecha_final}</td>
-                  <td class="text-nowrap" id="${data[i].id}">
+                  <td class="text-nowrap" id_trabajador="${data[i].id_trabajador}">
                     <a class="detallesTrabajador" href="#" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
                     <a class="historialTrabajador" href="#" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
-                    <a href="/trabajadores/editar/${data[i].id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>`;
+                    <a href="/trabajadores/editar/${data[i].id_trabajador}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>`;
               if(data[i].trabajador_estado == 0 && data[i].contrato_estado == 0){
                 // USUARIO INACTIVO
                 html += `<a class="contratarTrabajador" href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
@@ -205,6 +202,10 @@
   function agregarTrabajador(bandera, id){
     // EXTRAER DATOS DE FORMULARIO
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
+    if(datosTrabajador.Tipo == "Base"){
+      datosTrabajador.append("fecha_inicio", "0000-00-00");
+      datosTrabajador.append("fecha_final", "0000-00-00");
+    }
     datosTrabajador.append("idUsuario", "1");
     for (var concepto of datosTrabajador.entries()) {
       console.log("Formulario: " + concepto[0]+ ', ' + concepto[1]);
@@ -218,6 +219,12 @@
     // DATOS EDITAR
     else if(bandera == "editar"){
       if(id>0){
+        // COMPARAR SI CAMBIO LA CONTRASEÑA
+        var cambiarFirma = 0;
+        if($("#firma").val()!="prueba"){
+          cambiarFirma = 1;
+        }
+        datosTrabajador.append("cambiarFirma", cambiarFirma);
         // console.log("ENTRA A EDITAR");
         var url = base_url+'/trabajadores/editarTrabajador/'+id;
         var mensaje = "Registro actualizado con éxito.";
@@ -253,13 +260,13 @@
   }
 
   // EDITAR TRABAJADOR
-  function trabajadorEspecifico(id, bandera){
+  function trabajadorEspecifico(id_trabajador, bandera){
     // console.log("LLEGO ESTE ID: " + id);
     $.ajax({
         type: 'GET',
         dataType: "json",
     		enctype: "multipart/form-data",
-        url: base_url+'/trabajadores/trabajador/'+id,
+        url: base_url+'/trabajadores/trabajador/'+id_trabajador,
         success: function(msg){
           console.log(msg);
           let data = msg;
@@ -271,15 +278,20 @@
             if(bandera=="editar") {
               llenarCampos(data);
               // SECTION 3
-              // $("#tipo")[value=data[0].tipo].attr("checked",true);
-              $("#fecha_inicio").val(data[0].Fecha_inicio);
-              $("#fecha_final").val(data[0].Fecha_final);
+              if(data[0].Tipo=="Temporal"){
+                agregarInputFechas();
+                $("#tipo_temporal").attr('checked', true);
+                $("#fecha_inicio").val(data[0].Fecha_inicio);
+                $("#fecha_final").val(data[0].Fecha_final);
+              }
+              else{
+                $("#tipo_base").attr('checked', true);
+              }
               $("#puesto").val(data[0].Puesto);
               $("#sueldo").val(data[0].Sueldo);
               $("#hora_extra").val(data[0].Monto_Hora_Extra);
               $("#bono_asistencia").val(data[0].Bono_produc_asis);
               $("#bono_extra").val(data[0].Bono_extra);
-              $("#firma").val(data[0].Firma);
             }
             else if(bandera == "contratar"){
               llenarCampos(data);
@@ -333,18 +345,21 @@
                       <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Infonavit: </strong>${data[0].Infonavit}</td>
                       <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Apodo: </strong>${data[0].Apodo}</td>
                   </tr>`;
-                htmlDetallesContrato=
+                if(data[0].Tipo=="Temporal"){
+                  htmlDetallesContrato=
+                    `<tr>
+                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha inicio: </strong>${data[0].Fecha_inicio}</td>
+                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha final: </strong>${data[0].Fecha_final}</td>
+                    </tr>`;
+                }
+                htmlDetallesContrato+=
                   `<tr>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha inicio: </strong>${data[0].Fecha_inicio}</td>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha final: </strong>${data[0].Fecha_final}</td>
+                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Sueldo: </strong>$${data[0].Sueldo}</td>
+                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Bono asistencia: </strong>$${data[0].Bono_produc_asis}</td>
                   </tr>
                   <tr>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Sueldo: </strong>${data[0].Sueldo} MXN</td>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Bono asistencia: </strong>${data[0].Bono_produc_asis} MXN</td>
-                  </tr>
-                  <tr>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Hora extra: </strong>${data[0].Monto_Hora_Extra} MXN</td>
-                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Bono extra: </strong>${data[0].Bono_extra} MXN</td>
+                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Hora extra: </strong>$${data[0].Monto_Hora_Extra}</td>
+                      <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Bono extra: </strong>$${data[0].Bono_extra}</td>
                   </tr>`;
 
                 $("#datos").before(htmlNombre);
@@ -479,6 +494,7 @@
 
   function llenarCampos(data){
     // SECTION 1
+    $("#id_contrato").val(data[0].id);
     $("#nombre").val(data[0].Nombre);
     $("#apellidos").val(data[0].Apellidos);
     $("#celular").val(data[0].Celular);
@@ -487,17 +503,19 @@
     $("#estado_civil").val(data[0].Estado_civil);
     $("#fecha_nacimiento").val(data[0].Fecha_nacimiento);
     $("#lugar_nacimiento").val(data[0].Lugar_nacimiento);
+    $("#nacionalidad").val(data[0].Nacionalidad);
     $("#escolaridad").val(data[0].Escolaridad);
     $("#apodo").val(data[0].Apodo);
     // SECTION 2
     $("#NSS").val(data[0].NSS);
     $("#infonavit").val(data[0].Infonavit);
     $("#numero_credencial").val(data[0].Num_credencial);
+    $("#firma").val("prueba");
   }
 
-  function contratarTrabajador(id){
+  function contratarTrabajador(id_trabajador){
     // console.log(id);
-    trabajadorEspecifico(id, "contratar");
+    trabajadorEspecifico(id_trabajador, "contratar");
   }
 
   function generarContrato(id){
@@ -505,6 +523,12 @@
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
     datosTrabajador.append("idUsuario", "1");
     var url = base_url+'/trabajadores/contratarTrabajador/'+id;
+    // COMPARAR SI CAMBIO LA CONTRASEÑA
+    var cambiarFirma = 0;
+    if($("#firma").val()!="prueba"){
+      cambiarFirma = 1;
+    }
+    datosTrabajador.append("cambiarFirma", cambiarFirma);
     // Servicio
     $.ajax({
         type: 'POST',
@@ -532,31 +556,30 @@
 
   // BOTON TABLA DETALLE TRABAJADOR
   $("body").on("click", ".detallesTrabajador", function(e){
-    var id = $(this).parent().attr("id");
-    trabajadorEspecifico(id, "detalles");
+    var id_trabajador = $(this).parent().attr("id_trabajador");
+    trabajadorEspecifico(id_trabajador, "detalles");
     $('#modalDetalles').modal('show');
   })
 
   // BOTON TABLA HISTORIAL TRABAJADOR
   $("body").on("click", ".historialTrabajador", function(e){
-    var id = $(this).parent().attr("id");
-    trabajadorEspecifico(id, "historial");
+    var id_trabajador = $(this).parent().attr("id_trabajador");
+    trabajadorEspecifico(id_trabajador, "historial");
     $('#modalHistorial').modal('show');
   })
 
   // BOTON TABLA LIQUIDAR TRABAJADOR ACTIVO
   $("body").on("click", ".liquidarTrabajador", function(e){
     console.log("Liquidar");
-    var id = $(this).parent().attr("id");
-    liquidar_contratar_Trabajador("liquidar", id);
+    var id_trabajador = $(this).parent().attr("id_trabajador");
+    liquidar_contratar_Trabajador("liquidar", id_trabajador);
   })
 
   // BOTON TABLA CONTRATAR TRABAJADOR INACTIVO
   $("body").on("click", ".contratarTrabajador", function(e){
     console.log("Contratar");
-    var id = $(this).parent().attr("id");
-    // console.log(id);
-    liquidar_contratar_Trabajador("contratar", id);
+    var id_trabajador = $(this).parent().attr("id_trabajador");
+    liquidar_contratar_Trabajador("contratar", id_trabajador);
   })
 
   $("#tipoDeDocumento").on("click", ".tipoDeDocumento", function(e){
@@ -587,4 +610,35 @@
             location.href = "/trabajadores/lista";
           }
       });
+  }
+
+  function agregarInputFechas(){
+    var htmlFechas="";
+    htmlFechas=
+    `<div class="col-md-6" id="fechasTemporal" name="fechasTemporal">
+        <div class="form-group">
+            <label for="fecha_inicio">Fecha de inicio: <span class="danger">*</span> </label>
+            <input type="date" class="form-control required" id="fecha_inicio" name="fecha_inicio">
+        </div>
+    </div>
+    <div class="col-md-6" id="fechasTemporal2" name="fechasTemporal2">
+        <div class="form-group">
+            <label for="fecha_final">Fecha final: <span class="danger">*</span> </label>
+            <input type="date" class="form-control required" id="fecha_final" name="fecha_final">
+        </div>
+    </div>`;
+    $("#fechas").append(htmlFechas);
+  }
+
+  function tipoTrabajador(bandera){
+    // 1 - Temporal   2 - Base
+    if(bandera == 1){
+      agregarInputFechas();
+    }
+    else{
+      $("#fecha_inicio").val();
+      $("#fecha_final").val();
+      $("#fechasTemporal").remove();
+      $("#fechasTemporal2").remove();
+    }
   }
