@@ -169,7 +169,6 @@ function agregar_rol() {
             	processData: false,
             })
             .done(function(resp) {
-                Swal.close()
                 if(resp == 'true') {
                     alerta_temporizador(
                         'success',

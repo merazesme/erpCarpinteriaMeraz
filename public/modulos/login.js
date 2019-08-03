@@ -48,7 +48,6 @@ function iniciar_preloader() {
 function iniciar_sesion() {
     var datos = new FormData(document.querySelector("#login_form"));
     ajax_post('/login/ingresar', datos, function(resultado) {
-        console.log(resultado)
         if(resultado == 'true') {
             if($('#login_recuerdame').prop('checked')) {
                 var login_recuerdame = {

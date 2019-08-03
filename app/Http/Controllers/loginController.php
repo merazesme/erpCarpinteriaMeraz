@@ -18,6 +18,7 @@ class loginController extends Controller
      */
     public function index()
     {
+        return view('login');
         if(session('Usuario')) {
             return redirect('/');
         } else {
@@ -49,13 +50,36 @@ class loginController extends Controller
                             )
                     ->first();
                 if($user->Estado == 0) {
+                    /** Obtener los módulos permitidos por el rol */
+                    $modulos = (new rolController)->show($user->Roles_idRol);
+
+                    $band=false;
+
+                    for ($i=0; $i < sizeof($modulos); $i++) { 
+                        # code...
+                        if(!property_exists($modulos[$i], 'nombre_modulo') && (!$band)) {
+                            /** Quiere decir que no tiene ningún módulo asignado */
+                            // return $modulos[$i];
+                            $modulos = "no-modulos";
+                            break;
+                        }
+                        $band=true;
+                        if($modulos[$i]->submodulos == 1) {
+                            $modulos[$i] = array(
+                                $modulos[$i],
+                                (new rolController)->get_submodulos($modulos[$i]->id)
+                            );
+                        }
+                    }
+                    return session('Modulos');
+
                     session([
                             'idUsuario' => $user->id,
                             'idRol'     => $user->Roles_idRol,
                             'Usuario'   => $user->Usuario,
                             'Nombre'    => $user->Nombre,
+                            'Modulos'   => $modulos
                         ]);
-                    // return $user->idRol;
                     return 'true';
                 } else {
                     return 'inactivo';
@@ -65,11 +89,105 @@ class loginController extends Controller
     }
 
     /**
+     * Function for login
+     */
+    public function ingresar_r(Request $request)
+    {
+        $query = new usuario();
+        
+        if($query   ->where('Usuario',    '=', $request->input('login_usuario'))
+                    ->where('Contraseña', '=', $request->input('login_password'))
+                    ->count() > 0)
+        {
+            $user = DB::table('usuarios')
+                    ->join('trabajadores', 'usuarios.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                    ->where('Usuario',     '=', $request->input('login_usuario'))
+                    ->where('Contraseña',  '=', $request->input('login_password'))
+                    ->select(
+                            'usuarios.id',
+                            'usuarios.Usuario',
+                            'usuarios.Estado',
+                            'usuarios.Roles_idRol',
+                            'trabajadores.Nombre'
+                            )
+                    ->first();
+                if($user->Estado == 0) {
+                    /** Obtener los módulos permitidos por el rol */
+
+                    $modulos = (new rolController)->show($user->Roles_idRol);
+
+                    $band=false;
+
+                    for ($i=0; $i < sizeof($modulos); $i++) { 
+                        # code...
+                        if(!property_exists($modulos[$i], 'nombre_modulo') && (!$band)) {
+                            /** Quiere decir que no tiene ningún módulo asignado */
+                            return $modulo[$i];
+                        }
+                        $band=true;
+
+                        if($modulos[$i]->submodulos == 1) {
+                            $submodulos = (new rolController)->get_submodulos($modulos[$i]->id);
+                            $temp_array = array();
+
+                            foreach ($submodulos as $submodulo) {
+                                $temp_array[] = array(
+                                    'nombre' => $submodulo->nombre_submodulo,
+                                    'enlace' => $submodulo->enlace_submodulo
+                                );
+                            }
+
+                            $modulos[$i] = array(
+                                'modulo'    => array(
+                                    'nombre' => $modulos[$i]->nombre_modulo,
+                                    'icono'  => $modulos[$i]->Icono
+                                ),
+                                'submodulo' => $temp_array
+                            );
+
+                            // $modulos[$i] = array(
+                            // //     'modulo'    => $modulos[$i],
+                            // //     'submodulo' => (new rolController)->get_submodulos($modulos[$i]->id)
+                            // // );
+                        } else {
+                            $modulos[$i] = array('modulo' => array(
+                                'nombre' => $modulos[$i]->nombre_modulo,
+                                'icono'  => $modulos[$i]->Icono,
+                                'enlace' => $modulos[$i]->Enlace
+                            ));
+                        }
+                    }
+                    return session('Modulos');
+
+                    session([
+                            'idUsuario' => $user->id,
+                            'idRol'     => $user->Roles_idRol,
+                            'Usuario'   => $user->Usuario,
+                            'Nombre'    => $user->Nombre,
+                            'Modulos'   => $modulos
+                        ]);
+                    return 'true';
+                } else {
+                    return 'inactivo';
+                }
+        } else
+            return 'false';
+    }
+    /**
      * Delete the currently session
      */
     public function salir() {
         Session::flush();
         return 'true';
+    }
+
+    public function check_session() {
+        if(session('Usuario')) {
+            /** Tiene sesión */
+
+        } else {
+            /** No tiene sesión */
+        }
     }
 
     /**
