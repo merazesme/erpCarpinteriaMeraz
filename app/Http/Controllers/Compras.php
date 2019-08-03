@@ -32,7 +32,7 @@ class Compras extends Controller
         // }
         try {
           //Funcion para traer datos de dos tablas por si la okupan aki ta un ejemplo vien shido
-          $data = DB::select('SELECT compras.Num_nota, compras.Fecha, proveedores.Nombre AS Proveedor,
+          $data = DB::select('SELECT compras.id, compras.Num_nota, compras.Fecha, proveedores.Nombre AS Proveedor,
                               materiales.Nombre as Material, compras.Cantidad, compras.Estado, compras.id FROM `compras`
                               INNER JOIN proveedores ON compras.Proveedores_idProveedor = proveedores.id
                               INNER JOIN compras_movmateriales ON compras_movmateriales.Compras_idCompra = compras.id
@@ -90,7 +90,7 @@ class Compras extends Controller
         {
           $compra = new Compra();
           $compra->Num_nota=$request->input('num_nota');
-          $compra->Fecha=$request->input('FechaCompra');
+          $compra->Fecha=$request->input('Fecha');
           $compra->Cantidad=$request->input('cantidadOrdenCompra');
           $compra->Estado=$request->input('EstadoCompra');
           $compra->idUsuario=$request->input('idUsuarioCompra');
@@ -100,10 +100,12 @@ class Compras extends Controller
           $compra->id=$compra->id;
 
 
+          //Aqui se hara el for para insertar los materiales de la compra
+          //El arry Materiales_idMateriale
           $Mov_materiale = new Mov_materiale();
 
           $Mov_materiale->Cantidad=$request->input('CantidadMovMaterial');
-          $Mov_materiale->Fecha=$request->input('FechaMovMaterial');
+          $Mov_materiale->Fecha=$request->input('Fecha');
           $Mov_materiale->idUsuario=$request->input('idUsuarioMovMaterial');
           $Mov_materiale->Materiales_idMateriale=$request->input('Materiales_idMateriale');
 

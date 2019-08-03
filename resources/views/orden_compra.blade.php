@@ -156,10 +156,10 @@
 											<section>
 												<div class="row">
 													<div class="col-md-6">
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-																<select id="select_CompraMaterial" class="form-control">
-																</select>
+														<div class="form-group" id="compramaterialafter">
+																<!-- <label for="recipient-name" class="control-label">Nombre <span class="danger">*</label> -->
+																<!-- <select id="select_CompraMaterial" class="form-control">
+																</select> -->
 														</div>
 													</div>
 													<div class="col-md-6">
@@ -178,9 +178,9 @@
 														</div>
 													</div>
 													<div class="col-md-6">
-														<div class="form-group">
-																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
-																<input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra">
+														<label for="message-text" id="despues"class="control-label">Cantidad <span class="danger">*</label>
+														<div class="form-group" id="cantidadcrear">
+																<!-- <input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra"> -->
 														</div>
 													</div>
 												</div>
