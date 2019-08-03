@@ -119,7 +119,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" id="btn_guardar_rol" onclick="agregar_rol()" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                            <button type="button" id="btn_guardar_rol" class="btn btn-success" data-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
