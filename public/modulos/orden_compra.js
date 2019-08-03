@@ -124,7 +124,7 @@ $('#boton_pagarCompra').on("click", function(e) {
                 //   <font style="vertical-align: inherit;">Seleccione una opción</font>
                 // </option>`;
                 for (var i = 0; i < data.length; i++) {
-                  if (data[i].estatus == 1) {
+                  if (data[i].estatus != 4 && data[i].estatus != 3) {
                     html+=
                     `<option value="${data[i].id}">
                       <font style="vertical-align: inherit;">${data[i].Nombre}</font>
@@ -744,28 +744,183 @@ function ModificarOrdenCompra(id,idM) {
 function pagarCompra() {
   var bandera_validar=0;
 
-  if($("#txtCheque").val().length == 0){
-      validation($("#txtCheque"), $("#txtCheque").parent());
-      bandera_validar = bandera_validar +1;
-  }
+  var tipo = $("#select_PagarCompra").val();
 
-  if($("#txtTotal").val().length == 0){
-      validation($("#txtTotal"), $("#txtTotal").parent());
-      bandera_validar = bandera_validar +1;
-  }
+  if (tipo == 1) {
+    if($("#txtCheque").val().length == 0){
+        validation($("#txtCheque"), $("#txtCheque").parent());
+        bandera_validar = bandera_validar +1;
+    }
 
-  if($("#select_proveedorCompraPagar").val() == 0){
-      validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
-      bandera_validar = bandera_validar +1;
-  }
+    if($("#txtTotal").val().length == 0){
+        validation($("#txtTotal"), $("#txtTotal").parent());
+        bandera_validar = bandera_validar +1;
+    }
 
-  if($("#select_OrdenCompras").val() == 0){
-      validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
-      bandera_validar = bandera_validar +1;
+    if($("#select_proveedorCompraPagar").val() == 0){
+        validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_OrdenCompras").val() == 0){
+        validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
+        bandera_validar = bandera_validar +1;
+    }
+  }else if (tipo == 2) {
+
+    if($("#txtTotal").val().length == 0){
+        validation($("#txtTotal"), $("#txtTotal").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_proveedorCompraPagar").val() == 0){
+        validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_OrdenCompras").val() == 0){
+        validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
+        bandera_validar = bandera_validar +1;
+    }
   }
 
   if (bandera_validar == 0) {
-    console.log("f");
+    var temp = $("#select_OrdenCompras").val();
+    var idPro = $("#select_proveedorCompraPagar").val();
+    if ($("#txtCheque").val() == undefined) {
+      var n_cheque = "";
+    }else {
+      var n_cheque = $("#txtCheque").val();
+    }
+    var total = parseInt($("#txtTotal").val());
+
+    // console.log("temp ", temp);
+    // console.log("idPro ", idPro);
+    // console.log("n_cheque ", n_cheque);
+    // console.log("total ", total);
+
+    $.ajax({
+    type: "GET",
+    dataType: "json",
+    enctype: "multipart/form-data",
+    url: base_url+'/inventario/orden_compra/proveedor_adeudo/'+ idPro,
+    success: function (msg) {
+            var data = JSON.parse(msg)
+            var adeudo_sobrante = data[0].Adeudo;
+            adeudo_sobrante = adeudo_sobrante - total;
+
+            datos_pagarOrden = new FormData();
+            datos_pagarOrden.append("_token", token);
+            datos_pagarOrden.append("idUsuario", "1");
+
+            datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
+            datos_pagarOrden.append("Total", total);
+            datos_pagarOrden.append("Fecha", "2019-07-26");
+            datos_pagarOrden.append("Tipo_Pago", tipo);
+            datos_pagarOrden.append("Num_cheque", n_cheque);
+
+            var url = "";
+            url = base_url+'/inventario/orden_compra/insertar_pago_proveedor/'+ idPro;
+            var mensaje = "Se acompletado el pago con éxito";
+            var titulo = "Pago de compras";
+
+            $.ajax({
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: datos_pagarOrden,
+                dataType: false,
+                enctype: 'multipart/form-data',
+                url: url,
+                success: function(msg){
+                    var data = JSON.parse(msg)
+                    console.log("data inser: " , data);
+                    if(data == 0){
+
+                        //Para cambiar el estado a las ordenes de compras
+                        var datos_ordenCompra = ""
+                        datos_ordenCompra = new FormData();
+                        datos_ordenCompra.append("idUsuario", "1");
+                        datos_ordenCompra.append("_token", token);
+                        datos_ordenCompra.append("Estado_Compra", "4");
+
+                        var hasta = temp.length;
+                        console.log("hasta: ", hasta);
+                        for (var i = 0; i < temp.length; i++) {
+                          var idO = temp[i];
+                            $.ajax({
+                                type: 'POST',
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                data: datos_ordenCompra,
+                                dataType: false,
+                                enctype: 'multipart/form-data',
+                                url: base_url+'/inventario/orden_compra/eliminarorden/'+idO,
+                                success: function(msg){
+                                    var data = JSON.parse(msg)
+                                    console.log("data change: ", data);
+                                    if(data == 0){
+
+                                       //Validacion para mostrar el succes final
+                                          // console.log("i: ", i);
+                                          // if (i == hasta-1) {
+                                            console.log("here");
+                                            $('#modal_pagar_ordenCompra').modal('hide')
+                                            swal(titulo, mensaje, "success");
+                                            tablaOrdenCompra(0,"#tabla_curso");
+                                            tablaOrdenCompra(1,"#tabla_recibido");
+                                            tablaOrdenCompra(2,"#tabla_cancelado");
+                                            tablaOrdenCompra(3,"#tabla_pagado");
+
+                                            //limpiar campos
+                                            $("#txtCheque").val("");
+                                            $("#txtTotal").val("");
+                                            $("#select_proveedorCompraPagar").val("0");
+                                            $("#select_OrdenCompras").val("0");
+                                          // }
+
+                                    }else{
+                                        swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                        //limpiar campos
+                                        $("#txtCheque").val("");
+                                        $("#txtTotal").val("");
+                                        $("#select_proveedorCompraPagar").val("0");
+                                        $("#select_OrdenCompras").val("0");
+                                    }
+                                }, error: function(error) {
+                                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                    //limpiar campos
+                                    $("#txtCheque").val("");
+                                    $("#txtTotal").val("");
+                                    $("#select_proveedorCompraPagar").val("0");
+                                    $("#select_OrdenCompras").val("0");
+                                }
+                            });
+                        }
+
+                    }else{
+                        swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        //limpiar campos
+                        $("#txtCheque").val("");
+                        $("#txtTotal").val("");
+                        $("#select_proveedorCompraPagar").val("0");
+                        $("#select_OrdenCompras").val("0");
+                    }
+                }, error: function(error) {
+                    console.log("no success");
+                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        //limpiar campos
+                        $("#txtCheque").val("");
+                        $("#txtTotal").val("");
+                        $("#select_proveedorCompraPagar").val("0");
+                        $("#select_OrdenCompras").val("0");
+                }
+            });
+
+          }
+     });
   }
 }
 

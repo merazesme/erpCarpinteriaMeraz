@@ -129,6 +129,10 @@ Route::prefix('inventario')->group(function () {
 		Route::post('/eliminarorden/{id}', 'compras@cancelar');
 		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
 		Route::get('/lista_compras/{id}', 'compras@showcompras');
+		//Pago compras
+		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
+		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
