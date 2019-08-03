@@ -386,6 +386,7 @@
 		</div>
 	</div>
     @section('footer')
+    
     @parent
 @endsection
 @endsection

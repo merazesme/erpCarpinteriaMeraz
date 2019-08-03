@@ -8,6 +8,7 @@ use App\Nomina;
 use App\DetalleNomina;
 use App\ConceptosNomina;
 use App\Trabajador;
+use App\TipoNomina;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
@@ -35,7 +36,7 @@ class NominaSemanalController extends Controller
         return view('nomina/semanal/detalles', compact('modulo', 'semana'));
     }
 
-    public function detalleNomina($semana) {
+    public function detalleNomina($semana, $fechai, $fechaf) {
       try {
         $nomina = Nomina::where('Semana', '=', $semana)->firstOrFail();
 
@@ -46,12 +47,21 @@ class NominaSemanalController extends Controller
         foreach ($nomina->detalleNomina as $conceptosNomina) {
           $conceptos = ConceptosNomina::where('conceptos_nominas.DetalleNomina_idDetalleNomina',$conceptosNomina->id)
                     ->get();
+          $asistencia = DB::table('trabajadores')
+                    ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
+                              'asistencias.Hora_salida')
+                    ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                    ->where('trabajadores.id',$conceptosNomina->Trabajadores_idTrabajador)
+                    ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
+                              ->get();
+          $conceptosNomina->asistencia = $asistencia;
           $conceptosNomina->conceptos = $conceptos;
         }
         return response()->json($nomina);
       } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         return response()->json(['NotFound' => 'No se encontraron resultados de la consulta.']);
-
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
       }
     }
 
@@ -107,30 +117,34 @@ class NominaSemanalController extends Controller
     public function nomina(Request $request)
     {
       try{
+        $tipoNomina = TipoNomina::where('Concepto', '=', 'semanal')->first();
+        if(!isset($tipoNomina)) {
+          $tipoNomina = new TipoNomina;
+          $tipoNomina->Concepto = 'semanal';
+          if(!$tipoNomina->save())
+            return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+        }
+
         // Inserta una nueva nomina
-        $nominaData=new Nomina();
-        $nominaData->Fecha= new DateTime();
-        $nominaData->idUsuario=1;
-        $nominaData->Tipo_nomina_idTipo_nomina= 2;
-        $nominaData->Semana = $request->input('semana');
+        $nominaData = new Nomina();
+        $nominaData->Fecha                     = new DateTime();
+        $nominaData->idUsuario                 = 1;
+        $nominaData->Tipo_nomina_idTipo_nomina = $tipoNomina->id;
+        $nominaData->Semana                    = $request->input('semana');
         $nominaData->save();
 
-        $trabajadorAsistencia = new Trabajador();
-        $trabajadorAsistencia = Trabajador::find(1);
-        $trabajadorAsistencia->Asistencia_total += 20;
-        $trabajadorAsistencia->save();
         // Inserta los detalles de cada nomina para cada trabajador
         foreach ($request->trabajadores as $trabajador) {
           $dataDetalleNomina=new DetalleNomina();
-          $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
-          $dataDetalleNomina->Fecha=new DateTime();
-          $dataDetalleNomina->Estado= 1;
-          $dataDetalleNomina->idUsuario = 1;
-          $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
+          $dataDetalleNomina->Cantidad                  = $trabajador['xTotal'];
+          $dataDetalleNomina->Fecha                     = new DateTime();
+          $dataDetalleNomina->Estado                    = 1;
+          $dataDetalleNomina->idUsuario                 = 1;
+          $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
           $dataDetalleNomina->save();
           $trabajadorAsistencia = Trabajador::find($trabajador['id']);
-          $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
+          $trabajadorAsistencia->Asistencia_total + = $trabajador['diasTrabajados'] + 1;
           $trabajadorAsistencia->save();
           // Inserta los conceptos de cada detalle de nomina de cada nomina
           $objNomina = $trabajador['Nomina'];
@@ -139,12 +153,12 @@ class NominaSemanalController extends Controller
               if($key == 'xPercepciones') $tipo = 1;
               else if($key == 'xDeducciones') $tipo = 0;
               foreach ($val as $concepto => $valor) {
-                      $data=new ConceptosNomina();
-                      $data->Descripcion= $concepto;
-                      $data->Tipo = $tipo;
-                      $data->idUsuario = 1;
+                      $data = new ConceptosNomina();
+                      $data->Descripcion                   = $concepto;
+                      $data->Tipo                          = $tipo;
+                      $data->idUsuario                     = 1;
                       $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
-                      $data->Monto = $valor;
+                      $data->Monto                         = $valor;
                       $data->save();
               }
           }

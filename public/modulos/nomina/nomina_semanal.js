@@ -1,32 +1,8 @@
 $(document).ready(function() {
   /************** Generar nomina semanal ******************/
-  // Desactiva los inputs del modal
-  $('input').prop('disabled', true).addClass('hola');
   // Boton para guardar nomina
   var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
   var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
-  // Funcion que regresa la semana del año de la fecha actual
-  Date.prototype.getWeekNumber = function () {
-      var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
-      d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
-      d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"
-      //Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
-      return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
-  };
-  //var numSemana = new Date().getWeekNumber(); // Resultado
-  var numSemana = 30;
-  $('#semanas').text(`Semana ${numSemana} del año`);
-  var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-  /* Obtiene el primer y ultimo dia de la semana (objetos) numero 'x' de año
-      https://es.stackoverflow.com/questions/7003/c%C3%B3mo-puedo-obtener-el-primer-y-ultimo-d%C3%ADa-de-una-semana-concreta-en-javascript
-      https://momentjs.com/docs/#/displaying/as-object/
-  */
-  var f_i = moment().isoWeek(numSemana).startOf("isoweek").toObject();
-  var f_f = moment().isoWeek(numSemana).endOf("isoweek").toObject();
-  //console.log( moment().isoWeek(numSemana).startOf("isoweek").format())
-  var fechai = moment(f_i).toObject();
-  var fechaf = moment(f_f).toObject();
-
   $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
 
   // Consulta si esta la semana guardada
@@ -52,7 +28,7 @@ $(document).ready(function() {
       $(this).attr('disabled', true);
       obtieneDatos();
   });
-    //obtieneDatos();
+  //obtieneDatos();
   // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
   function obtieneDatos() {
     $.ajax({
@@ -192,7 +168,7 @@ $(document).ready(function() {
     $('.modal-title').text('Editar nómina');
     var data = $(this).data('body');
     posicion = $(this).data('posicion');
-    $('#abonoPrestamo').prop('disabled', false).removeClass('hola');
+    $('#abonoPrestamo').prop('disabled', false).removeClass('deshabilitado');
     $('#editar').show();
     $('#ver').hide();
     setData(data, 1);
@@ -203,7 +179,7 @@ $(document).ready(function() {
     $('.modal-title').text('Detalles nómina');
     var data = $(this).data('body');
     posicion = $(this).data('posicion');
-    $('#abonoPrestamo').prop('disabled', true).addClass('hola');
+    $('#abonoPrestamo').prop('disabled', true).addClass('deshabilitado');
     $('#editar').hide();
     $('#ver').show();
     setData(data,0);

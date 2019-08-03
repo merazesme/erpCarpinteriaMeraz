@@ -55,6 +55,9 @@ class rolController extends Controller
      */
     public function store(Request $request)
     {
+        $prueba = (new loginController)->check_session();
+        return $prueba;
+
         if(!session('Usuario')) {
             return 'session';
         }
@@ -121,7 +124,8 @@ class rolController extends Controller
     {
         //
         $registros = DB::table('roles')
-                    ->select('roles.Nombre as nombre_rol', 'modulos.Nombre as nombre_modulo', 'modulos.id')
+                    ->select('roles.Nombre as nombre_rol', 'modulos.Nombre as nombre_modulo', 'modulos.id', 
+                             'modulos.submodulos', 'modulos.Enlace', 'modulos.Icono')
                     ->join('roles_has_modulos', 'roles_has_modulos.Roles_idRol', '=', 'roles.id')
                     ->join('modulos', 'roles_has_modulos.Modulos_idModulo', '=', 'modulos.id')
                     ->where('roles.id', '=', $id)
@@ -135,6 +139,34 @@ class rolController extends Controller
         
         return $registros;
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function get_submodulos($id)
+    {
+        //
+        $submodulos = DB::table('submodulos')
+                    ->select('submodulos.Nombre as nombre_submodulo', 'submodulos.Enlace as enlace_submodulo')
+                    ->where('submodulos.id_modulo', '=', $id)
+                    ->get();
+        
+        return $submodulos;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    // public function get_roles_usuario($id) 
+    // {
+
+    // }
 
     /**
      * Show the form for editing the specified resource.

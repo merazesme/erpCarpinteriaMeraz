@@ -1,7 +1,6 @@
 //Funcion para validar campos
 function validation(children, parent){
     if (children.length == 0 ) {
-        console.log("Entra");
         parent.removeClass("error");
     }else {
       if(children.val().length == 0 ){
@@ -21,8 +20,159 @@ $('#boton_agregarOrdenCompra').on("click", function(e){
   cargarDatosModalAgregarCompra();
 })
 
+//Accion para abrir modal de pagar compras
+$('#boton_pagarCompra').on("click", function(e) {
+  // $("#select_CompraMaterial").empty().append(html);
+  $("#agregarTituloPagarCompra").html("Pagar compra");
+  $('#modal_pagar_ordenCompra').modal('show');
+  $("#actionPagarCompra").attr("onclick", "pagarCompra()");
+
+  $("#todo").empty();
+  $("#select_PagarCompra").val("0");
+  $("#select_OrdenCompras").val("0");
+  $("#select_proveedorCompraPagar").val("0");
+
+  $('#select_PagarCompra').on('change',function(e){
+    var tipo = $("#select_PagarCompra").val();
+    $('.select2').remove();
+    if (tipo == 1) {
+      var html = "";
+      html+=
+      `<div class="row">
+         <div class="col-md-6">
+          <div class="form-group">
+              <label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+              <select id="select_proveedorCompraPagar" class="form-control">
+              </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
+              <select id="select_OrdenCompras" class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Seleccione" disabled>
+              </select>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+           <div class="col-md-6">
+             <div class="form-group">
+                 <label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
+                 <input type="text" class="form-control required" id="txtCheque" name="txtCheque">
+             </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+            </div>
+        </div>
+      </div>`;
+
+      $("#todo").empty().append(html);
+      $(".select2").select2();
+    }else if (tipo == 2) {
+      var html = "";
+      $('.select2').remove();
+      html+=
+      `<div class="row">
+         <div class="col-md-6">
+          <div class="form-group">
+              <label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+              <select id="select_proveedorCompraPagar" class="form-control">
+              </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="message-text" class="control-label">Ordenes de compras <span class="danger">*</label>
+              <select id="select_OrdenCompras" class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Seleccione" disabled>
+              </select>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+            </div>
+        </div>
+      </div>`;
+      $("#todo").empty().append(html);
+      $(".select2").select2();
+    }else {
+      $("#todo").empty();
+    }
+
+    $('#select_proveedorCompraPagar').on('change',function(e){
+      var tipo_pro = $("#select_proveedorCompraPagar").val();
+
+      if (tipo_pro !=0) {
+        $("#select_OrdenCompras").removeAttr("disabled");
+        $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/inventario/orden_compra/lista_compras/'+tipo_pro,
+        success: function (msg) {
+                var data = JSON.parse(msg)
+                // console.log(data);
+                var html = "";
+                // html+=
+                // `<option value="0">
+                //   <font style="vertical-align: inherit;">Seleccione una opción</font>
+                // </option>`;
+                for (var i = 0; i < data.length; i++) {
+                  if (data[i].estatus != 4 && data[i].estatus != 3) {
+                    html+=
+                    `<option value="${data[i].id}">
+                      <font style="vertical-align: inherit;">${data[i].Nombre}</font>
+                    </option>`;
+                  }
+                }
+
+                $("#select_OrdenCompras").empty().append(html);
+              }
+         });
+      }else {
+        console.log("0");
+        $("#select_OrdenCompras").attr("disabled",true);
+      }
+    })
+
+    $.ajax({
+    type: "GET",
+    dataType: "json",
+    enctype: "multipart/form-data",
+    url: base_url+'/inventario/orden_compra/lista_proveedor/',
+    success: function (msg) {
+            var data = JSON.parse(msg)
+            // console.log(data);
+            var html = "";
+            html+=
+            `<option value="0">
+              <font style="vertical-align: inherit;">Seleccione una opción</font>
+            </option>`;
+            for (var i = 0; i < data.length; i++) {
+              if (data[i].estatus !=0) {
+                html+=
+                `<option value="${data[i].id}">
+                  <font style="vertical-align: inherit;">${data[i].Nombre}</font>
+                </option>`;
+              }
+            }
+
+            $("#select_proveedorCompraPagar").empty().append(html);
+          }
+     });
+  });
+})
+
 //Accion para abrir el modal de modificar la orden_compra
 $('#tabla_curso').on("click",".modificarOrdenCompra", function(e){
+  validation($("#validar").val("1"), $("#TotalModificarCompra").parent());
+  $("#TotalModificarCompra").val("");
   var id = $(this).parent().attr("data-material");
   e.preventDefault();
   cargarDatosModalModificarCompra();
@@ -353,6 +503,11 @@ function ModificarOrdenCompra(id,idM) {
       bandera_validar = bandera_validar +1;
   }
 
+  if($("#TotalModificarCompra").val().length == 0){
+      validation($("#TotalModificarCompra"), $("#TotalModificarCompra").parent());
+      // bandera_validar = bandera_validar +1;
+  }
+
   if($("#select_CompraMaterialModificar").val() == 0){
       validation($("#select_CompraMaterialModificar"), $("#select_CompraMaterialModificar").parent());
       bandera_validar = bandera_validar +1;
@@ -383,6 +538,7 @@ function ModificarOrdenCompra(id,idM) {
     // console.log("num: ", num_notaModificar);console.log("cantidad: ",cantidad);console.log("id_estado: ",id_estado);console.log("tipo: ", tipo);console.log("tipo2: ", tipo2);
 
     //Para insertar los cantidad de material a la tabla de materiales
+    var total_m = $("#TotalModificarCompra").val();
     if (id_estado == 2) {
       $.ajax({
       type: "GET",
@@ -406,18 +562,38 @@ function ModificarOrdenCompra(id,idM) {
                       var existencia = data[0].Existencia;
                       var idMaterial = data[0].id;
                       var idMovMaterial = data[0].movid;
+                      var adeudo = data[0].Adeudo;
+                      var idprove = data[0].proveid;
 
-                      console.log("existencia: ", existencia);
+                      if (adeudo == null) {
+                        adeudo = 0;
+                      }
+                      // console.log("adeudo: ", adeudo);
+
+                      // console.log("existencia: ", existencia);
                       var total = cantidad + existencia;
-                      console.log("total: ", total);
+                      // console.log("total: ", total);
 
-                      datos_cantidad = new FormData();
-                      datos_cantidad.append("_token", token);
-                      datos_cantidad.append("idUsuario_material", "1");
-                      datos_cantidad.append("total", total);
-                      datos_cantidad.append("Tipo_mov", "1");
+                      var total_money = adeudo + parseInt(total_m);
 
-                      url = base_url+'/inventario/orden_compra/modificar_material/'+idMaterial+'/'+idMovMaterial;
+                      // console.log("total_money: ", total_money);
+
+                      if(total_m ==null){
+                        datos_cantidad = new FormData();
+                        datos_cantidad.append("_token", token);
+                        datos_cantidad.append("idUsuario_material", "1");
+                        datos_cantidad.append("total", total);
+                        datos_cantidad.append("Tipo_mov", "1");
+                      }else {
+                        datos_cantidad = new FormData();
+                        datos_cantidad.append("_token", token);
+                        datos_cantidad.append("idUsuario_material", "1");
+                        datos_cantidad.append("total", total);
+                        datos_cantidad.append("Tipo_mov", "1");
+                        datos_cantidad.append("total_money", total_money);
+                      }
+
+                      url = base_url+'/inventario/orden_compra/modificar_material/'+idMaterial+'/'+idMovMaterial+'/'+idprove;
                       mensaje = "La orden de compra ha sido actualizado con éxito";
                       titulo = "Actualizar orden de compra";
 
@@ -461,6 +637,7 @@ function ModificarOrdenCompra(id,idM) {
 
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -468,6 +645,7 @@ function ModificarOrdenCompra(id,idM) {
                                             swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -476,6 +654,7 @@ function ModificarOrdenCompra(id,idM) {
                                         swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                             //limpiar campos
                                             $("#num_notaModificar").val("");
+                                            $("#TotalModificarCompra").val("");
                                             $("#cantidadOrdenCompraModificar").val("");
                                             $("#select_CompraMaterialModificar").val("0");
                                             $("#select_proveedorCompra").val("0");
@@ -498,7 +677,8 @@ function ModificarOrdenCompra(id,idM) {
             }
     });
 
-  }else {
+
+  }else if(total_m ==0){
     url = base_url+'/inventario/orden_compra/modificar/'+id+'/'+idM;
     mensaje = "La orden de compra ha sido actualizado con éxito";
     titulo = "Actualizar orden de compra";
@@ -525,6 +705,7 @@ function ModificarOrdenCompra(id,idM) {
 
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
@@ -532,6 +713,7 @@ function ModificarOrdenCompra(id,idM) {
                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
@@ -540,17 +722,206 @@ function ModificarOrdenCompra(id,idM) {
             swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 //limpiar campos
                 $("#num_notaModificar").val("");
+                $("#TotalModificarCompra").val("");
                 $("#cantidadOrdenCompraModificar").val("");
                 $("#select_CompraMaterialModificar").val("0");
                 $("#select_proveedorCompra").val("0");
         }
     });
+
+  }else {
+    swal("Error", "No se permite esa accion ", "error");
+    $("#TotalModificarCompra").val("");
   }
 
   }else {
     swal("Error", "Por favor llenar todos los campos", "error");
   }
 
+}
+
+//Funcion para pagar compras al proveedor
+function pagarCompra() {
+  var bandera_validar=0;
+
+  var tipo = $("#select_PagarCompra").val();
+
+  if (tipo == 1) {
+    if($("#txtCheque").val().length == 0){
+        validation($("#txtCheque"), $("#txtCheque").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#txtTotal").val().length == 0){
+        validation($("#txtTotal"), $("#txtTotal").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_proveedorCompraPagar").val() == 0){
+        validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_OrdenCompras").val() == 0){
+        validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
+        bandera_validar = bandera_validar +1;
+    }
+  }else if (tipo == 2) {
+
+    if($("#txtTotal").val().length == 0){
+        validation($("#txtTotal"), $("#txtTotal").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_proveedorCompraPagar").val() == 0){
+        validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
+        bandera_validar = bandera_validar +1;
+    }
+
+    if($("#select_OrdenCompras").val() == 0){
+        validation($("#select_OrdenCompras"), $("#select_OrdenCompras").parent());
+        bandera_validar = bandera_validar +1;
+    }
+  }
+
+  if (bandera_validar == 0) {
+    var temp = $("#select_OrdenCompras").val();
+    var idPro = $("#select_proveedorCompraPagar").val();
+    if ($("#txtCheque").val() == undefined) {
+      var n_cheque = "";
+    }else {
+      var n_cheque = $("#txtCheque").val();
+    }
+    var total = parseInt($("#txtTotal").val());
+
+    // console.log("temp ", temp);
+    // console.log("idPro ", idPro);
+    // console.log("n_cheque ", n_cheque);
+    // console.log("total ", total);
+
+    $.ajax({
+    type: "GET",
+    dataType: "json",
+    enctype: "multipart/form-data",
+    url: base_url+'/inventario/orden_compra/proveedor_adeudo/'+ idPro,
+    success: function (msg) {
+            var data = JSON.parse(msg)
+            var adeudo_sobrante = data[0].Adeudo;
+            adeudo_sobrante = adeudo_sobrante - total;
+
+            datos_pagarOrden = new FormData();
+            datos_pagarOrden.append("_token", token);
+            datos_pagarOrden.append("idUsuario", "1");
+
+            datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
+            datos_pagarOrden.append("Total", total);
+            datos_pagarOrden.append("Fecha", "2019-07-26");
+            datos_pagarOrden.append("Tipo_Pago", tipo);
+            datos_pagarOrden.append("Num_cheque", n_cheque);
+
+            var url = "";
+            url = base_url+'/inventario/orden_compra/insertar_pago_proveedor/'+ idPro;
+            var mensaje = "Se acompletado el pago con éxito";
+            var titulo = "Pago de compras";
+
+            $.ajax({
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: datos_pagarOrden,
+                dataType: false,
+                enctype: 'multipart/form-data',
+                url: url,
+                success: function(msg){
+                    var data = JSON.parse(msg)
+                    console.log("data inser: " , data);
+                    if(data == 0){
+
+                        //Para cambiar el estado a las ordenes de compras
+                        var datos_ordenCompra = ""
+                        datos_ordenCompra = new FormData();
+                        datos_ordenCompra.append("idUsuario", "1");
+                        datos_ordenCompra.append("_token", token);
+                        datos_ordenCompra.append("Estado_Compra", "4");
+
+                        var hasta = temp.length;
+                        console.log("hasta: ", hasta);
+                        for (var i = 0; i < temp.length; i++) {
+                          var idO = temp[i];
+                            $.ajax({
+                                type: 'POST',
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                data: datos_ordenCompra,
+                                dataType: false,
+                                enctype: 'multipart/form-data',
+                                url: base_url+'/inventario/orden_compra/eliminarorden/'+idO,
+                                success: function(msg){
+                                    var data = JSON.parse(msg)
+                                    console.log("data change: ", data);
+                                    if(data == 0){
+
+                                       //Validacion para mostrar el succes final
+                                          // console.log("i: ", i);
+                                          // if (i == hasta-1) {
+                                            console.log("here");
+                                            $('#modal_pagar_ordenCompra').modal('hide')
+                                            swal(titulo, mensaje, "success");
+                                            tablaOrdenCompra(0,"#tabla_curso");
+                                            tablaOrdenCompra(1,"#tabla_recibido");
+                                            tablaOrdenCompra(2,"#tabla_cancelado");
+                                            tablaOrdenCompra(3,"#tabla_pagado");
+
+                                            //limpiar campos
+                                            $("#txtCheque").val("");
+                                            $("#txtTotal").val("");
+                                            $("#select_proveedorCompraPagar").val("0");
+                                            $("#select_OrdenCompras").val("0");
+                                          // }
+
+                                    }else{
+                                        swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                        //limpiar campos
+                                        $("#txtCheque").val("");
+                                        $("#txtTotal").val("");
+                                        $("#select_proveedorCompraPagar").val("0");
+                                        $("#select_OrdenCompras").val("0");
+                                    }
+                                }, error: function(error) {
+                                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                    //limpiar campos
+                                    $("#txtCheque").val("");
+                                    $("#txtTotal").val("");
+                                    $("#select_proveedorCompraPagar").val("0");
+                                    $("#select_OrdenCompras").val("0");
+                                }
+                            });
+                        }
+
+                    }else{
+                        swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        //limpiar campos
+                        $("#txtCheque").val("");
+                        $("#txtTotal").val("");
+                        $("#select_proveedorCompraPagar").val("0");
+                        $("#select_OrdenCompras").val("0");
+                    }
+                }, error: function(error) {
+                    console.log("no success");
+                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        //limpiar campos
+                        $("#txtCheque").val("");
+                        $("#txtTotal").val("");
+                        $("#select_proveedorCompraPagar").val("0");
+                        $("#select_OrdenCompras").val("0");
+                }
+            });
+
+          }
+     });
+  }
 }
 
 //Funcion para crear y cargar los datos a la tabla
@@ -630,7 +1001,7 @@ function tablaOrdenCompra(){
                       <td>${data[i].Material}</td>
                       <td>${data[i].Cantidad}</td>
                       <td class="text-nowrap" data-material="${data[i].id}">
-                          
+
                       </td>
                   </tr>`;
                 }
@@ -667,6 +1038,7 @@ function tablaOrdenCompra(){
 //Funcion para ejecuar cuando se carga este script
 $(document).ready(function () {
 	tablaOrdenCompra();
+  $(".select2").select2();
 });
 
 //Validacion de los campos
@@ -674,6 +1046,15 @@ $("#cantidadOrdenCompra").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#num_nota").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#TotalModificarCompra").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#txtCheque").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#txtTotal").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#select_CompraMaterial").on('change',function(e){
