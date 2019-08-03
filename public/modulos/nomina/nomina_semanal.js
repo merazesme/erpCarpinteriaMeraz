@@ -28,7 +28,7 @@ $(document).ready(function() {
       $(this).attr('disabled', true);
       obtieneDatos();
   });
-    //obtieneDatos();
+  //obtieneDatos();
   // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
   function obtieneDatos() {
     $.ajax({

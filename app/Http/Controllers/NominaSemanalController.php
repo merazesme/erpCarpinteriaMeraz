@@ -8,6 +8,7 @@ use App\Nomina;
 use App\DetalleNomina;
 use App\ConceptosNomina;
 use App\Trabajador;
+use App\TipoNomina;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
@@ -116,48 +117,57 @@ class NominaSemanalController extends Controller
     public function nomina(Request $request)
     {
       try{
+        $tipoNomina = TipoNomina::where('Concepto', '=', 'semanal')->first();
+        if(!isset($tipoNomina)) {
+          $tipoNomina = new TipoNomina;
+          $tipoNomina->Concepto = 'semanal';
+          if(!$tipoNomina->save())
+            return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+        }
+
         // Inserta una nueva nomina
         $nominaData=new Nomina();
-        $nominaData->Fecha= new DateTime();
-        $nominaData->idUsuario=1;
-        $nominaData->Tipo_nomina_idTipo_nomina= 2;
-        $nominaData->Semana = $request->input('semana');
-        $nominaData->save();
+        $nominaData->Fecha = new DateTime();
+        $nominaData->idUsuario                 = 1;
+        $nominaData->Tipo_nomina_idTipo_nomina = $tipoNomina->id;
+        $nominaData->Semana                    = $request->input('semana');
 
-        $trabajadorAsistencia = new Trabajador();
-        $trabajadorAsistencia = Trabajador::find(1);
-        $trabajadorAsistencia->Asistencia_total += 20;
-        $trabajadorAsistencia->save();
-        // Inserta los detalles de cada nomina para cada trabajador
-        foreach ($request->trabajadores as $trabajador) {
-          $dataDetalleNomina=new DetalleNomina();
-          $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
-          $dataDetalleNomina->Fecha=new DateTime();
-          $dataDetalleNomina->Estado= 1;
-          $dataDetalleNomina->idUsuario = 1;
-          $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
-          $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
-          $dataDetalleNomina->save();
-          $trabajadorAsistencia = Trabajador::find($trabajador['id']);
-          $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
-          $trabajadorAsistencia->save();
-          // Inserta los conceptos de cada detalle de nomina de cada nomina
-          $objNomina = $trabajador['Nomina'];
-          $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
-          foreach ($_arr as $key => $val) {
-              if($key == 'xPercepciones') $tipo = 1;
-              else if($key == 'xDeducciones') $tipo = 0;
-              foreach ($val as $concepto => $valor) {
-                      $data=new ConceptosNomina();
-                      $data->Descripcion= $concepto;
-                      $data->Tipo = $tipo;
-                      $data->idUsuario = 1;
-                      $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
-                      $data->Monto = $valor;
-                      $data->save();
-              }
-          }
-        }
+        if(!$nominaData->save())
+
+        // $trabajadorAsistencia = new Trabajador();
+        // $trabajadorAsistencia = Trabajador::find(1);
+        // $trabajadorAsistencia->Asistencia_total += 20;
+        // $trabajadorAsistencia->save();
+        // // Inserta los detalles de cada nomina para cada trabajador
+        // foreach ($request->trabajadores as $trabajador) {
+        //   $dataDetalleNomina=new DetalleNomina();
+        //   $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
+        //   $dataDetalleNomina->Fecha=new DateTime();
+        //   $dataDetalleNomina->Estado= 1;
+        //   $dataDetalleNomina->idUsuario = 1;
+        //   $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
+        //   $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
+        //   $dataDetalleNomina->save();
+        //   $trabajadorAsistencia = Trabajador::find($trabajador['id']);
+        //   $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
+        //   $trabajadorAsistencia->save();
+        //   // Inserta los conceptos de cada detalle de nomina de cada nomina
+        //   $objNomina = $trabajador['Nomina'];
+        //   $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
+        //   foreach ($_arr as $key => $val) {
+        //       if($key == 'xPercepciones') $tipo = 1;
+        //       else if($key == 'xDeducciones') $tipo = 0;
+        //       foreach ($val as $concepto => $valor) {
+        //               $data=new ConceptosNomina();
+        //               $data->Descripcion= $concepto;
+        //               $data->Tipo = $tipo;
+        //               $data->idUsuario = 1;
+        //               $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
+        //               $data->Monto = $valor;
+        //               $data->save();
+        //       }
+        //   }
+        // }
         return response()->json(["success" => "Guardado exitosamente."]);
       }
       catch(\Exception $e){
