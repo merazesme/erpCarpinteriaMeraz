@@ -54,10 +54,16 @@ Route::prefix('trabajadores')->group(function () {
 			$modulo = "Asistencia";
 			return view('trabajadores/asistencia', compact('modulo'));
 		});
+
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
 			return view('trabajadores/prestamos', compact('modulo'));
 		});
+
+		Route::get('prestamos/tabla', 'Prestamos@index');
+		Route::post('/agregarPrestamo', 'Prestamos@store');
+		Route::get('prestamos/trabajadores', 'Prestamos@trabajadores');
+		Route::get('prestamos/verificarFirma/{id}/{firma}', 'Prestamos@verificarFirma');
 });
 
 Route::get('/pagosdelmes_lista', function(){

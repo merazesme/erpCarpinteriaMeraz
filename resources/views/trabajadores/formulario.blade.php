@@ -17,6 +17,7 @@
 	                    <div class="card-body">
 	                        <form id="formularioTrabajador" name="formularioTrabajador" class="validation-wizard wizard-circle">
 														<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
+														<input type="text" class="form-control d-none" id="id_contrato" name="id_contrato">
 	                            <!-- Datos Personales -->
 	                            <h6>Datos Personales</h6>
 	                            <section>
@@ -77,39 +78,34 @@
 																					<div class="form-group">
 																							<label for="lugar_nacimiento">Lugar de Nacimiento: <span class="danger">*</span> </label>
 																							<input type="text" class="form-control required" id="lugar_nacimiento" name="lugar_nacimiento">
-																							<!-- <select id="lugar_nacimiento" name="lugar_nacimiento" class="select2 form-control custom-select select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-																									<option>Select</option>
-																									<optgroup label="México">
-																											<option value="Sinaloa">Sinaloa</option>
-																											<option value="HI">Hawaii</option>
-																									</optgroup>
-																									<optgroup label="Pacific Time Zone">
-																											<option value="CA">California</option>
-																											<option value="NV">Nevada</option>
-																											<option value="OR">Oregon</option>
-																											<option value="WA">Washington</option>
-																									</optgroup>
-																							</select> -->
 																					</div>
 	                                    </div>
 																	</div>
 																	<div class="row">
-																    <div class="col-md-6">
-																        <div class="form-group">
-																						<label for="escolaridad">Escolaridad: </label>
-																						<select class="custom-select form-control required" id="escolaridad" name="escolaridad">
-																								<option value=""></option>
-																								<option value="Primaria">Primaria</option>
-																								<option value="Secundaria">Secundaria</option>
-																								<option value="Educación Técnica">Educación Técnica</option>
-																								<option value="Bachillerato">Bachillerato</option>
-																								<option value="Licenciatura">Licenciatura</option>
-																								<option value="Posgrado">Posgrado</option>
-																								<option value="Sin estudios">Sin estudios</option>
-																								<option value="Otro">Otro</option>
-																						</select>
-																        </div>
-																    </div>
+	                                    <div class="col-md-6">
+																					<div class="form-group">
+																							<label for="nacionalidad">Nacionalidad: <span class="danger">*</span> </label>
+																							<input type="text" class="form-control required" id="nacionalidad" name="nacionalidad">
+																					</div>
+	                                    </div>
+																			<div class="col-md-6">
+																	        <div class="form-group">
+																							<label for="escolaridad">Escolaridad: <span class="danger">*</span> </label>
+																							<select class="custom-select form-control required" id="escolaridad" name="escolaridad">
+																									<option value=""></option>
+																									<option value="Primaria">Primaria</option>
+																									<option value="Secundaria">Secundaria</option>
+																									<option value="Educación Técnica">Educación Técnica</option>
+																									<option value="Bachillerato">Bachillerato</option>
+																									<option value="Licenciatura">Licenciatura</option>
+																									<option value="Posgrado">Posgrado</option>
+																									<option value="Sin estudios">Sin estudios</option>
+																									<option value="Otro">Otro</option>
+																							</select>
+																	        </div>
+																	    </div>
+																	</div>
+																	<div class="row">
 																    <div class="col-md-6">
 																        <div class="form-group">
 																						<label for="apodo">Apodo: <span class="danger">*</span> </label>
@@ -153,31 +149,20 @@
 																			<div class="col-md-9">
 																					<div class="radio-list">
 																							<label class="custom-control custom-radio">
-																									<input id="tipo" name="tipo" value="Temporal" type="radio" checked="" class="custom-control-input">
+																									<input type="radio" id="tipo_temporal" name="tipo" value="Temporal" class="custom-control-input" onclick="tipoTrabajador(1)">
 																									<span class="custom-control-indicator"></span>
 																									<span class="custom-control-description">Temporal</span>
 																							</label>
 																							<label class="custom-control custom-radio">
-																									<input id="tipo" name="tipo" value="Base" type="radio" class="custom-control-input">
+																									<input type="radio" id="tipo_base" name="tipo" value="Base" class="custom-control-input" onclick="tipoTrabajador(2)">
 																									<span class="custom-control-indicator"></span>
 																									<span class="custom-control-description">Base</span>
 																							</label>
 																					</div>
 																			</div>
 																	</div>
-																	<div class="row">
-	                                    <div class="col-md-6">
-	                                        <div class="form-group">
-																							<label for="fecha_inicio">Fecha de inicio: <span class="danger">*</span> </label>
-																							<input type="date" class="form-control required" id="fecha_inicio" name="fecha_inicio">
-	                                        </div>
-	                                    </div>
-																			<div class="col-md-6">
-	                                        <div class="form-group">
-																							<label for="fecha_final">Fecha final: <span class="danger">*</span> </label>
-																							<input type="date" class="form-control required" id="fecha_final" name="fecha_final">
-	                                        </div>
-	                                    </div>
+																	<div class="row" id="fechas" name="fechas">
+	                                    <!-- SE AGREGAN EN TRABAJADORES.JS -->
 																	</div>
 																	<div class="row">
 																		<div class="col-md-6">
@@ -233,8 +218,8 @@
 																    <div class="col-md-6">
 																        <div class="form-group">
 																						<label for="firma">Firma trabajador: <span class="danger">*</span> </label>
-																						<input type="password" class="form-control required" id="firma" name="firma">
-																						<p id="validarFirma" style="color:red;">Es necesario que el trabajador ingrese una firma de mínimo 8 caracteres.</p>
+																						<input type="password" class="form-control required input-number" id="firma" name="firma">
+																						<p id="validarFirma" style="color:red;">Es necesario que el trabajador ingrese una firma de 6 números.</p>
 																        </div>
 																    </div>
 																	</div>
