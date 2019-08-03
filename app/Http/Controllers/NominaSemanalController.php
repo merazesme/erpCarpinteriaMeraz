@@ -126,25 +126,25 @@ class NominaSemanalController extends Controller
         }
 
         // Inserta una nueva nomina
-
-        $nominaData->Fecha= new DateTime();
-        $nominaData->idUsuario=1;
-        $nominaData->Tipo_nomina_idTipo_nomina= $tipoNomina->id;
-        $nominaData->Semana = $request->input('semana');
+        $nominaData = new Nomina();
+        $nominaData->Fecha                     = new DateTime();
+        $nominaData->idUsuario                 = 1;
+        $nominaData->Tipo_nomina_idTipo_nomina = $tipoNomina->id;
+        $nominaData->Semana                    = $request->input('semana');
         $nominaData->save();
 
         // Inserta los detalles de cada nomina para cada trabajador
         foreach ($request->trabajadores as $trabajador) {
           $dataDetalleNomina=new DetalleNomina();
-          $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
-          $dataDetalleNomina->Fecha=new DateTime();
-          $dataDetalleNomina->Estado= 1;
-          $dataDetalleNomina->idUsuario = 1;
-          $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
+          $dataDetalleNomina->Cantidad                  = $trabajador['xTotal'];
+          $dataDetalleNomina->Fecha                     = new DateTime();
+          $dataDetalleNomina->Estado                    = 1;
+          $dataDetalleNomina->idUsuario                 = 1;
+          $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
           $dataDetalleNomina->save();
           $trabajadorAsistencia = Trabajador::find($trabajador['id']);
-          $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
+          $trabajadorAsistencia->Asistencia_total + = $trabajador['diasTrabajados'] + 1;
           $trabajadorAsistencia->save();
           // Inserta los conceptos de cada detalle de nomina de cada nomina
           $objNomina = $trabajador['Nomina'];
@@ -153,12 +153,12 @@ class NominaSemanalController extends Controller
               if($key == 'xPercepciones') $tipo = 1;
               else if($key == 'xDeducciones') $tipo = 0;
               foreach ($val as $concepto => $valor) {
-                      $data=new ConceptosNomina();
-                      $data->Descripcion= $concepto;
-                      $data->Tipo = $tipo;
-                      $data->idUsuario = 1;
+                      $data = new ConceptosNomina();
+                      $data->Descripcion                   = $concepto;
+                      $data->Tipo                          = $tipo;
+                      $data->idUsuario                     = 1;
                       $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
-                      $data->Monto = $valor;
+                      $data->Monto                         = $valor;
                       $data->save();
               }
           }
