@@ -24,7 +24,7 @@
                 <li class="nav-devider"></li>
 
                 @if (session('Usuario'))
-                    @if (is_array(session('Modulos')))
+                    {{-- @if (is_array(session('Modulos'))) --}}
                         @foreach(session('Modulos') as $modulo)
 
                             @if(is_object($modulo))
@@ -53,9 +53,9 @@
                             @endif
 
                         @endforeach
-                    @else
-                        <p class="text-error"><small>Sin módulos disponibles</small></p>
-                    @endif
+                    {{-- @else --}}
+                        {{-- <p class="text-error"><small>Sin módulos disponibles</small></p> --}}
+                    {{-- @endif --}}
                 @else
                 {{-- Este se quitará, solo es de prueba para que cuando no se inicie sesión, se muestren todos --}}
                     <li>
