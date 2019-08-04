@@ -131,18 +131,19 @@ Route::prefix('inventario')->group(function () {
 		Route::get('/lista_proveedor', 'compras@datosproveedor');
 		//Para insertar una nueva orden de compra
 		Route::post('/agregar_ordenCompra', 'compras@store');
-
+		Route::post('/id_ordenCompra', 'compras@new_compra');
+		//Para mostrar detalles de compra
 		Route::get('/especifico/{id}', 'compras@show');
-		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
-		Route::post('/modificar_material/{id}/{idmov}/{idprove}', 'compras@actualizarcantidad');
-		Route::get('/especificomov/{id}', 'compras@edit');
+		//Para modificar la orden de compra
+		Route::post('/modificar/{idcompra}', 'compras@update');
+		Route::post('/modificar_material/{idMa}/{idmov}/{idprove}/{idCompra}', 'compras@actualizarcantidad');
 		Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
-		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		//Pago compras
 		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
 		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
+
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
