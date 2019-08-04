@@ -18,7 +18,7 @@ $(document).ready(function() {
         // datos_proveedor_especifico(url[url.length - 1]);
     } else {
         /** Cargar los datos de los registros en general */
-        // datos_proveedor();
+        datosCotizaciones();
     }
 });
 
@@ -768,6 +768,80 @@ function llenarTablaProductos(){
 $(".detalleCotizacion").click(function(e){
     e.preventDefault();
 })
+
+
+function datosCotizaciones(){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/cotizaciones/getCotizaciones',
+        success: function (msg) {
+            var data = JSON.parse(msg)
+            console.log(data);
+            var html = "";
+
+            data.forEach(item =>{
+                var estado = `<span class="badge badge-success">Aceptada</span>`;
+                var mensaje = "En taller"
+                if(item.Estado == 0){
+                    estado = `<span class="badge badge-danger">Rechazada</span>`
+                    mensaje = "Aceptado"
+                } else if(item.Estado == 2){
+                    estado = `<span class="badge badge-warning">En taller</span>`
+                    mensaje = "Terminado"
+                }else if(item.Estado == 3){
+                    estado = `<span class="label label-light-success">Por confirmar</span>`
+                    mensaje = "Aceptado"
+                }else if(item.Estado == 4){
+                    estado = `<span class="badge badge-info">Terminado</span>`
+                }
+
+                var cambiarEstado = `<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar estado a ${mensaje}"> <i class="text-primary icon-note"></i> </a>`
+                if(item.Estado == 4){
+                    cambiarEstado="";
+                }
+                var total = parseFloat(item.costo).toFixed(2);
+
+                prioridad = `<span class="badge badge-primary">Alta</span>`
+                if(item.Prioridad == 2){
+                    prioridad = `<span class="badge badge-info">Media</span>`
+                }else if(item.Prioridad == 1){
+                    prioridad = `<span class="badge badge-inverse">Baja</span>`
+                }
+
+                html += `
+                <tr>
+                    <td>03-Agosto-19</td>
+                    <td>${item.Descripcion}</td>
+                    <td>${estado}</td>
+                    <td>${item.Nombre +" "+ item.Apellidos}</td>
+                    <td>$${total}</td>
+                    <td>${prioridad}</td>
+                    <td class="text-nowrap" id="${item.id}">
+                        <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+                        <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                        <span data-toggle="modal" data-target="#modalCotizacion">
+                          <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye m-r-10"></i> </a>
+                       </span>
+                       ${cambiarEstado}
+                    </td>
+                </tr>`
+            });
+
+            $("#cotizaciones").DataTable().clear();
+			$("#cotizaciones").DataTable().destroy();
+
+            $("#cotizaciones").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
+
+            $("#cotizaciones tbody").empty().append(html);
+        }
+    });
+}
+
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         /*Funciones de eliminar cotización*/
