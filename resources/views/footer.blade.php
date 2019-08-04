@@ -81,6 +81,7 @@
 
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
+	
 	<!-- Clock Plugin JavaScript -->
     <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 
@@ -91,7 +92,6 @@
 
 	<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
 	<!-- <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
-
 
 	@if(Request::segment(1) == "clientes")
 		<script src="{{asset('modulos/clientes.js')}}"></script>
