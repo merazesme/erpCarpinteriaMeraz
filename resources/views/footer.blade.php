@@ -83,6 +83,7 @@
 
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
+	
 	<!-- Clock Plugin JavaScript -->
     <script src="{{asset('plugins/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
 

@@ -459,7 +459,7 @@ Text Colors
 .text-white {
   color: #ffffff !important; }
 
-.text-danger {
+.text-danger, .text-error {
   color: #ef5350 !important; }
 
 .text-muted {

@@ -211,6 +211,24 @@ Route::prefix('/cotizaciones')->group(function () {
 		$modulo = "Modificar Cotización";
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
+
+	Route::get('/getRecomendados', 'cotizaciones@listRecomendados');
+	Route::post('/nuevoRecomendado', 'cotizaciones@storeRecomendado');
+	Route::get('/getSpecificRecomendados/{id}', 'cotizaciones@showRecomendado');
+	Route::post('/modificarRecomendado/{id}', 'cotizaciones@updateRecomendado');
+
+	Route::get('/getClientes', 'cotizaciones@listClientes');
+
+	Route::get('/getProductos', 'cotizaciones@listProductos');
+	Route::get('/getSpecificProducto/{id}', 'cotizaciones@showProducto');
+	Route::get('/getSpecificProductoMaterial/{id}', 'cotizaciones@showProductoMaterial');
+	Route::post('/nuevoProducto', 'cotizaciones@storeProducto');
+
+	Route::get('/getMateria', 'cotizaciones@listMateria');
+
+	Route::get('/getIVA', 'cotizaciones@getIVA');
+
+	Route::post('/nuevaCotizacion', 'cotizaciones@store');
 });
 
 Route::prefix('nomina')->group(function () {
