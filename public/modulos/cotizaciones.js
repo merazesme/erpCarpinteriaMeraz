@@ -20,7 +20,6 @@ $(document).ready(function() {
         /** Cargar los datos de los registros en general */
         // datos_proveedor();
     }
-    iniciar();
 });
 
 function iniciar(){
@@ -28,6 +27,94 @@ function iniciar(){
     $("#descripcion").val("aaaa");
 }
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        /*Funciones de agregar*/
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Información necesaria
+function cargarIVA(){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/cotizaciones/getIVA',
+        success: function (msg) {
+            var data = JSON.parse(msg)
+            iva = parseFloat(data[0].IVA);
+        }
+    });
+}
+
+function cargarRecomendados(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/cotizaciones/getRecomendados',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "<option value='-1'>Selecciona la persona que recomendó</option>";
+            for (var item in data) {
+                html += `<option value="${data[item].id}">${data[item].Nombre} - ${data[item].Porcentaje}%</option>`
+            }
+            $("#selectRecomendado").empty().append(html);
+		}
+	});
+}
+
+function cargarClientes(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/cotizaciones/getClientes',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "<option value='-1'>Selecciona un cliente</option>";
+            for (var item in data) {
+                html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
+            }
+            $("#selectCliente").empty().append(html);
+		}
+	});
+}
+
+function cargarProductos(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/cotizaciones/getProductos',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "<option value='-1'>Selecciona un producto</option>";
+            for (var item in data) {
+                html += `<option value="${data[item].id}">${data[item].Descripcion}</option>`
+            }
+            $("#selectProductos").empty().append(html);
+		}
+	});
+}
+
+function cargarMateria(){
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/cotizaciones/getMateria',
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "";
+            for (var item in data) {
+                html += `<option value="${data[item].id}">${data[item].Descripcion}</option>`
+            }
+            $("#selectMateriaPrima").empty().append(html);
+		}
+	});
+}
+//
+
+//Validaciones
 function validation(children, parent){
     if(children.val().length == 0){
         parent.addClass("error");
@@ -35,6 +122,24 @@ function validation(children, parent){
         parent.removeClass("error");
     }
 }
+
+function validationMensaje(children, parent){
+    $("#"+children.attr("id")+"-error").remove();
+    if(children.val().length == 0){
+        parent.append(`<label id="${children.attr("id")}-error" class="text-error" for="${children.attr("id")}">Este campo es requerido.</label>`)
+    }
+}
+//
+
+//sweet alert
+function mensaje(titulo, msg, tipo){
+    Swal.fire({
+        type: tipo,
+        title: titulo,
+        text: msg,
+    });
+}
+//
 
 //Modal de Recomendacion
 $("#nombreReco").on('input',function(e){
@@ -55,16 +160,6 @@ $("#subtotalProducto").on('input',function(e){
     validation($(this), $(this).parent())
     calcularTotal();
 });
-//
-
-//input de la parte de los productos
-$("body").on('input', "#cantidad", function(e){
-    validationMensaje($(this), $(this).parent())
-});
-
-$("body").on('input', "#descripcionP", function(e){
-    validationMensaje($(this), $(this).parent())
-});
 
 function calcularTotal(){
     if($("#subtotalProducto").val().length != 0){
@@ -82,6 +177,16 @@ function calcularTotal(){
 
     }
 }
+//
+
+//input de la parte de los productos
+$("body").on('input', "#cantidad", function(e){
+    validationMensaje($(this), $(this).parent())
+});
+
+$("body").on('input', "#descripcionP", function(e){
+    validationMensaje($(this), $(this).parent())
+});
 
 //select de recomendado
 $('body').on('change', "#selectRecomendado", function () {
@@ -133,6 +238,7 @@ $('body').on('change', "#selectMateriaPrima", function () {
     }
 });
 
+//Acciones de los modales
 function modalAccionRecomanedado(accion){
     $("#nombreReco").parent().removeClass("error");
     $("#porcentajeReco").parent().removeClass("error");
@@ -204,7 +310,9 @@ function modalAccionProducto(accion){
     }
     $('#modalProducto').modal('show')
 }
+//
 
+//Respuesta al dar click en el boton de los modales
 function nuevoRecomendado(id){
     var url = base_url+"/cotizaciones/nuevoRecomendado";
     var titulo = "Nueva persona de recomendación";
@@ -319,89 +427,9 @@ function nuevoProducto(id){
         });
     }
 }
+//
 
-function cargarIVA(){
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        enctype: "multipart/form-data",
-        url: base_url+'/cotizaciones/getIVA',
-        success: function (msg) {
-            var data = JSON.parse(msg)
-            iva = parseFloat(data[0].IVA);
-        }
-    });
-}
-
-function cargarRecomendados(){
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-		enctype: "multipart/form-data",
-		url: base_url+'/cotizaciones/getRecomendados',
-		success: function (msg) {
-            var data = JSON.parse(msg)
-            var html = "<option value='-1'>Selecciona la persona que recomendó</option>";
-            for (var item in data) {
-                html += `<option value="${data[item].id}">${data[item].Nombre} - ${data[item].Porcentaje}%</option>`
-            }
-            $("#selectRecomendado").empty().append(html);
-		}
-	});
-}
-
-function cargarClientes(){
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-		enctype: "multipart/form-data",
-		url: base_url+'/cotizaciones/getClientes',
-		success: function (msg) {
-            var data = JSON.parse(msg)
-            var html = "<option value='-1'>Selecciona un cliente</option>";
-            for (var item in data) {
-                html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
-            }
-            $("#selectCliente").empty().append(html);
-		}
-	});
-}
-
-function cargarProductos(){
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-		enctype: "multipart/form-data",
-		url: base_url+'/cotizaciones/getProductos',
-		success: function (msg) {
-            var data = JSON.parse(msg)
-            var html = "<option value='-1'>Selecciona un producto</option>";
-            for (var item in data) {
-                html += `<option value="${data[item].id}">${data[item].Descripcion}</option>`
-            }
-            $("#selectProductos").empty().append(html);
-		}
-	});
-}
-
-function cargarMateria(){
-    $.ajax({
-		type: "GET",
-		dataType: "json",
-		enctype: "multipart/form-data",
-		url: base_url+'/cotizaciones/getMateria',
-		success: function (msg) {
-            var data = JSON.parse(msg)
-            var html = "";
-            for (var item in data) {
-                html += `<option value="${data[item].id}">${data[item].Descripcion}</option>`
-            }
-            $("#selectMateriaPrima").empty().append(html);
-		}
-	});
-}
-
-//reiniciar formulario
+//reiniciar formulario wizard
 function reset_form(identifier_form) {
     cargarRecomendados();
     cargarClientes();
@@ -416,7 +444,7 @@ function reset_form(identifier_form) {
     $(identifier_form)[0].reset();
 }
 
-//validar formulario
+//validar formulario wizard
 function initialize_validate_form(tipo, id) {
     finish = tipo == 1 ? 'Guardar' : 'Actualizar';
     $(".validation-wizard").steps({
@@ -481,14 +509,7 @@ function initialize_validate_form(tipo, id) {
     $(".select2").select2();
 }
 
-function mensaje(titulo, msg, tipo){
-    Swal.fire({
-        type: tipo,
-        title: titulo,
-        text: msg,
-    });
-}
-
+//guardar wizard
 function guardarCotizacion(){
     var costo = 0;
     for (var i = 0; i < tablaProductos.length; i++) {
@@ -541,14 +562,8 @@ function guardarCotizacion(){
     })
 }
 
-function validationMensaje(children, parent){
-    $("#"+children.attr("id")+"-error").remove();
-    if(children.val().length == 0){
-        parent.append(`<label id="${children.attr("id")}-error" class="text-error" for="${children.attr("id")}">Este campo es requerido.</label>`)
-    }
-}
-
-//Agregar producto a la cotización
+//Acciones de productos dentro de la cotización
+    //agregar
 function agregarProductoCotizacion(){
     var ban = false;
     if($("#selectProductos").val() == "-1"){
@@ -607,6 +622,7 @@ function agregarProductoCotizacion(){
     }
 }
 
+    //modificar
 $("body").on("click", ".modificarProductoCotizacion", function(e){
     e.preventDefault();
     var id = $(this).parent().attr("id");
@@ -617,6 +633,7 @@ $("body").on("click", ".modificarProductoCotizacion", function(e){
     $("#btnAgregarProducto").attr("onclick", "modificarProductoCotizacion("+id+")");
 })
 
+    //acción al modificar
 function modificarProductoCotizacion(id){
     if(tablaProductos[id].idProducto != $("#selectProductos").val()){
         //consulta
@@ -672,6 +689,7 @@ function modificarProductoCotizacion(id){
     }
 }
 
+    //eliminar
 $("body").on("click", ".eliminarProductoCotizacion", function(e){
     e.preventDefault();
     var id = $(this).parent().attr("id");
@@ -691,6 +709,7 @@ $("body").on("click", ".eliminarProductoCotizacion", function(e){
     })
 })
 
+    //acción al eliminar
 function llenarTablaProductos(){
     var row="";
     var costo = 0;
@@ -741,7 +760,18 @@ function llenarTablaProductos(){
             </tr>`);
     }
 }
+//
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        /*Funciones de mostrar datos*/
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+$(".detalleCotizacion").click(function(e){
+    e.preventDefault();
+})
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        /*Funciones de eliminar cotización*/
+// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 $(".eliminarCotizacion").click(function(e){
     e.preventDefault();
@@ -762,6 +792,6 @@ $(".eliminarCotizacion").click(function(e){
     });
 })
 
-$(".detalleCotizacion").click(function(e){
-    e.preventDefault();
-})
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        /*Funciones de modificar datos*/
+// -------------------------------------------------------------------------------------------------------------------------------------------------
