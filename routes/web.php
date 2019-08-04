@@ -42,15 +42,28 @@ Route::prefix('trabajadores')->group(function () {
 
 		Route::get('/trabajador/{id}', 'Trabajadores@edit');
 		Route::post('/editarTrabajador/{id}', 'Trabajadores@update');
+		Route::post('/liquidarTrabajador/{id}', 'Trabajadores@liquidar');
+		Route::post('/contratarTrabajador/{id}', 'Trabajadores@contratar');
+
+		Route::get('/contrato/{id}', function(){
+			$modulo = "Generar contrato";
+			return view('trabajadores/formulario', compact('modulo'));
+		});
 
 		Route::get('/asistencia', function(){
 			$modulo = "Asistencia";
 			return view('trabajadores/asistencia', compact('modulo'));
 		});
+
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
 			return view('trabajadores/prestamos', compact('modulo'));
 		});
+
+		Route::get('prestamos/tabla', 'Prestamos@index');
+		Route::post('/agregarPrestamo', 'Prestamos@store');
+		Route::get('prestamos/trabajadores', 'Prestamos@trabajadores');
+		Route::get('prestamos/verificarFirma/{id}/{firma}', 'Prestamos@verificarFirma');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -111,14 +124,25 @@ Route::prefix('inventario')->group(function () {
 		Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
 	});
 	Route::prefix('orden_compra')->group(function () {
+		//Para listar las ordenes de compra
 		Route::get('/lista', 'compras@index');
+		//Para listar los materiales y proveedores
 		Route::get('/lista_materiales', 'compras@datosmaterial');
 		Route::get('/lista_proveedor', 'compras@datosproveedor');
-		// Route::post('/agregar_Tipomaterial', 'clasificacion_materiales@store');
-		// Route::get('/especifico/{id}', 'materiales@edit');
-		// Route::post('/modificar/{id}', 'materiales@update');
-		// Route::post('/eliminar/{id}', 'materiales@status');
-		// Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
+		//Para insertar una nueva orden de compra
+		Route::post('/agregar_ordenCompra', 'compras@store');
+
+		Route::get('/especifico/{id}', 'compras@show');
+		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
+		Route::post('/modificar_material/{id}/{idmov}/{idprove}', 'compras@actualizarcantidad');
+		Route::get('/especificomov/{id}', 'compras@edit');
+		Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
+		Route::get('/lista_compras/{id}', 'compras@showcompras');
+		//Pago compras
+		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
+		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -209,10 +233,12 @@ Route::prefix('/cotizaciones')->group(function () {
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/detalles', 'NominaSemanalController@detalles');
+		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
+		Route::get('/detalleNomina/{semana}/{fechai}/{fechaf}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
 		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
+		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
 	});
 
 	Route::prefix('nominaAguinaldo')->group(function () {
@@ -224,6 +250,19 @@ Route::prefix('nomina')->group(function () {
 		Route::post('/saveConceptoNomina', 'NominaAguinaldoController@conceptoNomina');
 	});
 
+});
+
+Route::prefix('roles')->group(function () {
+	/** Vistas */
+	Route::get('/', 'rolController@index');
+	/** Obtener información */
+	Route::get('data', 					'rolController@list_resources');
+	Route::get('data/rol/usuario/{id}', 'rolController@usuarios_per_role');
+	Route::get('data/especifico/{id}', 	'rolController@show');
+	/** Mandar información */
+	Route::post('agregar', 					'rolController@store');
+	Route::post('actualizar/{id}', 			'rolController@update');
+	Route::post('actualizar/estatus/{id}', 	'rolController@update_estatus');
 });
 
 //Configuraciones vista principal

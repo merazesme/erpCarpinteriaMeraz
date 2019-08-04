@@ -16,6 +16,8 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('plugins/wizard/steps.css')}}" rel="stylesheet">
+    <!-- toast CSS -->
+    <link href="{{asset('plugins/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
     <!--alerts CSS -->
     <link href="{{asset('plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
     <!-- Single select2 CSS -->
@@ -157,4 +159,10 @@
 	    </div>
 	</nav>
 </header>
+<div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label">Carpintería Meraz</p>
+    </div>
+</div>
 @show

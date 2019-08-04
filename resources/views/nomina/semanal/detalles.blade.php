@@ -1,9 +1,19 @@
 @extends('footer')
 @extends('sidebar')
 @extends('header')
+@extends('nomina/semanal/modal')
 
 @section('header')
 @parent
+<style media="screen">
+	.deshabilitado {
+		border: none;
+    background-color: white;
+	}
+	.form-control:disabled {
+		background-color: white;
+	}
+</style>
 	<div id="main-wrapper">
 		@section('sidebar')
 		@parent
@@ -14,133 +24,42 @@
               <div class="card">
                   <div class="card-body">
                       <!-- <h6 class="card-subtitle">Lista de Clientes</h6> -->
-											<button id="genera" type="button" class="btn waves-effect waves-light btn-primary float-right"><i class="fa fa-plus"></i> Generar Aguinaldos 2018 - 2019</button>
-                      <h4 class="card-title">Listado de aguinaldos</h4>
-                      <div class="table-responsive m-t-40" id="tabla">
-                          <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                              <thead>
-                                  <tr>
-                                    <th>Nombre</th>
-                                    <th>Dias Trabajados</th>
-																		<th>Sueldo Base</th>
-																		<th>Subtotal</th>
-                                    <th>Bono Extra</th>
-                                    <th>Bono P y A</th>
-                                    <th>Total</th>
+											<a id="regresar"  href="{{ URL::previous() }}" role="button" class="btn waves-effect waves-light btn-primary float-right"><i class="fa fa-mail-reply"></i> Regresar</a>
+                      <h4 class="card-title">{{ $modulo }}</h4>
+											<br><br>
+											<span class="text-center">
+												<h5 id="semanas"></h5>
+												<h5 id="rango-semana"></h5>
+											</span>
+											<span class="text-center" id="errorSemana">
 
-                                  </tr>
-                              </thead>
-															<tfoot>
-																<tr>
-																	<th></th>
-																	<th></th>
-																	<th>Totales</th>
-																	<th>12313</th>
-																	<th>234</th>
-																	<th>14124</th>
-																	<th>123123</th>
-																</tr>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                      <td>Itzel Rendón</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Itzel Rendón</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Itzel Rendón</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Itzel Rendón</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                      <td>123</td>
-                                  </tr>
-                              </tbody>
-                          </table>
+											</span>
+                      <div class="table-responsive m-t-40 tabla">
+
                       </div>
                   </div>
               </div>
           </div>
-      </div>
+        </div>
 			</div>
 		</div>
+
+		<!-- Se importa el modal -->
+		@section('modal')
+		@parent
+		@stop
+
 		@section('footer')
 		@parent
-		<script>
-    $(document).ready(function() {
-				$('#genera').on('click', function() {
-						$('#tabla').show();
-				});
-				$('#tabla').hide();
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
-                            last = group;
-                        }
-                    });
-                }
-            });
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
-        });
-    });
-    $('#clientes').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'excel', 'pdf', 'print'
-        ]
-    });
-    </script>
-	</div>
+			@section('java')
+				<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
+				<script src="{{asset('js/toastr2.js')}}"></script>
+				<script type="text/javascript">
+					var numSemana = <?php echo $semana ?>;
+				</script>
+				<script src="{{asset('modulos/nomina/nomina_semanal_index.js')}}"></script>
+				<script src="{{asset('modulos/nomina/nomina_semanal_detalle.js')}}"></script>
+		@stop
 @endsection
 @endsection
 @endsection

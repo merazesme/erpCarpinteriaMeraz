@@ -86,62 +86,140 @@
 						<div class="modal-dialog modal-lg" role="document">
 								<div class="modal-content">
 										<div class="modal-header">
-												<h4 class="modal-title" id="exampleModalLabel1">Detalles</h4>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="exampleModalLabel1">Detalles</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="modal-body">
 											<div id="datos" class="row">
 			                	<div class="col-md-12">
-													<div class="card">
-			                     	<div class="card-body">
-															<!-- DETALLES TRABAJADOR -->
-							                <h5 style="font-weight: bold;">DETALLES TRABAJADOR:</h5>
-							                <table id="detallesTrabajador" class="table vm no-th-brd pro-of-month">
-																<!-- <thead>
+													<div class="card" style="margin-bottom: 0px;">
+			                     	<div class="card-body" style="padding: 0px 0px;">
+															<div class="activity-box">
+                                <div class="date-devider">
+																	<span>DETALLES TRABAJADOR</span>
+																</div>
+																<!-- DETALLES TRABAJADOR -->
+								                <table id="detallesTrabajador" class="table vm no-th-brd pro-of-month">
+																	<!-- <thead>
+																			<tr>
+																					<th>sdsad</th>
+																					<th>asdasdasd</th>
+																			</tr>
+																	</thead> -->
+								                  <tbody>
+																		<!-- <tr>
+																				<td class="m-b-0"><strong>Celular: </strong></td>
+																				<td class="m-b-0"><strong>Número alternativo: </strong></td>
+								                    </tr>
+								                    <tr>
+								                        <td class="m-b-0"><strong>Fecha de nacimiento: </strong></td>
+								                        <td class="m-b-0"><strong>Lugar de nacimiento: </strong></td>
+								                    </tr>
 																		<tr>
-																				<th>sdsad</th>
-																				<th>asdasdasd</th>
-																		</tr>
-																</thead> -->
-							                  <tbody>
-																	<!-- <tr>
-																			<td class="m-b-0"><strong>Celular: </strong></td>
-																			<td class="m-b-0"><strong>Número alternativo: </strong></td>
-							                    </tr>
-							                    <tr>
-							                        <td class="m-b-0"><strong>Fecha de nacimiento: </strong></td>
-							                        <td class="m-b-0"><strong>Lugar de nacimiento: </strong></td>
-							                    </tr>
-																	<tr>
-																			<td class="m-b-0"><strong>Domicilio: </strong></td>
-																			<td class="m-b-0"><strong>Estado civil:</strong></td>
-							                    </tr>
-																	<tr>
-							                        <td class="m-b-0"><strong>Apodo: </strong></td>
-							                        <td class="m-b-0"><strong>Escolaridad: </strong></td>
-							                    </tr> -->
-							                  </tbody>
-							                </table>
-															<!-- FIN DETALLES TRABAJADOR -->
-															<!-- DETALLES CONTRATO -->
-															<h5 style="font-weight: bold;">DETALLES CONTRATO:</h5>
-							                <table id="detallesContrato" class="table vm no-th-brd pro-of-month">
-							                  <tbody>
-							                    <!-- <tr>
-							                        <td class="m-b-0"><strong>Fecha inicio: </strong></td>
-							                        <td class="m-b-0"><strong>Fecha final: </strong></td>
-							                    </tr>
-							                    <tr>
-							                        <td class="m-b-0"><strong>Hora extra: </strong></td>
-							                        <td class="m-b-0"><strong>Bono extra: </strong></td>
-							                    </tr>
-																	<tr>
-																			<td class="m-b-0"><strong>Bono asistencia: </strong></td>
-																			<td class="m-b-0"><strong></strong></td>
-							                    </tr> -->
-							                  </tbody>
-							                </table>
-															<!-- FIN DETALLES CONTRATO -->
+																				<td class="m-b-0"><strong>Domicilio: </strong></td>
+																				<td class="m-b-0"><strong>Estado civil:</strong></td>
+								                    </tr>
+																		<tr>
+								                        <td class="m-b-0"><strong>Apodo: </strong></td>
+								                        <td class="m-b-0"><strong>Escolaridad: </strong></td>
+								                    </tr> -->
+								                  </tbody>
+								                </table>
+																<!-- FIN DETALLES TRABAJADOR -->
+																<div class="date-devider">
+																	<span>DETALLES ÚLTIMO CONTRATO</span>
+																</div>
+																<!-- DETALLES CONTRATO -->
+								                <table id="detallesContrato" class="table vm no-th-brd pro-of-month">
+								                  <tbody>
+								                    <!-- <tr>
+								                        <td class="m-b-0"><strong>Fecha inicio: </strong></td>
+								                        <td class="m-b-0"><strong>Fecha final: </strong></td>
+								                    </tr>
+								                    <tr>
+								                        <td class="m-b-0"><strong>Hora extra: </strong></td>
+								                        <td class="m-b-0"><strong>Bono extra: </strong></td>
+								                    </tr>
+																		<tr>
+																				<td class="m-b-0"><strong>Bono asistencia: </strong></td>
+																				<td class="m-b-0"><strong></strong></td>
+								                    </tr> -->
+								                  </tbody>
+								                </table>
+																<!-- FIN DETALLES CONTRATO -->
+                            	</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+								</div>
+						</div>
+				</div>
+				<!-- /.MODAL VER DETALLES -->
+				<!-- MODAL VER HISTORIAL -->
+				<div class="modal fade bs-example-modal-lg" id="modalHistorial" tabindex="-1" role="dialog" aria-labelledby="modalDetalles">
+						<div class="modal-dialog modal-lg" role="document">
+								<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="exampleModalLabel1">Historial</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										</div>
+										<div class="modal-body">
+											<div id="datos2" class="row">
+			                	<div class="col-md-12">
+													<div class="card" style="margin-bottom: 0px;">
+			                     	<div class="card-body" style="padding: 0px 0px;">
+															<div class="ml-auto" style="text-align: right;">
+	                              <select class="custom-select b-0">
+                                  <option selected="">Contratos</option>
+                                  <option value="1">Liquidaciones</option>
+	                              </select>
+                              </div>
+															<div class="activity-box">
+                                <div class="date-devider">
+																	<span>HISTORIAL CONTRATOS</span>
+																</div>
+																<!-- HISTORIAL CONTRATOS -->
+																<div class="p-20">
+																	<div class="table-responsive">
+																		<table id="historialContratos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%" style="font-size:12px;">
+																				<thead>
+																						<tr>
+																								<th>Puesto</th>
+																								<th>Fecha inicio</th>
+																								<th>Fecha fin</th>
+																								<th>Sueldo</th>
+																								<th>Hora extra</th>
+																								<th>Bono extra</th>
+																								<th>Bono asistencia</th>
+																						</tr>
+																				</thead>
+																				<tfoot>
+																						<tr>
+																								<th>Puesto</th>
+																								<th>Fecha inicio</th>
+																								<th>Fecha fin</th>
+																								<th>Sueldo</th>
+																								<th>Hora extra</th>
+																								<th>Bono extra</th>
+																								<th>Bono asistencia</th>
+																						</tr>
+																				</tfoot>
+																				<tbody>
+																					<!-- Se agrega en trabajadores.js -->
+																				</tbody>
+																		</table>
+																	</div>
+																</div>
+																<!-- FIN HISTORIAL CONTRATOS -->
+																<!-- <div class="date-devider">
+																	<span>DETALLES CONTRATO</span>
+																</div> -->
+																<!-- DETALLES CONTRATO -->
+
+																<!-- FIN DETALLES CONTRATO -->
+                            	</div>
 														</div>
 													</div>
 												</div>
@@ -156,47 +234,6 @@
 		@section('footer')
 		@parent
 		<script src="{{asset('modulos/trabajadores.js')}}"></script>
-		<!-- <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
-                            last = group;
-                        }
-                    });
-                }
-            });
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
-        });
-    });
-    </script> -->
 	</div>
 @endsection
 @endsection
