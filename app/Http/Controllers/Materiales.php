@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 //modelo
 use App\Materiale;
+use App\Mov_materiale;
 use DB;
 class Materiales extends Controller
 {
@@ -29,6 +30,51 @@ class Materiales extends Controller
           return response()->json(json_encode(1));
         }
     }
+     // Funciones para el submodulo de ordenes de salida
+    public function showTablaOrdenSalida()
+    {
+        //
+        try {
+          $data = DB::table('materiales')
+            ->join('mov_materiales', 'mov_materiales.Materiales_idMateriale', '=', 'materiales.id')
+               ->select('materiales.id','materiales.Nombre','mov_materiales.Estado',  'mov_materiales.Descripcion', 'mov_materiales.Fecha','mov_materiales.Cantidad', 'mov_materiales.Cantidad')
+                ->where('mov_materiales.Tipo_mov', '=', 2)
+                 ->get();
+          // dd($data);
+          return response()->json(json_encode($data));
+        } catch (\Exception $e) {
+          return response()->json(json_encode(1));
+        }
+    }
+    public function showTrabajadores()
+    {
+        //
+        try {
+          $data = DB::table('trabajadores')
+           ->select('trabajadores.id','trabajadores.Nombre')
+            ->where('trabajadores.Estado', '=', 1)
+             ->get();
+          // dd($data);
+          return response()->json(json_encode($data));
+        } catch (\Exception $e) {
+          return response()->json(json_encode(1));
+        }
+    }
+    public function showMateriales()
+    {
+        //
+        try {
+          $data = DB::table('materiales')
+           ->select('materiales.id','materiales.Nombre')
+            ->where('materiales.Estado', '=', 1)
+             ->get();
+          // dd($data);
+          return response()->json(json_encode($data));
+        } catch (\Exception $e) {
+          return response()->json(json_encode(1));
+        }
+    }
+    // FIN Funciones para el submodulo de ordenes de salida
 
     /**
      * Show the form for creating a new resource.
@@ -54,16 +100,6 @@ class Materiales extends Controller
 
         $data->save();
         return response()->json(json_encode(0));
-
-        // $data=new Materiale();
-        // $data->Nombre=$request->input('Perilla');
-        // $data->Existencia=$request->input('20');
-        // $data->Estado=$request->input('1');
-        // $data->idUsuario=$request->input('1');
-        // $data->Clasificacion_material_idClasificacion_material=('1');
-        //
-        // $data->save();
-        // return response()->json(json_encode(0));
     }
 
     /**

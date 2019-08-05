@@ -162,7 +162,7 @@
 														</div>
 													</div>
 													<div class="col-md-6">
-														<label for="message-text" id="despues"class="control-label">Cantidad <span class="danger">*</label>
+														<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
 														<div class="form-group" id="cantidadcrear">
 																<!-- <input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra"> -->
 														</div>

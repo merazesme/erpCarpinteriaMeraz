@@ -600,7 +600,7 @@ function nuevoOrdenCompra(para) {
           url: url,
           success: function(msg){
               var data = JSON.parse(msg)
-              console.log("data: " , data);
+              console.log("data 1: " , data);
               if(data >= 0){
 
                     var idCompra = data;
@@ -637,7 +637,7 @@ function nuevoOrdenCompra(para) {
                             url: url,
                             success: function(msg){
                                 var data = JSON.parse(msg)
-                                console.log("data: " , data);
+                                console.log("data 2: " , data);
                                 if(data == 0){
                                     $('#modal_nueva_ordenCompra').modal('hide')
                                     swal(titulo, mensaje, "success");
@@ -1260,10 +1260,6 @@ $('body').on('change', "#select_CompraMaterial", function(e){
     validation($(this), $(this).parent())
     validation($("#validar").val("1"), $("#cantidadOrdenCompra").parent());
     validation($("#validar").val("1"), $("#num_nota").parent());
-    var html = "";
-    html+=
-    `<input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra">`;
-    $("#cantidadcrear").empty().append(html);
 });
 $('body').on('change', "#select_CompraProveedor", function(e){
   validation($(this), $(this).parent())
