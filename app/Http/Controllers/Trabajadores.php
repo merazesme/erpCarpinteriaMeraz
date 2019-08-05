@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use DB;
+use Crypt;
 
 //Importar Modelo
 use App\Trabajador;
@@ -23,7 +24,9 @@ class Trabajadores extends Controller
         try{
             $final = DB::table('trabajadores')
               ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
-                ->select('trabajadores.id', 'trabajadores.Nombre', 'trabajadores.Apellidos', 'trabajadores.Estado as trabajador_estado', 'contratos.Puesto', 'contratos.Estado as contrato_estado', 'contratos.Fecha_final')
+                ->select('trabajadores.id as id_trabajador', 'trabajadores.Nombre', 'trabajadores.Apellidos',
+                          'trabajadores.Estado as trabajador_estado', 'contratos.id as id_contrato', 'contratos.Puesto',
+                          'contratos.Estado as contrato_estado', 'contratos.Fecha_final')
                   ->get();
 
             return $final;
@@ -68,9 +71,9 @@ class Trabajadores extends Controller
           $trabajador->Infonavit=$request->input('infonavit');
           $trabajador->Escolaridad=$request->input('escolaridad');
           $trabajador->Asistencia_total=0;
-          $trabajador->Firma=$request->input('firma');
+          $trabajador->Firma=bcrypt($request->input('firma'));
           $trabajador->Tipo=$request->input('tipo');
-          $trabajador->Nacionalidad='Mexicano';
+          $trabajador->Nacionalidad=$request->input('nacionalidad');
           $trabajador->Estado=1;
           $trabajador->idUsuario=$request->input('idUsuario');
 
@@ -157,16 +160,18 @@ class Trabajadores extends Controller
           $trabajador->Infonavit=$request->input('infonavit');
           $trabajador->Escolaridad=$request->input('escolaridad');
           $trabajador->Asistencia_total=0;
-          $trabajador->Firma=$request->input('firma');
+          if($request->input('cambiarFirma')==1){
+            $trabajador->Firma=bcrypt($request->input('firma'));
+          }
           $trabajador->Tipo=$request->input('tipo');
-          $trabajador->Nacionalidad='Mexicano';
+          $trabajador->Nacionalidad=$request->input('nacionalidad');
           // $trabajador->Estado=1;
           $trabajador->idUsuario=$request->input('idUsuario');
 
           $trabajador->save();
 
           $contratos = DB::table('contratos')
-            ->where('Trabajadores_idTrabajador',$id)
+            ->where('id', $request->input('id_contrato'))
               ->update(
                 ['puesto' => $request->input('puesto'),
                 'Fecha_inicio' => $request->input('fecha_inicio'),
@@ -231,9 +236,11 @@ class Trabajadores extends Controller
           $trabajador->Infonavit=$request->input('infonavit');
           $trabajador->Escolaridad=$request->input('escolaridad');
           $trabajador->Asistencia_total=0;
-          $trabajador->Firma=$request->input('firma');
+          if($request->input('cambiarFirma')==1){
+            $trabajador->Firma=bcrypt($request->input('firma'));
+          }
           $trabajador->Tipo=$request->input('tipo');
-          $trabajador->Nacionalidad='Mexicano';
+          $trabajador->Nacionalidad=$request->input('nacionalidad');
           $trabajador->Estado=1;
           $trabajador->idUsuario=$request->input('idUsuario');
 

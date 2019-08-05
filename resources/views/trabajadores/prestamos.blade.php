@@ -13,17 +13,15 @@
           			<div class="col-12">
 		              <div class="card">
 		                  <div class="card-body">
-													<a class="btn waves-effect waves-light btn-primary float-right" href="/"> <i class="fa fa-plus"></i> Agregar prestamo</a>
+													<a class="btn waves-effect waves-light btn-primary float-right" onclick="mostrarModalAgregarPrestamo()"> <i class="fa fa-plus"></i> Agregar prestamo</a>
 		                      <h4 class="card-title">Prestamos</h4>
-		                      <h6 class="card-subtitle">Lista de prestamos</h6>
 		                      <div class="table-responsive m-t-40">
-                          <table id="trabajadores" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                          <table id="prestamos" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
 																		<th>Trabajador</th>
 										                <th>Monto</th>
 																		<th>Resta</th>
-																		<th>Fecha</th>
 																		<th>Acciones</th>
                                   </tr>
                               </thead>
@@ -32,22 +30,11 @@
 																		<th>Trabajador</th>
                                     <th>Monto</th>
                                     <th>Resta</th>
-																	   <th>Fecha</th>
 																		<th>Acciones</th>
                                   </tr>
                               </tfoot>
                               <tbody>
-                                 	<tr>
-		                                <td>Adriana Hernández</td>
-		                                <td>$5000.00</td>
-																		<td>$1350.00</td>
-		                                <td>28/12/2019</td>
-																		<td class="text-nowrap">
-																			<a href="#" data-toggle="modal" data-original-title="Ver detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-			                                <a href="#modalAbonar" data-toggle="modal" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
-			                                <a data-toggle="modal" data-original-title="Liquidar" id="sa-success"> <i class="ti-check text-danger m-r-10"></i> </a>
-				                            </td>
-                             			</tr>
+                                 	<!-- Se llena el el prestamos.js -->
                           		</tbody>
                       		</table>
                       </div>
@@ -56,7 +43,7 @@
           </div>
       	</div>
 				<!-- MODAL NUEVO PRESTAMO -->
-				<div class="modal fade" id="agregarPrestamo" tabindex="-1" role="dialog" aria-labelledby="agregarPrestamo">
+				<div class="modal fade" id="modalAgregarPrestamo" role="dialog" aria-labelledby="agregarPrestamo">
   					<div class="modal-dialog" role="document">
 		            <div class="modal-content">
 	                  <div class="modal-header">
@@ -64,49 +51,48 @@
 	                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	                  </div>
 	                  <div class="modal-body">
-	                  	<form>
+	                  	<form id="formularioPrestamo" name="formularioPrestamo">
+													<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
 													<div class="form-group">
-															<label for="trabajador">Trabajador: <span class="danger">*</span> </label>
-															<select class="select2 form-control custom-select" style="width: 100%; height:36px;">
-																	<option>Select</option>
-																	<optgroup label="Base">
-																			<option value="AK">Adriana Hernández</option>
-																			<option value="HI">Jesús Vizcarra</option>
-																	</optgroup>
-																	<optgroup label="Temporal">
-																			<option value="CA">Fabiola Paez</option>
-																			<option value="NV">Itzel Rendón</option>
-																			<option value="OR">Esmeralda Meraz</option>
-																	</optgroup>
-															</select>
+														<label for="id_trabajador" class="control-label">Trabajador <span class="danger">*</span> </label>
+														<select id="id_trabajador" name="id_trabajador" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+						                  <option>Seleccionar</option>
+						                  <optgroup id="selectTrabajadores" label="Trabajadores">
+						                      <!-- SE AGREGA EN EL PRESTAMOS.JS -->
+						                  </optgroup>
+						                </select>
+														<div id="validacionTrabajador" name="validacionTrabajador">
+														</div>
 													</div>
 													<div class="row">
 															<div class="col-md-6">
 																	<div class="form-group">
-																			<label for="concepto" class="control-label">Concepto:</label>
-																			<input type="text" class="form-control" id="concepto">
+																			<label for="concepto" class="control-label">Concepto: <span class="danger">*</span> </label>
+																			<input type="text" class="form-control" id="concepto" name="concepto">
 																	</div>
 															</div>
 															<div class="col-md-6">
 																	<div class="form-group">
-																		<label for="monto" class="control-label">Monto:</label>
-																		<input type="text" class="form-control" id="monto">
+																		<label for="montoPrestamo" class="control-label">Monto: <span class="danger">*</span> </label>
+																		<input type="text" class="form-control input-number" id="montoPrestamo" name="montoPrestamo">
 																	</div>
 															</div>
 													</div>
 													<div class="form-group">
-				                      <label>Descripción:</label>
-				                      <textarea class="form-control" rows="2"></textarea>
+				                      <label>Descripción: <span class="danger">*</span> </label>
+				                      <textarea class="form-control" rows="2" id="descripcion" name="descripcion"></textarea>
 		                      </div>
 													<div class="form-group">
-		                          <label>Contraseña(trabajador):</label>
-		                          <input type="password" class="form-control" value="password">
+		                          <label for="firma">Firma(trabajador): <span class="danger">*</span> </label>
+		                          <input type="password" class="form-control input-number" id="firma" name="firma">
+															<div id="validacionFirma" name="validacionFirma">
+															</div>
 		                      </div>
 	                   	</form>
 	                  </div>
 	                  <div class="modal-footer">
 	                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-	                      <button type="button" class="btn btn-info">Guardar</button>
+	                      <button type="button" id="btnAgregar" class="btn btn-info">Guardar</button>
 	                  </div>
 	              </div>
 	          </div>
@@ -125,8 +111,8 @@
 													<div class="row">
 															<div class="col-md-6">
 																	<div class="form-group">
-																		<label for="monto" class="control-label">Monto:</label>
-																		<input type="text" class="form-control" id="monto">
+																		<label for="montoAbono" class="control-label">Monto:</label>
+																		<input type="text" class="form-control input-number" id="montoAbono">
 																	</div>
 															</div>
 															<div class="col-md-6">
@@ -137,8 +123,8 @@
 															</div>
 													</div>
 													<div class="form-group">
-                              <label>Contraseña(trabajador):</label>
-                              <input type="password" class="form-control" value="password">
+                              <label>Firma(trabajador):</label>
+                              <input type="password" class="form-control input-number" value="firma">
                           </div>
 	                      </form>
 	                  </div>
@@ -154,53 +140,7 @@
 		</div>
 		@section('footer')
 		@parent
-		<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
-        $(document).ready(function() {
-            var table = $('#example').DataTable({
-                "columnDefs": [{
-                    "visible": false,
-                    "targets": 2
-                }],
-                "order": [
-                    [2, 'asc']
-                ],
-                "displayLength": 25,
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    var rows = api.rows({
-                        page: 'current'
-                    }).nodes();
-                    var last = null;
-                    api.column(2, {
-                        page: 'current'
-                    }).data().each(function(group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
-                            last = group;
-                        }
-                    });
-                }
-            });
-            // Order by the grouping
-            $('#example tbody').on('click', 'tr.group', function() {
-                var currentOrder = table.order()[0];
-                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
-                    table.order([2, 'desc']).draw();
-                } else {
-                    table.order([2, 'asc']).draw();
-                }
-            });
-        });
-    });
-    $('#trabajadores').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    });
-    </script>
+		<script src="{{asset('modulos/prestamos.js')}}"></script>
 	</div>
 @endsection
 @endsection

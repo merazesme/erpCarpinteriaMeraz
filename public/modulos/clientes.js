@@ -236,7 +236,7 @@ function tablaClientes(){
                     <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
                     <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
                     <td class="text-nowrap" data-cliente="${data[i].id}">
-                        <a href="#" class="modificarCliente"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
+                        <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
 
                 if(data[i].Estado == 1){
                     htmlInactivo += localhtml +

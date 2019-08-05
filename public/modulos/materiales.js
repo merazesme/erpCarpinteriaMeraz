@@ -493,8 +493,8 @@ function NuevoTipoMaterial(id){
 //Funcion para traer la informacion de un material
 function datos_especificos(id){
   console.log("consulta_especifica: " + id);
-  $("#Estado_Activo").attr('checked', false);
-  $("#Estado_Inactivo").attr('checked', false);
+  $("#Estado_Activo").prop('checked', false);
+  $("#Estado_Inactivo").prop('checked', false);
   $.ajax({
   type: "GET",
   dataType: "json",
@@ -511,10 +511,10 @@ function datos_especificos(id){
           $("#estado_material").val(data.Estado);
           if (data.Estado == 1) {
             console.log("1");
-            $("#Estado_Activo").attr('checked', true);
+            $("#Estado_Activo").prop('checked', true);
           }else {
             console.log("0");
-            $("#Estado_Inactivo").attr('checked', true);
+            $("#Estado_Inactivo").prop('checked', true);
           }
           $("#idUsuario_material").val(data.idUsuario);
           $("#select_tipoMateriall").val(data.Clasificacion_material_idClasificacion_material);
