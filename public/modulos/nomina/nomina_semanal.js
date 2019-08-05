@@ -28,7 +28,7 @@ $(document).ready(function() {
       $(this).attr('disabled', true);
       obtieneDatos();
   });
-  obtieneDatos();
+  //obtieneDatos();
 
   // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
   function obtieneDatos() {
@@ -58,7 +58,7 @@ $(document).ready(function() {
   function muestra() {
     var tamanio = trabajadores.length;
     var html =
-     `<table id="demo-foo-accordion" class="table m-b-0 toggle-arrow-tiny">
+     `<table id="nomina" class="table m-b-0 toggle-arrow-tiny">
         <thead>
             <tr>
                 <th data-toggle="true" data-sort-ignore="true"> Nombre  </th>
@@ -260,36 +260,7 @@ $(document).ready(function() {
                toastSuccess("Nómina guardada exitosamente.");
                $('.modal-edit').hide("slow");
                $('#guardar').hide("slow");
-               $('#demo-foo-accordion').DataTable({
-                   dom: 'Bfrtip',
-                   buttons: [
-                     {
-                         extend: 'copyHtml5',
-                         exportOptions: {
-                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
-                         },
-                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
-                     },
-                     {
-                         extend: 'excelHtml5',
-                         exportOptions: {
-                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
-                         },
-                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
-                         filename: `Nomina-semanal-excel-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
-                     },
-                     {
-                         extend: 'pdfHtml5',
-                         exportOptions: {
-                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
-                         },
-                         text: 'PDF',
-                         orientation: 'landscape',
-                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
-                         filename: `Nomina-semanal-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
-                     }
-                   ]
-               });
+               imprimir();
              }
         }, error: function(error) {
             toastError();
@@ -337,7 +308,7 @@ $(document).ready(function() {
              <th>No. de nomina</th>
              <th>Fecha</th>
              <th>Elaborada por</th>
-             <th>Acciones</th>
+             <th class="text-center">Acciones</th>
            </tr>
        </thead>
        <tfoot>
@@ -355,10 +326,7 @@ $(document).ready(function() {
                   <td>${historial[x].Semana}</td>
                   <td><i class="fa fa-clock-o"></i> ${historial[x].Fecha}</td>
                   <td>${historial[x].usuario}</td>
-                  <td class="text-nowrap">
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
+                  <td class="text-center">
                     <a href="nominaSemanal/detalles/${historial[x].Semana}" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                   </td>
 
