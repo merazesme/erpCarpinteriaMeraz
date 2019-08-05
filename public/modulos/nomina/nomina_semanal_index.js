@@ -11,3 +11,36 @@ var f_f = moment().isoWeek(numSemana).endOf("isoweek").toObject();
 //console.log( moment().isoWeek(numSemana).startOf("isoweek").format())
 var fechai = moment(f_i).toObject();
 var fechaf = moment(f_f).toObject();
+
+function imprimir() {
+  $('#nomina').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        {
+            extend: 'copyHtml5',
+            exportOptions: {
+                columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+            },
+            title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+        },
+        {
+            extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+            },
+            title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+            filename: `Nomina-semanal-excel-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
+        },
+        {
+            extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+            },
+            text: 'PDF',
+            orientation: 'landscape',
+            title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+            filename: `Nomina-semanal-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
+        }
+      ]
+  });
+}

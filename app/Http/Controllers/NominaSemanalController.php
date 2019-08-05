@@ -120,7 +120,8 @@ class NominaSemanalController extends Controller
         $tipoNomina = TipoNomina::where('Concepto', '=', 'semanal')->first();
         if(!isset($tipoNomina)) {
           $tipoNomina = new TipoNomina;
-          $tipoNomina->Concepto = 'semanal';
+          $tipoNomina->idUsuario = 1;
+          $tipoNomina->Concepto  = 'semanal';
           if(!$tipoNomina->save())
             return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
         }
@@ -144,7 +145,7 @@ class NominaSemanalController extends Controller
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
           $dataDetalleNomina->save();
           $trabajadorAsistencia = Trabajador::find($trabajador['id']);
-          $trabajadorAsistencia->Asistencia_total + = $trabajador['diasTrabajados'] + 1;
+          $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
           $trabajadorAsistencia->save();
           // Inserta los conceptos de cada detalle de nomina de cada nomina
           $objNomina = $trabajador['Nomina'];

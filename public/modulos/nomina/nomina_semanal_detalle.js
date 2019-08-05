@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#totalPrestamotr').remove();
     $('#editar').hide();
-    $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
+    $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`);
     var nomina = [];
     $.ajax({
       type: "GET",
@@ -28,7 +28,7 @@ $(document).ready(function() {
       var tamanio = nomina['detalleNomina'].length;
       var detalle = nomina['detalleNomina'];
       var html =
-       `<table id="demo-foo-accordion" class="table m-b-0 toggle-arrow-tiny">
+       `<table id="nomina" class="table m-b-0 toggle-arrow-tiny">
           <thead>
               <tr>
                   <th data-toggle="true" data-sort-ignore="true"> Nombre  </th>
@@ -36,49 +36,74 @@ $(document).ready(function() {
                   <th data-hide="phone"> Deducciones </th>
                   <th data-hide="phone"> Neto a pagar </th>
                   <th data-hide="phone" class="text-center"> Acciones </th>
+                  <th hidden>Días trabajados</th>
+                  <th hidden>Faltas sin justificar</th>
+                  <th hidden>Días de descanso</th>
+                  <th hidden>Horas sábado</th>
+                  <th hidden>Sueldo base</th>
+                  <th hidden>Horas extras</th>
+                  <th hidden>Monto horas extras</th>
+                  <th hidden>Abono prestamo</th>
+                  <th hidden>Infonavit</th>
+                  <th hidden>Bono P y A</th>
+                  <th hidden>Bono extra</th>
               </tr>
           </thead>
           <tbody>`;
       for(var x=0; x<tamanio; x++) {
         var conceptos = detalle[x].conceptos;
         var tamanioc =  detalle[x].conceptos.length;
-        detalle[x].deduccion = 0, detalle[x].percepcion = 0;
+        var tr =  detalle[x];
+        tr.deduccion = 0, tr.percepcion = 0;
           for (var i = 0; i <tamanioc; i++) {
             if(conceptos[i].Tipo == 0)
-              detalle[x].deduccion += conceptos[i].Monto;
+              tr.deduccion += conceptos[i].Monto;
             else
-              detalle[x].percepcion += conceptos[i].Monto;
+              tr.percepcion += conceptos[i].Monto;
           }
-          detalle[x].diasTrabajados = 0;
-          detalle[x].horasExtras = 0;
-          detalle[x].diasDescanso = 1;
-          detalle[x].horasSabado = 2.5; // Falta por definir
-          detalle[x].faltasSinJustificar = 0; // Falta por definir
+          tr.diasTrabajados = 0;
+          tr.horasExtras = 0;
+          tr.diasDescanso = 1;
+          tr.horasSabado = 2.5; // Falta por definir
+          tr.faltasSinJustificar = 0; // Falta por definir
 
-          for (var i = 0; i < detalle[x].asistencia.length; i++) {
-            //console.log(detalle[x].asistencia[i])
-            if(detalle[x].asistencia[i].Hora_salida === 1 && detalle[x].asistencia[i].Hora_entrada === 1)
-              detalle[x].diasTrabajados ++;
-            else if(detalle[x].asistencia[i].Hora_salida === 1 || detalle[x].asistencia[i].Hora_entrada === 1)
-              detalle[x].diasTrabajados +=0.5;
-            if(detalle[x].asistencia[i].Hora_extra === 1)
-              detalle[x].horasExtras ++;
+          for (var i = 0; i < tr.asistencia.length; i++) {
+            //console.log(tr.asistencia[i])
+            if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1)
+              tr.diasTrabajados ++;
+            else if(tr.asistencia[i].Hora_salida === 1 || tr.asistencia[i].Hora_entrada === 1)
+              tr.diasTrabajados +=0.5;
+            if(tr.asistencia[i].Hora_extra === 1)
+              tr.horasExtras ++;
           }
           html += `<tr>
-                      <td>${detalle[x].Nombre} ${detalle[x].Apellidos}</td>
-                      <td>$${detalle[x].deduccion}</td>
-                      <td>$${detalle[x].percepcion}</td>
-                      <td>$${detalle[x].Cantidad}</td>
+                      <td>${tr.Nombre} ${tr.Apellidos}</td>
+                      <td>$${tr.deduccion}</td>
+                      <td>$${tr.percepcion}</td>
+                      <td>$${tr.Cantidad}</td>
                       <td class="text-center">
-                          <span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${detalle[x].id}" class="modal-show">
+                          <span data-toggle="modal" data-target=".bs-example-modal-lg" data-body="${tr.id}" class="modal-show">
                               <a data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                           </span>
                       </td>
+                      <td hidden>${tr.diasTrabajados}</td>
+                      <td hidden>${tr.faltasSinJustificar}</td>
+                      <td hidden>${tr.diasDescanso}</td>
+                      <td hidden>${tr.horasSabado}</td>
+                      <td hidden>${tr.conceptos[2].Monto}</td>
+                      <td hidden>${tr.horasExtras}</td>
+                      <td hidden>${tr.conceptos[3].Monto}</td>
+                      <td hidden>${tr.conceptos[0].Monto}</td>
+                      <td hidden>${tr.conceptos[2].Monto}</td>
+                      <td hidden>${tr.conceptos[4].Monto}</td>
+                      <td hidden>${tr.conceptos[5].Monto}</td>
                    </tr>`;
       }
       html += `<tbody>
           </table>`;
       $( ".tabla" ).append(html);
+
+      imprimir(); 
     }
 
     // Muestra el modal de detalles de nomina

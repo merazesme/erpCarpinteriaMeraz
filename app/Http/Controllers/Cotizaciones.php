@@ -26,6 +26,17 @@ class Cotizaciones extends Controller
     public function index()
     {
         //
+        try{
+            $data = DB::table('cotizaciones')
+                ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
+                ->select('cotizaciones.id', 'cotizaciones.Descripcion', 'cotizaciones.Estado', 'cotizaciones.Prioridad', 'cotizaciones.Documento', 'cotizaciones.costo', 'clientes.id AS idCliente', 'clientes.Nombre', 'clientes.Apellidos')
+                ->get();
+            return response()->json(json_encode($data));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+
     }
 
 

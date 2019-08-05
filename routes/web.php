@@ -252,6 +252,7 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/getIVA', 'cotizaciones@getIVA');
 
 	Route::post('/nuevaCotizacion', 'cotizaciones@store');
+	Route::get('/getCotizaciones', 'cotizaciones@index');
 });
 
 Route::prefix('nomina')->group(function () {
