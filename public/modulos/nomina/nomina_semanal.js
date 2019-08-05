@@ -3,7 +3,7 @@ $(document).ready(function() {
   // Boton para guardar nomina
   var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
   var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
-  $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
+  $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`);
 
   // Consulta si esta la semana guardada
   $.ajax({
@@ -28,7 +28,8 @@ $(document).ready(function() {
       $(this).attr('disabled', true);
       obtieneDatos();
   });
-  //obtieneDatos();
+  obtieneDatos();
+
   // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
   function obtieneDatos() {
     $.ajax({
@@ -65,6 +66,17 @@ $(document).ready(function() {
                 <th data-hide="phone"> Deducciones </th>
                 <th data-hide="phone"> Neto a pagar </th>
                 <th data-hide="phone" class="text-center"> Acciones </th>
+                <th hidden>Días trabajados</th>
+                <th hidden>Faltas sin justificar</th>
+                <th hidden>Días de descanso</th>
+                <th hidden>Horas sábado</th>
+                <th hidden>Sueldo base</th>
+                <th hidden>Horas extras</th>
+                <th hidden>Monto horas extras</th>
+                <th hidden>Abono prestamo</th>
+                <th hidden>Infonavit</th>
+                <th hidden>Bono P y A</th>
+                <th hidden>Bono extra</th>
             </tr>
         </thead>
         <tbody>`;
@@ -124,7 +136,17 @@ $(document).ready(function() {
                             <a data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                         </span>
                     </td>
-
+                    <td hidden>${tr.diasTrabajados}</td>
+                    <td hidden>${tr.faltasSinJustificar}</td>
+                    <td hidden>${tr.diasDescanso}</td>
+                    <td hidden>${tr.horasSabado}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Sueldo']}</td>
+                    <td hidden>${tr.horasExtras}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Horas Extras']}</td>
+                    <td hidden>${tr.Nomina.xDeducciones['Abono Prestamo']}</td>
+                    <td hidden>${tr.Nomina.xDeducciones['Infonavit']}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Bono P y A']}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Bono Extra']}</td>
                  </tr>`;
     }
     html += `<tbody>
@@ -241,7 +263,31 @@ $(document).ready(function() {
                $('#demo-foo-accordion').DataTable({
                    dom: 'Bfrtip',
                    buttons: [
-                       'excel', 'pdf', 'print'
+                     {
+                         extend: 'copyHtml5',
+                         exportOptions: {
+                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+                         },
+                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+                     },
+                     {
+                         extend: 'excelHtml5',
+                         exportOptions: {
+                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+                         },
+                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+                         filename: `Nomina-semanal-excel-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
+                     },
+                     {
+                         extend: 'pdfHtml5',
+                         exportOptions: {
+                             columns: [ 0, 5, 6, 7 , 8, 9, 10, 11, 12, 13, 14, 1, 2, 3 ]
+                         },
+                         text: 'PDF',
+                         orientation: 'landscape',
+                         title: `Carpintería Meraz | Nómina semanal | ${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`,
+                         filename: `Nomina-semanal-${fechai.date}-${fechai.months}-${fechai.years}-al-${fechaf.date}-${fechaf.months}-${fechaf.years}`,
+                     }
                    ]
                });
              }

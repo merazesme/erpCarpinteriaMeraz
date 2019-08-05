@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#totalPrestamotr').remove();
     $('#editar').hide();
-    $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
+    $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`);
     var nomina = [];
     $.ajax({
       type: "GET",
