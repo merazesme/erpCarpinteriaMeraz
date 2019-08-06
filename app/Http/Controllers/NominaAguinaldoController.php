@@ -19,6 +19,11 @@ class NominaAguinaldoController extends Controller
         return view('nomina/aguinaldo/nominaAguinaldo', compact('modulo'));
     }
 
+    public function detalles($anio)
+    {
+        $modulo = "Detalles de Nómina Aguinaldo";
+        return view('nomina/aguinaldo/detalles', compact('modulo', 'anio'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -28,22 +33,11 @@ class NominaAguinaldoController extends Controller
     {
         try {
             $data = DB::table('trabajadores')
-                      ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
+                      ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
                       ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                       ->where('trabajadores.Estado',1)
                       ->where('contratos.estado', 1)
                       ->get();
-
-            foreach ($data as $trabajadores) {
-              $asistencia = DB::table('trabajadores')
-                        ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
-                                  'asistencias.Hora_salida')
-                        ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
-                        ->where('trabajadores.id',$trabajadores->id)
-                        ->get();
-              //dd($monto->monto);
-              $trabajadores->asistencia = $asistencia;
-            }
            return response()->json($data);
         } catch (\Exception $e) {
           return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
