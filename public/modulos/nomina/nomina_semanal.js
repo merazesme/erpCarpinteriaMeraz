@@ -3,7 +3,7 @@ $(document).ready(function() {
   // Boton para guardar nomina
   var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
   var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
-  $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechai.months]} de ${fechaf.years}`);
+  $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`);
 
   // Consulta si esta la semana guardada
   $.ajax({
@@ -29,6 +29,7 @@ $(document).ready(function() {
       obtieneDatos();
   });
   //obtieneDatos();
+
   // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
   function obtieneDatos() {
     $.ajax({
@@ -37,8 +38,10 @@ $(document).ready(function() {
       url: 'nominaSemanal/muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
       success: function (data) {
           console.log(data)
-          if(data['Error'])
+          if(data['Error']) {
+            $('#genera').attr('disabled', false);
             swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+          }
           else {
             //swal("Nómina generada", "Nómina generada exitosamente.", "success");
             toastSuccess("Nómina generada exitosamente.");
@@ -48,6 +51,7 @@ $(document).ready(function() {
             $('#genera').hide("slow");
           }
       }, error: function(error) {
+          $('#genera').attr('disabled', false);
           toastError();
       }
     });
@@ -57,7 +61,7 @@ $(document).ready(function() {
   function muestra() {
     var tamanio = trabajadores.length;
     var html =
-     `<table id="demo-foo-accordion" class="table m-b-0 toggle-arrow-tiny">
+     `<table id="nomina" class="table m-b-0 toggle-arrow-tiny">
         <thead>
             <tr>
                 <th data-toggle="true" data-sort-ignore="true"> Nombre  </th>
@@ -65,6 +69,17 @@ $(document).ready(function() {
                 <th data-hide="phone"> Deducciones </th>
                 <th data-hide="phone"> Neto a pagar </th>
                 <th data-hide="phone" class="text-center"> Acciones </th>
+                <th hidden>Días trabajados</th>
+                <th hidden>Faltas sin justificar</th>
+                <th hidden>Días de descanso</th>
+                <th hidden>Horas sábado</th>
+                <th hidden>Sueldo base</th>
+                <th hidden>Horas extras</th>
+                <th hidden>Monto horas extras</th>
+                <th hidden>Abono prestamo</th>
+                <th hidden>Infonavit</th>
+                <th hidden>Bono P y A</th>
+                <th hidden>Bono extra</th>
             </tr>
         </thead>
         <tbody>`;
@@ -124,7 +139,17 @@ $(document).ready(function() {
                             <a data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                         </span>
                     </td>
-
+                    <td hidden>${tr.diasTrabajados}</td>
+                    <td hidden>${tr.faltasSinJustificar}</td>
+                    <td hidden>${tr.diasDescanso}</td>
+                    <td hidden>${tr.horasSabado}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Sueldo']}</td>
+                    <td hidden>${tr.horasExtras}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Horas Extras']}</td>
+                    <td hidden>${tr.Nomina.xDeducciones['Abono Prestamo']}</td>
+                    <td hidden>${tr.Nomina.xDeducciones['Infonavit']}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Bono P y A']}</td>
+                    <td hidden>${tr.Nomina.xPercepciones['Bono Extra']}</td>
                  </tr>`;
     }
     html += `<tbody>
@@ -228,101 +253,26 @@ $(document).ready(function() {
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,
-           'semana': numSemana
+           'semana': numSemana,
+           'tipo': 'semanal'
          },
          success: function(data) {
              console.log(data);
-             if(data['Error'])
+             if(data['Error']) {
+              $('#btnGuardar').attr('disabled', false);
               swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+             }
              else {
                toastSuccess("Nómina guardada exitosamente.");
                $('.modal-edit').hide("slow");
                $('#guardar').hide("slow");
-               $('#demo-foo-accordion').DataTable({
-                   dom: 'Bfrtip',
-                   buttons: [
-                       'excel', 'pdf', 'print'
-                   ]
-               });
+               imprimir();
              }
         }, error: function(error) {
+            $('#btnGuardar').attr('disabled', false);
             toastError();
         }
     });
   }
 
-  /************** Muestra historial semanal ******************/
-
-  var historial = [];
-
-  $(document).on('click','#historial', function() {
-      $("#myTable").DataTable().destroy();
-      $("#myTable" ).remove();
-      obtieneDatosHistorial();
-  });
-
-  // Obtiene los datos del historial de nominas
-  function obtieneDatosHistorial() {
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: 'nominaSemanal/historialNomina',
-      success: function (data) {
-          console.log(data)
-          if(data['Error'])
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          else {
-            historial = data;
-            muestraHistorial();
-          }
-      }, error: function(error) {
-          toastError();
-      }
-    });
-  }
-
-  // Genera las filas de la tabla
-  function muestraHistorial() {
-    var tamanio = historial.length;
-    var html =
-     `<table id="myTable" class="table table-bordered table-striped">
-       <thead>
-           <tr>
-             <th>No. de nomina</th>
-             <th>Fecha</th>
-             <th>Elaborada por</th>
-             <th>Acciones</th>
-           </tr>
-       </thead>
-       <tfoot>
-         <tr>
-           <th>No. de nomina</th>
-           <th>Fecha</th>
-           <th>Elaborada por</th>
-           <th>Acciones</th>
-         </tr>
-       </tfoot>
-       <tbody>`;
-    for(var x=0; x<tamanio; x++) {
-
-        html += `<tr>
-                  <td>${historial[x].Semana}</td>
-                  <td><i class="fa fa-clock-o"></i> ${historial[x].Fecha}</td>
-                  <td>${historial[x].usuario}</td>
-                  <td class="text-nowrap">
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Excel</button>
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">PDF</button>
-                    <button type="button" class="btn waves-effect waves-light btn-xs btn-info">Printf</button>
-                    <a href="nominaSemanal/detalles/${historial[x].Semana}" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                  </td>
-
-                 </tr>`;
-    }
-    html += `<tbody>
-        </table>`;
-    $( ".tablaHistorial" ).append(html);
-    $('#myTable').DataTable({
-      "order": [[ 1, "desc" ]]
-    });
-  }
 });

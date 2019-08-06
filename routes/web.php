@@ -128,21 +128,41 @@ Route::prefix('inventario')->group(function () {
 		Route::post('/eliminarTipoMaterial/{id}', 'clasificacion_materiales@update');
 	});
 	Route::prefix('orden_compra')->group(function () {
+		//Para listar las ordenes de compra
 		Route::get('/lista', 'compras@index');
+		//Para listar los materiales y proveedores
 		Route::get('/lista_materiales', 'compras@datosmaterial');
 		Route::get('/lista_proveedor', 'compras@datosproveedor');
+		//Para insertar una nueva orden de compra
 		Route::post('/agregar_ordenCompra', 'compras@store');
+		Route::post('/id_ordenCompra', 'compras@new_compra');
+		//Para mostrar detalles de compra
 		Route::get('/especifico/{id}', 'compras@show');
-		Route::post('/modificar/{idcompra}/{idmovmaterial}', 'compras@update');
-		Route::post('/modificar_material/{id}/{idmov}/{idprove}', 'compras@actualizarcantidad');
-		Route::get('/especificomov/{id}', 'compras@edit');
+		//Para modificar la orden de compra
+		Route::post('/modificar/{idcompra}', 'compras@update');
+		Route::post('/modificar_material/{idMa}/{idmov}/{idprove}/{idCompra}', 'compras@actualizarcantidad');
 		Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		Route::get('/existencia_material/{id}', 'compras@cantidadMaterial');
-		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		//Pago compras
 		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
 		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
+
+	});
+	Route::prefix('orden_salida')->group(function () {
+		//Para tabla general de orden salida
+		Route::get('/lista', 'orden_salidas@showTablaOrdenSalida');
+		//Para nueva orden de salida
+		Route::get('/lista_trabajador', 'orden_salidas@showTrabajadores');
+		Route::get('/lista_materiales', 'orden_salidas@showMateriales');
+		Route::get('/lista_materialesExistencia/{id}', 'orden_salidas@showMaterialesExistencia');
+		Route::post('/agregar_ordenSalida', 'orden_salidas@new_ordeSalida');
+		Route::post('/agregar_movmateriales', 'orden_salidas@new_movmateriales');
+		Route::post('/modificar_existencia/{id}', 'orden_salidas@update_materialExistencia');
+		Route::post('/agregar_salidamovmateriales', 'orden_salidas@new_salida_movmateriales');
+		//Para modificar orden de salida
+		Route::get('/lista_orden_salidas/{id}', 'orden_salidas@showOrdenSalida');
+		Route::post('/modificar_ordenSalida/{id}', 'orden_salidas@update_ordenSalida');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -210,15 +230,34 @@ Route::prefix('/cotizaciones')->group(function () {
 		$modulo = "Modificar Cotización";
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
+
+	Route::get('/getRecomendados', 'cotizaciones@listRecomendados');
+	Route::post('/nuevoRecomendado', 'cotizaciones@storeRecomendado');
+	Route::get('/getSpecificRecomendados/{id}', 'cotizaciones@showRecomendado');
+	Route::post('/modificarRecomendado/{id}', 'cotizaciones@updateRecomendado');
+
+	Route::get('/getClientes', 'cotizaciones@listClientes');
+
+	Route::get('/getProductos', 'cotizaciones@listProductos');
+	Route::get('/getSpecificProducto/{id}', 'cotizaciones@showProducto');
+	Route::get('/getSpecificProductoMaterial/{id}', 'cotizaciones@showProductoMaterial');
+	Route::post('/nuevoProducto', 'cotizaciones@storeProducto');
+
+	Route::get('/getMateria', 'cotizaciones@listMateria');
+
+	Route::get('/getIVA', 'cotizaciones@getIVA');
+
+	Route::post('/nuevaCotizacion', 'cotizaciones@store');
+	Route::get('/getCotizaciones', 'cotizaciones@index');
 });
 
 Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
-		Route::get('/detalleNomina/{semana}/{fechai}/{fechaf}', 'NominaSemanalController@detalleNomina');
+		Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
-		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
+		Route::get('/historialNomina/{tipo}', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
 		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
 	});
@@ -226,10 +265,7 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaAguinaldo')->group(function () {
 		Route::get('/', 'NominaAguinaldoController@index');
 		Route::get('/muestra', 'NominaAguinaldoController@create');
-		Route::get('/historialNomina', 'NominaAguinaldoController@historialNominaSemanal');
-		Route::post('/saveNomina', 'NominaAguinaldoController@nomina');
-		Route::post('/saveDetalleNomina', 'NominaAguinaldoController@detalleNomina');
-		Route::post('/saveConceptoNomina', 'NominaAguinaldoController@conceptoNomina');
+		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
 	});
 
 });
@@ -258,9 +294,11 @@ Route::prefix('/configuraciones')->group(function () {
 	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
-Route::get('/carro', function(){
-	$modulo = "Carros";
-	return view('carro', compact('modulo'));
+Route::prefix('/carro')->group(function () {
+	/** Vistas */
+	Route::get('/', 'carroController@index');
+
+	Route::get('data', 'carroController@data');
 });
 
 Route::get('/usuarios', function(){

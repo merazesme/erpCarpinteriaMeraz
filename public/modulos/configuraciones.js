@@ -68,10 +68,10 @@ function actualizarGeneral(){
                 if(data == 0){
                     $('#modalConfiguracion').modal('hide')
                     swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                    datosGeneral();
                 }else{
                     swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
-                datosGeneral();
             }, error: function(error) {
                 console.log(error);
                 swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -148,11 +148,11 @@ function actualizarHorario(){
                 if(data == 0){
                     $('#modalConfiguracionHorario').modal('hide')
                     swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                    datosHorarios();
                 }else{
                     console.log(msg);
                     swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
-                datosHorarios();
             }, error: function(error) {
                 console.log(error);
                 swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");

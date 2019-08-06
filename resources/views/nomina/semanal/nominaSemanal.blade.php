@@ -229,9 +229,12 @@
 						return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
 				};
 				var numSemana = new Date().getWeekNumber(); // Resultado
+				//var numSemana = 30; // Resultado
+				var tipo = 'semanal'; 
 		</script>
 		<script src="{{asset('modulos/nomina/nomina_semanal_index.js')}}"></script>
 		<script src="{{asset('modulos/nomina/nomina_semanal.js')}}"></script>
+		<script src="{{asset('modulos/nomina/nomina_index.js')}}"></script>
 	@stop
 @endsection
 @endsection

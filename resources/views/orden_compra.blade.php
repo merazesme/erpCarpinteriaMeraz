@@ -31,8 +31,6 @@
 					                          <th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
@@ -41,8 +39,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
@@ -56,11 +52,9 @@
 					                <table id="tabla_recibido" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 					                    <thead>
 					                        <tr>
-					                          <th>#Nota</th>
+																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
@@ -69,8 +63,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
@@ -87,8 +79,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
@@ -97,8 +87,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
@@ -115,8 +103,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </thead>
@@ -125,8 +111,6 @@
 																		<th>#Nota</th>
 					                          <th>Fecha</th>
 					                          <th>Proveedor</th>
-					                          <th>Concepto</th>
-					                          <th>Cantidad</th>
 					                          <th>Acciones</th>
 					                        </tr>
 					                    </tfoot>
@@ -157,16 +141,16 @@
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-																<select id="select_CompraMaterial" class="form-control">
+																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+																<select id="select_CompraProveedor" class="form-control">
 																</select>
 														</div>
 													</div>
 													<div class="col-md-6">
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-																<select id="select_CompraProveedor" class="form-control">
-																</select>
+														<div class="form-group" id="compramaterialafter">
+																<!-- <label for="recipient-name" class="control-label">Nombre <span class="danger">*</label> -->
+																<!-- <select id="select_CompraMaterial" class="form-control">
+																</select> -->
 														</div>
 													</div>
 												</div>
@@ -178,9 +162,9 @@
 														</div>
 													</div>
 													<div class="col-md-6">
-														<div class="form-group">
-																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
-																<input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra">
+														<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
+														<div class="form-group" id="cantidadcrear">
+																<!-- <input type="text" class="form-control" name="cantidadOrdenCompra" id="cantidadOrdenCompra"> -->
 														</div>
 													</div>
 												</div>
@@ -209,23 +193,16 @@
 										<form id="frmModificarOrdenCompra" name="frmModificarOrdenCompra">
 											<section>
 												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-																<select id="select_CompraMaterialModificar" class="form-control">
-																</select>
-														</div>
-													</div>
-													<div class="col-md-6">
+													<div class="col-md-12">
 														<div class="form-group">
 																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-																<select id="select_proveedorCompra" class="form-control">
+																<select id="select_proCompra" name="select_proCompra" class="form-control">
 																</select>
 														</div>
 													</div>
 												</div>
 												<div class="row">
-													<div class="col-md-4">
+													<div class="col-md-6">
 														<div class="form-group">
 																<label for="message-text" class="control-label">#Nota <span class="danger">*</label>
 																<input type="text" class="form-control" name="num_notaModificar" id="num_notaModificar">
@@ -233,13 +210,7 @@
 													</div>
 													<div class="col-md-4">
 														<div class="form-group">
-																<label for="message-text" class="control-label">Cantidad <span class="danger">*</label>
-																<input type="text" class="form-control" name="cantidadOrdenCompraModificar" id="cantidadOrdenCompraModificar">
-														</div>
-													</div>
-													<div class="col-md-4">
-														<div class="form-group">
-																<label for="message-text" class="control-label">Total <span class="danger">*</label>
+																<label for="message-text" class="control-label">$Total <span class="danger">*</label>
 																<input type="text" class="form-control" name="TotalModificarCompra" id="TotalModificarCompra">
 														</div>
 													</div>
@@ -299,19 +270,21 @@
 								<div class="modal-body">
 										<form id="frmPagarOrdenCompra" name="frmPagarOrdenCompra">
 											<section>
-												<div class="row">
-													<div class="col-md-12">
-														<div class="form-group">
-																<label for="recipient-name" class="control-label">Forma de pago <span class="danger">*</label>
-																<select id="select_PagarCompra" class="form-control">
-																	<option value="0">Seleccione una opcion</option>
-																	<option value="1">Cheque</option>
-																	<option value="2">Transferencia</option>
-																</select>
+												<div id ="principal">
+													<!-- <div class="row">
+														<div class="col-md-12">
+															<div class="form-group">
+																	<label for="recipient-name" class="control-label">Forma de pago <span class="danger">*</label>
+																	<select id="select_PagarCompra" class="form-control">
+																		<option value="0">Seleccione una opcion</option>
+																		<option value="1">Cheque</option>
+																		<option value="2">Transferencia</option>
+																	</select>
+															</div>
 														</div>
 													</div>
-												</div>
-												<div id="todo">
+													<div id="todo">
+													</div> -->
 												</div>
 												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
 											<section>
@@ -326,15 +299,36 @@
 		</div>
 		<!-- End Modal pagar compras -->
 
+		<!-- Modal de info ordenCompra -->
+    <div id="modal_info_ordenCompra" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Detalles de orden de compra</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h4>Orden de compra</h4>
+                    <table class="table table-hover" id="infoOrdenCompra">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin modal info ordenCompra  -->
+
 		<input type="text" id="validar" class="form-control d-none">
-		<!-- <div class="form-group d-none">
-				<label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
-				<input type="text" class="form-control required" id="txtCheque" name="txtCheque">
-		</div>
-		<div class="form-group d-none">
-				<label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
-				<input type="text" class="form-control required" id="txtTotal" name="txtTotal">
-		</div> -->
 
 		@section('footer')
 		@parent
