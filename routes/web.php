@@ -61,9 +61,13 @@ Route::prefix('trabajadores')->group(function () {
 		});
 
 		Route::get('prestamos/tabla', 'Prestamos@index');
-		Route::post('/agregarPrestamo', 'Prestamos@store');
+		Route::post('prestamos/agregarPrestamo', 'Prestamos@store');
 		Route::get('prestamos/trabajadores', 'Prestamos@trabajadores');
 		Route::get('prestamos/verificarFirma/{id}/{firma}', 'Prestamos@verificarFirma');
+		Route::get('prestamos/trabajador/{id}/{estado}', 'Prestamos@edit');
+		Route::post('prestamos/editarPrestamo/{id}', 'Prestamos@update');
+		Route::post('prestamos/agregarMovimiento', 'Prestamos@movimiento');
+		Route::get('prestamos/consultarMovimientos/{id}', 'Prestamos@movimientosPrestamo');
 });
 
 Route::get('/pagosdelmes_lista', function(){

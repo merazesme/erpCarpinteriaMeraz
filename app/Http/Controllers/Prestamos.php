@@ -10,6 +10,7 @@ use Hash;
 
 use App\Prestamo;
 use App\Trabajador;
+use App\Mov_prestamo;
 
 class Prestamos extends Controller
 {
@@ -100,17 +101,52 @@ class Prestamos extends Controller
         try
         {
           $prestamo = new Prestamo();
-          $trabajador->Concepto=$request->input('concepto');
-          $trabajador->Monto=$request->input('montoPrestamo');
-          $trabajador->Fecha=$request->input('fecha');
-          $trabajador->Descripción=$request->input('descripcion');
-          $trabajador->Estado=1;
-          $trabajador->idUsuario=$request->input('idUsuario');
-          $trabajador->Trabajadores_idTrabajador=$request->input('id_trabajador');
+          $prestamo->Concepto=$request->input('concepto');
+          $prestamo->Monto=$request->input('montoPrestamo');
+          $prestamo->Fecha=$request->input('fecha');
+          $prestamo->Descripción=$request->input('descripcion');
+          $prestamo->Estado=1;
+          $prestamo->idUsuario=$request->input('idUsuario');
+          $prestamo->Trabajadores_idTrabajador=$request->input('id_trabajador');
 
-          $contrato->save();
+          $prestamo->save();
 
           return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
+    }
+
+    public function movimiento(Request $request)
+    {
+        try
+        {
+          $movimiento = new Mov_prestamo();
+          $movimiento->Abono=$request->input('montoAbono');
+          $movimiento->Fecha=$request->input('fecha');
+          $movimiento->idUsuario=$request->input('idUsuario');
+          $movimiento->Prestamos_idPrestamo=$request->input('id_pre');
+
+          $movimiento->save();
+
+          return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
+    }
+
+    public function movimientosPrestamo($id_prestamo)
+    {
+        try{
+            $movimientos = DB::table('prestamos')
+              ->join('mov_prestamos', 'mov_prestamos.Prestamos_idPrestamo', '=', 'prestamos.id')
+                ->where('prestamos.Estado', '=', 1)
+                  ->where('prestamos.id', '=', $id_prestamo)
+                    ->get();
+
+            return $movimientos;
         }
         catch(\Exception $e){
            return response()->json(['error'=>'Ocurrio un error']);
@@ -134,9 +170,23 @@ class Prestamos extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $estado)
     {
-        //
+        try{
+            $final = DB::table('prestamos')
+              ->join('trabajadores', 'trabajadores.id', '=', 'prestamos.Trabajadores_idTrabajador')
+                ->select('trabajadores.id as id_trabajador', 'trabajadores.Nombre', 'trabajadores.Apellidos',
+                         'prestamos.id as id_prestamo', 'prestamos.Concepto', 'prestamos.Monto',
+                         'prestamos.Descripción', 'prestamos.Estado as prestamo_estado', 'prestamos.Fecha')
+                  ->where('prestamos.Trabajadores_idTrabajador', '=', $id)
+                    ->where('prestamos.Estado', '=', $estado)
+                      ->get();
+
+            return $final;
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
@@ -148,7 +198,20 @@ class Prestamos extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try
+        {
+          $prestamos = Prestamo::find($id);
+          $prestamos->Concepto=$request->input('concepto');
+          $prestamos->Descripción=$request->input('descripcion');
+          $prestamos->idUsuario=$request->input('idUsuario');
+
+          $prestamos->save();
+
+          return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
