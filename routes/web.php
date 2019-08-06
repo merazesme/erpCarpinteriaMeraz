@@ -147,26 +147,18 @@ Route::prefix('inventario')->group(function () {
 	});
 	Route::prefix('orden_salida')->group(function () {
 		//Para tabla general de orden salida
-		Route::get('/lista', 'materiales@showTablaOrdenSalida');
+		Route::get('/lista', 'orden_salidas@showTablaOrdenSalida');
 		//Para nueva orden de salida
-		Route::get('/lista_trabajador', 'materiales@showTrabajadores');
-		Route::get('/lista_materiales', 'materiales@showMateriales');
-
-		//Para insertar una nueva orden de compra
-		Route::post('/agregar_ordenCompra', 'compras@store');
-		Route::post('/id_ordenCompra', 'compras@new_compra');
-		//Para mostrar detalles de compra
-		Route::get('/especifico/{id}', 'compras@show');
-		//Para modificar la orden de compra
-		Route::post('/modificar/{idcompra}', 'compras@update');
-		Route::post('/modificar_material/{idMa}/{idmov}/{idprove}/{idCompra}', 'compras@actualizarcantidad');
-		Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		//Pago compras
-		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		Route::get('/lista_compras/{id}', 'compras@showcompras');
-		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
-		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
-
+		Route::get('/lista_trabajador', 'orden_salidas@showTrabajadores');
+		Route::get('/lista_materiales', 'orden_salidas@showMateriales');
+		Route::get('/lista_materialesExistencia/{id}', 'orden_salidas@showMaterialesExistencia');
+		Route::post('/agregar_ordenSalida', 'orden_salidas@new_ordeSalida');
+		Route::post('/agregar_movmateriales', 'orden_salidas@new_movmateriales');
+		Route::post('/modificar_existencia/{id}', 'orden_salidas@update_materialExistencia');
+		Route::post('/agregar_salidamovmateriales', 'orden_salidas@new_salida_movmateriales');
+		//Para modificar orden de salida
+		Route::get('/lista_orden_salidas/{id}', 'orden_salidas@showOrdenSalida');
+		Route::post('/modificar_ordenSalida/{id}', 'orden_salidas@update_ordenSalida');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
