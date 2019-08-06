@@ -145,6 +145,29 @@ Route::prefix('inventario')->group(function () {
 		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
 
 	});
+	Route::prefix('orden_salida')->group(function () {
+		//Para tabla general de orden salida
+		Route::get('/lista', 'materiales@showTablaOrdenSalida');
+		//Para nueva orden de salida
+		Route::get('/lista_trabajador', 'materiales@showTrabajadores');
+		Route::get('/lista_materiales', 'materiales@showMateriales');
+
+		//Para insertar una nueva orden de compra
+		Route::post('/agregar_ordenCompra', 'compras@store');
+		Route::post('/id_ordenCompra', 'compras@new_compra');
+		//Para mostrar detalles de compra
+		Route::get('/especifico/{id}', 'compras@show');
+		//Para modificar la orden de compra
+		Route::post('/modificar/{idcompra}', 'compras@update');
+		Route::post('/modificar_material/{idMa}/{idmov}/{idprove}/{idCompra}', 'compras@actualizarcantidad');
+		Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		//Pago compras
+		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
+		Route::get('/lista_compras/{id}', 'compras@showcompras');
+		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
+		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
+
+	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
 		$modulo = "Materiales";

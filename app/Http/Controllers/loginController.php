@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\usuario;
-use App\trabajadore;
+// use App\trabajadore;
 use Session;
 
 class loginController extends Controller
