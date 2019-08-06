@@ -301,9 +301,11 @@ Route::prefix('/configuraciones')->group(function () {
 	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
-Route::get('/carro', function(){
-	$modulo = "Carros";
-	return view('carro', compact('modulo'));
+Route::prefix('/carro')->group(function () {
+	/** Vistas */
+	Route::get('/', 'carroController@index');
+
+	Route::get('data', 'carroController@data');
 });
 
 Route::get('/usuarios', function(){
