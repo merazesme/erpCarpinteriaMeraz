@@ -38,8 +38,10 @@ $(document).ready(function() {
       url: 'nominaSemanal/muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
       success: function (data) {
           console.log(data)
-          if(data['Error'])
+          if(data['Error']) {
+            $('#genera').attr('disabled', false);
             swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+          }
           else {
             //swal("Nómina generada", "Nómina generada exitosamente.", "success");
             toastSuccess("Nómina generada exitosamente.");
@@ -49,6 +51,7 @@ $(document).ready(function() {
             $('#genera').hide("slow");
           }
       }, error: function(error) {
+          $('#genera').attr('disabled', false);
           toastError();
       }
     });
@@ -250,12 +253,15 @@ $(document).ready(function() {
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,
-           'semana': numSemana
+           'semana': numSemana,
+           'tipo': 'semanal'
          },
          success: function(data) {
              console.log(data);
-             if(data['Error'])
+             if(data['Error']) {
+              $('#btnGuardar').attr('disabled', false);
               swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+             }
              else {
                toastSuccess("Nómina guardada exitosamente.");
                $('.modal-edit').hide("slow");
@@ -263,80 +269,10 @@ $(document).ready(function() {
                imprimir();
              }
         }, error: function(error) {
+            $('#btnGuardar').attr('disabled', false);
             toastError();
         }
     });
   }
 
-  /************** Muestra historial semanal ******************/
-
-  var historial = [];
-
-  $(document).on('click','#historial', function() {
-      $("#myTable").DataTable().destroy();
-      $("#myTable" ).remove();
-      obtieneDatosHistorial();
-  });
-
-  // Obtiene los datos del historial de nominas
-  function obtieneDatosHistorial() {
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: 'nominaSemanal/historialNomina',
-      success: function (data) {
-          console.log(data)
-          if(data['Error'])
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          else {
-            historial = data;
-            muestraHistorial();
-          }
-      }, error: function(error) {
-          toastError();
-      }
-    });
-  }
-
-  // Genera las filas de la tabla
-  function muestraHistorial() {
-    var tamanio = historial.length;
-    var html =
-     `<table id="myTable" class="table table-bordered table-striped">
-       <thead>
-           <tr>
-             <th>No. de nomina</th>
-             <th>Fecha</th>
-             <th>Elaborada por</th>
-             <th class="text-center">Acciones</th>
-           </tr>
-       </thead>
-       <tfoot>
-         <tr>
-           <th>No. de nomina</th>
-           <th>Fecha</th>
-           <th>Elaborada por</th>
-           <th>Acciones</th>
-         </tr>
-       </tfoot>
-       <tbody>`;
-    for(var x=0; x<tamanio; x++) {
-
-        html += `<tr>
-                  <td>${historial[x].Semana}</td>
-                  <td><i class="fa fa-clock-o"></i> ${historial[x].Fecha}</td>
-                  <td>${historial[x].usuario}</td>
-                  <td class="text-center">
-                    <a href="nominaSemanal/detalles/${historial[x].Semana}" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                  </td>
-
-                 </tr>`;
-    }
-    html += `<tbody>
-        </table>`;
-    $( ".tablaHistorial" ).append(html);
-    $('#myTable').DataTable({
-      "order": [[ 1, "desc" ]]
-    });
-  }
 });

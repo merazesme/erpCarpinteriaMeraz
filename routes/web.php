@@ -236,9 +236,9 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaSemanal')->group(function () {
 		Route::get('/', 'NominaSemanalController@index');
 		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
-		Route::get('/detalleNomina/{semana}/{fechai}/{fechaf}', 'NominaSemanalController@detalleNomina');
+		Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaSemanalController@detalleNomina');
 		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
-		Route::get('/historialNomina', 'NominaSemanalController@historialNominaSemanal');
+		Route::get('/historialNomina/{tipo}', 'NominaSemanalController@historialNominaSemanal');
 		Route::post('/saveNomina', 'NominaSemanalController@nomina');
 		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
 	});
@@ -246,10 +246,7 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaAguinaldo')->group(function () {
 		Route::get('/', 'NominaAguinaldoController@index');
 		Route::get('/muestra', 'NominaAguinaldoController@create');
-		Route::get('/historialNomina', 'NominaAguinaldoController@historialNominaSemanal');
-		Route::post('/saveNomina', 'NominaAguinaldoController@nomina');
-		Route::post('/saveDetalleNomina', 'NominaAguinaldoController@detalleNomina');
-		Route::post('/saveConceptoNomina', 'NominaAguinaldoController@conceptoNomina');
+		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
 	});
 
 });
