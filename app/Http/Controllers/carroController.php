@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\carro as Carro;
 
-class NominaAguinaldoController extends Controller
+class carroController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,22 @@ class NominaAguinaldoController extends Controller
      */
     public function index()
     {
-        $modulo = "Nómina Aguinaldo";
-        return view('nomina/aguinaldo/nominaAguinaldo', compact('modulo'));
+        //
+        $modulo = "Carros";
+	    return view('carros/carro', compact('modulo'));
     }
 
-    public function detalles($anio)
+    /**
+     * Display all the resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function data()
     {
-        $modulo = "Detalles de Nómina Aguinaldo";
-        return view('nomina/aguinaldo/detalles', compact('modulo', 'anio'));
+        //
+        return Carro::all();
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -31,17 +38,7 @@ class NominaAguinaldoController extends Controller
      */
     public function create()
     {
-        try {
-            $data = DB::table('trabajadores')
-                      ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
-                      ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
-                      ->where('trabajadores.Estado',1)
-                      ->where('contratos.estado', 1)
-                      ->get();
-           return response()->json($data);
-        } catch (\Exception $e) {
-          return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
-        }
+        //
     }
 
     /**

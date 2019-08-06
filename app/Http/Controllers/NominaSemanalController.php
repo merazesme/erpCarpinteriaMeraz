@@ -36,25 +36,28 @@ class NominaSemanalController extends Controller
         return view('nomina/semanal/detalles', compact('modulo', 'semana'));
     }
 
-    public function detalleNomina($semana, $fechai, $fechaf) {
+    public function detalleNomina($semana, $fechai = null, $fechaf = null ) {
       try {
         $nomina = Nomina::where('Semana', '=', $semana)->firstOrFail();
 
         $nomina->detalleNomina = DetalleNomina::where('Nomina_idNomina', '=', $nomina->id)
-                                ->select('detalle_nominas.*', 'Nombre', 'Apellidos', 'Apodo')
+                                ->select('detalle_nominas.*', 'Nombre', 'Apellidos', 'Apodo', 'Asistencia_total', 'Sueldo')
                                 ->join('trabajadores', 'detalle_nominas.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                                ->join('contratos', 'contratos.id', '=', 'detalle_nominas.Contratos_idContrato')
                                 ->get();
         foreach ($nomina->detalleNomina as $conceptosNomina) {
           $conceptos = ConceptosNomina::where('conceptos_nominas.DetalleNomina_idDetalleNomina',$conceptosNomina->id)
                     ->get();
-          $asistencia = DB::table('trabajadores')
-                    ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
-                              'asistencias.Hora_salida')
-                    ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
-                    ->where('trabajadores.id',$conceptosNomina->Trabajadores_idTrabajador)
-                    ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
-                              ->get();
-          $conceptosNomina->asistencia = $asistencia;
+          if($fechai != null && $fechaf != null ) {
+            $asistencia = DB::table('trabajadores')
+                      ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
+                                'asistencias.Hora_salida')
+                      ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.id',$conceptosNomina->Trabajadores_idTrabajador)
+                      ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
+                                ->get();
+            $conceptosNomina->asistencia = $asistencia;
+          }
           $conceptosNomina->conceptos = $conceptos;
         }
         return response()->json($nomina);
@@ -78,7 +81,7 @@ class NominaSemanalController extends Controller
     public function trabajadores($fechai, $fechaf) {
       try {
           $data = DB::table('trabajadores')
-                    ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
+                    ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
                     ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                     ->where('trabajadores.Estado',1)
                     ->where('contratos.estado', 1)
@@ -117,11 +120,11 @@ class NominaSemanalController extends Controller
     public function nomina(Request $request)
     {
       try{
-        $tipoNomina = TipoNomina::where('Concepto', '=', 'semanal')->first();
+        $tipoNomina = TipoNomina::where('Concepto', '=', $request->input('tipo'))->first();
         if(!isset($tipoNomina)) {
           $tipoNomina = new TipoNomina;
           $tipoNomina->idUsuario = 1;
-          $tipoNomina->Concepto  = 'semanal';
+          $tipoNomina->Concepto  = $request->input('tipo');
           if(!$tipoNomina->save())
             return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
         }
@@ -143,10 +146,13 @@ class NominaSemanalController extends Controller
           $dataDetalleNomina->idUsuario                 = 1;
           $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
+          $dataDetalleNomina->Contratos_idContrato      = $trabajador['contrato'];
           $dataDetalleNomina->save();
-          $trabajadorAsistencia = Trabajador::find($trabajador['id']);
-          $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
-          $trabajadorAsistencia->save();
+          if($request->input('tipo') == 'semanal') {
+            $trabajadorAsistencia = Trabajador::find($trabajador['id']);
+            $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
+            $trabajadorAsistencia->save();
+          }
           // Inserta los conceptos de cada detalle de nomina de cada nomina
           $objNomina = $trabajador['Nomina'];
           $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
@@ -180,12 +186,17 @@ class NominaSemanalController extends Controller
         return $arr;
       }
 
-    public function historialNominaSemanal()
+    public function historialNominaSemanal($tipo)
     {
       try {
+          $tipoNomina = TipoNomina::where('Concepto', '=', $tipo)->first();
+          if(!isset($tipoNomina)) {
+              return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+          }
           $data = Nomina::join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
                           ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
                           ->orderBy('nominas.Semana', 'desc')
+                          ->where('nominas.Tipo_nomina_idTipo_nomina', '=', $tipoNomina->id)
                           ->get();
           return response()->json($data);
       } catch (\Exception $e) {
