@@ -252,6 +252,7 @@ Route::prefix('/cotizaciones')->group(function () {
 
 	Route::post('/nuevaCotizacion', 'cotizaciones@store');
 	Route::get('/getCotizaciones', 'cotizaciones@index');
+	Route::post('/cambiarEstado/{id}', 'cotizaciones@updateEstado');
 });
 
 Route::prefix('nomina')->group(function () {

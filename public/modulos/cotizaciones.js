@@ -822,29 +822,33 @@ function datosCotizaciones(){
         success: function (msg) {
             var data = JSON.parse(msg)
             console.log(data);
-            var html = "";
+            var htmlActivo = "";
+            var htmlTermiado = "";
+            var htmlRecha = "";
             if(data.length > 0){
-                $("#cotizaciones").DataTable().clear();
                 $("#cotizaciones").DataTable().destroy();
+                $("#cotizacionesTerminadas").DataTable().destroy();
+                $("#cotizacionesRechazadas").DataTable().destroy();
 
                 const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
                 data.forEach(item =>{
+                    var html = "";
                     var estado = `<span class="badge badge-success">Aceptada</span>`;
                     var mensaje = "En taller"
                     if(item.Estado == 0){
                         estado = `<span class="badge badge-danger">Rechazada</span>`
-                        mensaje = "Aceptado"
+                        mensaje = "Cambiar estado a Aceptado"
                     } else if(item.Estado == 2){
                         estado = `<span class="badge badge-warning">En taller</span>`
-                        mensaje = "Terminado"
+                        mensaje = "Cambiar estado a Terminado"
                     }else if(item.Estado == 3){
                         estado = `<span class="label label-light-success">Por confirmar</span>`
-                        mensaje = "Aceptado"
+                        mensaje = "Cambiar estado"
                     }else if(item.Estado == 4){
                         estado = `<span class="badge badge-info">Terminado</span>`
                     }
 
-                    var cambiarEstado = `<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar estado a ${mensaje}"> <i class="text-primary icon-note"></i> </a>`
+                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note"></i></a>`
                     if(item.Estado == 4){
                         cambiarEstado="";
                     }
@@ -871,7 +875,8 @@ function datosCotizaciones(){
 
                     html += `
                     <tr>
-                        <td>${fecha_inicio} - ${fecha_fin}</td>
+                        <td>${fecha_inicio}</td>
+                        <td>${fecha_fin}</td>
                         <td>${item.Descripcion}</td>
                         <td>${estado}</td>
                         <td>${item.Nombre +" "+ item.Apellidos}</td>
@@ -879,14 +884,35 @@ function datosCotizaciones(){
                         <td>${prioridad}</td>
                         <td class="text-nowrap" id="${item.id}">
                             <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
-                            <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                            <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye m-r-10"></i> </a>
+                            <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
                             ${cambiarEstado}
                         </td>
                     </tr>`
+
+                    if(item.Estado == 4){
+                        htmlTermiado += html;
+                    }else if(item.Estado == 0){
+                        htmlRecha += html;
+                    }else {
+                        htmlActivo += html;
+                    }
                 });
-                $("#cotizaciones tbody").empty().append(html);
+                $("#cotizaciones tbody").empty().append(htmlActivo);
+                $("#cotizacionesTerminadas tbody").empty().append(htmlTermiado);
+                $("#cotizacionesRechazadas tbody").empty().append(htmlRecha);
             }
+
+
+
+            $("#cotizacionesTerminadas").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
+
+            $("#cotizacionesRechazadas").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
 
             $("#cotizaciones").DataTable({
               dom: 'Bfrtip',
@@ -899,27 +925,53 @@ function datosCotizaciones(){
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
-                                                                        /*Funciones de eliminar cotización*/
+                                                                        /*Funciones de cambiar estado cotización*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-$(".eliminarCotizacion").click(function(e){
+$("body").on("click", ".cambiarEstado", function(e){
     e.preventDefault();
-    Swal.fire({
-        title: "¿Deseas eliminar la cotización?",
-        // text: "No podrás recuperarlo",
-        type: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Eliminar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: true
-    }, function(isConfirm){
-        if (isConfirm) {
-            mensaje("Eliminado", "La cotización ha sido eliminada con éxito", "success");
+    var id = $(this).parent().attr("id");
+    var estado  = $(this).attr("estado");
+
+    $("#selectEstadoCotizacion").val(estado)
+    $("#botonModalEstadoCotizacion").attr("onclick", "cambiarEstadoCotizacion("+id+")");
+    $("#modalEstado").modal("show")
+})
+
+function cambiarEstadoCotizacion(id){
+    console.log(id);
+    var titulo = "Cambiar estado"
+    if(!id){
+        mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+        return;
+    }
+
+    var datos = new FormData(document.querySelector('#formEstadoCotizacion'));
+    datos.append("idUsuario", "1");
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: datos,
+        dataType: false,
+        enctype: 'multipart/form-data',
+        url: base_url+'/cotizaciones/cambiarEstado/'+id,
+        success: function(msg){
+            var data = JSON.parse(msg)
+            if(data == 0){
+                $('#modalEstado').modal('hide')
+                mensaje(titulo, "Se ha actualizado el estado con éxito.", "success");
+                datosCotizaciones();
+            }else{
+                mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+            }
+        }, error: function(error) {
+            mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
         }
     });
-})
+}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         /*Funciones de modificar datos*/
