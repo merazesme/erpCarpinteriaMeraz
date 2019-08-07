@@ -272,6 +272,18 @@ Route::prefix('nomina')->group(function () {
 		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
 	});
 
+	Route::prefix('nominaVacacional')->group(function () {
+		Route::get('/', function() {
+			$modulo = "Nómina Vacacional";
+			return view('nomina/vacacional/nominaVacacional', compact('modulo'));
+		});
+
+		Route::get('/detalles/{anios}', function($anios){
+			$modulo = "Detalles de Nómina Vacacional";
+			return view('nomina/vacacional/detalles', compact('modulo', 'anios'));
+		});
+
+	});
 });
 
 Route::prefix('roles')->group(function () {

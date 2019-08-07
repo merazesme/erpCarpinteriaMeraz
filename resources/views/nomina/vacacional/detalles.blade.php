@@ -49,11 +49,11 @@
 				<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 				<script src="{{asset('js/toastr2.js')}}"></script>
 				<script type="text/javascript">
-					var anio = <?php echo $anio; ?>;
-					var tipo = 'aguinaldo'; 
+					var anio = <?php echo "'".$anios."'" ?>;
+          var tipo = 'vacacional';
 				</script>
-				<script src="{{asset('modulos/nomina/nomina_aguinaldo_detalle.js')}}"></script>
-				<script src="{{asset('modulos/nomina/nomina_index.js')}}"></script>
+				<script src="{{asset('modulos/nomina/nomina_vacacional_detalle.js')}}"></script>
+        <script src="{{asset('modulos/nomina/nomina_index.js')}}"></script>
 		@stop
 @endsection
 @endsection

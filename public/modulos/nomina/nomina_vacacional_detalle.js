@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#anio').text(`Año ${anio}`);
+    $('#anio').text(`Años ${anio}`);
     var nomina = [];
     $.ajax({
       type: "GET",
@@ -25,17 +25,17 @@ $(document).ready(function() {
     function muestra() {
       var tamanio = nomina['detalleNomina'].length;
       var detalle = nomina['detalleNomina'];
-      var totalSubtotal = 0, totalBonoExtra = 0, totalBonoPyA = 0, total = 0;
+      var totalSueldoBase = 0, totalVacaciones = 0, totalPrima = 0, totalBonoExtra = 0, totalInfonavit = 0, total = 0;
       var html =
        `<table id="nomina" class="table m-b-0 toggle-arrow-tiny">
            <thead>
                <tr>
                  <th>Nombre</th>
-                 <th>Dias Trabajados</th>
                  <th>Sueldo Base</th>
-                 <th>Subtotal</th>
+                 <th>Vacaciones 3 días</th>
+                 <th>25% Prima</th>
                  <th>Bono Extra</th>
-                 <th>Bono P y A</th>
+                 <th>Infonavit</th>
                  <th>Total</th>
                </tr>
            </thead>
@@ -45,30 +45,32 @@ $(document).ready(function() {
         var tamanioc =  detalle[x].conceptos.length;
         var tr =  detalle[x];
 
-        totalSubtotal += tr.conceptos[1].Monto;
-        totalBonoExtra += tr.conceptos[2].Monto;
-        totalBonoPyA += tr.conceptos[0].Monto;
+        totalSueldoBase += tr.Sueldo;
+        totalVacaciones += tr.conceptos[0].Monto;
+        totalPrima += tr.conceptos[2].Monto;
+        totalBonoExtra += tr.conceptos[1].Monto;
+        totalInfonavit += tr.conceptos[3].Monto;
         total += tr.Cantidad;
 
         html += `<tr>
                     <td>${tr.Nombre} ${tr.Apellidos}</td>
-                    <td>${tr.Asistencia_total}</td>
                     <td>${tr.Sueldo}</td>
-                    <td>${tr.conceptos[1].Monto}</td>
-                    <td>${tr.conceptos[2].Monto}</td>
                     <td>${tr.conceptos[0].Monto}</td>
+                    <td>${tr.conceptos[2].Monto}</td>
+                    <td>${tr.conceptos[1].Monto}</td>
+                    <td>${tr.conceptos[3].Monto}</td>
                     <td>${tr.Cantidad}</td>
                 </tr>`;
       }
       html += `<tbody>
                 <tfoot>
                   <tr>
-                    <th></th>
-                    <th></th>
                     <th>Totales</th>
-                    <th>${totalSubtotal}</th>
+                    <th>${totalSueldoBase}</th>
+                    <th>${totalVacaciones}</th>
+                    <th>${totalPrima}</th>
                     <th>${totalBonoExtra}</th>
-                    <th>${totalBonoPyA}</th>
+                    <th>${totalInfonavit}</th>
                     <th>${total}</th>
                   </tr>
                 </tfoot>
@@ -76,6 +78,4 @@ $(document).ready(function() {
       $( ".tabla" ).append(html);
       imprime();
     }
-
-
 });

@@ -103,7 +103,6 @@
 		  //var anio = '2020';
 		</script>
 		<script src="{{asset('modulos/nomina/nomina_aguinaldo.js')}}"></script>
-		<script src="{{asset('modulos/nomina/nomina_aguinaldo_index.js')}}"></script>
 		<script src="{{asset('modulos/nomina/nomina_index.js')}}"></script>
 	@stop
 @endsection
