@@ -84,6 +84,9 @@ class Configuraciones extends Controller
             $data->Hora_entrada_extra=$request->input('entrada_E');
             $data->Hora_salida_extra=$request->input('salida_E');
 
+            $data->Hora_entradaLV_Sab=$request->input('entrada_ES');
+            $data->Hora_salidaLV_Sab=$request->input('salida_ES');
+
             $data->Hora_entrada_obra=$request->input('entrada_obra');
             $data->Hora_salida_obra=$request->input('salida_obra');
 
@@ -113,6 +116,7 @@ class Configuraciones extends Controller
                 $datos = Configuracion::select('Hora_entrada','Hora_salida',
                 'Hora_entrada_Sab', 'Hora_salida_Sab',
                 'Hora_entrada_extra', 'Hora_salida_extra',
+                'Hora_entradaLV_Sab', 'Hora_salidaLV_Sab',
                 'Hora_entrada_obra', 'Hora_salida_obra')->get();
             }
              return response()->json(json_encode($datos));
