@@ -43,6 +43,16 @@
 												  </div>
 											  </div>
 											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<label for="fechaInicio">Fecha de inicio:</label>
+													<input type="date" class="form-control required" id="fechaInicio" name="fechaInicio">
+												</div>
+												<div class="col-md-6">
+													<label for="fechaFin">Fecha de terminación:</label>
+													<input type="date" class="form-control required" id="fechaFin" name="fechaFin">
+												</div>
+											</div>
 			                                <div class="row">
 			                                    <div class="col-md-11">
 			                                        <div class="form-group">

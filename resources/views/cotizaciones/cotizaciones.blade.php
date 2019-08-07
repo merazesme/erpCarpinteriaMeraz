@@ -20,24 +20,24 @@
 		                          <table id="cotizaciones" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 		                              <thead>
 		                                  <tr>
-											  <th>Fecha</th>
+											  <th>Fechas</th>
 		                                      <th>Descripción</th>
 		                                      <th>Estado</th>
 		                                      <th>Cliente</th>
 											  <th>Precio</th>
 											  <th>Prioridad</th>
-											  <th>Acciones</th>
+											  <th></th>
 		                                  </tr>
 		                              </thead>
 		                              <tfoot>
 		                                  <tr>
-											  <th>Fecha</th>
+											  <th>Fechas</th>
 		                                      <th>Descripción</th>
 		                                      <th>Estado</th>
 		                                      <th>Cliente</th>
 		                                      <th>Precio</th>
 											  <th>Prioridad</th>
-											  <th>Acciones</th>
+											  <th></th>
 		                                  </tr>
 		                              </tfoot>
 		                              <tbody>
@@ -108,9 +108,10 @@
 	                </div>
 	                <div class="modal-body">
 	                    <h4>Cotizacion</h4>
-	                    <table class="table table-hover">
+						<table class="table table-hover" id="tablaDetalleCotizacion">
 	                      <thead>
 	                        <tr>
+							  <th scope="col">Cantidad</th>
 	                          <th scope="col">Producto</th>
 	                          <th scope="col">Descripción</th>
 	                          <th scope="col">Material</th>
@@ -121,6 +122,7 @@
 	                      </thead>
 	                      <tbody>
 	                        <tr>
+							  <td>1</td>
 	                          <td>Ropero de madera de roble</td>
 	                          <td>Pintura obscura, decorado...</td>
 	                          <td>
@@ -135,6 +137,7 @@
 	                          <td>$6,500</td>
 	                        </tr>
 	                        <tr>
+							  <td>1</td>
 	                          <td>Ropero de madera de roble</td>
 	                          <td>Pintura obscura, decorado...</td>
 	                          <td>
@@ -149,6 +152,7 @@
 	                          <td>$6,500</td>
 	                        </tr>
 	                        <tr>
+							  <td>1</td>
 	                          <td>Ropero de madera de roble</td>
 	                          <td>Pintura obscura, decorado...</td>
 	                          <td>

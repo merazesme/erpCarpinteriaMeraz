@@ -193,6 +193,9 @@ Route::prefix('/clientes')->group(function () {
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
+
+	Route::get('/cotizaciones/{id}', 'clientes@getCotizaciones');
+	Route::get('/cotizacionSpecific/{id}', 'clientes@getCotizacion');
 });
 
 //Cotizacion vistas y funciones
