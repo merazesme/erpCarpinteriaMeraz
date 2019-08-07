@@ -61,9 +61,13 @@ Route::prefix('trabajadores')->group(function () {
 		});
 
 		Route::get('prestamos/tabla', 'Prestamos@index');
-		Route::post('/agregarPrestamo', 'Prestamos@store');
+		Route::post('prestamos/agregarPrestamo', 'Prestamos@store');
 		Route::get('prestamos/trabajadores', 'Prestamos@trabajadores');
 		Route::get('prestamos/verificarFirma/{id}/{firma}', 'Prestamos@verificarFirma');
+		Route::get('prestamos/trabajador/{id}/{estado}', 'Prestamos@edit');
+		Route::post('prestamos/editarPrestamo/{id}', 'Prestamos@update');
+		Route::post('prestamos/agregarMovimiento', 'Prestamos@movimiento');
+		Route::get('prestamos/consultarMovimientos/{id}', 'Prestamos@movimientosPrestamo');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -147,26 +151,18 @@ Route::prefix('inventario')->group(function () {
 	});
 	Route::prefix('orden_salida')->group(function () {
 		//Para tabla general de orden salida
-		Route::get('/lista', 'materiales@showTablaOrdenSalida');
+		Route::get('/lista', 'orden_salidas@showTablaOrdenSalida');
 		//Para nueva orden de salida
-		Route::get('/lista_trabajador', 'materiales@showTrabajadores');
-		Route::get('/lista_materiales', 'materiales@showMateriales');
-
-		//Para insertar una nueva orden de compra
-		Route::post('/agregar_ordenCompra', 'compras@store');
-		Route::post('/id_ordenCompra', 'compras@new_compra');
-		//Para mostrar detalles de compra
-		Route::get('/especifico/{id}', 'compras@show');
-		//Para modificar la orden de compra
-		Route::post('/modificar/{idcompra}', 'compras@update');
-		Route::post('/modificar_material/{idMa}/{idmov}/{idprove}/{idCompra}', 'compras@actualizarcantidad');
-		Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		//Pago compras
-		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
-		Route::get('/lista_compras/{id}', 'compras@showcompras');
-		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
-		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
-
+		Route::get('/lista_trabajador', 'orden_salidas@showTrabajadores');
+		Route::get('/lista_materiales', 'orden_salidas@showMateriales');
+		Route::get('/lista_materialesExistencia/{id}', 'orden_salidas@showMaterialesExistencia');
+		Route::post('/agregar_ordenSalida', 'orden_salidas@new_ordeSalida');
+		Route::post('/agregar_movmateriales', 'orden_salidas@new_movmateriales');
+		Route::post('/modificar_existencia/{id}', 'orden_salidas@update_materialExistencia');
+		Route::post('/agregar_salidamovmateriales', 'orden_salidas@new_salida_movmateriales');
+		//Para modificar orden de salida
+		Route::get('/lista_orden_salidas/{id}', 'orden_salidas@showOrdenSalida');
+		Route::post('/modificar_ordenSalida/{id}', 'orden_salidas@update_ordenSalida');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -216,6 +212,9 @@ Route::prefix('/clientes')->group(function () {
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
+
+	Route::get('/cotizaciones/{id}', 'clientes@getCotizaciones');
+	Route::get('/cotizacionSpecific/{id}', 'clientes@getCotizacion');
 });
 
 //Cotizacion vistas y funciones
@@ -310,9 +309,11 @@ Route::prefix('/configuraciones')->group(function () {
 	Route::get('/datos/{id}', 'configuraciones@show');
 });
 
-Route::get('/carro', function(){
-	$modulo = "Carros";
-	return view('carro', compact('modulo'));
+Route::prefix('/carro')->group(function () {
+	/** Vistas */
+	Route::get('/', 'carroController@index');
+
+	Route::get('data', 'carroController@data');
 });
 
 Route::get('/usuarios', function(){

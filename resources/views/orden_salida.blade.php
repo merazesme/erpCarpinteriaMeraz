@@ -25,20 +25,20 @@
 		                    <table id="tabla_ordenSalidaActivas" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 		                        <thead>
 		                            <tr>
-		                              <th>Concepto</th>
+		                              <th>#Nota</th>
+																	<th>Fecha</th>
+																	<th>Trabajador</th>
 		                              <th>Descripción</th>
-		                              <th>Fecha</th>
-		                              <th>Cantidad</th>
 		                              <th>Acciones</th>
 		                            </tr>
 		                        </thead>
 		                        <tfoot>
 		                          <tr>
-		                            <th>Concepto</th>
-		                            <th>Descripción</th>
-		                            <th>Fecha</th>
-		                            <th>Cantidad</th>
-		                            <th>Acciones</th>
+																<th>#Nota</th>
+																<th>Fecha</th>
+																<th>Trabajador</th>
+																<th>Descripción</th>
+																<th>Acciones</th>
 		                          </tr>
 		                      </tfoot>
 		                      <tbody>
@@ -51,20 +51,20 @@
 		                    <table id="tabla_ordenSalidaCancelada" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 		                        <thead>
 		                            <tr>
-		                              <th>Concepto</th>
+																	<th>#Nota</th>
+																	<th>Fecha</th>
+																	<th>Trabajador</th>
 		                              <th>Descripción</th>
-		                              <th>Fecha</th>
-		                              <th>Cantidad</th>
 		                              <th>Acciones</th>
 		                            </tr>
 		                        </thead>
 		                        <tfoot>
 		                          <tr>
-		                            <th>Concepto</th>
-		                            <th>Descripción</th>
-		                            <th>Fecha</th>
-		                            <th>Cantidad</th>
-		                            <th>Acciones</th>
+																<th>#Nota</th>
+																<th>Fecha</th>
+																<th>Trabajador</th>
+																<th>Descripción</th>
+																<th>Acciones</th>
 		                          </tr>
 		                      </tfoot>
 		                      <tbody>
@@ -91,6 +91,15 @@
 								<div class="modal-body">
 										<form>
 											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group" id="materiales_orden_salida">
+															<!-- <label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+															<select class="form-control" id="select_materialesOrdenSalida">
+															</select> -->
+													</div>
+												</div>
+											</div>
+											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
 															<label for="recipient-name" class="control-label">Trabajador <span class="danger">*</label>
@@ -99,10 +108,9 @@
 													</div>
 												</div>
 												<div class="col-md-6">
-													<div class="form-group" id="materiales_orden_salida">
-															<!-- <label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-															<select class="form-control" id="select_materialesOrdenSalida">
-															</select> -->
+													<div class="form-group">
+														<label for="recipient-name" class="control-label">#Nota <span class="danger">*</label>
+														<input type="text" class="form-control" id="txtNotaOrdenSalida">
 													</div>
 												</div>
 											</div>
@@ -130,6 +138,50 @@
 				</div>
 		</div>
 		<!-- end Modal agregar orden de salida -->
+
+		<!-- Modal modificar orden de salida -->
+		<div id="modal_agregar_ordenSalidaModificar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h4 class="modal-title">Modificar orden de salida</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								</div>
+								<div class="modal-body">
+										<form>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+															<label for="recipient-name" class="control-label">Trabajador <span class="danger">*</label>
+															<select class="form-control" id="select_trabajadorOrdenSalidaModificar">
+															</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="recipient-name" class="control-label">#Nota <span class="danger">*</label>
+														<input type="text" class="form-control" id="txtNotaOrdenSalidaModificar">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+															<label for="recipient-name" class="control-label">Descripción <span class="danger">*</label>
+															<textarea class="form-control" id="txtDescripcionModificar" rows="2"></textarea>
+													</div>
+												</div>
+											</div>
+										</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+									<button type="button" id="actionAgregarOrdenSalidaModificar" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- end Modal modificar orden de salida -->
 
 		<input type="text" id="validar" class="form-control d-none">
 

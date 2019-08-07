@@ -15,7 +15,6 @@ $("body").on("click", ".eliminarCliente", function(e){
     e.preventDefault();
     var id = $(this).parent().attr("data-cliente");
     var estado = $(this).attr("estado");
-    console.log("estado;"+estado);
     var estadoN = 1;
     var titulo = "¿Deseas eliminar el cliente?",
         type = "error",
@@ -29,7 +28,6 @@ $("body").on("click", ".eliminarCliente", function(e){
         confirmButtonColor = "#068F66"
     }
     if(id != undefined){
-        console.log($(this).parent().attr("data-cliente"));
         swal({
             title: titulo,
             type: type,
@@ -74,13 +72,124 @@ $("body").on("click", ".eliminarCliente", function(e){
 
 $("body").on("click", ".detalleClientes", function(e){
     e.preventDefault();
-    console.log($(this).parent().parent().attr("data-cliente"));
-    //
+    var id = $(this).parent().attr("data-cliente");
+    const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+    $.ajax({
+		type: "GET",
+		dataType: "json",
+		enctype: "multipart/form-data",
+		url: base_url+'/clientes/cotizaciones/'+id,
+		success: function (msg) {
+            var data = JSON.parse(msg)
+            console.log(data);
+            if(data[0] == undefined){
+                swal("", "Este cliente no tiene ninguna cotización.", "error");
+            }else{
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    var costo = parseFloat(data[i].Costo).toFixed(2);
+                    var estado = `<span class="badge badge-success">Aceptada</span>`;
+
+                    if(data[i].Estado == 0){
+                        estado = `<span class="badge badge-danger">Rechazada</span>`
+                    } else if(data[i].Estado == 2){
+                        estado = `<span class="badge badge-warning">En taller</span>`
+                    }else if(data[i].Estado == 3){
+                        estado = `<span class="label label-light-success">Por confirmar</span>`
+                    }else if(data[i].Estado == 4){
+                        estado = `<span class="badge badge-info">Terminado</span>`
+                    }
+
+                    let fecha_inicio = '<i class="mdi mdi-minus"></i>'
+                    let fecha_fin = '<i class="mdi mdi-minus"></i>'
+                    if(data[i].fecha_inicio){
+                        let fecha = new Date(data[i].fecha_inicio)
+                        fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
+
+                    if(data[i].fecha_fin){
+                        let fecha = new Date(data[i].fecha_fin)
+                        fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
+
+                    html += `
+                    <tr>
+                      <th scope="row">${i+1}</th>
+                      <td>${fecha_inicio}</td>
+                      <td>${fecha_fin}</td>
+                      <td>${data[i].Descripcion}</td>
+                      <td>$${costo}</td>
+                      <td>${estado}</td>
+                      <td><button data-toggle="tooltip" data-original-title="Ver cotización" type="button" class="btn btn-success" onclick="detalleCotizacion(${data[i].id}, '${data[i].Descripcion}')"><i class="mdi mdi-eye"></i></button></td>
+                    </tr>`;
+                }
+                $("#tablaCotizaciones tbody").empty().append(html);
+                $('#modalDetalles').modal('show')
+            }
+
+		}
+	});
 })
+
+function detalleCotizacion(id, descripcion){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/clientes/cotizacionSpecific/'+id,
+        success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "";
+            $("#descCotizacion p").empty().append(descripcion);
+            for (var i = 0; i < data.length; i++) {
+                var subtotal = parseFloat(data[i].subtotal)*parseFloat(data[i].Cantidad);
+                var total = parseFloat(data[i].total)*parseFloat(data[i].Cantidad);
+                var iva = parseFloat(data[i].iva)*parseFloat(data[i].Cantidad);
+
+                subtotal =parseFloat(subtotal) .toFixed(2);
+                iva =parseFloat(iva) .toFixed(2);
+                total =parseFloat(total) .toFixed(2);
+
+                html +=
+                `<tr>
+                  <td>${data[i].Cantidad}</td>
+                  <td>${data[i].nombreProducto}</td>
+                  <td>${data[i].descripcion}</td>
+                  <td>
+                  <ul>`
+                  for (var j = 0; j < data[i].materiales.length; j++) {
+                      html += `<li>${data[i].materiales[j].Descripcion}</li>`;
+                  }
+
+                html+=`</ul>
+                </td>
+                  <td>$${subtotal}</td>
+                  <td>$${iva}</td>
+                  <td>$${total}</td>
+                </tr>`;
+            }
+            $("#tablaDetalleCotizacion tbody").empty().append(html);
+            $("#modalDetallesCotizacion").modal("show")
+        }
+    });
+}
+
+//Para mostrar el segundo modal
+$(document).on('show.bs.modal', '.modal', function (event) {
+   var zIndex = 1040 + (10 * $('.modal:visible').length);
+   $(this).css('z-index', zIndex);
+   setTimeout(function() {
+       $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+   }, 0);
+});
+
+$(document).on('hidden.bs.modal', '.modal', function () {
+    $('.modal:visible').length && $(document.body).addClass('modal-open');
+});
 
 $("body").on("click",".modificarCliente", function(e){
     var id = $(this).parent().attr("data-cliente");
-    console.log(id);
     e.preventDefault();
     $.ajax({
 		type: "GET",
@@ -89,7 +198,6 @@ $("body").on("click",".modificarCliente", function(e){
 		url: base_url+'/clientes/especifico/'+id,
 		success: function (msg) {
             var data = JSON.parse(msg)
-			console.log(data);
             $("#txtNombre").val(data.Nombre);
             $("#txtTelefono").val(data.Telefono);
             $("#txtEmail").val(data.Email);
@@ -150,7 +258,6 @@ function nuevoCliente(id){
         var datos = new FormData(document.querySelector('#frmCliente'));
         datos.append("idUsuario", "1");
         //datos.append("_token", token);
-        console.log(id);
         var url = base_url+'/clientes/agregar';
         var mensaje = "El cliente ha sido agregado con éxito";
         var titulo = "Nuevo Cliente";
@@ -221,48 +328,54 @@ function tablaClientes(){
 		url: base_url+'/clientes/lista/',
 		success: function (msg) {
             var data = JSON.parse(msg)
-			console.log(data);
             $("#clientes").DataTable().clear();
 			$("#clientes").DataTable().destroy();
 
             $("#clientesInactivos").DataTable().clear();
 			$("#clientesInactivos").DataTable().destroy();
             var htmlActivo="", htmlInactivo="";
-            for (var i = 0; i < data.length; i++) {
-                var localhtml = "";
-                localhtml=
-                `<tr>
-                    <td>${data[i].Nombre} ${data[i].Apellidos}</td>
-                    <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
-                    <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
-                    <td class="text-nowrap" data-cliente="${data[i].id}">
-                        <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
 
-                if(data[i].Estado == 1){
-                    htmlInactivo += localhtml +
-                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Activar"> <i class="icon-check text-success m-r-10"></i> </a>
-                         <span data-toggle="modal" data-target="#modalDetalles">
-                            <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                        </span>
-                    </td>
-                </tr>`;
-                }else{
-                    htmlActivo += localhtml +
-                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Desactivar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                         <span data-toggle="modal" data-target="#modalDetalles">
-                            <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                        </span>
-                    </td>
-                </tr>`;
+            if(data.length > 0){
+                for (var i = 0; i < data.length; i++) {
+                    var localhtml = "";
+                    localhtml=
+                    `<tr>
+                        <td>${data[i].Nombre} ${data[i].Apellidos}</td>
+                        <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
+                        <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
+                        <td class="text-nowrap" data-cliente="${data[i].id}">
+                            <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
+
+                    if(data[i].Estado == 1){
+                        htmlInactivo += localhtml +
+                            `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Activar"> <i class="icon-check text-success m-r-10"></i> </a>
+                             <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </td>
+                    </tr>`;
+                    }else{
+                        htmlActivo += localhtml +
+                            `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Desactivar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                             <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </td>
+                    </tr>`;
+                    }
+                }
+
+
+                if(htmlActivo != ""){
+                    $("#clientes tbody").empty().append(htmlActivo);
+                }
+
+                if(htmlInactivo == ""){
+                    $("#clientesInactivos tbody").empty().append(htmlInactivo);
                 }
             }
-            $("#clientes tbody").empty().append(htmlActivo);
+
             $("#clientes").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']
             });
 
-            $("#clientesInactivos tbody").empty().append(htmlInactivo);
             $("#clientesInactivos").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']
@@ -273,6 +386,5 @@ function tablaClientes(){
 
 $(document).ready(function () {
 	tablaClientes();
-
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 });
