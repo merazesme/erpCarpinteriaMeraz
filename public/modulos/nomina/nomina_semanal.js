@@ -93,18 +93,21 @@ $(document).ready(function() {
         tr.diasTrabajados = 0;
         tr.horasExtras = 0;
         tr.diasDescanso = 1;
-        tr.horasSabado = 2.5; // Falta por definir
-        tr.faltasSinJustificar = 0; // Falta por definir
+        tr.horasSabado = 0;
+        tr.faltasSinJustificar = 0;
 
         for (var i = 0; i < tr.asistencia.length; i++) {
           //console.log(tr.asistencia[i])
-          if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1)
+          if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1) {
+            tr.horasSabado += 0.5;
             tr.diasTrabajados ++;
+          }
           else if(tr.asistencia[i].Hora_salida === 1 || tr.asistencia[i].Hora_entrada === 1)
             tr.diasTrabajados +=0.5;
           if(tr.asistencia[i].Hora_extra === 1)
             tr.horasExtras ++;
         }
+        tr.faltasSinJustificar = 6 - tr.diasTrabajados; 
         tr.NombreyApodo = tr.Nombre + ' ' + tr.Apellidos + ' (' + tr.Apodo + ')'
         // 	* 	Percepciones	* 	//
         tr.Nomina.xPercepciones = {
