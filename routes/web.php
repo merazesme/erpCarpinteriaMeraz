@@ -50,10 +50,12 @@ Route::prefix('trabajadores')->group(function () {
 			return view('trabajadores/formulario', compact('modulo'));
 		});
 
-		Route::get('/asistencia', function(){
-			$modulo = "Asistencia";
-			return view('trabajadores/asistencia', compact('modulo'));
+		Route::get('/asistencias', function(){
+			$modulo = "Asistencias";
+			return view('trabajadores/asistencias', compact('modulo'));
 		});
+
+		Route::get('asistencias/tabla', 'Asistencias@index');
 
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";

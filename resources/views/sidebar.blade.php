@@ -71,7 +71,7 @@
                         </a>
                         <ul aria-expanded="false" class="collapse">
                             <li><a href="/trabajadores/lista">Listado</a></li>
-                            <li><a href="/trabajadores/asistencia">Asistencia</a></li>
+                            <li><a href="/trabajadores/asistencias">Asistencias</a></li>
                             <li><a href="/trabajadores/prestamos">Prestamos</a></li>
                         </ul>
                     </li>

@@ -133,8 +133,8 @@
           else{
             $("#trabajadoresActivos").DataTable().clear();
             $("#trabajadoresActivos").DataTable().destroy();
-            $("#clientesInactivos").DataTable().clear();
-            $("#clientesInactivos").DataTable().destroy();
+            $("#trabajadoresInactivos").DataTable().clear();
+            $("#trabajadoresInactivos").DataTable().destroy();
             // ARRAY CON LOS ID
             var arreglo = [];
             var data = [];
@@ -638,6 +638,8 @@
         <div class="form-group">
             <label for="fecha_inicio">Fecha de inicio: <span class="danger">*</span> </label>
             <input type="date" class="form-control required" id="fecha_inicio" name="fecha_inicio">
+            <div id="validacionFechaInicio" name="validacionFechaInicio">
+            </div>
         </div>
     </div>
     <div class="col-md-6" id="fechasTemporal2" name="fechasTemporal2">
@@ -717,6 +719,7 @@
   });
 
   $('body').on('change', "#fecha_inicio", function(e){
+    $('#mensajeVacio').remove();
     var tiempo = $("#tiempo").val();
     var fecha_inicio = $("#fecha_inicio").val();
 
@@ -738,18 +741,20 @@
 
     var bandera = 0;
     if(mes1 == mes2 && dia1 == dia2 && anio1 == anio2){
-      console.log("es hoy");
-      bandera += 1;
+      // console.log("es hoy");
     }
     else{
       hoy.setHours(0,0,0,0);
       fechaFormulario.setHours(0,0,0,0);
       if (hoy <= fechaFormulario) {
-        console.log("Fecha a partir de hoy");
-        bandera += 1;
+        // console.log("Fecha a partir de hoy");
       }
       else {
-        console.log("Fecha pasado");
+        bandera += 1;
+        // console.log("Fecha pasado");
+        $('#validacionFechaInicio').append(
+          `<label style="color:red;" id="mensajeVacio" name="mensajeVacio" class="control-label">No se pueden ingresar fechas pasadas.</label>`);
+        $("#fecha_final").val("");
       }
     }
 
@@ -771,5 +776,5 @@
       else{
         $("#fecha_final").val("");
       }
-    }   
+    }
   });
