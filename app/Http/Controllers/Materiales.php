@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 
 //modelo
 use App\Materiale;
+use App\Mov_materiale;
+use App\Orden_salida;
+use App\Salida_movmateriale;
 use DB;
 class Materiales extends Controller
 {
@@ -54,16 +57,6 @@ class Materiales extends Controller
 
         $data->save();
         return response()->json(json_encode(0));
-
-        // $data=new Materiale();
-        // $data->Nombre=$request->input('Perilla');
-        // $data->Existencia=$request->input('20');
-        // $data->Estado=$request->input('1');
-        // $data->idUsuario=$request->input('1');
-        // $data->Clasificacion_material_idClasificacion_material=('1');
-        //
-        // $data->save();
-        // return response()->json(json_encode(0));
     }
 
     /**
