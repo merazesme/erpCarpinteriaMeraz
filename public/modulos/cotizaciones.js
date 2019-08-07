@@ -823,70 +823,70 @@ function datosCotizaciones(){
             var data = JSON.parse(msg)
             console.log(data);
             var html = "";
+            if(data.length > 0){
+                $("#cotizaciones").DataTable().clear();
+                $("#cotizaciones").DataTable().destroy();
 
-            const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-            data.forEach(item =>{
-                var estado = `<span class="badge badge-success">Aceptada</span>`;
-                var mensaje = "En taller"
-                if(item.Estado == 0){
-                    estado = `<span class="badge badge-danger">Rechazada</span>`
-                    mensaje = "Aceptado"
-                } else if(item.Estado == 2){
-                    estado = `<span class="badge badge-warning">En taller</span>`
-                    mensaje = "Terminado"
-                }else if(item.Estado == 3){
-                    estado = `<span class="label label-light-success">Por confirmar</span>`
-                    mensaje = "Aceptado"
-                }else if(item.Estado == 4){
-                    estado = `<span class="badge badge-info">Terminado</span>`
-                }
+                const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+                data.forEach(item =>{
+                    var estado = `<span class="badge badge-success">Aceptada</span>`;
+                    var mensaje = "En taller"
+                    if(item.Estado == 0){
+                        estado = `<span class="badge badge-danger">Rechazada</span>`
+                        mensaje = "Aceptado"
+                    } else if(item.Estado == 2){
+                        estado = `<span class="badge badge-warning">En taller</span>`
+                        mensaje = "Terminado"
+                    }else if(item.Estado == 3){
+                        estado = `<span class="label label-light-success">Por confirmar</span>`
+                        mensaje = "Aceptado"
+                    }else if(item.Estado == 4){
+                        estado = `<span class="badge badge-info">Terminado</span>`
+                    }
 
-                var cambiarEstado = `<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar estado a ${mensaje}"> <i class="text-primary icon-note"></i> </a>`
-                if(item.Estado == 4){
-                    cambiarEstado="";
-                }
-                var total = parseFloat(item.costo).toFixed(2);
+                    var cambiarEstado = `<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar estado a ${mensaje}"> <i class="text-primary icon-note"></i> </a>`
+                    if(item.Estado == 4){
+                        cambiarEstado="";
+                    }
+                    var total = parseFloat(item.costo).toFixed(2);
 
-                prioridad = `<span class="badge badge-primary">Alta</span>`
-                if(item.Prioridad == 2){
-                    prioridad = `<span class="badge badge-info">Media</span>`
-                }else if(item.Prioridad == 1){
-                    prioridad = `<span class="badge badge-inverse">Baja</span>`
-                }
+                    prioridad = `<span class="badge badge-primary">Alta</span>`
+                    if(item.Prioridad == 2){
+                        prioridad = `<span class="badge badge-info">Media</span>`
+                    }else if(item.Prioridad == 1){
+                        prioridad = `<span class="badge badge-inverse">Baja</span>`
+                    }
 
-                let fecha_inicio = '<i class="mdi mdi-minus"></i>'
-                let fecha_fin = '<i class="mdi mdi-minus"></i>'
-                if(item.fecha_inicio){
-                    let fecha = new Date(item.fecha_inicio)
-                    fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
-                }
+                    let fecha_inicio = '<i class="mdi mdi-minus"></i>'
+                    let fecha_fin = '<i class="mdi mdi-minus"></i>'
+                    if(item.fecha_inicio){
+                        let fecha = new Date(item.fecha_inicio)
+                        fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
 
-                if(item.fecha_fin){
-                    let fecha = new Date(item.fecha_fin)
-                    fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
-                }
+                    if(item.fecha_fin){
+                        let fecha = new Date(item.fecha_fin)
+                        fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
 
-                html += `
-                <tr>
-                    <td>${fecha_inicio} - ${fecha_fin}</td>
-                    <td>${item.Descripcion}</td>
-                    <td>${estado}</td>
-                    <td>${item.Nombre +" "+ item.Apellidos}</td>
-                    <td>$${total}</td>
-                    <td>${prioridad}</td>
-                    <td class="text-nowrap" id="${item.id}">
-                        <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
-                        <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                        <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye m-r-10"></i> </a>
-                       ${cambiarEstado}
-                    </td>
-                </tr>`
-            });
-
-            $("#cotizaciones").DataTable().clear();
-			$("#cotizaciones").DataTable().destroy();
-
-            $("#cotizaciones tbody").empty().append(html);
+                    html += `
+                    <tr>
+                        <td>${fecha_inicio} - ${fecha_fin}</td>
+                        <td>${item.Descripcion}</td>
+                        <td>${estado}</td>
+                        <td>${item.Nombre +" "+ item.Apellidos}</td>
+                        <td>$${total}</td>
+                        <td>${prioridad}</td>
+                        <td class="text-nowrap" id="${item.id}">
+                            <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+                            <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                            <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye m-r-10"></i> </a>
+                            ${cambiarEstado}
+                        </td>
+                    </tr>`
+                });
+                $("#cotizaciones tbody").empty().append(html);
+            }
 
             $("#cotizaciones").DataTable({
               dom: 'Bfrtip',

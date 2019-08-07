@@ -334,37 +334,48 @@ function tablaClientes(){
             $("#clientesInactivos").DataTable().clear();
 			$("#clientesInactivos").DataTable().destroy();
             var htmlActivo="", htmlInactivo="";
-            for (var i = 0; i < data.length; i++) {
-                var localhtml = "";
-                localhtml=
-                `<tr>
-                    <td>${data[i].Nombre} ${data[i].Apellidos}</td>
-                    <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
-                    <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
-                    <td class="text-nowrap" data-cliente="${data[i].id}">
-                        <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
 
-                if(data[i].Estado == 1){
-                    htmlInactivo += localhtml +
-                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Activar"> <i class="icon-check text-success m-r-10"></i> </a>
-                         <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                    </td>
-                </tr>`;
-                }else{
-                    htmlActivo += localhtml +
-                        `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Desactivar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                         <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
-                    </td>
-                </tr>`;
+            if(data.length > 0){
+                for (var i = 0; i < data.length; i++) {
+                    var localhtml = "";
+                    localhtml=
+                    `<tr>
+                        <td>${data[i].Nombre} ${data[i].Apellidos}</td>
+                        <td><a href="mailto:${data[i].Email}">${data[i].Email}</a></td>
+                        <td><a href="tel:${data[i].Telefono}">${data[i].Telefono}</a></td>
+                        <td class="text-nowrap" data-cliente="${data[i].id}">
+                            <a href="#" class="modificarCliente" data-toggle="tooltip" data-original-title="Modificar"><i class="icon-pencil text-inverse m-r-10"></i></a>`;
+
+                    if(data[i].Estado == 1){
+                        htmlInactivo += localhtml +
+                            `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Activar"> <i class="icon-check text-success m-r-10"></i> </a>
+                             <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </td>
+                    </tr>`;
+                    }else{
+                        htmlActivo += localhtml +
+                            `<a class="eliminarCliente" estado="${data[i].Estado}" href="#" data-toggle="tooltip" data-original-title="Desactivar"> <i class="icon-close text-danger m-r-10"></i> </a>
+                             <a class="detalleClientes" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
+                        </td>
+                    </tr>`;
+                    }
+                }
+
+
+                if(htmlActivo != ""){
+                    $("#clientes tbody").empty().append(htmlActivo);
+                }
+
+                if(htmlInactivo == ""){
+                    $("#clientesInactivos tbody").empty().append(htmlInactivo);
                 }
             }
-            $("#clientes tbody").empty().append(htmlActivo);
+
             $("#clientes").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']
             });
 
-            $("#clientesInactivos tbody").empty().append(htmlInactivo);
             $("#clientesInactivos").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']

@@ -41,7 +41,7 @@
 		                                  </tr>
 		                              </tfoot>
 		                              <tbody>
-		                                  <tr>
+		                                  <!-- <tr>
 											  <td>03-Agosto-19</td>
 		                                      <td>Ropero de madera de roble</td>
 		                                      <td><span class="badge badge-success">Aceptada</span></td>
@@ -57,7 +57,7 @@
 												 <a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar Estado"> <i class="text-primary icon-note"></i> </a>
 		                                  	  </td>
 		                                  </tr>
-		                                   <tr>
+		                                  <tr>
 											  <td>03-Agosto-19</td>
 		                                      <td>Puerta de recámara</td>
 		                                      <td><span class="badge badge-danger">Rechazada</span></td>
@@ -88,7 +88,7 @@
 		                                        </span>
 												<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar Estado"> <i class="text-primary icon-note"></i> </a>
 		                                      </td>
-		                                  </tr>
+		                                  </tr> -->
 		                              </tbody>
 		                          </table>
 		                      </div>
