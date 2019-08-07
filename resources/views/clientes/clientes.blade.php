@@ -124,11 +124,13 @@
 	                </div>
 	                <div class="modal-body">
 	                    <h4>Cotizaciones</h4>
-	                    <table class="table table-hover">
+	                    <table class="table table-hover" id="tablaCotizaciones">
 	                      <thead>
 	                        <tr>
 	                          <th scope="col">#</th>
-	                          <th scope="col">Descripción</th>
+							  <th scope="col">Inicio</th>
+							  <th scope="col">Terminación</th>
+							  <th scope="col">Descripción</th>
 	                          <th scope="col">Precio</th>
 	                          <th scope="col">Estado</th>
 	                          <th scope="col"></th>
@@ -136,25 +138,107 @@
 	                      </thead>
 	                      <tbody>
 	                        <tr>
-	                          <th scope="row">1</th>
+	                          <th>1</th>
 	                          <td>Ropero de madera de roble</td>
 	                          <td>$5,000</td>
 	                          <td><span class="badge badge-success">Aceptada</span></td>
 	                          <td><a href="/cotizaciones" data-toggle="tooltip" data-original-title="Ver cotización" type="button" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-eye"></i></a></td>
 	                        </tr>
 	                        <tr>
-	                          <th scope="row">2</th>
+	                          <th>2</th>
 	                          <td>Puerta de recámara</td>
 	                          <td>$1,200</td>
 	                          <td><span class="badge badge-danger">Rechazada</span></td>
 	                          <td><a href="/cotizaciones" data-toggle="tooltip" data-original-title="Ver cotización" type="button" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-eye"></i></a></td>
 	                        </tr>
 	                        <tr>
-	                          <th scope="row">3</th>
+	                          <th>3</th>
 	                          <td>Escritorio largo de 1.20 mts</td>
 	                          <td>$2,500</td>
 	                          <td><span class="badge badge-warning">En taller</span></td>
 	                          <td><a href="/cotizaciones" data-toggle="tooltip" data-original-title="Ver cotización" type="button" class="btn waves-effect waves-light btn-info"><i class="mdi mdi-eye"></i></a></td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Aceptar</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <!-- Fin modal info extra  -->
+
+		<div id="modalDetallesCotizacion" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	        <div class="modal-dialog modal-lg">
+				<div class="modal-content">
+	                <div class="modal-header">
+	                    <h4 class="modal-title" id="myModalLabel">Detalles de la cotización</h4>
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                </div>
+	                <div class="modal-body">
+	                    <h4>Cotizacion</h4>
+						<div class="container" id="descCotizacion">
+							<h5>Descripción</h5>
+							<p></p>
+						</div>
+	                    <table class="table table-hover" id="tablaDetalleCotizacion">
+	                      <thead>
+	                        <tr>
+							  <th scope="col">Cantidad</th>
+	                          <th scope="col">Producto</th>
+	                          <th scope="col">Descripción</th>
+	                          <th scope="col">Material</th>
+	                          <th scope="col">Subtotal</th>
+	                          <th scope="col">IVA</th>
+	                          <th scope="col">Total</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr>
+							  <td>1</td>
+	                          <td>Ropero de madera de roble</td>
+	                          <td>Pintura obscura, decorado...</td>
+	                          <td>
+	                            <ul>
+	                              <li>Madera</li>
+	                              <li>Clavos</li>
+	                              <li>Pegamento</li>
+	                            </ul>
+	                          </td>
+	                          <td>$4,900</td>
+	                          <td>$1,600</td>
+	                          <td>$6,500</td>
+	                        </tr>
+	                        <tr>
+							  <td>1</td>
+	                          <td>Ropero de madera de roble</td>
+	                          <td>Pintura obscura, decorado...</td>
+	                          <td>
+	                            <ul>
+	                              <li>Madera</li>
+	                              <li>Clavos</li>
+	                              <li>Pegamento</li>
+	                            </ul>
+	                          </td>
+	                          <td>$4,900</td>
+	                          <td>$1,600</td>
+	                          <td>$6,500</td>
+	                        </tr>
+	                        <tr>
+							  <td>1</td>
+	                          <td>Ropero de madera de roble</td>
+	                          <td>Pintura obscura, decorado...</td>
+	                          <td>
+	                            <ul>
+	                              <li>Madera</li>
+	                              <li>Clavos</li>
+	                              <li>Pegamento</li>
+	                            </ul>
+	                          </td>
+	                          <td>$4,900</td>
+	                          <td>$1,600</td>
+	                          <td>$6,500</td>
 	                        </tr>
 	                      </tbody>
 	                    </table>
