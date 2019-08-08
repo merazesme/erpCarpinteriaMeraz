@@ -256,6 +256,7 @@ function nuevoOrdenSalida(para) {
     datos_ordenSalida = new FormData();
     datos_ordenSalida.append("_token", token);
 
+
     //Para la tabla orden de salida
     var Num_nota = $("#txtNotaOrdenSalida").val();
     var Descripcion = $("#txtDescripcion").val();
@@ -348,15 +349,19 @@ function nuevoOrdenSalida(para) {
                           // var data = JSON.parse(msg)
                           var id = msg.id;
                           var cantidad = msg.Cantidad;
+                          console.log("d: ", msg);
                           var existencia = msg.Existencia[0].Existencia;
+                          var idMaterial = msg.Existencia[0].materialid;
                           console.log("data: ", data);
                           console.log("cantidad: ", cantidad);
                           console.log("existencia: ", existencia);
+                          console.log("idMaterial: ", idMaterial);
                           var total = existencia - cantidad;
                           console.log("total: ", total);
                           if(data >= 0){
 
                             var Mov_materiale_idMov_Materiales = id;
+
 
                             datos_salidamovmateriales.append("Mov_materiale_idMov_Materiales", Mov_materiale_idMov_Materiales);
                             datos_salidamovmateriales.append("Orden_salida_idOrden_Salidas", Orden_salida_idOrden_Salidas);
@@ -380,8 +385,10 @@ function nuevoOrdenSalida(para) {
                                     var datos_materiales = "";
                                     datos_materiales = new FormData();
                                     datos_materiales.append("_token", token);
+
                                     datos_materiales.append("Existencia", total);
                                     datos_materiales.append("idUsuario", idUsuario);
+                                    console.log("id: ", id);
 
                                     $.ajax({
                                         type: 'POST',
@@ -391,11 +398,13 @@ function nuevoOrdenSalida(para) {
                                         data: datos_materiales,
                                         dataType: false,
                                         enctype: 'multipart/form-data',
-                                        url: base_url+'/inventario/orden_salida/modificar_existencia/'+id,
+                                        url: base_url+'/inventario/orden_salida/modificar_existencia/'+idMaterial,
                                         success: function(msg){
                                             var data = JSON.parse(msg)
                                             console.log("data update_Existencia: " , data);
                                             if(data == 0){
+
+                                              console.log("hecho, ", id);
 
                                               $('#modal_agregar_ordenSalida').modal('hide')
                                               swal(titulo, mensaje, "success");
@@ -405,8 +414,7 @@ function nuevoOrdenSalida(para) {
                                               //limpiar campos
                                               $("#txtDescripcion").val("");
                                               $("#txtNotaOrdenSalida").val("");
-                                              
-                                              console.log("hecho, ", id);
+
                                             }else{
                                                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                                 //limpiar campos

@@ -85,8 +85,8 @@ class Orden_salidas extends Controller
      public function update_materialExistencia(Request $request, $id)
      {
          //
-         try
-         {
+         // try
+         // {
            $materiales = Materiale::find($id);
            $materiales->Existencia=$request->input('Existencia');
            $materiales->idUsuario=$request->input('idUsuario');
@@ -94,10 +94,10 @@ class Orden_salidas extends Controller
            $materiales->save();
 
            return response()->json(json_encode(0));
-         }
-         catch(\Exception $e){
-            return response()->json(json_encode(1));
-         }
+         // }
+         // catch(\Exception $e){
+         //    return response()->json(json_encode(1));
+         // }
      }
 
      public function showOrdenSalida($id)
@@ -176,7 +176,7 @@ class Orden_salidas extends Controller
            $Materialid = $request->input('Materiales_idMateriale');
 
            $material = DB::table('materiales')
-            ->select('materiales.Existencia')
+            ->select('materiales.Existencia', 'materiales.id AS materialid')
              ->where('materiales.id', '=', $Materialid)
               ->get();
 
