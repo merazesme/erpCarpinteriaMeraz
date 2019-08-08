@@ -38,6 +38,14 @@ $("#salida_E").on('input',function(e){
     validation($(this), $(this).parent())
 });
 
+$("#entrada_ES").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#salida_ES").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
 function actualizarGeneral(){
     var banValidation=false;
     if($("#ivaConfig").val().length == 0){
@@ -126,6 +134,16 @@ function actualizarHorario(){
 
     if($("#salida_E").val().length == 0){
         validation($("#salida_E"), $("#salida_E").parent());
+        banValidation=true;
+    }
+
+    if($("#entrada_ES").val().length == 0){
+        validation($("#entrada_ES"), $("#entrada_ES").parent());
+        banValidation=true;
+    }
+
+    if($("#salida_ES").val().length == 0){
+        validation($("#salida_ES"), $("#salida_ES").parent());
         banValidation=true;
     }
 
@@ -231,6 +249,20 @@ function datosHorarios(){
                 data[0].Hora_salida_extra =data[0].Hora_salida_extra[0]+":"+data[0].Hora_salida_extra[1]
                 $("#salida_E").val(data[0].Hora_salida_extra);
                 $("#salidaE_data").empty().append(data[0].Hora_salida_extra);
+            }
+
+            if(data[0].Hora_entradaLV_Sab != null){
+                data[0].Hora_entradaLV_Sab = data[0].Hora_entradaLV_Sab.split(":");
+                data[0].Hora_entradaLV_Sab =data[0].Hora_entradaLV_Sab[0]+":"+data[0].Hora_entradaLV_Sab[1]
+                $("#entrada_ES").val(data[0].Hora_entradaLV_Sab);
+                $("#entradaES_data").empty().append(data[0].Hora_entradaLV_Sab);
+            }
+
+            if(data[0].Hora_salidaLV_Sab != null){
+                data[0].Hora_salidaLV_Sab = data[0].Hora_salidaLV_Sab.split(":");
+                data[0].Hora_salidaLV_Sab =data[0].Hora_salidaLV_Sab[0]+":"+data[0].Hora_salidaLV_Sab[1]
+                $("#salida_ES").val(data[0].Hora_salidaLV_Sab);
+                $("#salidaES_data").empty().append(data[0].Hora_salidaLV_Sab);
             }
 
             if(data[0].Hora_entrada_obra != null){

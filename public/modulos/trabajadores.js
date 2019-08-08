@@ -6,7 +6,7 @@
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
 
     // SOLO NÚMEROS
-    $('.input-number').on('input', function () {
+    $('body').on('input', ".input-number", function(e){
       this.value = this.value.replace(/[^0-9]/g,'');
     });
 
@@ -133,8 +133,8 @@
           else{
             $("#trabajadoresActivos").DataTable().clear();
             $("#trabajadoresActivos").DataTable().destroy();
-            $("#clientesInactivos").DataTable().clear();
-            $("#clientesInactivos").DataTable().destroy();
+            $("#trabajadoresInactivos").DataTable().clear();
+            $("#trabajadoresInactivos").DataTable().destroy();
             // ARRAY CON LOS ID
             var arreglo = [];
             var data = [];
@@ -154,6 +154,9 @@
             var htmlActivo="", htmlInactivo="";
             var tam2 = data.length;
             for (var i = 0; i < tam2; i++) {
+              if(data[i].Fecha_final == null){
+                data[i].Fecha_final = "Indefinida";
+              }
               var html="";
               html=
                 `<tr>
@@ -203,8 +206,8 @@
     // EXTRAER DATOS DE FORMULARIO
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
     if(datosTrabajador.Tipo == "Base"){
-      datosTrabajador.append("fecha_inicio", "0000-00-00");
-      datosTrabajador.append("fecha_final", "0000-00-00");
+      datosTrabajador.append("fecha_inicio", null);
+      datosTrabajador.append("fecha_final", null);
     }
     datosTrabajador.append("idUsuario", "1");
     for (var concepto of datosTrabajador.entries()) {
@@ -259,7 +262,7 @@
     });
   }
 
-  // EDITAR TRABAJADOR
+  // AGARRAR DATOS TRABAJADOR ESPECIFICO
   function trabajadorEspecifico(id_trabajador, bandera){
     // console.log("LLEGO ESTE ID: " + id);
     $.ajax({
@@ -601,24 +604,42 @@
 
   function success(mensaje){
     swal({
-          title: "¡Éxito!",
-          text: mensaje,
-          type: "success",
-          closeOnConfirm: false
-      }, function(isConfirm){
-          if (isConfirm) {
-            location.href = "/trabajadores/lista";
-          }
-      });
+      title: "¡Éxito!",
+      text: mensaje,
+      type: "success",
+      closeOnConfirm: false
+    }, function(isConfirm){
+      if (isConfirm) {
+        location.href = "/trabajadores/lista";
+      }
+    });
   }
 
   function agregarInputFechas(){
+    $("#divFechas").remove();
+
+    var htmlSelectTiempo="";
+    htmlSelectTiempo=
+      `<div id="divFechas" name="divFechas">
+        <label for="tiempo">Tiempo: <span class="danger">*</span> </label>
+         <select class="custom-select form-control required" id="tiempo" name="tiempo">
+           <option value=""></option>
+           <option value="3">3 meses</option>
+           <option value="6">6 meses</option>
+           <option value="1">1 año</option>
+         </select>
+       </div>`;
+
+    $("#selectFechas").append(htmlSelectTiempo);
+
     var htmlFechas="";
     htmlFechas=
     `<div class="col-md-6" id="fechasTemporal" name="fechasTemporal">
         <div class="form-group">
             <label for="fecha_inicio">Fecha de inicio: <span class="danger">*</span> </label>
             <input type="date" class="form-control required" id="fecha_inicio" name="fecha_inicio">
+            <div id="validacionFechaInicio" name="validacionFechaInicio">
+            </div>
         </div>
     </div>
     <div class="col-md-6" id="fechasTemporal2" name="fechasTemporal2">
@@ -627,7 +648,9 @@
             <input type="date" class="form-control required" id="fecha_final" name="fecha_final">
         </div>
     </div>`;
+
     $("#fechas").append(htmlFechas);
+    $("#fecha_final").prop('disabled', true);
   }
 
   function tipoTrabajador(bandera){
@@ -640,5 +663,118 @@
       $("#fecha_final").val();
       $("#fechasTemporal").remove();
       $("#fechasTemporal2").remove();
+      $("#tiempo").val();
+      $("#divFechas").remove();
     }
   }
+
+  function calcularTiempoContrato(tiempo, tipo){
+    var fecha_inicio = $("#fecha_inicio").val();
+    var separador = separador || "-";
+    var arrayFecha = fecha_inicio.split(separador);
+    var anio = arrayFecha[0];
+    var mes = arrayFecha[1];
+    var dia = arrayFecha[2];
+
+    var inicio = new Date(anio, mes - 1, dia);
+    var final = inicio;
+    if(tipo=="mes"){
+      final.setMonth(inicio.getMonth()+parseInt(tiempo));
+    }
+    else if(tipo=="año"){
+      final.setFullYear(inicio.getFullYear()+parseInt(tiempo));
+    }
+
+    dia = final.getDate();
+    mes = final.getMonth() + 1;
+    anio = final.getFullYear();
+
+    dia = (dia.toString().length == 1) ? "0" + dia.toString() : dia;
+    mes = (mes.toString().length == 1) ? "0" + mes.toString() : mes;
+
+    var fechaFINAL = anio + "-" + mes + "-" + dia;
+
+    $("#fecha_final").val(fechaFINAL);
+  }
+
+  $('body').on('change', "#tiempo", function(e){
+    var tiempo = $("#tiempo").val();
+    var fecha_inicio = $("#fecha_inicio").val();
+    if(tiempo != ""){
+      if(fecha_inicio != ""){
+        if(tiempo == 1){
+          calcularTiempoContrato(tiempo, 'año');
+        }
+        else{
+          calcularTiempoContrato(tiempo, 'mes');
+        }
+      }
+      else{
+        $("#fecha_final").val("");
+      }
+    }
+    else{
+      $("#fecha_final").val("");
+    }
+  });
+
+  $('body').on('change', "#fecha_inicio", function(e){
+    $('#mensajeVacio').remove();
+    var tiempo = $("#tiempo").val();
+    var fecha_inicio = $("#fecha_inicio").val();
+
+    var hoy = new Date();
+    var h = hoy.toString();
+    var fechaFormulario = new Date(fecha_inicio);
+    var f = fechaFormulario.toString();
+
+    var separador = " ";
+    var fecha1 = h.split(separador);
+    var mes1 = fecha1[1];
+    var dia1 = fecha1[2];
+    var anio1 = fecha1[3];
+
+    var fecha2 = f.split(" ");
+    var mes2 = fecha2[1];
+    var dia2 = fecha2[2];
+    var anio2 = fecha2[3];
+
+    var bandera = 0;
+    if(mes1 == mes2 && dia1 == dia2 && anio1 == anio2){
+      // console.log("es hoy");
+    }
+    else{
+      hoy.setHours(0,0,0,0);
+      fechaFormulario.setHours(0,0,0,0);
+      if (hoy <= fechaFormulario) {
+        // console.log("Fecha a partir de hoy");
+      }
+      else {
+        bandera += 1;
+        // console.log("Fecha pasado");
+        $('#validacionFechaInicio').append(
+          `<label style="color:red;" id="mensajeVacio" name="mensajeVacio" class="control-label">No se pueden ingresar fechas pasadas.</label>`);
+        $("#fecha_final").val("");
+      }
+    }
+
+    // SI LA FECHA ES CORRECTA
+    if(bandera == 0){
+      if(tiempo != ""){
+        if(fecha_inicio != ""){
+          if(tiempo == 1){
+            calcularTiempoContrato(tiempo, 'año');
+          }
+          else{
+            calcularTiempoContrato(tiempo, 'mes');
+          }
+        }
+        else{
+          $("#fecha_final").val("");
+        }
+      }
+      else{
+        $("#fecha_final").val("");
+      }
+    }
+  });

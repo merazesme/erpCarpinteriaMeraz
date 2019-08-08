@@ -50,10 +50,12 @@ Route::prefix('trabajadores')->group(function () {
 			return view('trabajadores/formulario', compact('modulo'));
 		});
 
-		Route::get('/asistencia', function(){
-			$modulo = "Asistencia";
-			return view('trabajadores/asistencia', compact('modulo'));
+		Route::get('/asistencias', function(){
+			$modulo = "Asistencias";
+			return view('trabajadores/asistencias', compact('modulo'));
 		});
+
+		Route::get('asistencias/tabla', 'Asistencias@index');
 
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
@@ -61,9 +63,13 @@ Route::prefix('trabajadores')->group(function () {
 		});
 
 		Route::get('prestamos/tabla', 'Prestamos@index');
-		Route::post('/agregarPrestamo', 'Prestamos@store');
+		Route::post('prestamos/agregarPrestamo', 'Prestamos@store');
 		Route::get('prestamos/trabajadores', 'Prestamos@trabajadores');
 		Route::get('prestamos/verificarFirma/{id}/{firma}', 'Prestamos@verificarFirma');
+		Route::get('prestamos/trabajador/{id}/{estado}', 'Prestamos@edit');
+		Route::post('prestamos/editarPrestamo/{id}', 'Prestamos@update');
+		Route::post('prestamos/agregarMovimiento', 'Prestamos@movimiento');
+		Route::get('prestamos/consultarMovimientos/{id}', 'Prestamos@movimientosPrestamo');
 });
 
 Route::get('/pagosdelmes_lista', function(){
@@ -208,6 +214,9 @@ Route::prefix('/clientes')->group(function () {
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
+
+	Route::get('/cotizaciones/{id}', 'clientes@getCotizaciones');
+	Route::get('/cotizacionSpecific/{id}', 'clientes@getCotizacion');
 });
 
 //Cotizacion vistas y funciones
@@ -245,6 +254,7 @@ Route::prefix('/cotizaciones')->group(function () {
 
 	Route::post('/nuevaCotizacion', 'cotizaciones@store');
 	Route::get('/getCotizaciones', 'cotizaciones@index');
+	Route::post('/cambiarEstado/{id}', 'cotizaciones@updateEstado');
 });
 
 Route::prefix('nomina')->group(function () {
@@ -264,6 +274,18 @@ Route::prefix('nomina')->group(function () {
 		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
 	});
 
+	Route::prefix('nominaVacacional')->group(function () {
+		Route::get('/', function() {
+			$modulo = "Nómina Vacacional";
+			return view('nomina/vacacional/nominaVacacional', compact('modulo'));
+		});
+
+		Route::get('/detalles/{anios}', function($anios){
+			$modulo = "Detalles de Nómina Vacacional";
+			return view('nomina/vacacional/detalles', compact('modulo', 'anios'));
+		});
+
+	});
 });
 
 Route::prefix('roles')->group(function () {

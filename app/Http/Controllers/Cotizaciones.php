@@ -29,7 +29,9 @@ class Cotizaciones extends Controller
         try{
             $data = DB::table('cotizaciones')
                 ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
-                ->select('cotizaciones.id', 'cotizaciones.Descripcion', 'cotizaciones.Estado', 'cotizaciones.Prioridad', 'cotizaciones.Documento', 'cotizaciones.costo', 'clientes.id AS idCliente', 'clientes.Nombre', 'clientes.Apellidos')
+                ->select('cotizaciones.id', 'cotizaciones.Descripcion', 'cotizaciones.Estado', 'cotizaciones.Prioridad', 'cotizaciones.Documento',
+                    'cotizaciones.costo', 'clientes.id AS idCliente', 'clientes.Nombre', 'clientes.Apellidos',
+                    'cotizaciones.fecha_inicio', 'cotizaciones.fecha_fin')
                 ->get();
             return response()->json(json_encode($data));
        }
@@ -127,6 +129,8 @@ class Cotizaciones extends Controller
             $data->Prioridad=$request->input('prioridad');
             $data->Documento=$request->input('documento');
             $data->Costo=$request->input('costo');
+            $data->fecha_inicio=$request->input('fecha_inicio');
+            $data->fecha_fin=$request->input('fecha_fin');
             $data->idUsuario=$request->input('idUsuario');
             $data->Clientes_idCliente=$request->input('idCliente');
 
@@ -294,6 +298,24 @@ class Cotizaciones extends Controller
     {
         //
     }
+
+    public function updateEstado(Request $request, $id)
+    {
+        //
+        try{
+            $data = Cotizacion::find($id);
+
+            $data->Estado=$request->input('selectEstadoCotizacion');
+            $data->idUsuario=$request->input('idUsuario');
+
+            $data->save();
+            return response()->json(json_encode(0));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
 
     public function updateRecomendado(Request $request, $id)
     {

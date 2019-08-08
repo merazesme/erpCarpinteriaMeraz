@@ -126,7 +126,7 @@ function validation(children, parent){
 function validationMensaje(children, parent){
     $("#"+children.attr("id")+"-error").remove();
     if(children.val().length == 0){
-        parent.append(`<label id="${children.attr("id")}-error" class="text-error" for="${children.attr("id")}">Este campo es requerido.</label>`)
+        parent.append(`<label id="${children.attr("id")}-error" class="text-error-itzel" for="${children.attr("id")}">Este campo es requerido.</label>`)
     }
 }
 //
@@ -234,7 +234,7 @@ $('body').on('change', "#selectMateriaPrima", function () {
     if(valor.length > 0){
         $("#selectMateriaPrima-error").remove();
     }else{
-        $("#selectMateriaPrima").parent().append(`<label id="selectMateriaPrima-error" class="text-error" style="display: block;" for="selectMateriaPrima">Este campo es requerido.</label>`);
+        $("#selectMateriaPrima").parent().append(`<label id="selectMateriaPrima-error" class="text-error-itzel" style="display: block;" for="selectMateriaPrima">Este campo es requerido.</label>`);
     }
 });
 
@@ -387,7 +387,7 @@ function nuevoProducto(id){
     }
 
     if($("#selectMateriaPrima").val().length == 0){
-        $("#selectMateriaPrima").parent().append(`<label id="selectMateriaPrima-error" class="text-error" style="display: block;" for="selectMateriaPrima">Este campo es requerido.</label>`);
+        $("#selectMateriaPrima").parent().append(`<label id="selectMateriaPrima-error" class="text-error-itzel" style="display: block;" for="selectMateriaPrima">Este campo es requerido.</label>`);
         banValidation=true;
     }
 
@@ -471,13 +471,13 @@ function initialize_validate_form(tipo, id) {
                     form.valid())
              ) {
                  if($("#selectCliente").val() == -1){
-                     $("#divSelectCliente").append(`<label id="selectCliente-error" class="text-error" style="display: block;" for="selectCliente">Este campo es requerido.</label>`);
+                     $("#divSelectCliente").append(`<label id="selectCliente-error" class="text-error-itzel" style="display: block;" for="selectCliente">Este campo es requerido.</label>`);
                      return false;
                  }
                  return true;
             }else {
                 if($("#selectCliente").val() == -1){
-                    $("#divSelectCliente").append(`<label id="selectCliente-error" class="text-error" style="display: block;" for="selectCliente">Este campo es requerido.</label>`);
+                    $("#divSelectCliente").append(`<label id="selectCliente-error" class="text-error-itzel" style="display: block;" for="selectCliente">Este campo es requerido.</label>`);
                     return false;
                 }
             }
@@ -522,6 +522,8 @@ function guardarCotizacion(){
     datos.append("prioridad",$("#selectPrioridad").val());
     datos.append("costo",costo);
     datos.append("documento","proximamente.docx");
+    datos.append("fecha_inicio", $("#fechaInicio").val());
+    datos.append("fecha_fin", $("#fechaFin").val());
     datos.append("_token", token);
     datos.append("idUsuario", "1");
 
@@ -567,7 +569,7 @@ function guardarCotizacion(){
 function agregarProductoCotizacion(){
     var ban = false;
     if($("#selectProductos").val() == "-1"){
-        $("#selectProductos").parent().append(`<label id="selectProductos-error" class="text-error" for="selectProductos">Este campo es requerido.</label>`)
+        $("#selectProductos").parent().append(`<label id="selectProductos-error" class="text-error-itzel" for="selectProductos">Este campo es requerido.</label>`)
         ban = true;
     }else{
         $("selectProductos-error").remove();
@@ -765,8 +767,49 @@ function llenarTablaProductos(){
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         /*Funciones de mostrar datos*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
-$(".detalleCotizacion").click(function(e){
+$("body").on("click", ".detalleCotizacion", function(e){
     e.preventDefault();
+    var id = $(this).parent().attr("id");
+    console.log($(this).parent().attr("id"));
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/clientes/cotizacionSpecific/'+id,
+        success: function (msg) {
+            var data = JSON.parse(msg)
+            var html = "";
+            for (var i = 0; i < data.length; i++) {
+                var subtotal = parseFloat(data[i].subtotal)*parseFloat(data[i].Cantidad);
+                var total = parseFloat(data[i].total)*parseFloat(data[i].Cantidad);
+                var iva = parseFloat(data[i].iva)*parseFloat(data[i].Cantidad);
+
+                subtotal =parseFloat(subtotal) .toFixed(2);
+                iva =parseFloat(iva) .toFixed(2);
+                total =parseFloat(total) .toFixed(2);
+
+                html +=
+                `<tr>
+                  <td>${data[i].Cantidad}</td>
+                  <td>${data[i].nombreProducto}</td>
+                  <td>${data[i].descripcion}</td>
+                  <td>
+                  <ul>`
+                  for (var j = 0; j < data[i].materiales.length; j++) {
+                      html += `<li>${data[i].materiales[j].Descripcion}</li>`;
+                  }
+
+                html+=`</ul>
+                </td>
+                  <td>$${subtotal}</td>
+                  <td>$${iva}</td>
+                  <td>$${total}</td>
+                </tr>`;
+            }
+            $("#tablaDetalleCotizacion tbody").empty().append(html);
+            $("#modalCotizacion").modal("show");
+        }
+    });
 })
 
 
@@ -779,92 +822,156 @@ function datosCotizaciones(){
         success: function (msg) {
             var data = JSON.parse(msg)
             console.log(data);
-            var html = "";
+            var htmlActivo = "";
+            var htmlTermiado = "";
+            var htmlRecha = "";
+            if(data.length > 0){
+                $("#cotizaciones").DataTable().destroy();
+                $("#cotizacionesTerminadas").DataTable().destroy();
+                $("#cotizacionesRechazadas").DataTable().destroy();
 
-            data.forEach(item =>{
-                var estado = `<span class="badge badge-success">Aceptada</span>`;
-                var mensaje = "En taller"
-                if(item.Estado == 0){
-                    estado = `<span class="badge badge-danger">Rechazada</span>`
-                    mensaje = "Aceptado"
-                } else if(item.Estado == 2){
-                    estado = `<span class="badge badge-warning">En taller</span>`
-                    mensaje = "Terminado"
-                }else if(item.Estado == 3){
-                    estado = `<span class="label label-light-success">Por confirmar</span>`
-                    mensaje = "Aceptado"
-                }else if(item.Estado == 4){
-                    estado = `<span class="badge badge-info">Terminado</span>`
-                }
+                const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+                data.forEach(item =>{
+                    var html = "";
+                    var estado = `<span class="badge badge-success">Aceptada</span>`;
+                    var mensaje = "En taller"
+                    if(item.Estado == 0){
+                        estado = `<span class="badge badge-danger">Rechazada</span>`
+                        mensaje = "Cambiar estado a Aceptado"
+                    } else if(item.Estado == 2){
+                        estado = `<span class="badge badge-warning">En taller</span>`
+                        mensaje = "Cambiar estado a Terminado"
+                    }else if(item.Estado == 3){
+                        estado = `<span class="label label-light-success">Por confirmar</span>`
+                        mensaje = "Cambiar estado"
+                    }else if(item.Estado == 4){
+                        estado = `<span class="badge badge-info">Terminado</span>`
+                    }
 
-                var cambiarEstado = `<a class="cambiarEstado" href="#" data-toggle="tooltip" data-original-title="Cambiar estado a ${mensaje}"> <i class="text-primary icon-note"></i> </a>`
-                if(item.Estado == 4){
-                    cambiarEstado="";
-                }
-                var total = parseFloat(item.costo).toFixed(2);
+                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note"></i></a>`
+                    if(item.Estado == 4){
+                        cambiarEstado="";
+                    }
+                    var total = parseFloat(item.costo).toFixed(2);
 
-                prioridad = `<span class="badge badge-primary">Alta</span>`
-                if(item.Prioridad == 2){
-                    prioridad = `<span class="badge badge-info">Media</span>`
-                }else if(item.Prioridad == 1){
-                    prioridad = `<span class="badge badge-inverse">Baja</span>`
-                }
+                    prioridad = `<span class="badge badge-primary">Alta</span>`
+                    if(item.Prioridad == 2){
+                        prioridad = `<span class="badge badge-info">Media</span>`
+                    }else if(item.Prioridad == 1){
+                        prioridad = `<span class="badge badge-inverse">Baja</span>`
+                    }
 
-                html += `
-                <tr>
-                    <td>03-Agosto-19</td>
-                    <td>${item.Descripcion}</td>
-                    <td>${estado}</td>
-                    <td>${item.Nombre +" "+ item.Apellidos}</td>
-                    <td>$${total}</td>
-                    <td>${prioridad}</td>
-                    <td class="text-nowrap" id="${item.id}">
-                        <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
-                        <a class="eliminarCotizacion" href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="icon-close text-danger m-r-10"></i> </a>
-                        <span data-toggle="modal" data-target="#modalCotizacion">
-                          <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye m-r-10"></i> </a>
-                       </span>
-                       ${cambiarEstado}
-                    </td>
-                </tr>`
+                    let fecha_inicio = '<i class="mdi mdi-minus"></i>'
+                    let fecha_fin = '<i class="mdi mdi-minus"></i>'
+                    if(item.fecha_inicio){
+                        let fecha = new Date(item.fecha_inicio)
+                        fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
+
+                    if(item.fecha_fin){
+                        let fecha = new Date(item.fecha_fin)
+                        fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
+
+                    html += `
+                    <tr>
+                        <td>${fecha_inicio}</td>
+                        <td>${fecha_fin}</td>
+                        <td>${item.Descripcion}</td>
+                        <td>${estado}</td>
+                        <td>${item.Nombre +" "+ item.Apellidos}</td>
+                        <td>$${total}</td>
+                        <td>${prioridad}</td>
+                        <td class="text-nowrap" id="${item.id}">
+                            <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+                            <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
+                            ${cambiarEstado}
+                        </td>
+                    </tr>`
+
+                    if(item.Estado == 4){
+                        htmlTermiado += html;
+                    }else if(item.Estado == 0){
+                        htmlRecha += html;
+                    }else {
+                        htmlActivo += html;
+                    }
+                });
+                $("#cotizaciones tbody").empty().append(htmlActivo);
+                $("#cotizacionesTerminadas tbody").empty().append(htmlTermiado);
+                $("#cotizacionesRechazadas tbody").empty().append(htmlRecha);
+            }
+
+
+
+            $("#cotizacionesTerminadas").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
             });
 
-            $("#cotizaciones").DataTable().clear();
-			$("#cotizaciones").DataTable().destroy();
+            $("#cotizacionesRechazadas").DataTable({
+              dom: 'Bfrtip',
+              buttons: ['excel', 'pdf', 'print']
+            });
 
             $("#cotizaciones").DataTable({
               dom: 'Bfrtip',
               buttons: ['excel', 'pdf', 'print']
             });
 
-            $("#cotizaciones tbody").empty().append(html);
         }
     });
 }
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
-                                                                        /*Funciones de eliminar cotización*/
+                                                                        /*Funciones de cambiar estado cotización*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-$(".eliminarCotizacion").click(function(e){
+$("body").on("click", ".cambiarEstado", function(e){
     e.preventDefault();
-    Swal.fire({
-        title: "¿Deseas eliminar la cotización?",
-        // text: "No podrás recuperarlo",
-        type: "error",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Eliminar",
-        cancelButtonText: "Cancelar",
-        closeOnConfirm: false,
-        closeOnCancel: true
-    }, function(isConfirm){
-        if (isConfirm) {
-            mensaje("Eliminado", "La cotización ha sido eliminada con éxito", "success");
+    var id = $(this).parent().attr("id");
+    var estado  = $(this).attr("estado");
+
+    $("#selectEstadoCotizacion").val(estado)
+    $("#botonModalEstadoCotizacion").attr("onclick", "cambiarEstadoCotizacion("+id+")");
+    $("#modalEstado").modal("show")
+})
+
+function cambiarEstadoCotizacion(id){
+    console.log(id);
+    var titulo = "Cambiar estado"
+    if(!id){
+        mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+        return;
+    }
+
+    var datos = new FormData(document.querySelector('#formEstadoCotizacion'));
+    datos.append("idUsuario", "1");
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: datos,
+        dataType: false,
+        enctype: 'multipart/form-data',
+        url: base_url+'/cotizaciones/cambiarEstado/'+id,
+        success: function(msg){
+            var data = JSON.parse(msg)
+            if(data == 0){
+                $('#modalEstado').modal('hide')
+                mensaje(titulo, "Se ha actualizado el estado con éxito.", "success");
+                datosCotizaciones();
+            }else{
+                mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+            }
+        }, error: function(error) {
+            mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
         }
     });
-})
+}
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         /*Funciones de modificar datos*/

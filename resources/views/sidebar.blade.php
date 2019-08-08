@@ -71,7 +71,7 @@
                         </a>
                         <ul aria-expanded="false" class="collapse">
                             <li><a href="/trabajadores/lista">Listado</a></li>
-                            <li><a href="/trabajadores/asistencia">Asistencia</a></li>
+                            <li><a href="/trabajadores/asistencias">Asistencias</a></li>
                             <li><a href="/trabajadores/prestamos">Prestamos</a></li>
                         </ul>
                     </li>
@@ -159,7 +159,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" aria-expanded="false">
+                        <a href="/configuraciones" aria-expanded="false">
                             <i class="mdi mdi-settings"></i>
                             <span class="hide-menu">Configuraciones</span>
                         </a>

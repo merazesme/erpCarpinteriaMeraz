@@ -5,6 +5,7 @@ var historial = [];
 $(document).on('click','#historial', function() {
     $("#myTable").DataTable().destroy();
     $("#myTable" ).remove();
+    console.log(tipo)
     obtieneDatosHistorial(tipo);
 });
 
@@ -20,13 +21,17 @@ function obtieneDatosHistorial(tipo) {
           swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
         else {
           historial = data;
-          var nomina = ''
+          var nomina = '';
           switch (tipo) {
             case 'semanal':
                   nomina = 'Semanal';
             break;
             case 'aguinaldo':
                   nomina = 'Aguinaldo';
+            break;
+            case 'vacacional':
+                  nomina = 'Vacacional';
+            break;
             default:
             break;
           }
@@ -77,5 +82,30 @@ function muestraHistorial(tipo) {
   $( ".tablaHistorial" ).append(html);
   $('#myTable').DataTable({
     "order": [[ 1, "desc" ]]
+  });
+}
+
+// Imprime las tablas que no tienen columnas ocultas
+function imprime() {
+  $('#nomina').DataTable({
+      dom: 'Bfrtip',
+      buttons: [{
+          extend: 'copyHtml5',
+          title: `Carpintería Meraz | Nómina ${tipo} | ${anio}`,
+          footer: true
+      },
+      {
+          extend: 'excelHtml5',
+          title: `Carpintería Meraz | Nómina ${tipo} | ${anio}`,
+          filename: `Nomina-${tipo}-excel-${anio}`,
+          footer: true
+      },
+      {
+          extend: 'pdfHtml5',
+          text: 'PDF',
+          title: `Carpintería Meraz | Nómina ${tipo} | ${anio}`,
+          filename: `Nomina-${tipo}-${anio}`,
+          footer: true
+      }]
   });
 }

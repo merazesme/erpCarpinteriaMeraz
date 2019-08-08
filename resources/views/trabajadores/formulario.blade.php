@@ -145,84 +145,93 @@
 															<section>
 																<br>
 																<div class="row">
-																	<label class="col-md-6">Tipo de contrato: <span class="danger">*</span> </label>
-																			<div class="col-md-9">
-																					<div class="radio-list">
-																							<label class="custom-control custom-radio">
-																									<input type="radio" id="tipo_temporal" name="tipo" value="Temporal" class="custom-control-input" onclick="tipoTrabajador(1)">
-																									<span class="custom-control-indicator"></span>
-																									<span class="custom-control-description">Temporal</span>
-																							</label>
-																							<label class="custom-control custom-radio">
-																									<input type="radio" id="tipo_base" name="tipo" value="Base" class="custom-control-input" onclick="tipoTrabajador(2)">
-																									<span class="custom-control-indicator"></span>
-																									<span class="custom-control-description">Base</span>
-																							</label>
-																					</div>
+																	<div class="col-md-6">
+																			<div class="form-group">
+																				<label>Tipo de contrato: <span class="danger">*</span> </label>
+																						<div class="col-md-9">
+																								<div class="radio-list">
+																										<label class="custom-control custom-radio">
+																												<input type="radio" id="tipo_temporal" name="tipo" value="Temporal" class="custom-control-input" onclick="tipoTrabajador(1)">
+																												<span class="custom-control-indicator"></span>
+																												<span class="custom-control-description">Temporal</span>
+																										</label>
+																										<label class="custom-control custom-radio">
+																												<input type="radio" id="tipo_base" name="tipo" value="Base" class="custom-control-input" onclick="tipoTrabajador(2)">
+																												<span class="custom-control-indicator"></span>
+																												<span class="custom-control-description">Base</span>
+																										</label>
+																								</div>
+																						</div>
 																			</div>
 																	</div>
-																	<div class="row" id="fechas" name="fechas">
-	                                    <!-- SE AGREGAN EN TRABAJADORES.JS -->
+																	<div class="col-md-6">
+																		<div id="selectFechas" name="selectFechas" class="form-group">
+																			<!-- SE AGREGAN EN TRABAJADORES.JS -->
+																		</div>
 																	</div>
-																	<div class="row">
-																		<div class="col-md-6">
-																        <div class="form-group">
-																						<label for="puesto">Puesto: <span class="danger">*</span> </label>
-																						<input type="text" class="form-control required" id="puesto" name="puesto">
-																        </div>
-																    </div>
-																    <div class="col-md-6">
-																        <div class="form-group">
-																						<label for="sueldo">Sueldo: <span class="danger">*</span> </label>
-																						<div class="input-group">
-		                                            <span class="input-group-addon">$</span>
-		                                            <span class="input-group-addon">0.00</span>
-																								<input type="text" class="form-control required" id="sueldo" name="sueldo">
-                                        		</div>
-																        </div>
-																    </div>
-																	</div>
-																	<div class="row">
-																		<div class="col-md-4">
-																        <div class="form-group">
-																						<label for="hora_extra">Hora extra: <span class="danger">*</span> </label>
-																						<div class="input-group">
-		                                            <span class="input-group-addon">$</span>
-		                                            <span class="input-group-addon">0.00</span>
-		                                            <input type="text" class="form-control required" id="hora_extra" name="hora_extra">
-                                        		</div>
-																        </div>
-																    </div>
-																    <div class="col-md-4">
-																        <div class="form-group">
-																						<label for="bono_asistencia">Bono asistencia: <span class="danger">*</span> </label>
-																						<div class="input-group">
-		                                            <span class="input-group-addon">$</span>
-		                                            <span class="input-group-addon">0.00</span>
-																								<input type="text" class="form-control required" id="bono_asistencia" name="bono_asistencia">
-                                        		</div>
-																        </div>
-																    </div>
-																		<div class="col-md-4">
-																        <div class="form-group">
-																						<label for="bono_extra">Bono extra: <span class="danger">*</span> </label>
-																						<div class="input-group">
-		                                            <span class="input-group-addon">$</span>
-		                                            <span class="input-group-addon">0.00</span>
-																								<input type="text" class="form-control required" id="bono_extra" name="bono_extra">
-                                        		</div>
-																        </div>
-																    </div>
-																	</div>
-																	<div class="row">
-																    <div class="col-md-6">
-																        <div class="form-group">
-																						<label for="firma">Firma trabajador: <span class="danger">*</span> </label>
-																						<input type="password" class="form-control required input-number" id="firma" name="firma">
-																						<p id="validarFirma" style="color:red;">Es necesario que el trabajador ingrese una firma de 6 números.</p>
-																        </div>
-																    </div>
-																	</div>
+																</div>
+																<div class="row" id="fechas" name="fechas">
+                                    <!-- SE AGREGAN EN TRABAJADORES.JS -->
+																</div>
+																<div class="row">
+																	<div class="col-md-6">
+															        <div class="form-group">
+																					<label for="puesto">Puesto: <span class="danger">*</span> </label>
+																					<input type="text" class="form-control required" id="puesto" name="puesto">
+															        </div>
+															    </div>
+															    <div class="col-md-6">
+															        <div class="form-group">
+																					<label for="sueldo">Sueldo: <span class="danger">*</span> </label>
+																					<div class="input-group">
+	                                            <span class="input-group-addon">$</span>
+	                                            <span class="input-group-addon">0.00</span>
+																							<input type="text" class="form-control required" id="sueldo" name="sueldo">
+                                      		</div>
+															        </div>
+															    </div>
+																</div>
+																<div class="row">
+																	<div class="col-md-4">
+															        <div class="form-group">
+																					<label for="hora_extra">Hora extra: <span class="danger">*</span> </label>
+																					<div class="input-group">
+	                                            <span class="input-group-addon">$</span>
+	                                            <span class="input-group-addon">0.00</span>
+	                                            <input type="text" class="form-control required" id="hora_extra" name="hora_extra">
+                                      		</div>
+															        </div>
+															    </div>
+															    <div class="col-md-4">
+															        <div class="form-group">
+																					<label for="bono_asistencia">Bono asistencia: <span class="danger">*</span> </label>
+																					<div class="input-group">
+	                                            <span class="input-group-addon">$</span>
+	                                            <span class="input-group-addon">0.00</span>
+																							<input type="text" class="form-control required" id="bono_asistencia" name="bono_asistencia">
+                                      		</div>
+															        </div>
+															    </div>
+																	<div class="col-md-4">
+															        <div class="form-group">
+																					<label for="bono_extra">Bono extra: <span class="danger">*</span> </label>
+																					<div class="input-group">
+	                                            <span class="input-group-addon">$</span>
+	                                            <span class="input-group-addon">0.00</span>
+																							<input type="text" class="form-control required" id="bono_extra" name="bono_extra">
+                                      		</div>
+															        </div>
+															    </div>
+																</div>
+																<div class="row">
+															    <div class="col-md-6">
+															        <div class="form-group">
+																					<label for="firma">Firma trabajador: <span class="danger">*</span> </label>
+																					<input type="password" class="form-control required input-number" id="firma" name="firma">
+																					<p id="validarFirma" style="color:red;">Es necesario que el trabajador ingrese una firma de 6 números.</p>
+															        </div>
+															    </div>
+																</div>
 	                            </section>
 	                        </form>
 	                    </div>

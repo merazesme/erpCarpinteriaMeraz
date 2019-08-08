@@ -5,11 +5,12 @@ $(document).ready(function() {
   var botonGenerar = `<button id="genera" type="button" class="btn waves-effect waves-light btn-primary"><i class="fa fa-plus"></i> Generar nómina</button>`;
   var trabajadores = [];
   // Consulta si esta el anio guardado
-  $('#anio-aguinaldo').text(`Aguinaldos de ${anio}`);
+  //ALTER TABLE `nominas` CHANGE `Semana` `Semana` VARCHAR(11) NOT NULL;
+  $('#anio-vacacional').text(`Vacaciones ${anioAnterior} - ${anioActual}`);
   $.ajax({
     type: "GET",
     dataType: "json",
-    url: 'nominaSemanal/confirma/'+anio,
+    url: `nominaSemanal/confirma/${anioAnterior}-${anioActual}`,
     success: function (data) {
         if(data['Error'])
           swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -24,60 +25,63 @@ $(document).ready(function() {
   // Funcion que hace los calculos y genera las filas de la tabla
   function muestra() {
     var tamanio = trabajadores.length;
-    var totalSubtotal = 0, totalBonoExtra = 0, totalBonoPyA = 0, total = 0;
+    var totalSueldoBase = 0, totalVacaciones = 0, totalPrima = 0, totalBonoExtra = 0, totalInfonavit = 0, total = 0;
     var html =
      `<table id="nomina" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
          <thead>
              <tr>
                <th>Nombre</th>
-               <th>Dias Trabajados</th>
                <th>Sueldo Base</th>
-               <th>Subtotal</th>
+               <th>Vacaciones 3 días</th>
+               <th>25% Prima</th>
                <th>Bono Extra</th>
-               <th>Bono P y A</th>
+               <th>Infonavit</th>
                <th>Total</th>
              </tr>
          </thead>
         <tbody>`;
     for(var x=0; x<tamanio; x++) {
-        var tr = trabajadores[x];
-        // Falta este
-        // bonoExtra
-        // bonoPyA
+       var tr = trabajadores[x];
+       tr.dias = 3;
        tr.Nomina = {
           xPercepciones: {
-            'Bono P y A': tr.bonoPyA = 0,
-            'Subtotal': tr.subtotal = Math.round(  (tr.Sueldo * 2) / 365 * tr.Asistencia_total ),
-            'Bono Extra': tr.bonoExtra = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.subtotal )
+            'Vacaciones': Math.round( tr.Sueldo / 6 * tr.dias ),
+            'Bono Extra': 0 // ?
+          },
+          xDeducciones: {
+             'Infonavit': tr.Infonavit
           }
         };
+        tr.Nomina.xPercepciones['Prima'] = Math.round( tr.Nomina.xPercepciones['Vacaciones'] * 0.25 );
 
-        tr.xTotal = tr.Nomina.xPercepciones['Subtotal'] + tr.Nomina.xPercepciones['Bono Extra'] + tr.Nomina.xPercepciones['Bono P y A'];
+        tr.xTotal = tr.Nomina.xPercepciones['Vacaciones'] + tr.Nomina.xPercepciones['Prima'] + tr.Nomina.xPercepciones['Bono Extra'] - tr.Infonavit;
 
-        totalSubtotal += tr.Nomina.xPercepciones['Subtotal'];
+        totalSueldoBase += tr.Sueldo;
+        totalVacaciones += tr.Nomina.xPercepciones['Vacaciones'];
+        totalPrima += tr.Nomina.xPercepciones['Prima'];
         totalBonoExtra += tr.Nomina.xPercepciones['Bono Extra'];
-        totalBonoPyA += tr.Nomina.xPercepciones['Bono P y A'];
+        totalInfonavit += tr.Infonavit;
         total += tr.xTotal;
 
         html += `<tr>
                     <td>${tr.Nombre} ${tr.Apellidos}</td>
-                    <td>${tr.Asistencia_total}</td>
                     <td>${tr.Sueldo}</td>
-                    <td>${tr.Nomina.xPercepciones['Subtotal']}</td>
+                    <td>${tr.Nomina.xPercepciones['Vacaciones']}</td>
+                    <td>${tr.Nomina.xPercepciones['Prima']}</td>
                     <td>${tr.Nomina.xPercepciones['Bono Extra']}</td>
-                    <td>${tr.Nomina.xPercepciones['Bono P y A']}</td>
+                    <td>${tr.Infonavit}</td>
                     <td>${tr.xTotal}</td>
                 </tr>`;
     }
     html += `<tbody>
               <tfoot>
                 <tr>
-                  <th></th>
-                  <th></th>
                   <th>Totales</th>
-                  <th>${totalSubtotal}</th>
+                  <th>${totalSueldoBase}</th>
+                  <th>${totalVacaciones}</th>
+                  <th>${totalPrima}</th>
                   <th>${totalBonoExtra}</th>
-                  <th>${totalBonoPyA}</th>
+                  <th>${totalInfonavit}</th>
                   <th>${total}</th>
                 </tr>
               </tfoot>
@@ -130,8 +134,8 @@ $(document).ready(function() {
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,
-           'semana': anio,
-           'tipo': 'aguinaldo'
+           'semana': `${anioAnterior}-${anioActual}`,
+           'tipo': 'vacacional'
          },
          success: function(data) {
              console.log(data);
