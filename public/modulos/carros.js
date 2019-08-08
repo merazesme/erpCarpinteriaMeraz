@@ -1,15 +1,19 @@
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-    initialize_data_table('#table_carros');
-    datos_carros();
+    iniciarDataTable('#table_carros');
+    $('#carro_trabajador').select2();
+    datosCarros();
 });
-function datos_carros() {
+
+let arrayCarros       = [];
+let arrayTrabajadores = [];
+
+function datosCarros() {
     $.ajax({
         type: 'GET',
         url: 'carro/data',
         dataType: 'JSON'
     }).done(function(datos) {
-        console.log(datos);
         if(datos.length == 0) {
             alerta_temporizador(
                 'warning',
@@ -18,38 +22,9 @@ function datos_carros() {
                 3000
             );
         } else {
-            $('#table_carros').DataTable().clear();
-            $('#table_carros').DataTable().destroy();
-            datos.forEach(item => {
-                var estatus = item.Estado == 0
-                ? {
-                    color: 'color-elegant-blue-green',
-                    icono: '<i class="fa fa-toggle-on"></i>',
-                    label: 'Clic para desactivar carro'
-                }
-                : {
-                    color: 'text-danger',
-                    icono: '<i class="fa fa-toggle-off"></i>',
-                    label: 'Clic para activar carro'
-                };
-                $('#table_carros tbody').append(`
-                    <tr role="row">
-                        <td>#</td>
-                        <td>${item.Marca}</td>
-                        <td>${item.Modelo}</td>
-                        <td>${item.Chofer}</td>
-                        <td style="cursor:pointer" class="color-elegant-blue" onclick="#(${item.id})" 
-                            data-toggle="tooltip" data-placement="top" title="Clic para editar">
-                            <i class="mdi mdi-lead-pencil"></i>
-                        </td>
-                        <td style="cursor:pointer" class="${estatus.color}" data-toggle="tooltip" data-placement="top" onclick="cambiar_estatus(${item.id})"
-                            title="${estatus.label}" >
-                            ${estatus.icono}
-                        </td>
-                    </tr>
-                `);
-            });
-            initialize_data_table('#table_carros');
+            arrayCarros = datos;
+            limpiarDataTable('#table_carros');
+            crearTablaCarros(arrayCarros);
         }
     }).fail(function(err) {
         alerta_temporizador(
@@ -58,27 +33,110 @@ function datos_carros() {
             'Ha ocurrido un error al extraer los registros, inténtelo más tarde.',
             3000
         );
-    })
+    }).always(datosTrabajadores());
 }
-function datos_proveedor_especifico(id) {
+function datosTrabajadores() {
     $.ajax({
         type: 'GET',
-        url: '/proveedores/especifico/'+id
-    }).done(function(dato) {
-        $('#proveedor_nombre')  .val(dato.Nombre);
-        $('#proveedor_rfc')     .val(dato.RFC);
-        $('#proveedor_correo')  .val(dato.Email);
-        $('#proveedor_telefono').val(dato.Telefono);
-    })
+        url: 'carro/dataTrabajadores',
+        dataType: 'JSON'
+    }).done(function(datos) {
+        if(datos.length !== 0) {
+            arrayTrabajadores = datos;
+            crearOpcionesTrabajadores(arrayTrabajadores);
+        }
+    });
 }
-function guardar_proveedor() {
-    var datos = new FormData(document.querySelector("#proveedor_form"));
+function abrirModalAgregarCarro(id) {
+    console.table(arrayCarros);
+    console.table(arrayTrabajadores);
+    if(id) {
+        $('#agregar_registro').attr('onclick', `editarCarro(${id})`);
+        /** Buscar el registro */
+        const carro      = arrayCarros.find(item => item.id === id);
+        const trabajador = arrayTrabajadores.find(item => item.id === carro.idTrabajador);
+
+        console.log(trabajador);
+
+        $('#carro_marca') .val(carro.Marca);
+        $('#carro_modelo').val(carro.Modelo);
+        $('#carro_placas').val(carro.placa);
+        if(trabajador) $('#carro_trabajador').select2('val', [trabajador.id]);
+        else           $('#carro_trabajador').select2('val', ['']);
+    } else {
+        $('#agregar_registro').attr('onclick', `agregarCarro()`);
+        $('#carro_trabajador').select2('val', ['']);
+    }
+    $('#modal_agregar_carro').modal('show');
+}
+function iniciarDataTable(id) {
+    $(id).DataTable({
+        dom: 'Bfrtip',
+        buttons: ['excel', 'pdf', 'print']
+    });
+}
+function limpiarDataTable(id) {
+    $(id).DataTable().clear();
+    $(id).DataTable().destroy();
+}
+function crearTablaCarros(datos) {
+    datos.forEach(item => {
+        var estatus = item.Estado == 0
+        ? {
+            color: 'color-elegant-blue-green',
+            icono: '<i class="fa fa-toggle-on"></i>',
+            label: 'Clic para desactivar carro'
+        }
+        : {
+            color: 'text-danger',
+            icono: '<i class="fa fa-toggle-off"></i>',
+            label: 'Clic para activar carro'
+        };
+        var trTrabajador;
+        if(item.idTrabajador)
+            trTrabajador = `<td id="trabajador_${item.idTrabajador}"></td>`;
+        else
+            trTrabajador = `<td><em>Sin trabajador asignado</em></td>`;
+        $('#table_carros tbody').append(`
+            <tr role="row">
+                <td>#${item.placa}</td>
+                <td>${item.Marca}</td>
+                <td>${item.Modelo}</td>
+                ${trTrabajador}
+                <td style="cursor:pointer" class="color-elegant-blue" onclick="abrirModalAgregarCarro(${item.id})" 
+                    data-toggle="tooltip" data-placement="top" title="Clic para editar">
+                    <i class="mdi mdi-lead-pencil"></i>
+                </td>
+                <td style="cursor:pointer" class="${estatus.color}" data-toggle="tooltip" data-placement="top" onclick="cambiarEstatus(${item.id})"
+                    title="${estatus.label}" >
+                    ${estatus.icono}
+                </td>
+            </tr>
+        `);
+    });
+}
+function crearOpcionesTrabajadores(datos) {
+    datos.forEach(item => {
+        item.Nombre    = item.Nombre    || "";
+        item.Apellidos = item.Apellidos || "";
+        if(($(`#carro_trabajador option[value=${item.id}]`)).length <= 0){
+            /** Agregar opción */
+            $('#carro_trabajador optgroup').append(`
+                <option value="${item.id}">${item.Nombre} ${item.Apellidos}</option>
+            `);
+        }
+        $(`#trabajador_${item.id}`).html(item.Nombre + item.Apellidos);
+    });
+    iniciarDataTable('#table_carros');
+}
+function agregarCarro() {
+    var datos = new FormData(document.querySelector("#carro_form"));
     Swal.fire({
         onOpen: function () {
             Swal.showLoading()
             $.ajax({
                 type: 'POST',
-                url: '/proveedores/agregar/proveedor',
+                url: '/carro/agregar',
                 data: datos,
                 contentType: false,
             	processData: false,
@@ -88,11 +146,12 @@ function guardar_proveedor() {
                 if(resp == 'true') {
                     alerta_temporizador(
                         'success',
-                        'Proveedor',
-                        'El proveedor ha sido agregado con éxito',
+                        'Carros',
+                        'El carro ha sido agregado con éxito',
                         2500
                     );
-                    reset_form('.validation-wizard');
+                    datosCarros();
+                    resetForm();
                 } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
@@ -103,15 +162,15 @@ function guardar_proveedor() {
                 } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
-                        'Proveedor',
-                        'Debe ingresar todos los campos para poder registrar el proveedor.',
+                        'Carros',
+                        'Debe ingresar todos los campos obligatorios (*) para poder registrar el carro.',
                         2500
                     );
                 } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
-                        'Proveedor',
-                        'Ha ocurrido un error al guardar el proveedor. Inténtelo más tarde.',
+                        'Carros',
+                        'Ha ocurrido un error al guardar el carro. Inténtelo más tarde.',
                         2500
                     );
                 }
@@ -120,21 +179,21 @@ function guardar_proveedor() {
                 alerta_temporizador(
                     'error',
                     `Error: ${err}`,
-                    'Ha ocurrido un error agregando el proveedor. Inténtelo más tarde',
+                    'Ha ocurrido un error agregando el carro. Inténtelo más tarde',
                     2500
                 );
             });
         }
     })
 }
-function actualizar_proveedor(id) {
-    var datos = new FormData(document.querySelector("#proveedor_form"));
+function editarCarro(id) {
+    var datos = new FormData(document.querySelector("#carro_form"));
     Swal.fire({
         onOpen: function () {
             Swal.showLoading()
             $.ajax({
                 type: 'POST',
-                url: '/proveedores/actualizar/proveedor/'+id,
+                url: '/carro/actualizar/'+id,
                 data: datos,
                 contentType: false,
             	processData: false,
@@ -144,12 +203,19 @@ function actualizar_proveedor(id) {
                 if(resp == 'true') {
                     alerta_temporizador(
                         'success',
-                        'Proveedor',
-                        'El proveedor ha sido actualizado con éxito',
+                        'Carros',
+                        'El carro ha sido actualizado con éxito',
                         2500
                     );
-                    reset_form('.validation-wizard');
-                    datos_proveedor_especifico(id);
+                    /** Actualizar el registro en el arreglo */
+                    const indice = arrayCarros.findIndex(item => item.id == id);
+                    arrayCarros[indice].Marca  = $('#carro_marca').val();
+                    arrayCarros[indice].Modelo = $('#carro_modelo').val();
+                    arrayCarros[indice].placa  = $('#carro_placas').val();
+                    if($('#carro_trabajador').val() == "") arrayCarros[indice].idTrabajador = null;
+                    else arrayCarros[indice].idTrabajador = parseInt($('#carro_trabajador').val(), 10);
+                    resetForm();
+                    reiniciarDatos();
                 } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
@@ -160,15 +226,15 @@ function actualizar_proveedor(id) {
                 } else if(resp == 'empty') {
                     alerta_temporizador(
                         'error',
-                        'Proveedor',
-                        'Debe ingresar todos los campos para poder actualizar el proveedor.',
+                        'Carros',
+                        'Debe ingresar todos los campos obligatorios (*) para poder actualizar el carro.',
                         2500
                     );
                 } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
-                        'Proveedor',
-                        'Ha ocurrido un error al actualizar el proveedor. Inténtelo más tarde.',
+                        'Carros',
+                        'Ha ocurrido un error al actualizar el carro. Inténtelo más tarde.',
                         2500
                     );
                 }
@@ -177,14 +243,14 @@ function actualizar_proveedor(id) {
                 alerta_temporizador(
                     'error',
                     `Error: ${err}`,
-                    'Ha ocurrido un error actualizando el proveedor. Inténtelo más tarde',
+                    'Ha ocurrido un error actualizando el carro. Inténtelo más tarde',
                     2500
                 );
             });
         }
     })
 }
-function cambiar_estatus(id) {
+function cambiarEstatus(id) {
     var datos = new FormData();
         datos.append('_token', token);
     Swal.fire({
@@ -192,7 +258,7 @@ function cambiar_estatus(id) {
             Swal.showLoading()
             $.ajax({
                 type: 'POST',
-                url: '/proveedores/actualizar/proveedor/estatus/'+id,
+                url: '/carro/actualizar/estatus/'+id,
                 data: datos,
                 contentType: false,
             	processData: false,
@@ -202,11 +268,14 @@ function cambiar_estatus(id) {
                 if(resp == 'true') {
                     alerta_temporizador(
                         'success',
-                        'Proveedor',
-                        'El estado del proveedor ha sido actualizado con éxito.',
+                        'Carros',
+                        'El estado del carro ha sido actualizado con éxito.',
                         2500
                     );
-                    datos_proveedor();
+                    /** Actualizar el registro en el arreglo */
+                    const indice = arrayCarros.findIndex(item => item.id == id);
+                    arrayCarros[indice].Estado = arrayCarros[indice].Estado == 0 ? 1 : 0;
+                    reiniciarDatos();
                 } else if(resp == 'session'){
                     alerta_temporizador(
                         'error',
@@ -217,8 +286,8 @@ function cambiar_estatus(id) {
                 } else if(resp == 'error') {
                     alerta_temporizador(
                         'error',
-                        'Proveedor',
-                        'Ha ocurrido un error al actualizar el estado del proveedor. Inténtelo más tarde.',
+                        'Carros',
+                        'Ha ocurrido un error al actualizar el estado del carro. Inténtelo más tarde.',
                         2500
                     );
                 }
@@ -227,90 +296,21 @@ function cambiar_estatus(id) {
                 alerta_temporizador(
                     'error',
                     `Error: ${err}`,
-                    'Ha ocurrido un error actualizando el proveedor. Inténtelo más tarde',
+                    'Ha ocurrido un error actualizando el carro. Inténtelo más tarde',
                     2500
                 );
             });
         }
     })
 }
-function alerta_temporizador(tipo, titulo, texto, tiempo) {
-    Swal.fire({
-        type: tipo,
-        title: titulo,
-        text: texto,
-        showConfirmButton: false,
-        timer: tiempo
-    });
+function resetForm() {
+    $('#carro_form')[0].reset();
+    $('#carro_trabajador').select2('val', ['']);
 }
-function proveedor_actualizar() {
-    swal("¡Éxito!", "Registro actualizado con éxito", "success");
-}
-function cancelar_registro() {
-    $('#form_proveedor')[0].reset();
-}
-function regresar() {
-    location.href = "/proveedores/lista";
-}
-function reset_form(identifier_form) {
-    $(identifier_form).steps("reset");
-    $(identifier_form)[0].reset();
-}
-function type_data() {
-    var url = (location.href).split("/");
-    if(url[url.length - 1] == "agregar") {
-        initialize_validate_form(1, null);
-    } else if(url[url.length - 2] == "editar"){
-        /** Cargar los datos de registro específico */
-        initialize_validate_form(2, url[url.length - 1]);
-        datos_proveedor_especifico(url[url.length - 1]);
-    } else {
-        /** Cargar los datos de los registros en general */
-        datos_proveedor();
-    }
-}
-function initialize_validate_form(tipo, id) {
-    finish = tipo == 1 ? 'Guardar' : 'Actualizar';
-    $(".validation-wizard").steps({
-        headerTag: "h6"
-        , bodyTag: "section"
-        , transitionEffect: "fade"
-        , titleTemplate: '<span class="step">#index#</span> #title#'
-        , enableCancelButton: true
-        , onCanceled: function (event) {
-            reset_form('.validation-wizard');
-        }
-        , labels: {
-            cancel  : "Cancelar",
-            previous: "Anterior",
-            finish
-        }
-        , onStepChanging: function (event, currentIndex, newIndex) {
-            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
-        }
-        , onFinishing: function (event, currentIndex) {
-            return form.validate().settings.ignore = ":disabled", form.valid()
-        }
-        , onFinished: function (event, currentIndex) {
-            if(tipo == 1) {
-                guardar_proveedor();
-            } else {
-                actualizar_proveedor(id);
-            }
-        }
-    });
-    delete finish;
-    $('a[href*="#cancel"]').css({'background' : '#CC0000'});
-}
-function initialize_data_table(id) {
-    $(id).DataTable({
-        dom: 'Bfrtip',
-        buttons: ['excel', 'pdf', 'print']
-    });
-}
-function enlace_agregar_proveedor() {
-    location.href = "/proveedores/agregar";
-}
-function enlace_editar_proveedor(id) {
-    location.href = "/proveedores/editar/"+id;
+function reiniciarDatos() {
+    /** Tabla de carros */
+    limpiarDataTable('#table_carros');
+    crearTablaCarros(arrayCarros);
+    /** Trabajadores */
+    crearOpcionesTrabajadores(arrayTrabajadores);
 }
