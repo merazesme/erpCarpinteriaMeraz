@@ -62,61 +62,61 @@ $('#tabla_ordenSalidaActivas').on("click",".modificarOrdenSalida", function(e){
         }
   });
 })
-//Accion para eliminar una orden de salida
-// $('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
-//   var id = $(this).parent().attr("data-material");
-//   e.preventDefault();
-//
-//   //El objeto que se envia en el POST
-//   var datos_ordenCompra = ""
-//   datos_ordenCompra = new FormData();
-//   datos_ordenCompra.append("idUsuario", "1");
-//   datos_ordenCompra.append("_token", token);
-//   datos_ordenCompra.append("Estado_Compra", "0");
-//
-//   var url = "";
-//   url = base_url+'/inventario/orden_compra/eliminarorden/'+id;
-//   mensaje = "La orden de compra ha sido eliminado con éxito";
-//   titulo = "Eliminar orden de compra";
-//   swal({
-//       title: "¿Deseas eliminar la orden de compra?",
-//       // text: "No podrás recuperarlo",
-//       type: "error",
-//       showCancelButton: true,
-//       confirmButtonColor: "#DD6B55",
-//       confirmButtonText: "Eliminar",
-//       cancelButtonText: "Cancelar",
-//       closeOnConfirm: false,
-//       closeOnCancel: true
-//   }, function(isConfirm){
-//       if (isConfirm) {
-//         $.ajax({
-//             type: 'POST',
-//             processData: false,
-//             contentType: false,
-//             cache: false,
-//             data: datos_ordenCompra,
-//             dataType: false,
-//             enctype: 'multipart/form-data',
-//             url: url,
-//             success: function(msg){
-//                 var data = JSON.parse(msg)
-//                 if(data == 0){
-//                     swal("Eliminado", mensaje, "success");
-//                     tablaOrdenCompra(0,"#tabla_curso");
-//                     tablaOrdenCompra(1,"#tabla_recibido");
-//                     tablaOrdenCompra(2,"#tabla_cancelado");
-//                     tablaOrdenCompra(3,"#tabla_pagado");
-//                 }else{
-//                     swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-//                 }
-//             }, error: function(error) {
-//                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-//             }
-//         });
-//       }
-//   });
-// })
+//Accion para eliminar una orden de salida (CHECAR)
+$('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
+  var id = $(this).parent().attr("data-material");
+  e.preventDefault();
+
+  //El objeto que se envia en el POST
+  var datos_ordenCompra = ""
+  datos_ordenCompra = new FormData();
+  datos_ordenCompra.append("idUsuario", "1");
+  datos_ordenCompra.append("_token", token);
+  datos_ordenCompra.append("Estado_Compra", "0");
+
+  var url = "";
+  url = base_url+'/inventario/orden_compra/eliminarorden/'+id;
+  mensaje = "La orden de compra ha sido eliminado con éxito";
+  titulo = "Eliminar orden de compra";
+  swal({
+      title: "¿Deseas eliminar la orden de compra?",
+      // text: "No podrás recuperarlo",
+      type: "error",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+      closeOnConfirm: false,
+      closeOnCancel: true
+  }, function(isConfirm){
+      if (isConfirm) {
+        $.ajax({
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: datos_ordenCompra,
+            dataType: false,
+            enctype: 'multipart/form-data',
+            url: url,
+            success: function(msg){
+                var data = JSON.parse(msg)
+                if(data == 0){
+                    swal("Eliminado", mensaje, "success");
+                    tablaOrdenCompra(0,"#tabla_curso");
+                    tablaOrdenCompra(1,"#tabla_recibido");
+                    tablaOrdenCompra(2,"#tabla_cancelado");
+                    tablaOrdenCompra(3,"#tabla_pagado");
+                }else{
+                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                }
+            }, error: function(error) {
+                swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+            }
+        });
+      }
+  });
+})
 
 //Funcion para cargar los datos de agregar nuevo orden de Salida
 function cargarDatosModalAgregarCompra() {
@@ -271,7 +271,28 @@ function nuevoOrdenSalida(para) {
     var titulo = "Nuevo orden de salida";
 
     var nombre_material = $("#select_materialesOrdenSalida").val();
-    console.log("id_material: ", nombre_material);
+    // console.log("id_material: ", nombre_material);
+    // console.log("Primero");
+    // for (var i = 0; i < 2; i++) {
+    //   $.ajax({
+    //       type: "GET",
+    //       dataType: "json",
+    //       enctype: "multipart/form-data",
+    //       url: base_url+'/inventario/orden_salida/lista_materialesExistencia/'+materiales_idMateriale[i],
+    //       success: function (msg) {
+    //               console.log("id: ", id);
+    //               var data = JSON.parse(msg);
+    //               console.log("existencia: ", data);
+    //
+    //             }, error: function(error) {
+    //                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+    //                 //limpiar campos
+    //                 $("#txtDescripcion").val("");
+    //                 $("#txtNotaOrdenSalida").val("");
+    //             }
+    //       });
+    // }
+    //  console.log("segundo");
 
     $.ajax({
         type: 'POST',
@@ -308,7 +329,7 @@ function nuevoOrdenSalida(para) {
                       var materiales_idMateriale = nombre_material[i];
 
                       datos_movmateriales.append("Tipo_mov", "2");
-                      datos_movmateriales.append("cantidad", cantidad); //Dinamico
+                      datos_movmateriales.append("Cantidad", cantidad); //Dinamico
                       datos_movmateriales.append("Fecha", fecha);
                       datos_movmateriales.append("Estado", "1");
                       datos_movmateriales.append("idUsuario", idUsuario);
@@ -324,11 +345,18 @@ function nuevoOrdenSalida(para) {
                       enctype: 'multipart/form-data',
                       url: base_url+'/inventario/orden_salida/agregar_movmateriales',
                       success: function(msg){
-                          var data = JSON.parse(msg)
-                          console.log("data mov_materiales: " , data);
+                          // var data = JSON.parse(msg)
+                          var id = msg.id;
+                          var cantidad = msg.Cantidad;
+                          var existencia = msg.Existencia[0].Existencia;
+                          console.log("data: ", data);
+                          console.log("cantidad: ", cantidad);
+                          console.log("existencia: ", existencia);
+                          var total = existencia - cantidad;
+                          console.log("total: ", total);
                           if(data >= 0){
 
-                            var Mov_materiale_idMov_Materiales = data;
+                            var Mov_materiale_idMov_Materiales = id;
 
                             datos_salidamovmateriales.append("Mov_materiale_idMov_Materiales", Mov_materiale_idMov_Materiales);
                             datos_salidamovmateriales.append("Orden_salida_idOrden_Salidas", Orden_salida_idOrden_Salidas);
@@ -348,14 +376,51 @@ function nuevoOrdenSalida(para) {
                                   console.log("data salida_mov_materiales: " , data);
                                   if(data == 0){
 
-                                    $('#modal_agregar_ordenSalida').modal('hide')
-                                    swal(titulo, mensaje, "success");
-                                    tablaOrdenSalida(0,"#tabla_ordenSalidaActivas");
-                                    tablaOrdenSalida(1,"#tabla_ordenSalidaCancelada");
+                                    // start aaaaaaaaa
+                                    var datos_materiales = "";
+                                    datos_materiales = new FormData();
+                                    datos_materiales.append("_token", token);
+                                    datos_materiales.append("Existencia", total);
+                                    datos_materiales.append("idUsuario", idUsuario);
 
-                                    //limpiar campos
-                                    $("#txtDescripcion").val("");
-                                    $("#txtNotaOrdenSalida").val("");
+                                    $.ajax({
+                                        type: 'POST',
+                                        processData: false,
+                                        contentType: false,
+                                        cache: false,
+                                        data: datos_materiales,
+                                        dataType: false,
+                                        enctype: 'multipart/form-data',
+                                        url: base_url+'/inventario/orden_salida/modificar_existencia/'+id,
+                                        success: function(msg){
+                                            var data = JSON.parse(msg)
+                                            console.log("data update_Existencia: " , data);
+                                            if(data == 0){
+
+                                              $('#modal_agregar_ordenSalida').modal('hide')
+                                              swal(titulo, mensaje, "success");
+                                              tablaOrdenSalida(0,"#tabla_ordenSalidaActivas");
+                                              tablaOrdenSalida(1,"#tabla_ordenSalidaCancelada");
+
+                                              //limpiar campos
+                                              $("#txtDescripcion").val("");
+                                              $("#txtNotaOrdenSalida").val("");
+                                              
+                                              console.log("hecho, ", id);
+                                            }else{
+                                                swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                                //limpiar campos
+                                                $("#txtDescripcion").val("");
+                                                $("#txtNotaOrdenSalida").val("");
+                                            }
+                                        }, error: function(error) {
+                                            swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                                            //limpiar campos
+                                            $("#txtDescripcion").val("");
+                                            $("#txtNotaOrdenSalida").val("");
+                                        }
+                                    });
+                                    // end aaaaaa
 
                                   }else{
                                       swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -401,83 +466,68 @@ function nuevoOrdenSalida(para) {
         }
     });
 
-    console.log("*************");
-    var cantidad = [];
-    var materiales_idMateriale = [];
-    for (var i = 0; i < para; i++) {
-      var t = i+1;
-      cantidad[i] = $("#cantidadOrdenSalida"+t+"").val();
-      materiales_idMateriale[i] = nombre_material[i];
-      }
-      console.log("cantidad ff ",cantidad);
-      console.log("materiales_idMateriale ff ",materiales_idMateriale);
-      var total = [];
-      for (var i = 0; i < materiales_idMateriale.length; i++) {
-        var id = materiales_idMateriale[i];
-        console.log("id exis: ", id);
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            enctype: "multipart/form-data",
-            url: base_url+'/inventario/orden_salida/lista_materialesExistencia/'+id,
-            success: function (msg) {
-                    var data = JSON.parse(msg);
-                    var existencia = data[0].Existencia;
-                    var tem = parseInt(existencia);
-                    var temp2 = cantidad[i];
-                    var eso = parseInt(temp2);
-                    total[i] = tem - eso;
-                    console.log("cuantas");
-                  }, error: function(error) {
-                      swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-                      //limpiar campos
-                      $("#txtDescripcion").val("");
-                      $("#txtNotaOrdenSalida").val("");
-                  }
-            });
-      }
+    // console.log("*************");
+    // var cantidad = [];
+    // var materiales_idMateriale = [];
+    //
+    // for (var i = 0; i < para; i++) {
+    //   var t = i+1;
+    //   cantidad[i] = $("#cantidadOrdenSalida"+t+"").val();
+    //   materiales_idMateriale[i] = nombre_material[i];
+    //   }
+    //
+    //   // console.log("cantidad ff ",cantidad);
+    //   // console.log("materiales_idMateriale ff ",materiales_idMateriale);
+    //   var total = [];
+    //   var existencia = [];
+    //
+    //   for (var i = 0; i < materiales_idMateriale.length; i++) {
+    //     var id = materiales_idMateriale[i];
+    //     // console.log("id exis: ", id);
+    //     // var can = cantidad[i];
+    //     // console.log("cantidad: ", can);
 
-          var datos_materiales = "";
-          datos_materiales = new FormData();
-          datos_materiales.append("_token", token);
-          console.log("total: ", total);
 
-          for (var i = 0; i < total.length; i++) {
-            var id = materiales_idMateriale[i];
-            var to = total[i];
-            console.log("id up: ", id);
-            console.log("to up: ", to);
-            datos_materiales.append("Existencia", to);
-            datos_materiales.append("idUsuario", idUsuario);
-            $.ajax({
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                cache: false,
-                data: datos_materiales,
-                dataType: false,
-                enctype: 'multipart/form-data',
-                url: base_url+'/inventario/orden_salida/modificar_existencia/'+id,
-                success: function(msg){
-                    var data = JSON.parse(msg)
-                    console.log("data update_Existencia: " , data);
-                    if(data == 0){
-                      console.log("hecho");
-                    }else{
-                        swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-                        //limpiar campos
-                        $("#txtDescripcion").val("");
-                        $("#txtNotaOrdenSalida").val("");
-                    }
-                }, error: function(error) {
-                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-                    //limpiar campos
-                    $("#txtDescripcion").val("");
-                    $("#txtNotaOrdenSalida").val("");
-                }
-            });
+          // var datos_materiales = "";
+          // datos_materiales = new FormData();
+          // datos_materiales.append("_token", token);
 
-          }
+          // for (var i = 0; i < total.length; i++) {
+          //   var id = materiales_idMateriale[i];
+          //   var to = total[i];
+          //   console.log("id up: ", id);
+          //   console.log("to up: ", to);
+          //   datos_materiales.append("Existencia", to);
+          //   datos_materiales.append("idUsuario", idUsuario);
+          //   $.ajax({
+          //       type: 'POST',
+          //       processData: false,
+          //       contentType: false,
+          //       cache: false,
+          //       data: datos_materiales,
+          //       dataType: false,
+          //       enctype: 'multipart/form-data',
+          //       url: base_url+'/inventario/orden_salida/modificar_existencia/'+id,
+          //       success: function(msg){
+          //           var data = JSON.parse(msg)
+          //           console.log("data update_Existencia: " , data);
+          //           if(data == 0){
+          //             console.log("hecho");
+          //           }else{
+          //               swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+          //               //limpiar campos
+          //               $("#txtDescripcion").val("");
+          //               $("#txtNotaOrdenSalida").val("");
+          //           }
+          //       }, error: function(error) {
+          //           swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+          //           //limpiar campos
+          //           $("#txtDescripcion").val("");
+          //           $("#txtNotaOrdenSalida").val("");
+          //       }
+          //   });
+          //
+          // }
 
   }else {
     swal("Error", "Por favor llenar todos los campos", "error");

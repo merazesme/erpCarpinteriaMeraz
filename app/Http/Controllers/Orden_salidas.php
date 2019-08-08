@@ -173,7 +173,15 @@ class Orden_salidas extends Controller
 
            $data->save();
            $data->id=$data->id;
-           return response()->json(json_encode($data->id));
+           $Materialid = $request->input('Materiales_idMateriale');
+
+           $material = DB::table('materiales')
+            ->select('materiales.Existencia')
+             ->where('materiales.id', '=', $Materialid)
+              ->get();
+
+           return response()->json(['id'=>$data->id, 'Cantidad' =>$data->Cantidad, 'Existencia' => $material]);
+           // return response()->json(json_encode();
          }
          catch(\Exception $e){
             return response()->json(json_encode(-1));
