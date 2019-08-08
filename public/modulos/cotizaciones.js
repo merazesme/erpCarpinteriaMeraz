@@ -7,15 +7,15 @@ $(document).ready(function() {
     var url = (location.href).split("/");
     if(url[url.length - 1] == "nueva") {
         initialize_validate_form(1, null);
-        cargarClientes();
-        cargarRecomendados();
+        iniciar();
+    } else if(url[url.length - 2] == "modificar"){
+        /** Cargar los datos de registro específico */
+        cargarIVA();
         cargarProductos();
         cargarMateria();
-        cargarIVA();
-    } else if(url[url.length - 2] == "editar"){
-        /** Cargar los datos de registro específico */
-        // initialize_validate_form(2, url[url.length - 1]);
-        // datos_proveedor_especifico(url[url.length - 1]);
+
+        initialize_validate_form(2, url[url.length - 1]);
+        datos_cotizacion_especifica(url[url.length - 1]);
     } else {
         /** Cargar los datos de los registros en general */
         datosCotizaciones();
@@ -23,8 +23,11 @@ $(document).ready(function() {
 });
 
 function iniciar(){
-    $("#selectPrioridad").val(1);
-    $("#descripcion").val("aaaa");
+    cargarClientes();
+    cargarRecomendados();
+    cargarProductos();
+    cargarMateria();
+    cargarIVA();
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -45,7 +48,7 @@ function cargarIVA(){
     });
 }
 
-function cargarRecomendados(){
+function cargarRecomendados(id){
     $.ajax({
 		type: "GET",
 		dataType: "json",
@@ -58,11 +61,19 @@ function cargarRecomendados(){
                 html += `<option value="${data[item].id}">${data[item].Nombre} - ${data[item].Porcentaje}%</option>`
             }
             $("#selectRecomendado").empty().append(html);
+            if(id){
+                $("#selectRecomendado").val(id);
+                $("#selectCliente-error").remove();
+                $("#btnNuevoRecomendado").removeClass("btn-success").addClass("btn-info");
+                $("#btnNuevoRecomendado").empty().append('<i class="fa fa-edit"></i>');
+                $("#btnNuevoRecomendado").attr("data-original-title","Modificar persona de recomendación");
+                $("#btnNuevoRecomendado").attr("onclick","modalAccionRecomanedado("+id+")");
+            }
 		}
 	});
 }
 
-function cargarClientes(){
+function cargarClientes(id){
     $.ajax({
 		type: "GET",
 		dataType: "json",
@@ -75,11 +86,15 @@ function cargarClientes(){
                 html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
             }
             $("#selectCliente").empty().append(html);
+
+            if(id){
+                $("#selectCliente").val(id);
+            }
 		}
 	});
 }
 
-function cargarProductos(){
+function cargarProductos(id){
     $.ajax({
 		type: "GET",
 		dataType: "json",
@@ -92,6 +107,15 @@ function cargarProductos(){
                 html += `<option value="${data[item].id}">${data[item].Descripcion}</option>`
             }
             $("#selectProductos").empty().append(html);
+            if(id){
+                $("#selectProductos").val(id);
+                $("#selectProductos-error").remove();
+                $("#btnNuevoProducto").removeClass("btn-success").addClass("btn-info");
+                $("#btnNuevoProducto").empty().append('<i class="fa fa-edit"></i>');
+                $("#btnNuevoProducto").attr("data-original-title","Modificar producto");
+                $("#btnNuevoProducto").attr("onclick","modalAccionProducto("+id+")");
+                $("selectProductos-error").remove();
+            }
 		}
 	});
 }
@@ -304,7 +328,7 @@ function modalAccionProducto(accion){
                 }
 
                 $("#selectMateriaPrima").val(materia).trigger('change');
-                $("#botonModalRecomendado").attr("onclick", "nuevoProducto("+data[0].id+")");
+                $("#botonModalProducto").attr("onclick", "nuevoProducto("+accion+")");
     		}
     	});
     }
@@ -353,7 +377,7 @@ function nuevoRecomendado(id){
                 if(data == 0){
                     $('#modalRecomendado').modal('hide')
                     mensaje(titulo, texto, "success");
-                    cargarRecomendados();
+                    cargarRecomendados(id);
                 }else{
                     mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
@@ -398,6 +422,7 @@ function nuevoProducto(id){
         datos.append("materiaPrima", JSON.stringify($("#selectMateriaPrima").val()));
         datos.append("totalProducto", total[1]);
         datos.append("ivaProducto", iva[1]);
+        datos.append("_token", token);
 
         datos.append("idUsuario", "1");
 
@@ -415,11 +440,13 @@ function nuevoProducto(id){
                 if(data == 0){
                     $('#modalProducto').modal('hide')
                     mensaje(titulo, texto, "success");
-                    cargarProductos();
+                    cargarProductos(id);
                 }else if(data == 1){
                     mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }else if(data == -1){
                     mensaje(titulo, "Ha ocurrido un error al guardar los materiales, inténtelo más tarde.", "error");
+                }else if(data == -1){
+                    mensaje(titulo, "Ha ocurrido un error al actualizar los materiales, inténtelo más tarde.", "error");
                 }
             }, error: function(error) {
                 mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -500,7 +527,7 @@ function initialize_validate_form(tipo, id) {
             if(tipo == 1) {
                 guardarCotizacion();
             } else {
-                // actualizar_proveedor(id);
+                actualizar_Cotizacion(id);
             }
         }
     });
@@ -770,12 +797,11 @@ function llenarTablaProductos(){
 $("body").on("click", ".detalleCotizacion", function(e){
     e.preventDefault();
     var id = $(this).parent().attr("id");
-    console.log($(this).parent().attr("id"));
     $.ajax({
         type: "GET",
         dataType: "json",
         enctype: "multipart/form-data",
-        url: base_url+'/clientes/cotizacionSpecific/'+id,
+        url: base_url+'/cotizaciones/cotizacionDetalle/'+id,
         success: function (msg) {
             var data = JSON.parse(msg)
             var html = "";
@@ -821,7 +847,6 @@ function datosCotizaciones(){
         url: base_url+'/cotizaciones/getCotizaciones',
         success: function (msg) {
             var data = JSON.parse(msg)
-            console.log(data);
             var htmlActivo = "";
             var htmlTermiado = "";
             var htmlRecha = "";
@@ -883,7 +908,7 @@ function datosCotizaciones(){
                         <td>$${total}</td>
                         <td>${prioridad}</td>
                         <td class="text-nowrap" id="${item.id}">
-                            <a href="/modificarCotizacion" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
+                            <a href="/cotizaciones/modificar/${item.id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
                             <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
                             ${cambiarEstado}
                         </td>
@@ -901,8 +926,6 @@ function datosCotizaciones(){
                 $("#cotizacionesTerminadas tbody").empty().append(htmlTermiado);
                 $("#cotizacionesRechazadas tbody").empty().append(htmlRecha);
             }
-
-
 
             $("#cotizacionesTerminadas").DataTable({
               dom: 'Bfrtip',
@@ -939,7 +962,6 @@ $("body").on("click", ".cambiarEstado", function(e){
 })
 
 function cambiarEstadoCotizacion(id){
-    console.log(id);
     var titulo = "Cambiar estado"
     if(!id){
         mensaje(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -976,3 +998,116 @@ function cambiarEstadoCotizacion(id){
 // ----------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         /*Funciones de modificar datos*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
+
+function datos_cotizacion_especifica(id){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/cotizaciones/cotizacion/'+id,
+        success: function (msg) {
+            var data = JSON.parse(msg)
+
+            $("#selectPrioridad").val(data.Prioridad)
+            $("#fechaInicio").val(data.fecha_inicio)
+            $("#fechaFin").val(data.fecha_fin)
+            $("#descripcion").val(data.Descripcion)
+
+            cargarClientes(data.Clientes_idCliente);
+            cargarRecomendados(data.Recomendacion_idRecomendacion);
+            datos_cotizacion_productos(id);
+        }
+    });
+}
+
+function datos_cotizacion_productos(id){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: base_url+'/cotizaciones/cotizacionDetalle/'+id,
+        success: function (msg) {
+            var data = JSON.parse(msg)
+
+            for (var i = 0; i < data.length; i++) {
+                var materia = [];
+                for (var j = 0; j < data[i].materiales.length; j++) {
+                    materia.push( {
+                        idMateria: data[i].materiales[j].id,
+                        materia:  data[i].materiales[j].Descripcion
+                    })
+                }
+
+                tablaProductos.push({
+                    idProducto: data[i].idProducto,
+                    producto: data[i].nombreProducto,
+                    descripcion: data[i].descripcion,
+                    cantidad: data[i].Cantidad,
+                    subtotal: data[i].subtotal,
+                    iva: data[i].iva,
+                    total: data[i].total,
+                    materia: materia
+                })
+
+            }
+            llenarTablaProductos();
+        }
+    });
+}
+
+function actualizar_Cotizacion(id){
+    var costo = 0;
+    for (var i = 0; i < tablaProductos.length; i++) {
+        costo  += parseFloat(tablaProductos[i].total);
+    }
+
+    var datos = new FormData();
+    datos.append("idCliente",$("#selectCliente").val());
+    datos.append("descripcion",$("#descripcion").val());
+    datos.append("prioridad",$("#selectPrioridad").val());
+    datos.append("costo",costo);
+    datos.append("documento","proximamenteModificado.docx");
+    datos.append("fecha_inicio", $("#fechaInicio").val());
+    datos.append("fecha_fin", $("#fechaFin").val());
+    datos.append("_token", token);
+    datos.append("idUsuario", "1");
+
+    if($("#selectRecomendado").val() != "-1"){
+        datos.append("idRecomendado",$("#selectRecomendado").val());
+        var porcentaje = $("#selectRecomendado option:selected" ).text().split("- ")
+        porcentaje = porcentaje[1].split("%")
+        datos.append("porcentaje",porcentaje[0]);
+    }
+
+    datos.append("productos",JSON.stringify(tablaProductos));
+    Swal.fire({
+        onOpen: function () {
+            Swal.showLoading()
+            $.ajax({
+                type: 'POST',
+                url: base_url+'/cotizaciones/modificarCotizacion/'+id,
+                data: datos,
+                contentType: false,
+                processData: false,
+            })
+            .done(function(resp) {
+                Swal.close()
+                var data = JSON.parse(resp)
+                if(data == 0) {
+                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito", "success");
+                    reset_form('.validation-wizard');
+                    datos_cotizacion_especifica(id);
+                } else if(data == -1){
+                   mensaje("Actualizar cotización", "Ha ocurrido un error al actualizar los productos, inténtelo más tarde.", "error");
+               }else if(data == 1){
+                   mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+               }else if(data == -2){
+                   mensaje("Actualizar cotización", "Ha ocurrido un error al guardar los productos, inténtelo más tarde.", "error");
+               }
+            })
+            .fail(function(err) {
+                mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+            });
+        }
+    })
+}

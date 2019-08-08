@@ -212,9 +212,6 @@ Route::prefix('/clientes')->group(function () {
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
-
-	Route::get('/cotizaciones/{id}', 'clientes@getCotizaciones');
-	Route::get('/cotizacionSpecific/{id}', 'clientes@getCotizacion');
 });
 
 //Cotizacion vistas y funciones
@@ -229,7 +226,7 @@ Route::prefix('/cotizaciones')->group(function () {
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
 
-	Route::get('/modificar', function(){
+	Route::get('/modificar/{id}', function(){
 		$modulo = "Modificar Cotización";
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
@@ -245,6 +242,7 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/getSpecificProducto/{id}', 'cotizaciones@showProducto');
 	Route::get('/getSpecificProductoMaterial/{id}', 'cotizaciones@showProductoMaterial');
 	Route::post('/nuevoProducto', 'cotizaciones@storeProducto');
+	Route::post('/modificarProducto/{id}', 'cotizaciones@updateProducto');
 
 	Route::get('/getMateria', 'cotizaciones@listMateria');
 
@@ -253,6 +251,12 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::post('/nuevaCotizacion', 'cotizaciones@store');
 	Route::get('/getCotizaciones', 'cotizaciones@index');
 	Route::post('/cambiarEstado/{id}', 'cotizaciones@updateEstado');
+	Route::get('/cotizacion/{id}', 'cotizaciones@edit');
+	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
+	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
+
+	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
+	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 });
 
 Route::prefix('nomina')->group(function () {
