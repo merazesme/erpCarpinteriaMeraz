@@ -299,6 +299,24 @@ class Cotizaciones extends Controller
         //
     }
 
+    public function updateEstado(Request $request, $id)
+    {
+        //
+        try{
+            $data = Cotizacion::find($id);
+
+            $data->Estado=$request->input('selectEstadoCotizacion');
+            $data->idUsuario=$request->input('idUsuario');
+
+            $data->save();
+            return response()->json(json_encode(0));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
+
     public function updateRecomendado(Request $request, $id)
     {
         //
