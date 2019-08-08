@@ -295,6 +295,12 @@ Route::prefix('/carro')->group(function () {
 	Route::get('/', 'carroController@index');
 
 	Route::get('data', 'carroController@data');
+	Route::get('dataTrabajadores', 'carroController@dataTrabajadores');
+
+	Route::post('agregar', 	 'carroController@store');
+	Route::post('actualizar/{id}', 'carroController@update');
+	Route::post('actualizar/estatus/{id}', 'carroController@update_estatus');
+	
 });
 
 Route::get('/usuarios', function(){
