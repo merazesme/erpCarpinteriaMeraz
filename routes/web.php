@@ -165,6 +165,8 @@ Route::prefix('inventario')->group(function () {
 		//Para modificar orden de salida
 		Route::get('/lista_orden_salidas/{id}', 'orden_salidas@showOrdenSalida');
 		Route::post('/modificar_ordenSalida/{id}', 'orden_salidas@update_ordenSalida');
+		Route::post('/eliminar_ordenSalida/{id}', 'orden_salidas@cancel_ordenSalida');
+		Route::get('/detalles_ordenSalida/{id}', 'orden_salidas@showOrdenSalidaDetalles');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -326,7 +328,7 @@ Route::prefix('/carro')->group(function () {
 	Route::post('agregar', 	 'carroController@store');
 	Route::post('actualizar/{id}', 'carroController@update');
 	Route::post('actualizar/estatus/{id}', 'carroController@update_estatus');
-	
+
 });
 
 Route::get('/usuarios', function(){

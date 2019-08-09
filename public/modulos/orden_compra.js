@@ -81,18 +81,12 @@ $('#boton_pagarCompra').on("click", function(e) {
         </div>
        </div>
        <div class="row">
-           <div class="col-md-6">
+           <div class="col-md-12">
              <div class="form-group">
                  <label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
                  <input type="text" class="form-control required" id="txtCheque" name="txtCheque">
              </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group">
-                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
-                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
-            </div>
-        </div>
       </div>`;
 
       $("#todo").empty().append(html);
@@ -118,13 +112,6 @@ $('#boton_pagarCompra').on("click", function(e) {
           </div>
         </div>
        </div>
-       <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
-                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
-            </div>
-        </div>
       </div>`;
       $("#todo").empty().append(html);
       $(".select2").select2();
@@ -709,7 +696,7 @@ function ModificarOrdenCompra(id) {
 
   if($("#TotalModificarCompra").val().length == 0){
       validation($("#TotalModificarCompra"), $("#TotalModificarCompra").parent());
-      // bandera_validar = bandera_validar +1;
+      bandera_validar = bandera_validar +1;
   }
 
   if($("#select_proveedorCompra").val() == 0){
@@ -960,10 +947,10 @@ function pagarCompra() {
         bandera_validar = bandera_validar +1;
     }
 
-    if($("#txtTotal").val().length == 0){
-        validation($("#txtTotal"), $("#txtTotal").parent());
-        bandera_validar = bandera_validar +1;
-    }
+    // if($("#txtTotal").val().length == 0){
+    //     validation($("#txtTotal"), $("#txtTotal").parent());
+    //     bandera_validar = bandera_validar +1;
+    // }
 
     if($("#select_proveedorCompraPagar").val() == 0){
         validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
@@ -981,10 +968,10 @@ function pagarCompra() {
         bandera_validar = bandera_validar +1;
     }
 
-    if($("#txtTotal").val().length == 0){
-        validation($("#txtTotal"), $("#txtTotal").parent());
-        bandera_validar = bandera_validar +1;
-    }
+    // if($("#txtTotal").val().length == 0){
+    //     validation($("#txtTotal"), $("#txtTotal").parent());
+    //     bandera_validar = bandera_validar +1;
+    // }
 
     if($("#select_proveedorCompraPagar").val() == 0){
         validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
@@ -1005,7 +992,8 @@ function pagarCompra() {
     }else {
       var n_cheque = $("#txtCheque").val();
     }
-    var total = parseInt($("#txtTotal").val());
+    // SE VA A QUITAR EL TOTAL EN PAGAR LA COMPRA
+    // var total = parseInt($("#txtTotal").val());
 
     $.ajax({
     type: "GET",
@@ -1015,14 +1003,14 @@ function pagarCompra() {
     success: function (msg) {
             var data = JSON.parse(msg)
             var adeudo_sobrante = data[0].Adeudo;
-            adeudo_sobrante = adeudo_sobrante - total;
+            // adeudo_sobrante = adeudo_sobrante - total;
 
             datos_pagarOrden = new FormData();
             datos_pagarOrden.append("_token", token);
             datos_pagarOrden.append("idUsuario", "1");
 
-            datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
-            datos_pagarOrden.append("Total", total);
+            // datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
+            // datos_pagarOrden.append("Total", total);
             datos_pagarOrden.append("Fecha", "2019-07-26");
             datos_pagarOrden.append("Tipo_Pago", tipo);
             datos_pagarOrden.append("Num_cheque", n_cheque);
