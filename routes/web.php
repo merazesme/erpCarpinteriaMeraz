@@ -148,6 +148,7 @@ Route::prefix('inventario')->group(function () {
 		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
 		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
+		Route::get('/cantidad_compras/{id}', 'compras@showTotalesCompras');
 		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
 
 	});

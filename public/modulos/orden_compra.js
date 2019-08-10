@@ -81,12 +81,18 @@ $('#boton_pagarCompra').on("click", function(e) {
         </div>
        </div>
        <div class="row">
-           <div class="col-md-12">
+           <div class="col-md-6">
              <div class="form-group">
                  <label for="recipient-name" class="control-label">#Cheque <span class="danger">*</label>
                  <input type="text" class="form-control required" id="txtCheque" name="txtCheque">
              </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal" value="0" disabled>
+            </div>
+         </div>
       </div>`;
 
       $("#todo").empty().append(html);
@@ -112,6 +118,14 @@ $('#boton_pagarCompra').on("click", function(e) {
           </div>
         </div>
        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+            <input type="text" class="form-control required" id="txtTotal" name="txtTotal" value="0" disabled>
+          </div>
+        </div>
       </div>`;
       $("#todo").empty().append(html);
       $(".select2").select2();
@@ -762,6 +776,7 @@ function ModificarOrdenCompra(id) {
                 datos_material.append("idUsuario", "1");
                 datos_material.append("total", total);
                 datos_material.append("Tipo_mov", "1");
+                datos_material.append("Cantidad", txtTotal);
                 datos_material.append("total_money", total_money);
                 datos_material.append("Estado", "2");
 
@@ -992,8 +1007,7 @@ function pagarCompra() {
     }else {
       var n_cheque = $("#txtCheque").val();
     }
-    // SE VA A QUITAR EL TOTAL EN PAGAR LA COMPRA
-    // var total = parseInt($("#txtTotal").val());
+    var total = parseInt($("#txtTotal").val());
 
     $.ajax({
     type: "GET",
@@ -1010,7 +1024,7 @@ function pagarCompra() {
             datos_pagarOrden.append("idUsuario", "1");
 
             // datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
-            // datos_pagarOrden.append("Total", total);
+            datos_pagarOrden.append("Total", total);
             datos_pagarOrden.append("Fecha", "2019-07-26");
             datos_pagarOrden.append("Tipo_Pago", tipo);
             datos_pagarOrden.append("Num_cheque", n_cheque);
@@ -1253,4 +1267,30 @@ $('body').on('change', "#select_CompraProveedor", function(e){
   validation($(this), $(this).parent())
   validation($("#validar").val("1"), $("#cantidadOrdenCompra").parent());
   validation($("#validar").val("1"), $("#num_nota").parent());
+});
+$('body').on('change', "#select_OrdenCompras", function(e){
+  var tipo =  $("#select_OrdenCompras").val();
+  console.log("tipo: ", tipo);
+  if (tipo.length == 0) {
+    $("#txtTotal").val(0);
+  }
+  var temporal = 0;
+  var total = 0;
+  for (var i = 0; i < tipo.length; i++) {
+      var id = tipo[i];
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      enctype: "multipart/form-data",
+      url: base_url+'/inventario/orden_compra/cantidad_compras/'+id,
+      success: function (msg) {
+              var data = JSON.parse(msg)
+              console.log("data: ", data[0].Cantidad);
+              var cantidad = data[0].Cantidad;
+              total = total + cantidad;
+              $("#txtTotal").val(total);
+              console.log("total: ", total);
+            }
+       });
+  }
 });
