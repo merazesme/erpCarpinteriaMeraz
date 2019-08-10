@@ -189,6 +189,25 @@ class Compras extends Controller
 
     }
 
+    public function showTotalesCompras($id)
+    {
+        //
+        try{
+            //Funcion para traer datos de dos tablas por si la okupan aki ta un ejemplo vien shido
+            $data = DB::table('compras')
+             ->select('compras.Cantidad', 'compras.id')
+              ->where('compras.id', '=', $id)
+               ->get();
+
+            // dd($data);
+            return response()->json(json_encode($data));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+
+    }
+
     public function insertar_pago_proveedor(Request $request, $idprove)
     {
         //
@@ -201,7 +220,7 @@ class Compras extends Controller
           // $proveedore->save();
 
           $Pago_compra = new Pago_compra();
-          // $Pago_compra->Total=$request->input('Total');
+          $Pago_compra->Total=$request->input('Total');
           $Pago_compra->Fecha=$request->input('Fecha');
           $Pago_compra->Tipo_Pago=$request->input('Tipo_Pago');
           $Pago_compra->Num_cheque=$request->input('Num_cheque');
@@ -338,6 +357,7 @@ class Compras extends Controller
 
           $Compra = Compra::find($idCompra);
           $Compra->Estado=$request->input('Estado');
+          $Compra->Cantidad=$request->input('Cantidad');
           $Compra->idUsuario=$request->input('idUsuario');
 
           $Compra->save();
