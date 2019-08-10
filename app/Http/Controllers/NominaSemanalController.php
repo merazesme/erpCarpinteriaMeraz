@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Nomina;
 use App\DetalleNomina;
 use App\ConceptosNomina;
+use App\Trabajador;
+use App\TipoNomina;
+use App\Prestamo;
+use App\Mov_prestamo;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
@@ -24,6 +28,49 @@ class NominaSemanalController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function detalles($semana)
+    {
+        $modulo = "Detalles de Nómina Semanal";
+        return view('nomina/semanal/detalles', compact('modulo', 'semana'));
+    }
+
+    public function detalleNomina($semana, $fechai = null, $fechaf = null ) {
+      try {
+        $nomina = Nomina::where('Semana', '=', $semana)->firstOrFail();
+
+        $nomina->detalleNomina = DetalleNomina::where('Nomina_idNomina', '=', $nomina->id)
+                                ->select('detalle_nominas.*', 'Nombre', 'Apellidos', 'Apodo', 'Asistencia_total', 'Sueldo')
+                                ->join('trabajadores', 'detalle_nominas.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                                ->join('contratos', 'contratos.id', '=', 'detalle_nominas.Contratos_idContrato')
+                                ->get();
+        foreach ($nomina->detalleNomina as $conceptosNomina) {
+          $conceptos = ConceptosNomina::where('conceptos_nominas.DetalleNomina_idDetalleNomina',$conceptosNomina->id)
+                    ->get();
+          if($fechai != null && $fechaf != null ) {
+            $asistencia = DB::table('trabajadores')
+                      ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
+                                'asistencias.Hora_salida')
+                      ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.id',$conceptosNomina->Trabajadores_idTrabajador)
+                      ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
+                                ->get();
+            $conceptosNomina->asistencia = $asistencia;
+          }
+          $conceptosNomina->conceptos = $conceptos;
+        }
+        return response()->json($nomina);
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json(['NotFound' => 'No se encontraron resultados de la consulta.']);
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+      }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -33,10 +80,10 @@ class NominaSemanalController extends Controller
 
     }
 
-    public function trabajadores() {
+    public function trabajadores($fechai, $fechaf) {
       try {
           $data = DB::table('trabajadores')
-                    ->select('trabajadores.id', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
+                    ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
                     ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                     ->where('trabajadores.Estado',1)
                     ->where('contratos.estado', 1)
@@ -47,16 +94,27 @@ class NominaSemanalController extends Controller
                       ->select(DB::raw('SUM(prestamos.Monto) as monto'))
                       ->join('prestamos', 'prestamos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                       ->where('trabajadores.id',$trabajadores->id)
+                      ->where('prestamos.Estado', '=', 1)
                       ->first();
-            //dd($monto->monto);
+
+            $prestamos = Prestamo::where('Trabajadores_idTrabajador','=',$trabajadores->id)
+                                   ->where('estado', '=', 1)
+                                   ->get();
+            $abonoPrestamos = 0;
+            foreach ($prestamos as $pay => $prestamo) {
+                $abono = Mov_prestamo::select(DB::raw('SUM(mov_prestamos.Abono) as abono'))
+                                        ->where('Prestamos_idPrestamo', '=', $prestamo->id)
+                                        ->first();
+                $abonoPrestamos +=  $abono->abono;
+            }
             $asistencia = DB::table('trabajadores')
                       ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
                                 'asistencias.Hora_salida')
                       ->join('asistencias', 'asistencias.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                       ->where('trabajadores.id',$trabajadores->id)
+                      ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
                       ->get();
-            //dd($monto->monto);
-            $trabajadores->totalPrestamos = $monto->monto;
+            $trabajadores->totalPrestamos = $monto->monto - $abonoPrestamos;
             $trabajadores->asistencia = $asistencia;
           }
          return response()->json($data);
@@ -74,25 +132,39 @@ class NominaSemanalController extends Controller
     public function nomina(Request $request)
     {
       try{
+        $tipoNomina = TipoNomina::where('Concepto', '=', $request->input('tipo'))->first();
+        if(!isset($tipoNomina)) {
+          $tipoNomina = new TipoNomina;
+          $tipoNomina->idUsuario = 1;
+          $tipoNomina->Concepto  = $request->input('tipo');
+          if(!$tipoNomina->save())
+            return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+        }
+
         // Inserta una nueva nomina
-        $nominaData=new Nomina();
-        $nominaData->Fecha= new DateTime();
-        $nominaData->idUsuario=1;
-        $nominaData->Tipo_nomina_idTipo_nomina= 2;
-        $nominaData->Semana = $request->input('semana');
+        $nominaData = new Nomina();
+        $nominaData->Fecha                     = new DateTime();
+        $nominaData->idUsuario                 = 1;
+        $nominaData->Tipo_nomina_idTipo_nomina = $tipoNomina->id;
+        $nominaData->Semana                    = $request->input('semana');
         $nominaData->save();
 
         // Inserta los detalles de cada nomina para cada trabajador
         foreach ($request->trabajadores as $trabajador) {
           $dataDetalleNomina=new DetalleNomina();
-          $dataDetalleNomina->Cantidad= $trabajador['xTotal'];
-          $dataDetalleNomina->Fecha=new DateTime();
-          $dataDetalleNomina->Estado= 1;
-          $dataDetalleNomina->idUsuario = 1;
-          $dataDetalleNomina->Nomina_idNomina = $nominaData->id;
+          $dataDetalleNomina->Cantidad                  = $trabajador['xTotal'];
+          $dataDetalleNomina->Fecha                     = new DateTime();
+          $dataDetalleNomina->Estado                    = 1;
+          $dataDetalleNomina->idUsuario                 = 1;
+          $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
+          $dataDetalleNomina->Contratos_idContrato      = $trabajador['contrato'];
           $dataDetalleNomina->save();
-
+          if($request->input('tipo') == 'semanal') {
+            $trabajadorAsistencia = Trabajador::find($trabajador['id']);
+            $trabajadorAsistencia->Asistencia_total += $trabajador['diasTrabajados'] + 1;
+            $trabajadorAsistencia->save();
+          }
           // Inserta los conceptos de cada detalle de nomina de cada nomina
           $objNomina = $trabajador['Nomina'];
           $_arr = is_object($objNomina) ? get_object_vars($objNomina) : $objNomina;
@@ -100,12 +172,12 @@ class NominaSemanalController extends Controller
               if($key == 'xPercepciones') $tipo = 1;
               else if($key == 'xDeducciones') $tipo = 0;
               foreach ($val as $concepto => $valor) {
-                      $data=new ConceptosNomina();
-                      $data->Descripcion= $concepto;
-                      $data->Tipo = $tipo;
-                      $data->idUsuario = 1;
+                      $data = new ConceptosNomina();
+                      $data->Descripcion                   = $concepto;
+                      $data->Tipo                          = $tipo;
+                      $data->idUsuario                     = 1;
                       $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
-                      $data->Monto = $valor;
+                      $data->Monto                         = $valor;
                       $data->save();
               }
           }
@@ -113,7 +185,7 @@ class NominaSemanalController extends Controller
         return response()->json(["success" => "Guardado exitosamente."]);
       }
       catch(\Exception $e){
-         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+         return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.'.$e]);
       }
     }
 
@@ -126,67 +198,35 @@ class NominaSemanalController extends Controller
         return $arr;
       }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Display the history of nomina semanal.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function historialNominaSemanal()
+    public function historialNominaSemanal($tipo)
     {
       try {
-          $data = DB::table('nominas')
-            ->join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
-            ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
-            ->get();
+          $tipoNomina = TipoNomina::where('Concepto', '=', $tipo)->first();
+          if(!isset($tipoNomina)) {
+              return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+          }
+          $data = Nomina::join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
+                          ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
+                          ->orderBy('nominas.Semana', 'desc')
+                          ->where('nominas.Tipo_nomina_idTipo_nomina', '=', $tipoNomina->id)
+                          ->get();
           return response()->json($data);
       } catch (\Exception $e) {
         return response()->json($e);
       }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function validaNomina($numero) {
+      try {
+        $data = Nomina::where('Semana', '=', $numero)->firstOrFail();
+        return response()->json($data);
+      } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json(['NotFound' => 'No se encontraron resultados de la consulta.']);
+      } catch (\Exception $e) {
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+      }
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

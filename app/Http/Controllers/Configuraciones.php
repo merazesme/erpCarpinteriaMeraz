@@ -78,11 +78,20 @@ class Configuraciones extends Controller
             $data->Hora_entrada=$request->input('entrada_LV');
             $data->Hora_salida=$request->input('salida_LV');
 
+            $data->Hora_entrada_t=$request->input('entrada_LV_T');
+            $data->Hora_salida_t=$request->input('salida_LV_T');
+
             $data->Hora_entrada_Sab=$request->input('entrada_S');
             $data->Hora_salida_Sab=$request->input('salida_S');
 
             $data->Hora_entrada_extra=$request->input('entrada_E');
             $data->Hora_salida_extra=$request->input('salida_E');
+
+            $data->Hora_entradaLV_Sab=$request->input('entrada_ES');
+            $data->Hora_salidaLV_Sab=$request->input('salida_ES');
+
+            $data->Hora_entrada_obra=$request->input('entrada_obra');
+            $data->Hora_salida_obra=$request->input('salida_obra');
 
             $data->idUsuario=$request->input('idUsuario');
 
@@ -107,7 +116,12 @@ class Configuraciones extends Controller
             if($id == 1){
                 $datos = Configuracion::select('IVA','Minimo_caja_chica')->get();
             }else{
-                $datos = Configuracion::select('Hora_entrada','Hora_salida', 'Hora_entrada_Sab', 'Hora_salida_Sab', 'Hora_entrada_extra', 'Hora_salida_extra')->get();
+                $datos = Configuracion::select('Hora_entrada','Hora_salida',
+                'Hora_entrada_t', 'Hora_salida_t',
+                'Hora_entrada_Sab', 'Hora_salida_Sab',
+                'Hora_entrada_extra', 'Hora_salida_extra',
+                'Hora_entradaLV_Sab', 'Hora_salidaLV_Sab',
+                'Hora_entrada_obra', 'Hora_salida_obra')->get();
             }
              return response()->json(json_encode($datos));
         }

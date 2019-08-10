@@ -92,8 +92,8 @@
                                                      <div class="card-body">
                                                          <div class="row">
                                                              <div class="col-lg-7">
-                                                                 <h4 class="card-title">Entrada </h4>
-                                                                 <h6 class="card-subtitle">Hora de entrada de Lunes a Viernes</h6>
+                                                                 <h4 class="card-title">Entrada de la mañana </h4>
+                                                                 <h6 class="card-subtitle">Hora de entrada de Lunes a Viernes de la mañana</h6>
                                                              </div>
                                                              <div class="col-lg-5">
                                                                  <h2 class="card-title text-info" id="entradaLV_data">##:##</h2>
@@ -107,11 +107,110 @@
                                                      <div class="card-body">
                                                          <div class="row">
                                                              <div class="col-lg-7">
-                                                                 <h4 class="card-title">Salida</h4>
-                                                                 <h6 class="card-subtitle">Hora de salida de Lunes a Viernes</h6>
+                                                                 <h4 class="card-title">Salida de la mañana</h4>
+                                                                 <h6 class="card-subtitle">Hora de salida de Lunes a Viernes de la mañana</h6>
                                                              </div>
                                                              <div class="col-lg-5">
                                                                  <h2 class="card-title text-info" id="salidaLV_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="row">
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Entrada de la tarde </h4>
+                                                                 <h6 class="card-subtitle">Hora de entrada de Lunes a Viernes de la tarde</h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="entradaLV_T_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Salida de la tarde</h4>
+                                                                 <h6 class="card-subtitle">Hora de salida de Lunes a Viernes de la tarde</h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="salidaLV_T_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="row mt-4">
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Entrada de la Hora del Sábado</h4>
+                                                                 <h6 class="card-subtitle">Hora de entrada de la hora extra para el sábado de lunes a viernes </h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="entradaES_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Salida de la Hora del Sábado</h4>
+                                                                 <h6 class="card-subtitle">Hora de salida de la hora extra para el sábado de lunes a viernes </h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="salidaES_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="row mt-4">
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Entrada de la Hora Extra</h4>
+                                                                 <h6 class="card-subtitle">Hora de entrada de la Hora Extra</h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="entradaE_data">##:##</h2>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="col-lg-6">
+                                                 <div class="card">
+                                                     <div class="card-body">
+                                                         <div class="row">
+                                                             <div class="col-lg-7">
+                                                                 <h4 class="card-title">Salida de la Hora Extra</h4>
+                                                                 <h6 class="card-subtitle">Hora de salida de la Hora Extra</h6>
+                                                             </div>
+                                                             <div class="col-lg-5">
+                                                                 <h2 class="card-title text-info" id="salidaE_data">##:##</h2>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -152,17 +251,17 @@
                                              </div>
                                          </div>
 
-                                         <div class="row mt-4">
+                                         <div class="row">
                                              <div class="col-lg-6">
                                                  <div class="card">
                                                      <div class="card-body">
                                                          <div class="row">
                                                              <div class="col-lg-7">
-                                                                 <h4 class="card-title">Entrada de la Hora Extra</h4>
-                                                                 <h6 class="card-subtitle">Hora de entrada de la Hora Extra</h6>
+                                                                 <h4 class="card-title">Entrada de Obra </h4>
+                                                                 <h6 class="card-subtitle">Hora de entrada de Lunes a viernes de la obra</h6>
                                                              </div>
                                                              <div class="col-lg-5">
-                                                                 <h2 class="card-title text-info" id="entradaE_data">##:##</h2>
+                                                                 <h2 class="card-title text-info" id="entrada_obra_data">##:##</h2>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -173,11 +272,11 @@
                                                      <div class="card-body">
                                                          <div class="row">
                                                              <div class="col-lg-7">
-                                                                 <h4 class="card-title">Salida de la Hora Extra</h4>
-                                                                 <h6 class="card-subtitle">Hora de salida de la Hora Extra</h6>
+                                                                 <h4 class="card-title">Salida de Obra</h4>
+                                                                 <h6 class="card-subtitle">Hora de salida de Lunes a Viernes de la obra</h6>
                                                              </div>
                                                              <div class="col-lg-5">
-                                                                 <h2 class="card-title text-info" id="salidaE_data">##:##</h2>
+                                                                 <h2 class="card-title text-info" id="salida_obra_data">##:##</h2>
                                                              </div>
                                                          </div>
                                                      </div>
@@ -239,18 +338,71 @@
                              <h4>Horario de Lunes a Viernes</h4>
                              <div class="row">
                                  <div class="form-group col-lg-6">
-                                     <label>Entrada:</label>
+                                     <label>Entrada de la mañana:</label>
                                      <div class="input-group clockpicker-bottom">
                                            <input type="text" class="form-control" value="00:00" id="entrada_LV" name="entrada_LV"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
                                       </div>
                                  </div>
                                  <div class="form-group col-lg-6">
-                                     <label>Salida:</label>
+                                     <label>Salida de la mañana:</label>
                                      <div class="input-group clockpicker-bottom">
                                            <input type="text" class="form-control" value="00:00" id="salida_LV" name="salida_LV"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
                                       </div>
                                  </div>
                              </div>
+
+                             <div class="row">
+                                 <div class="form-group col-lg-6">
+                                     <label>Entrada de la tarde:</label>
+                                     <div class="input-group clockpicker-bottom">
+                                           <input type="text" class="form-control" value="00:00" id="entrada_LV_T" name="entrada_LV_T"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                                 <div class="form-group col-lg-6">
+                                     <label>Salida de la tarde:</label>
+                                     <div class="input-group clockpicker-bottom">
+                                           <input type="text" class="form-control" value="00:00" id="salida_LV_T" name="salida_LV_T"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                             </div>
+
+                             <hr>
+
+                             <h4>Hora Extra del Sábado</h4>
+                             <div class="row">
+                                 <div class="form-group col-lg-6">
+                                     <label>Entrada:</label>
+                                     <div class="input-group clockpicker-bottom">
+                                           <input type="text" class="form-control" value="00:00" id="entrada_ES" name="entrada_ES"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                                 <div class="form-group col-lg-6">
+                                     <label>Salida:</label>
+                                     <div class="input-group clockpicker-bottom">
+                                           <input type="text" class="form-control" value="00:00" id="salida_ES" name="salida_ES"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                             </div>
+
+                             <hr>
+
+                             <h4>Hora Extra</h4>
+                             <div class="row">
+                                 <div class="form-group col-lg-6">
+                                     <label>Entrada:</label>
+                                     <div class="input-group clockpicker-top">
+                                           <input type="text" class="form-control" value="00:00" id="entrada_E" name="entrada_E"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                                 <div class="form-group col-lg-6">
+                                     <label>Salida:</label>
+                                     <div class="input-group clockpicker-top">
+                                           <input type="text" class="form-control" value="00:00" id="salida_E" name="salida_E"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                      </div>
+                                 </div>
+                             </div>
+
+                             <hr>
 
                              <h4>Horario del Sábado</h4>
                              <div class="row">
@@ -268,18 +420,20 @@
                                  </div>
                              </div>
 
-                             <h4>Hora Extra</h4>
+                             <hr>
+
+                             <h4>Hora de Obra</h4>
                              <div class="row">
                                  <div class="form-group col-lg-6">
                                      <label>Entrada:</label>
                                      <div class="input-group clockpicker-top">
-                                           <input type="text" class="form-control" value="00:00" id="entrada_E" name="entrada_E"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                           <input type="text" class="form-control" value="00:00" id="entrada_obra" name="entrada_obra"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
                                       </div>
                                  </div>
                                  <div class="form-group col-lg-6">
                                      <label>Salida:</label>
                                      <div class="input-group clockpicker-top">
-                                           <input type="text" class="form-control" value="00:00" id="salida_E" name="salida_E"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                                           <input type="text" class="form-control" value="00:00" id="salida_obra" name="salida_obra"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
                                       </div>
                                  </div>
                              </div>
@@ -296,9 +450,9 @@
           </div>
 
 
+      </div>
         @section('footer')
         @parent
-    </div>
 @endsection
 @endsection
 @endsection

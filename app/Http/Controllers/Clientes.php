@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Cliente;
 
+use DB;
+//modelo
+use App\Cliente;
+use App\Cotizacion;
 class Clientes extends Controller
 {
     /**
@@ -58,6 +61,7 @@ class Clientes extends Controller
             $data->Email=$request->input('txtEmail');
             $data->Telefono=$request->input('txtTelefono');
             $data->idUsuario=$request->input('idUsuario');
+            $data->Estado=$request->input('Estado');
 
             $data->save();
             return response()->json(json_encode(0));
@@ -111,6 +115,7 @@ class Clientes extends Controller
             $data->Email=$request->input('txtEmail');
             $data->Telefono=$request->input('txtTelefono');
             $data->idUsuario=$request->input('idUsuario');
+            $data->Estado=$request->input('Estado');
 
             $data->save();
             return response()->json(json_encode(0));
@@ -126,8 +131,19 @@ class Clientes extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         //
+        try{
+            $data = Cliente::find($id);
+            $data->Estado=$request->input('Estado');
+            $data->idUsuario=$request->input('idUsuario');
+            $data->save();
+            return response()->json(json_encode(0));
+        }
+        catch(\Exception $e){
+           return response()->json(json_encode(1));
+        }
+
     }
 }

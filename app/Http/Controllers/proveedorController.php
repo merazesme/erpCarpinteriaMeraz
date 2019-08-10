@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\proveedore as Proveedor;
 use App\gasolina as Gasolina;
+use App\pago_gasolina as Pago;
+use App\relacion_gasolina_pago as Relacion;
 use Image;
 
 class proveedorController extends Controller
@@ -117,7 +119,8 @@ class proveedorController extends Controller
         $file = $request->file('gasolina_archivo');
         $nombre = time().$file->getClientOriginalName();
         $location = public_path('images/modulos/proveedor/gasolina/'.$nombre);
-        Image::make($file)->resize(250, 380)->save($location);
+        // Image::make($file)->resize(250, 450)->save($location);
+        Image::make($file)->save($location);
 
         $factura = new Gasolina();
 
@@ -134,6 +137,84 @@ class proveedorController extends Controller
             return 'error';
         }
         return 'true';
+    }
+
+    /** 
+     * Store a newly created pay ticket resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function agregar_pagar_factura(Request $request)
+    {
+        if(!session('Usuario')) {
+            return 'session';
+        }
+        if(
+            empty( $request->input('factura_folio') )   ||
+            empty( $request->input('factura_tickets') ) ||
+            empty( $request->input('fecha') )
+        ) {
+            return 'empty';
+        }
+
+        /** Registrar el pago en la tabla */
+        $pago = new Pago();
+
+        $pago->Fecha        = $request->fecha;
+        $pago->Metodo_pago  = $request->factura_metodo;
+        $pago->Folio_pago   = $request->factura_folio;
+        $pago->idUsuario    = session('idUsuario');
+
+        if(!$pago->save()) {
+            return 'error-pago';
+        }
+
+        /** Guardar la relación entre los tickets y pagos */
+        $errores = 0;
+        $tickets = json_decode($request->factura_tickets);
+        foreach ($tickets as $ticket) {
+            $relacion = new Relacion();
+    
+            $relacion->Gasolina_id = $ticket;
+            $relacion->Pago_gasolina_idPago_gasolina = $pago->id;
+            
+
+            if(!$relacion->save()) {
+                $errores++;
+            }
+        }
+
+        if($errores > 0) {
+            /** Ocurre error, borrar pago, retornar error de relación */
+            $this->destroy($pago->id);
+            return 'error-relacion';
+        }
+
+        $total = 0;
+        /** Cambiar de estado a cero a los tickets */
+        foreach ($tickets as $ticket) {
+            $ticket_update = Gasolina::find($ticket);
+            $ticket_update->Estado = 0;
+            $total += $ticket_update->Total;
+            $ticket_update->update();
+        }
+
+        $pago->Total = $total;
+
+        if(!$pago->update()) {
+            $this->destroy($pago->id);
+            $this->destroy_multiple($pago->id);
+            return 'error-pago';
+        }
+        return 'true';
+    }
+
+    /**
+     * Change the status of resource
+     */
+    private function update_status_gasolina($id) 
+    {
+
     }
 
     /**
@@ -203,7 +284,7 @@ class proveedorController extends Controller
                    'gasolina_has_pago_gasolina.Pago_gasolina_idPago_gasolina', '=', 'pago_gasolinas.id')
             ->join('gasolinas', 'gasolinas.id', '=', 'gasolina_has_pago_gasolina.Gasolina_id')
             ->select('pago_gasolinas.id', 'pago_gasolinas.Fecha', 'pago_gasolinas.Folio_pago', 
-                     'gasolinas.Ticket')
+                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago')
             ->get();
         return $registros;
     }
@@ -321,5 +402,27 @@ class proveedorController extends Controller
     public function destroy($id)
     {
         //
+        $pago = Pago::find($id);
+        if(!$pago->delete()) {
+            return 'false';
+        }
+        return 'true';
+    }
+
+    /**
+     * Remove multiples resources from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_multiple($id)
+    {
+        //
+        $roles = DB::table('gasolina_has_pago_gasolina')
+                    ->where('Pago_gasolina_idPago_gasolina', '=', $id);
+        if(!$roles->delete()) {
+            return 'false';
+        }
+        return 'true';
     }
 }

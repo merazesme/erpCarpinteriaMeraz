@@ -243,6 +243,7 @@
 		</div>
 	</div>
     @section('footer')
+    
     @parent
     <script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">

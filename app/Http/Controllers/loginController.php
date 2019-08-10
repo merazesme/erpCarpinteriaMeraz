@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\usuario;
-use App\trabajadore;
+// use App\trabajadore;
 use Session;
 
 class loginController extends Controller
@@ -18,6 +18,7 @@ class loginController extends Controller
      */
     public function index()
     {
+        return view('login');
         if(session('Usuario')) {
             return redirect('/');
         } else {
@@ -49,13 +50,36 @@ class loginController extends Controller
                             )
                     ->first();
                 if($user->Estado == 0) {
+                    /** Obtener los módulos permitidos por el rol */
+                    $modulos = (new rolController)->show($user->Roles_idRol);
+
+                    $band=false;
+
+                    for ($i=0; $i < sizeof($modulos); $i++) { 
+                        # code...
+                        if(!property_exists($modulos[$i], 'nombre_modulo') && (!$band)) {
+                            /** Quiere decir que no tiene ningún módulo asignado */
+                            // return $modulos[$i];
+                            $modulos = "no-modulos";
+                            break;
+                        }
+                        $band=true;
+                        if($modulos[$i]->submodulos == 1) {
+                            $modulos[$i] = array(
+                                $modulos[$i],
+                                (new rolController)->get_submodulos($modulos[$i]->id)
+                            );
+                        }
+                    }
+                    // return session('Modulos');
+
                     session([
                             'idUsuario' => $user->id,
                             'idRol'     => $user->Roles_idRol,
                             'Usuario'   => $user->Usuario,
                             'Nombre'    => $user->Nombre,
+                            'Modulos'   => $modulos
                         ]);
-                    // return $user->idRol;
                     return 'true';
                 } else {
                     return 'inactivo';
@@ -70,6 +94,15 @@ class loginController extends Controller
     public function salir() {
         Session::flush();
         return 'true';
+    }
+
+    public function check_session() {
+        if(session('Usuario')) {
+            /** Tiene sesión */
+
+        } else {
+            /** No tiene sesión */
+        }
     }
 
     /**
