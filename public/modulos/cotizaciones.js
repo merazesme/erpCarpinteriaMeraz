@@ -82,6 +82,8 @@ function cargarClientes(id){
 		url: base_url+'/cotizaciones/getClientes',
 		success: function (msg) {
             var data = JSON.parse(msg)
+            console.log(data);
+            console.log(msg);
             var html = "<option value='-1'>Selecciona un cliente</option>";
             for (var item in data) {
                 html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
@@ -89,9 +91,7 @@ function cargarClientes(id){
             $("#selectCliente").empty().append(html).trigger('change');
 
             if(id){
-                // $("#selectCliente").val(id);
                 $("#selectCliente").val(id).trigger('change');
-
             }
 		}
 	});

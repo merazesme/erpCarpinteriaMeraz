@@ -62,6 +62,7 @@ class Clientes extends Controller
             $data->Email=$request->input('txtEmail');
             $data->Telefono=$request->input('txtTelefono');
             $data->idUsuario=$request->input('idUsuario');
+            $data->Estado=$request->input('Estado');
 
             $data->save();
             return response()->json(json_encode(0));
