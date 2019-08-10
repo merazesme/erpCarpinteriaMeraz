@@ -219,6 +219,18 @@ Route::prefix('/clientes')->group(function () {
 	Route::post('/eliminar/{id}', 'clientes@destroy');
 });
 
+
+Route::prefix('/productos')->group(function (){
+	Route::get('/', function(){
+		$modulo = "Productos";
+		return view('productos', compact('modulo'));
+	});
+
+	Route::get('/lista_productos', 'productos@index');
+	Route::get('/lista_matprima', 'productos@showMateriaPrima');
+	Route::get('/lista_matprima_especifico/{id}', 'productos@showMateriaPrimaEspecifico');
+});
+
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/', function(){

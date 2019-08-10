@@ -23,8 +23,6 @@ class Orden_salidas extends Controller
      public function showTablaOrdenSalida()
      {
          //
-          // ->join('salida_movmateriales', 'salida_movmateriales.Orden_salida_idOrden_Salidas', '=', 'orden_salidas.id')
-          //   ->join('mov_materiales', 'mov_materiales.id', '=', 'salida_movmateriales.Mov_materiale_idMov_Materiales')
          try {
            $data = DB::table('orden_salidas')
            ->join('trabajadores', 'trabajadores.id', '=', 'orden_salidas.Trabajadores_idTrabajadore')
