@@ -55,9 +55,6 @@ class rolController extends Controller
      */
     public function store(Request $request)
     {
-        $prueba = (new loginController)->check_session();
-        return $prueba;
-
         if(!session('Usuario')) {
             return 'session';
         }

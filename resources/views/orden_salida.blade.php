@@ -183,6 +183,35 @@
 		</div>
 		<!-- end Modal modificar orden de salida -->
 
+		<!-- Modal de info ordenCompra -->
+    <div id="modal_info_ordenSalida" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Detalles de orden de salida</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h4>Orden de salida</h4>
+                    <table class="table table-hover" id="infoOrdenSalida">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin modal info ordenCompra  -->
+
 		<input type="text" id="validar" class="form-control d-none">
 
 		@section('footer')

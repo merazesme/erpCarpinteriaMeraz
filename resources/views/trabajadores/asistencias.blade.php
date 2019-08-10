@@ -13,10 +13,11 @@
           			<div class="col-12">
 		              <div class="card">
 		                  <div class="card-body">
+													<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="boton_agregarOrdenCompra">Guardar cambios</button>
 		                      <h4 class="card-title">Asistencia</h4>
 		                      <h6 class="card-subtitle">Lista de trabajadores</h6>
 							  					<div class="table-responsive m-t-40">
-                          <table id="trabajadores" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                          <table id="asistenciaTrabajadores" name="asistenciaTrabajadores" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                               <thead>
                                   <tr>
 																		<th>Trabajador</th>
@@ -34,27 +35,7 @@
                                   </tr>
                               </tfoot>
                               <tbody>
-                                 	<tr>
-		                                <td>Adriana Hernández</td>
-		                                <td>
-                                      <div class="switch">
-                                          <label>
-                                              <input type="checkbox" checked><span class="lever switch-col-teal"></span>
-																					</label>
-                                      </div>
-																		</td>
-																		<td>
-																			<div class="switch">
-                                          <label>
-                                              <input type="checkbox" checked><span class="lever switch-col-teal"></span>
-																					</label>
-                                      </div>
-																		</td>
-																		<td>
-																			<input type="checkbox" id="md_checkbox_29" class="filled-in chk-col-teal" checked />
-	                                  	<label for="md_checkbox_29">Trabajo</label>
-																		</td>
-                             			</tr>
+																<!-- Se agrega en asistencias.js -->
                           		</tbody>
                       		</table>
                       </div>
@@ -161,6 +142,7 @@
 		</div>
 		@section('footer')
 		@parent
+		<script src="{{asset('modulos/asistencias.js')}}"></script>
 	</div>
 @endsection
 @endsection

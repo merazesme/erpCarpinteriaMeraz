@@ -195,6 +195,10 @@ class Trabajadores extends Controller
     {
         try
         {
+          // GENERAR LIQUIDACION
+          
+
+          // CAMBIAR ESTADO DEL CONTRATO
           $contratos = DB::table('contratos')
             ->where('Trabajadores_idTrabajador',$id)
               ->update(
@@ -202,6 +206,7 @@ class Trabajadores extends Controller
                 'idUsuario' => $request->input('idUsuario')]
               );
 
+          // CAMBIAR ESTADO TRABAJADOR ACTIVO
           $trabajador = DB::table('trabajadores')
             ->where('id',$id)
               ->update(

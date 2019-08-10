@@ -79,7 +79,7 @@ $("body").on("click", ".detalleClientes", function(e){
 		type: "GET",
 		dataType: "json",
 		enctype: "multipart/form-data",
-		url: base_url+'/clientes/cotizaciones/'+id,
+		url: base_url+'/clientes/cotizacionesCliente/'+id,
 		success: function (msg) {
             var data = JSON.parse(msg)
             console.log(data);
@@ -137,7 +137,7 @@ function detalleCotizacion(id, descripcion){
         type: "GET",
         dataType: "json",
         enctype: "multipart/form-data",
-        url: base_url+'/clientes/cotizacionSpecific/'+id,
+        url: base_url+'/cotizaciones/cotizacionDetalle/'+id,
         success: function (msg) {
             var data = JSON.parse(msg)
             var html = "";
@@ -328,11 +328,10 @@ function tablaClientes(){
 		url: base_url+'/clientes/lista/',
 		success: function (msg) {
             var data = JSON.parse(msg)
-            $("#clientes").DataTable().clear();
 			$("#clientes").DataTable().destroy();
 
-            $("#clientesInactivos").DataTable().clear();
 			$("#clientesInactivos").DataTable().destroy();
+
             var htmlActivo="", htmlInactivo="";
 
             if(data.length > 0){

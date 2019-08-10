@@ -41,6 +41,50 @@ class Cotizaciones extends Controller
 
     }
 
+    public function getCotizaciones_Cliente($id){
+        try{
+            $data = Cotizacion::where('Clientes_idCliente', $id)->get();
+            return response()->json(json_encode($data));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
+    public function getCotizacionDetalle($id){
+        try{
+            $sql = "SELECT `productos`.`id` AS idProducto, `productos`.`Descripcion` AS nombreProducto,
+            `productos_has_cotizaciones`.`Productos_id` AS idProductoCotizacion, `productos_has_cotizaciones`.`Cantidad`,
+            `productos_has_cotizaciones`.`subtotal`, `productos_has_cotizaciones`.`iva`, `productos_has_cotizaciones`.`total`,
+            `productos_has_cotizaciones`.`Descripcion` AS descripcion
+            FROM `productos`
+            INNER JOIN `productos_has_cotizaciones` ON `productos_has_cotizaciones`.`Productos_id` = `productos`.`id`
+            WHERE `productos_has_cotizaciones`.`Cotizaciones_id` = ?
+            ORDER BY `productos`.`id` ASC";
+
+            $cotizacion = DB::select($sql,array($id));
+            foreach ($cotizacion as $key => $value) {
+                $cotizacion[$key]->materiales = $this->getMateriales($value->idProducto);
+            }
+            return response()->json(json_encode($cotizacion));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
+    public function getMateriales($id){
+        try {
+            $data = DB::table('materia_primas')
+            ->join('productos_has_materia_prima', 'productos_has_materia_prima.Materia_prima_idMateria_prima', '=', 'materia_primas.id')
+            ->select('materia_primas.id', 'materia_primas.Descripcion')
+            ->where('productos_has_materia_prima.Productos_idProducto', '=', $id)
+            ->get();
+            return $data;
+        } catch (\Exception $e) {
+            return "-1";
+        }
+    }
 
     public function getIVA()
     {
@@ -161,7 +205,7 @@ class Cotizaciones extends Controller
             return response()->json(json_encode(0));
        }
        catch(\Exception $e){
-          return response()->json(json_encode($e));
+          return response()->json(json_encode(1));
        }
     }
 
@@ -285,6 +329,25 @@ class Cotizaciones extends Controller
     public function edit($id)
     {
         //
+        try{
+            $data = Cotizacion::find($id);
+            return response()->json(json_encode($data));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
+    public function editCotiProducto($id)
+    {
+        //
+        try{
+            $data = Cotizacion::find($id);
+            return response()->json(json_encode($data));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
     }
 
     /**
@@ -297,7 +360,71 @@ class Cotizaciones extends Controller
     public function update(Request $request, $id)
     {
         //
+        try{
+            $data = Cotizacion::find($id);
+
+            $data->Descripcion=$request->input('descripcion');
+            $data->Prioridad=$request->input('prioridad');
+            $data->Documento=$request->input('documento');
+            $data->Costo=$request->input('costo');
+            $data->fecha_inicio=$request->input('fecha_inicio');
+            $data->fecha_fin=$request->input('fecha_fin');
+            $data->idUsuario=$request->input('idUsuario');
+            $data->Clientes_idCliente=$request->input('idCliente');
+
+
+            if(!empty( $request->input('idRecomendado'))){
+                $data->Recomendacion_idRecomendacion=$request->input('idRecomendado');
+                $data->porcentaje_recomendacion=$request->input('porcentaje');
+            }
+
+            $productos = json_decode($request->input('productos'));
+            if($data->save()){
+                $ProductosCotizacion = Producto_Cotizacion::where('Cotizaciones_id', '=', $id);
+                if($ProductosCotizacion->delete()){
+                    foreach ($productos as $key => $value) {
+                        $dataPC=new Producto_Cotizacion();
+                        $dataPC->Cotizaciones_id=$data->id;
+                        $dataPC->Productos_id=$value->idProducto;
+                        $dataPC->Cantidad=$value->cantidad;
+                        $dataPC->Descripcion=$value->descripcion;
+                        $dataPC->subtotal=$value->subtotal;
+                        $dataPC->iva=$value->iva;
+                        $dataPC->total=$value->total;
+
+                        $dataPC->idUsuario=$request->input('idUsuario');
+                        if(!$dataPC->save()){
+                            return response()->json(json_encode(-1));
+                        }
+                    }
+                }else{
+                    return response()->json(json_encode(-2));
+                }
+            }
+            return response()->json(json_encode(0));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
     }
+
+    public function updateEstado(Request $request, $id)
+    {
+        //
+        try{
+            $data = Cotizacion::find($id);
+
+            $data->Estado=$request->input('selectEstadoCotizacion');
+            $data->idUsuario=$request->input('idUsuario');
+
+            $data->save();
+            return response()->json(json_encode(0));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
 
     public function updateRecomendado(Request $request, $id)
     {
@@ -311,6 +438,46 @@ class Cotizaciones extends Controller
 
             $data->save();
             return response()->json(json_encode(0));
+       }
+       catch(\Exception $e){
+          return response()->json(json_encode(1));
+       }
+    }
+
+    public function updateProducto(Request $request, $id)
+    {
+        //
+        try{
+            $data = Producto::find($id);
+
+            $data->Descripcion=$request->input('descripcionProducto');
+            $data->Subtotal=$request->input('subtotalProducto');
+            $data->IVA=$request->input('ivaProducto');
+            $data->Total=$request->input('totalProducto');
+            $data->idUsuario=$request->input('idUsuario');
+            $data->Estado="0";
+
+            $materia = json_decode($request->input('materiaPrima'));
+            if($data->save()){
+                //consulta para eliminar todas las que hay
+                $materiaG = Producto_MateriaPrima::where('Productos_idProducto', '=', $id);
+                if($materiaG->delete()){
+                    foreach ($materia as $key => $value) {
+                        $dataPM=new Producto_MateriaPrima();
+                        $dataPM->Productos_idProducto=$data->id;
+                        $dataPM->Materia_prima_idMateria_prima=$value;
+
+                        $dataPM->idUsuario=$request->input('idUsuario');
+                        if(!$dataPM->save()){
+                            return response()->json(json_encode(-1));
+                        }
+                    }
+                }else{
+                    return response()->json(json_encode(-2));
+                }
+            }
+            return response()->json(json_encode(0));
+
        }
        catch(\Exception $e){
           return response()->json(json_encode(1));
