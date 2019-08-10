@@ -15,7 +15,7 @@ function datosCarros() {
         dataType: 'JSON'
     }).done(function(datos) {
         if(datos.length == 0) {
-            alerta_temporizador(
+            alertaTemporizador(
                 'warning',
                 'Sin registros',
                 'Actualmente no se tienen registros de carros',
@@ -27,7 +27,7 @@ function datosCarros() {
             crearTablaCarros(arrayCarros);
         }
     }).fail(function(err) {
-        alerta_temporizador(
+        alertaTemporizador(
             'error',
             `Error: ${err}`,
             'Ha ocurrido un error al extraer los registros, inténtelo más tarde.',
@@ -48,8 +48,6 @@ function datosTrabajadores() {
     });
 }
 function abrirModalAgregarCarro(id) {
-    console.table(arrayCarros);
-    console.table(arrayTrabajadores);
     if(id) {
         $('#agregar_registro').attr('onclick', `editarCarro(${id})`);
         /** Buscar el registro */
@@ -144,7 +142,7 @@ function agregarCarro() {
             .done(function(resp) {
                 Swal.close()
                 if(resp == 'true') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'success',
                         'Carros',
                         'El carro ha sido agregado con éxito',
@@ -153,21 +151,21 @@ function agregarCarro() {
                     datosCarros();
                     resetForm();
                 } else if(resp == 'session'){
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
                 } else if(resp == 'empty') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Carros',
                         'Debe ingresar todos los campos obligatorios (*) para poder registrar el carro.',
                         2500
                     );
                 } else if(resp == 'error') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Carros',
                         'Ha ocurrido un error al guardar el carro. Inténtelo más tarde.',
@@ -176,7 +174,7 @@ function agregarCarro() {
                 }
             })
             .fail(function(err) {
-                alerta_temporizador(
+                alertaTemporizador(
                     'error',
                     `Error: ${err}`,
                     'Ha ocurrido un error agregando el carro. Inténtelo más tarde',
@@ -201,7 +199,7 @@ function editarCarro(id) {
             .done(function(resp) {
                 Swal.close()
                 if(resp == 'true') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'success',
                         'Carros',
                         'El carro ha sido actualizado con éxito',
@@ -217,21 +215,21 @@ function editarCarro(id) {
                     resetForm();
                     reiniciarDatos();
                 } else if(resp == 'session'){
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
                 } else if(resp == 'empty') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Carros',
                         'Debe ingresar todos los campos obligatorios (*) para poder actualizar el carro.',
                         2500
                     );
                 } else if(resp == 'error') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Carros',
                         'Ha ocurrido un error al actualizar el carro. Inténtelo más tarde.',
@@ -240,7 +238,7 @@ function editarCarro(id) {
                 }
             })
             .fail(function(err) {
-                alerta_temporizador(
+                alertaTemporizador(
                     'error',
                     `Error: ${err}`,
                     'Ha ocurrido un error actualizando el carro. Inténtelo más tarde',
@@ -266,7 +264,7 @@ function cambiarEstatus(id) {
             .done(function(resp) {
                 Swal.close()
                 if(resp == 'true') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'success',
                         'Carros',
                         'El estado del carro ha sido actualizado con éxito.',
@@ -277,14 +275,14 @@ function cambiarEstatus(id) {
                     arrayCarros[indice].Estado = arrayCarros[indice].Estado == 0 ? 1 : 0;
                     reiniciarDatos();
                 } else if(resp == 'session'){
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Error',
                         'Ha ocurrido un error con su sesión. Por favor, ingrese de nuevo.',
                         2500
                     );
                 } else if(resp == 'error') {
-                    alerta_temporizador(
+                    alertaTemporizador(
                         'error',
                         'Carros',
                         'Ha ocurrido un error al actualizar el estado del carro. Inténtelo más tarde.',
@@ -293,7 +291,7 @@ function cambiarEstatus(id) {
                 }
             })
             .fail(function(err) {
-                alerta_temporizador(
+                alertaTemporizador(
                     'error',
                     `Error: ${err}`,
                     'Ha ocurrido un error actualizando el carro. Inténtelo más tarde',
@@ -313,4 +311,13 @@ function reiniciarDatos() {
     crearTablaCarros(arrayCarros);
     /** Trabajadores */
     crearOpcionesTrabajadores(arrayTrabajadores);
+}
+function alertaTemporizador(tipo, titulo, texto, tiempo) {
+    Swal.fire({
+        type: tipo,
+        title: titulo,
+        text: texto,
+        showConfirmButton: false,
+        timer: tiempo
+    });
 }

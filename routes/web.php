@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headaers: Content-Type, X-Auth-Token, Origin, Authorization');
 
 /*
 |--------------------------------------------------------------------------
@@ -109,11 +112,13 @@ Route::prefix('login')->group(function () {
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
-	/** Temporal routes */
-    Route::get('lista', function () {
-		$modulo = 'Facturas sobrantes';
-		return view('facturas_sobrantes_show', compact('modulo'));
-	});
+	Route::get('lista', 'facturaSobranteController@index');
+
+	Route::get('data', 'facturaSobranteController@datos');
+	Route::get('data/pagos', 'facturaSobranteController@datos_facturas_pagos');
+
+	Route::post('agregar', 'facturaSobranteController@store');
+	Route::post('agregar/pago', 'facturaSobranteController@guardar_pago');
 
 });
 
@@ -321,7 +326,8 @@ Route::prefix('/carro')->group(function () {
 
 	Route::post('agregar', 	 'carroController@store');
 	Route::post('actualizar/{id}', 'carroController@update');
-	Route::post('actualizar/estatus/{id}', 'carroController@update_estatus');
+	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
+	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
 	
 });
 
