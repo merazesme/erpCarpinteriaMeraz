@@ -39,7 +39,7 @@ class Citas extends Controller
      */
     public function listarCitas($week)
     {
-        $sql = "SELECT citas.id, Comentario, Fecha, Estado, clientes.Nombre, clientes.Apellidos FROM `citas` 
+        $sql = "SELECT citas.id, Comentario, Fecha, citas.Estado, clientes.Nombre, clientes.Apellidos FROM `citas` 
                 INNER JOIN clientes ON citas.Clientes_id = clientes.id 
                 WHERE WEEK(Fecha) = ?";
 
@@ -47,16 +47,27 @@ class Citas extends Controller
         return $citas;
     }
 
+    public function buscarCitaPorFecha($date)
+    {
+        $sql = "SELECT * FROM citas
+                WHERE Fecha = ?";
+
+        $cita = DB::select($sql, array($date));
+        return $cita;
+    }
 
     public function store(Request $request)
     {
         //preparar datos
+        if(!session('Usuario')) {
+            return 'session';
+        }
         $data=new Cita();
         $data->Comentario=$request->input('comentario');
         $data->Fecha=$request->input('fecha');
         $data->Estado=$request->input('estatus');
         $data->idUsuario=$request->input('idUsuario');
-        $data->Clientes_id=$request->input('cliente');
+        $data->Clientes_id=$request->session('idUsuario');
         $data->save();
         return $data;
     }
@@ -131,8 +142,10 @@ class Citas extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $id = $_POST['id'];
+        $data = Cita::find($id);
+        $data->delete();
     }
 }

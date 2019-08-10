@@ -14,12 +14,15 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-6">
                                         <h4 class="card-title">Caja chica</h4>
                                         <h6 class="card-subtitle">Movimientos de caja chica</h6>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="button" class="btn waves-effect waves-light btn-block btn-primary" href="#modalAgregarRegistroCajaChica" data-toggle="modal"><i class="fa fa-plus"></i>Agregar registro</button>
+                                        <button type="button" id="btnRenovarHoja" class="btn waves-effect waves-light btn-block btn-secondary" href=""><i class="fa fa fa-file-text-o"></i> Generar nuevo</button>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="button" id="agregarRegistro" class="btn waves-effect waves-light btn-block btn-primary" href="#modal" data-toggle="modal" data-whatever="Agregar"><i class="fa fa-plus"></i> Agregar registro</button>
                                     </div>
                                 </div>
                                 <hr>
@@ -33,7 +36,7 @@
                                                         <h6 class="card-subtitle">Gastos internos de oficina</h6>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <h2 class="card-title">$3674.50</h2>
+                                                        <h2 class="card-title" id="totalFisicamente">$3674.50</h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -48,7 +51,7 @@
                                                         <h6 class="card-subtitle">Dinero que hay en caja chica</h6>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <h2 class="card-title text-info">$4000.00</h2>
+                                                        <h2 class="card-title text-info" id="totalCajaChica">$4000.00</h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,7 +65,7 @@
                                                 <h5 class="card-title">Oficina</h5>
                                                 <h6 class="card-subtitle">Gastos internos de oficina</h6>
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="tablaOficina">
                                                         <thead>
                                                             <tr>
                                                                 <th>Fecha</th>
@@ -71,7 +74,7 @@
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="bodyTablaOficina">
                                                             <tr>
                                                                 <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
                                                                 <td>Articulos de papeleria</td>
@@ -105,7 +108,7 @@
                                                 <h5 class="card-title">Trabajadores</h5>
                                                 <h6 class="card-subtitle">Prestamos de caja chica a trabajadores</h6>
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="tablaTrabajadores">
                                                         <thead>
                                                             <tr>
                                                                 <th>Fecha</th>
@@ -114,7 +117,7 @@
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="bodyTablaTrabajadores">
                                                             <tr>
                                                                 <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
                                                                 <td>Adan Santana</td>
@@ -150,7 +153,7 @@
                                                 <h5 class="card-title">Mandados</h5>
                                                 <h6 class="card-subtitle">Gastos de compras de improvisto</h6>
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="tablaMandados">
                                                         <thead>
                                                             <tr>
                                                                 <th>Fecha</th>
@@ -159,7 +162,7 @@
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="bodyTablaMandados">
                                                             <tr>
                                                                 <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
                                                                 <td>Dinero de la semana para mandados</td>
@@ -193,7 +196,7 @@
                                                 <h5 class="card-title">Adeudo de nomina</h5>
                                                 <h6 class="card-subtitle">Adeudo a trabajadores por falta de feria al pagar</h6>
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="tablaAdeudo">
                                                         <thead>
                                                             <tr>
                                                                 <th>Fecha</th>
@@ -202,7 +205,7 @@
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="bodyTablaAdeudo">
                                                             <tr>
                                                                 <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
                                                                 <td>Adan Santana</td>
@@ -230,83 +233,50 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="to-do-widget m-t-20">
-                                    <!-- .modal for add task -->
-                                    <div class="modal fade" id="modalModificarRegistro" tabindex="-1" role="dialog" aria-hidden="true">
+                                     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Modificar</h5>
+                                                    <h5 class="modal-title"></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label>Fecha</label>
-                                                            <input class="form-control" type="date" placeholder="Selecione una fecha" id="example-date-input">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Nombre o concepto</label>
-                                                            <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="example-text-input">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Cantidad</label>
-                                                            <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="example-number-input">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>Cerrar</button>
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save"></i>Guardar</button>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                    <!-- /.modal -->
-                                     <div class="modal fade" id="modalAgregarRegistroCajaChica" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Agregar registro</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
+                                                    <form id="formCajaChica">
                                                          <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-lg-8">
                                                                     <label>Seleccione movimiento</label>
                                                                 </div>
                                                                 <div class="col-lg-4">
-                                                                    <select class="custom-select b-0">
-                                                                        <option selected="">Oficina</option>
-                                                                        <option value="1">Trabajadores</option>
-                                                                        <option value="2">Mandados</option>
-                                                                        <option value="3">Adeudo</option>
+                                                                    <select id="tipo" name="tipo" class="custom-select b-0">
+                                                                        <option value="1">Oficina</option>
+                                                                        <option value="2">Trabajadores</option>
+                                                                        <option value="3">Mandados</option>
+                                                                        <option value="4">Adeudo</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Fecha</label>
-                                                            <input class="form-control" type="date" placeholder="Selecione una fecha" id="example-date-input">
+                                                            <input class="form-control" type="date" placeholder="Selecione una fecha" id="fecha" name="fecha">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Nombre o concepto</label>
-                                                            <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="example-text-input">
+                                                            <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="concepto" name="concepto">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Cantidad</label>
-                                                            <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="example-number-input">
+                                                            <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="cantidad" name="cantidad">
                                                         </div>
+                                                        <!-- AQUI VA EL ID DEL USUARIO -->
+                                                        <input type="hidden" name="idUsuario" value="1">
+                                                        <input type="hidden" name="idRegistro" value="1">
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>Cerrar</button>
-                                                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-save"></i>Guardar</button>
+                                                    <button type="button" id="btnGuardar" class="btn btn-success"><i class="fa fa-save"></i>Guardar</button>
                                                 </div>
                                             </div>
                                             <!-- /.modal-content -->
@@ -324,6 +294,9 @@
         </div>
         @section('footer')
         @parent
+
+        <script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+        <link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
     </div>
 @endsection
 @endsection

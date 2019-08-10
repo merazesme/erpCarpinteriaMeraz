@@ -81,6 +81,17 @@
 	<script src="{{asset('plugins/icheck/icheck.init.js')}}"></script>
 	<!-- =============================================================== -->
 
+    <!-- ======================= JS de los módulos ===================================== -->
+    <script src="{{asset('modulos/clientes.js')}}"></script>
+    <script src="{{asset('modulos/cotizaciones.js')}}"></script>
+    <script src="{{asset('modulos/header.js')}}"></script>
+   <!--  <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
+    <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+
+    <!-- <script src="{{asset('modulos/clientes.js')}}"></script>
+    <script src="{{asset('modulos/cotizaciones.js')}}"></script> -->
+		<!-- <script src="{{asset('modulos/materiales.js')}}"></script> -->
+
 	<!-- Mask  -->
 	<!-- <script src="{{asset('js/mask.js')}}"></script> -->
 
@@ -113,6 +124,19 @@
 	@if(Request::segment(1) == "inventario")
 		<script src="{{asset('modulos/materiales.js')}}"></script>
 	@endif
+
+    @if(Request::segment(1) == "")
+        <script src="{{asset('js/modulos/dashboard.js')}}"></script>
+    @endif
+
+    @if(Request::segment(1) == "pagosdelmes")
+        <script src="{{asset('modulos/pagos_del_mes.js')}}"></script>
+    @endif
+
+     @if(Request::segment(1) == "cajachica")
+        <script src="{{asset('modulos/caja_chica.js')}}"></script>
+    @endif
+
 </body>
 </html>
 @show

@@ -78,6 +78,9 @@ class Configuraciones extends Controller
             $data->Hora_entrada=$request->input('entrada_LV');
             $data->Hora_salida=$request->input('salida_LV');
 
+            $data->Hora_entrada_t=$request->input('entrada_LV_T');
+            $data->Hora_salida_t=$request->input('salida_LV_T');
+
             $data->Hora_entrada_Sab=$request->input('entrada_S');
             $data->Hora_salida_Sab=$request->input('salida_S');
 
@@ -114,6 +117,7 @@ class Configuraciones extends Controller
                 $datos = Configuracion::select('IVA','Minimo_caja_chica')->get();
             }else{
                 $datos = Configuracion::select('Hora_entrada','Hora_salida',
+                'Hora_entrada_t', 'Hora_salida_t',
                 'Hora_entrada_Sab', 'Hora_salida_Sab',
                 'Hora_entrada_extra', 'Hora_salida_extra',
                 'Hora_entradaLV_Sab', 'Hora_salidaLV_Sab',

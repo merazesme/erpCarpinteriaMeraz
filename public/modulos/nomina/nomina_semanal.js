@@ -95,7 +95,8 @@ $(document).ready(function() {
         tr.diasDescanso = 1;
         tr.horasSabado = 0;
         tr.faltasSinJustificar = 0;
-
+        if(tr.totalPrestamos == null)
+          tr.totalPrestamos = 0; 
         for (var i = 0; i < tr.asistencia.length; i++) {
           //console.log(tr.asistencia[i])
           if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1) {
@@ -107,7 +108,7 @@ $(document).ready(function() {
           if(tr.asistencia[i].Hora_extra === 1)
             tr.horasExtras ++;
         }
-        tr.faltasSinJustificar = 6 - tr.diasTrabajados; 
+        tr.faltasSinJustificar = 6 - tr.diasTrabajados;
         tr.NombreyApodo = tr.Nombre + ' ' + tr.Apellidos + ' (' + tr.Apodo + ')'
         // 	* 	Percepciones	* 	//
         tr.Nomina.xPercepciones = {
