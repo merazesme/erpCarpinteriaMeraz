@@ -9,6 +9,8 @@ use App\DetalleNomina;
 use App\ConceptosNomina;
 use App\Trabajador;
 use App\TipoNomina;
+use App\Prestamo;
+use App\Mov_prestamo;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 
@@ -92,8 +94,19 @@ class NominaSemanalController extends Controller
                       ->select(DB::raw('SUM(prestamos.Monto) as monto'))
                       ->join('prestamos', 'prestamos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                       ->where('trabajadores.id',$trabajadores->id)
+                      ->where('prestamos.Estado', '=', 1)
                       ->first();
-            //dd($monto->monto);
+
+            $prestamos = Prestamo::where('Trabajadores_idTrabajador','=',$trabajadores->id)
+                                   ->where('estado', '=', 1)
+                                   ->get();
+            $abonoPrestamos = 0;
+            foreach ($prestamos as $pay => $prestamo) {
+                $abono = Mov_prestamo::select(DB::raw('SUM(mov_prestamos.Abono) as abono'))
+                                        ->where('Prestamos_idPrestamo', '=', $prestamo->id)
+                                        ->first();
+                $abonoPrestamos +=  $abono->abono;
+            }
             $asistencia = DB::table('trabajadores')
                       ->select('asistencias.Fecha', 'asistencias.Hora_extra', 'asistencias.Hora_entrada',
                                 'asistencias.Hora_salida')
@@ -101,8 +114,7 @@ class NominaSemanalController extends Controller
                       ->where('trabajadores.id',$trabajadores->id)
                       ->whereBetween('asistencias.Fecha', [$fechai, $fechaf])
                       ->get();
-            //dd($monto->monto);
-            $trabajadores->totalPrestamos = $monto->monto;
+            $trabajadores->totalPrestamos = $monto->monto - $abonoPrestamos;
             $trabajadores->asistencia = $asistencia;
           }
          return response()->json($data);
