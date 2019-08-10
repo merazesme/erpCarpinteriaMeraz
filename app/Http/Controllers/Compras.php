@@ -194,14 +194,14 @@ class Compras extends Controller
         //
         try
         {
-          $proveedore = proveedore::find($idprove);
-          $proveedore->Adeudo=$request->input('adeudo_sobrante');
-          $proveedore->idUsuario=$request->input('idUsuario');
-
-          $proveedore->save();
+          // $proveedore = proveedore::find($idprove);
+          // $proveedore->Adeudo=$request->input('adeudo_sobrante');
+          // $proveedore->idUsuario=$request->input('idUsuario');
+          //
+          // $proveedore->save();
 
           $Pago_compra = new Pago_compra();
-          $Pago_compra->Total=$request->input('Total');
+          // $Pago_compra->Total=$request->input('Total');
           $Pago_compra->Fecha=$request->input('Fecha');
           $Pago_compra->Tipo_Pago=$request->input('Tipo_Pago');
           $Pago_compra->Num_cheque=$request->input('Num_cheque');
@@ -271,15 +271,6 @@ class Compras extends Controller
     {
         //
         try{
-            //Funcion para traer datos de dos tablas por si la okupan aki ta un ejemplo vien shido
-            // $data = DB::table('compras')
-            //   ->join('proveedores', 'proveedores.id', '=', 'compras.Proveedores_idProveedor')
-            //     ->join('compras_movmateriales', 'compras_movmateriales.Compras_idCompra', '=', 'compras.id')
-            //      ->join('mov_materiales', 'mov_materiales.id', '=', 'compras_movmateriales.Mov_material_idMov_material')
-            //       ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
-            //        ->select('compras.id', 'compras.Num_nota', 'materiales.Nombre', 'compras.Estado AS estatus')
-            //          ->where('compras.Proveedores_idProveedor', '=', $id)
-            //           ->get();
 
             $data = DB::table('compras')
               ->join('proveedores', 'proveedores.id', '=', 'compras.Proveedores_idProveedor')
