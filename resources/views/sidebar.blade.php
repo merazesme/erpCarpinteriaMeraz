@@ -80,7 +80,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect waves-dark" href="/pagosdelmes_lista" aria-expanded="false">
+                    <a class="waves-effect waves-dark" href="/pagosdelmes" aria-expanded="false">
                         <i class="mdi mdi-book-open-variant"></i>
                         <span class="hide-menu">Pagos del mes
                         </span>

@@ -53,9 +53,9 @@ Route::prefix('trabajadores')->group(function () {
 		});
 });
 
-Route::get('/pagosdelmes_lista', function(){
+Route::get('/pagosdelmes', function(){
 	$modulo = "Listado";
-	return view('pagosDelMes.pagosdelmes_lista', compact('modulo'));
+	return view('pagosDelMes.pagosdelmes', compact('modulo'));
 });
 
 Route::get('/cajachica', function(){
@@ -247,12 +247,58 @@ Route::get('/usuarios', function(){
 	return view('usuarios', compact('modulo'));
 });
 
+//Rutas del modulo de citas
 Route::get('/consultarClientes', 'clientes@listarClientes');
-
 Route::post('/nuevaCita', 'citas@store');
-
 Route::get('/consultarCitas/{week}', 'citas@listarCitas');
-
+Route::get('/consultaCitaFecha/{date}', 'citas@buscarCitaPorFecha');
 Route::get('/montarDatosCita/{id}', 'citas@buscarCita');
-
 Route::post('/editarCita/{id}', 'citas@update');
+Route::post('/eliminarCita', 'citas@destroy');
+
+
+//Rutas del modulo de pendientes
+Route::get('/consultarPendientes', 'pendientes@listarPendientes');
+Route::post('/nuevoPendiente', 'pendientes@store');
+Route::post('/editarPendiente/{id}', 'pendientes@update');
+Route::get('/montarDatosPendiente/{id}', 'pendientes@buscarPendiente');
+Route::post('/actualizarEstatusPendiente', 'pendientes@actualizarEstatusPendiente');
+Route::get('/eliminarPendientes', 'pendientes@destroy');
+
+//Rutas del modulo de reporte del dia
+Route::get('/consultarPagoCompras/{fecha}', 'carpeta_del_mes@pagoCompras');
+Route::get('/consultarDetallePagoCompras/{id}', 'carpeta_del_mes@detallePagoCompras');
+Route::get('/consultarPagoCotizaciones/{fecha}', 'carpeta_del_mes@pagoCotizaciones');
+Route::get('/consultarPagoGasolina/{fecha}', 'carpeta_del_mes@pagoGasolina');
+Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGasolinas');
+Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
+
+//Rutas del modulo cotizaciones dashboard
+Route::get('/consultarCotizacionesDashboard/{mes}', 'cotizaciones_dashborad@consultarCotizaciones');
+
+//Rutas del modulo pagos del mes
+Route::get('/consultarPagos', 'pagos_del_mes@listarPagos');
+Route::get('/consultarUltimo', 'pagos_del_mes@consultarUltimoMes');
+Route::post('/renovarHojaPagos', 'pagos_del_mes@renovarPagos');
+Route::post('/subirArchivo/{id}', 'pagos_del_mes@pagoConcepto');
+Route::get('/estadoVencido/{id}', 'pagos_del_mes@estadoVencido');
+Route::post('/eliminarConcepto', 'pagos_del_mes@destroy');
+Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos'); 
+Route::post('/nuevoConcepto', 'pagos_del_mes@store');
+Route::post('/editarConcepto/{id}', 'pagos_del_mes@update');
+
+//Rutas del modulo caja chica
+Route::post('/nuevoCajaChica', 'Caja_chicas@store');
+Route::get('/consultarCajaChica/{fechaInicial}/{fechaFinal}', 'Caja_chicas@consultar');
+Route::get('/consultarConfiguracionCajaChica', 'Caja_chicas@consultarConfiguracion');
+Route::get('/montarDatosRegistroCajaChica/{id}', 'Caja_chicas@montarDatos');
+Route::post('/editarRegistroCajaChica/{id}', 'Caja_chicas@update');
+Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy'); 
+Route::get('/consultarUltimoCajaChica', 'Caja_chicas@consultarUltimaSemana');
+Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja'); 
+
+
+//Rutas del header para caja chica
+Route::get('/consultarUltimoCajaChicaHeader', 'Headers@consultarUltimaSemana');
+Route::get('/consultarCajaChicaHeader/{fechaInicial}/{fechaFinal}', 'Headers@consultar');
+Route::get('/consultarConfiguracionCajaChicaHeader', 'Headers@consultarConfiguracion');

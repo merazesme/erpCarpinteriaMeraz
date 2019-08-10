@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Cliente;
 
-//modelo
-use App\Cliente;
 class Clientes extends Controller
 {
     /**
