@@ -9,7 +9,7 @@ $(document).ready(function() {
   $.ajax({
     type: "GET",
     dataType: "json",
-    url: 'nominaSemanal/confirma/'+numSemana,
+    url: 'confirma/'+numSemana,
     success: function (data) {
         if(data['Error'])
           swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -35,7 +35,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: 'nominaSemanal/muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
+      url: 'muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
       success: function (data) {
           console.log(data)
           if(data['Error']) {
@@ -96,7 +96,7 @@ $(document).ready(function() {
         tr.horasSabado = 0;
         tr.faltasSinJustificar = 0;
         if(tr.totalPrestamos == null)
-          tr.totalPrestamos = 0; 
+          tr.totalPrestamos = 0;
         for (var i = 0; i < tr.asistencia.length; i++) {
           //console.log(tr.asistencia[i])
           if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1) {
@@ -159,6 +159,7 @@ $(document).ready(function() {
     html += `<tbody>
         </table>`;
     $( ".tabla" ).append(html);
+    imprimir();
   }
 
   // Funcion que muestra los datos en el modal
@@ -224,7 +225,7 @@ $(document).ready(function() {
 
   var prestamoEdicion = 0, totalDeduccionEdicion = 0, totalEdicion = 0;
   $( "#abonoPrestamo" ).bind("keyup change", function(e){
-    console.log($( this ).val())
+    //console.log($( this ).val())
     var nuevo = $( this ).val();
     if(nuevo === '')
       nuevo = 0;
@@ -250,10 +251,10 @@ $(document).ready(function() {
 
   // Funcion que guarda la nomina en la base de datos
   function saveNomina() {
-    console.log(trabajadores)
+    //console.log(trabajadores)
     $.ajax({
          type: 'POST',
-         url: 'nominaSemanal/saveNomina',
+         url: 'saveNomina',
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,
@@ -261,7 +262,7 @@ $(document).ready(function() {
            'tipo': 'semanal'
          },
          success: function(data) {
-             console.log(data);
+             //console.log(data);
              if(data['Error']) {
               $('#btnGuardar').attr('disabled', false);
               swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -270,7 +271,6 @@ $(document).ready(function() {
                toastSuccess("Nómina guardada exitosamente.");
                $('.modal-edit').hide("slow");
                $('#guardar').hide("slow");
-               imprimir();
              }
         }, error: function(error) {
             $('#btnGuardar').attr('disabled', false);

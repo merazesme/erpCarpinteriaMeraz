@@ -6,7 +6,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: `${base_url}/nomina/nominaSemanal/detalleNomina/${numSemana}/${moment(f_i).format()}'/${moment(f_f).format()}`,
+      url: `${base_url}/nomina/detalleNomina/${numSemana}/${moment(f_i).format()}'/${moment(f_f).format()}`,
       success: function (data) {
           console.log(data)
           if(data['Error'])
@@ -65,7 +65,7 @@ $(document).ready(function() {
           tr.horasExtras = 0;
           tr.diasDescanso = 1;
           tr.horasSabado = 0;
-          tr.faltasSinJustificar = 0; 
+          tr.faltasSinJustificar = 0;
 
           for (var i = 0; i < tr.asistencia.length; i++) {
             //console.log(tr.asistencia[i])

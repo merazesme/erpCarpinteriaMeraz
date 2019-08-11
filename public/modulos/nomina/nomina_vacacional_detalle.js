@@ -4,7 +4,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: `${base_url}/nomina/nominaSemanal/detalleNomina/${anio}`,
+      url: `${base_url}/nomina/detalleNomina/${anio}`,
       success: function (data) {
           console.log(data)
           if(data['Error'])

@@ -199,7 +199,7 @@ class proveedorController extends Controller
             $ticket_update->update();
         }
 
-        $pago->Total = $total;
+        $pago->Cantidad = $total;
 
         if(!$pago->update()) {
             $this->destroy($pago->id);
@@ -247,11 +247,6 @@ class proveedorController extends Controller
      */
     public function datos_proveedores() 
     {
-        // $query = 
-        //     DB::table('proveedores')
-        //     ->  select('*')
-        //     ->  get();
-        // return $query;
         return Proveedor::all();
     }
 
@@ -418,9 +413,9 @@ class proveedorController extends Controller
     public function destroy_multiple($id)
     {
         //
-        $roles = DB::table('gasolina_has_pago_gasolina')
+        $relacion = DB::table('gasolina_has_pago_gasolina')
                     ->where('Pago_gasolina_idPago_gasolina', '=', $id);
-        if(!$roles->delete()) {
+        if(!$relacion->delete()) {
             return 'false';
         }
         return 'true';
