@@ -4,7 +4,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: `${base_url}/nomina/nominaSemanal/detalleNomina/${anio}`,
+      url: `${base_url}/nomina/detalleNomina/${anio}`,
       success: function (data) {
           console.log(data)
           if(data['Error'])
@@ -45,8 +45,9 @@ $(document).ready(function() {
         var tamanioc =  detalle[x].conceptos.length;
         var tr =  detalle[x];
 
-        totalSubtotal += tr.conceptos[1].Monto;
-        totalBonoExtra += tr.conceptos[2].Monto;
+        tr.Subtotal = Math.round( (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
+        totalSubtotal += tr.Subtotal;
+        totalBonoExtra += tr.conceptos[1].Monto;
         totalBonoPyA += tr.conceptos[0].Monto;
         total += tr.Cantidad;
 
@@ -54,8 +55,8 @@ $(document).ready(function() {
                     <td>${tr.Nombre} ${tr.Apellidos}</td>
                     <td>${tr.Asistencia_total}</td>
                     <td>${tr.Sueldo}</td>
+                    <td>${tr.Subtotal}</td>
                     <td>${tr.conceptos[1].Monto}</td>
-                    <td>${tr.conceptos[2].Monto}</td>
                     <td>${tr.conceptos[0].Monto}</td>
                     <td>${tr.Cantidad}</td>
                 </tr>`;

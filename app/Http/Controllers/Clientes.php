@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use DB;
-
 //modelo
 use App\Cliente;
 use App\Cotizacion;
