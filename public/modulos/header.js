@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var fecha = fechaValidaHeader();
-    console.log(fecha);
+    
     if (fecha!="") {
         consultarHeader(fecha[0], fecha[1]);   
     }
@@ -15,37 +15,38 @@ function fechaValidaHeader(){
         async:false,
         url: "/consultarUltimoCajaChicaHeader",
         success: function (msg) {
-            var primerDia = new Date(msg[0].Fecha);
-            var ultimoDia = new Date(msg[0].Fecha);
+            if (msg.length>0) {
+                var primerDia = new Date(msg[0].Fecha);
+                var ultimoDia = new Date(msg[0].Fecha);
 
-            while(primerDia.getDay() != 1) {
-             primerDia.setDate(primerDia.getDate() - 1);
-            }
-            while(ultimoDia.getDay() != 6) {
-             ultimoDia.setDate(ultimoDia.getDate() + 1);
-            }
-            var mes1 = primerDia.getMonth()+1;
-            var dia1 = primerDia.getDate();
-            if (parseInt(mes1) < 10) {
-                mes1 = "0"+mes1;
-            }
-            if (parseInt(dia1) < 10) {
-                dia1 = "0"+dia1;
-            }
-            var mes2 = ultimoDia.getMonth()+1;
-            var dia2 = ultimoDia.getDate();
-            if (parseInt(mes2) < 10) {
-                mes2 = "0"+mes2;
-            }
-            if (parseInt(dia2) < 10) {
-                dia2 = "0"+dia2;
-            }
+                while(primerDia.getDay() != 1) {
+                 primerDia.setDate(primerDia.getDate() - 1);
+                }
+                while(ultimoDia.getDay() != 6) {
+                 ultimoDia.setDate(ultimoDia.getDate() + 1);
+                }
+                var mes1 = primerDia.getMonth()+1;
+                var dia1 = primerDia.getDate();
+                if (parseInt(mes1) < 10) {
+                    mes1 = "0"+mes1;
+                }
+                if (parseInt(dia1) < 10) {
+                    dia1 = "0"+dia1;
+                }
+                var mes2 = ultimoDia.getMonth()+1;
+                var dia2 = ultimoDia.getDate();
+                if (parseInt(mes2) < 10) {
+                    mes2 = "0"+mes2;
+                }
+                if (parseInt(dia2) < 10) {
+                    dia2 = "0"+dia2;
+                }
 
-            primerDia = primerDia.getFullYear() + "-" + mes1 + "-" + dia1;
-            ultimoDia = ultimoDia.getFullYear() + "-" + mes2 + "-" + dia2;
+                primerDia = primerDia.getFullYear() + "-" + mes1 + "-" + dia1;
+                ultimoDia = ultimoDia.getFullYear() + "-" + mes2 + "-" + dia2;
 
-            fechas = [primerDia, ultimoDia];
-
+                fechas = [primerDia, ultimoDia];
+            }
         }, error: function(error) {
         //Error Message
         console.log(error);
