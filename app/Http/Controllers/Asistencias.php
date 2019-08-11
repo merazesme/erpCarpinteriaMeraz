@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use DB;
+use Log;
+use DateTime;
 
 //Importar Modelo
 use App\Asistencia;
 use App\Trabajador;
+use App\Configuracion;
 
 class Asistencias extends Controller
 {
@@ -21,12 +24,22 @@ class Asistencias extends Controller
     public function index()
     {
         try{
-            $final = DB::table('trabajadores')
-              ->select('trabajadores.id as id_trabajador', 'trabajadores.Nombre', 'trabajadores.Apellidos')
-                ->where('trabajadores.Estado', '=', 1)
-                  ->get();
+          $trabajadores = DB::table('trabajadores')
+            ->select('id as id_trabajador', 'Nombre', 'Apellidos')
+              ->where('Estado', '=', 1)
+                ->get();
 
-            return $final;
+          date_default_timezone_set("America/Mazatlan");
+          $fecha = new DateTime();
+          $fecha = date_format($fecha, 'Y-m-d');
+
+          $asistencia = DB::table('asistencias')
+            ->select('id', 'Trabajadores_idTrabajador as id_trabajador', 'Hora_entrada', 'Hora_salida',
+                     'Hora_extra')
+              ->where('Fecha', '=', $fecha)
+                ->get();
+
+            return response()->json(['asistencia'=>$asistencia, 'trabajadores'=>$trabajadores]);
         }
         catch(\Exception $e){
            return response()->json(['error'=>'Ocurrio un error']);
@@ -51,7 +64,116 @@ class Asistencias extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try
+        {
+          date_default_timezone_set("America/Mazatlan");
+          $fecha = new DateTime();
+          $fecha = date_format($fecha, 'Y-m-d');
+
+          if($request->idsTodos >= 0) {
+            // NO TIENE ELEMENTOS
+            // hacer una consulta que todas las fechas de ese dia tengan 0
+            // CHECA SI YA EXISTE UN REGISTRO CON LA ASISTENCIA DEL TRABAJADOR CON LA FECHA DE HOY
+            foreach ($request->idsTodos as $id) {
+                // CHECA SI YA EXISTE UN REGISTRO CON LA ASISTENCIA DEL TRABAJADOR CON LA FECHA DE HOY
+                $idTrabajador = DB::table('asistencias')
+                  ->select('id')
+                    ->where('Trabajadores_idTrabajador', '=', $id)
+                      ->where('Fecha', '=', $fecha)
+                        ->get();
+
+                // COMPARA SI YA EXISTE ESE REGISTRO EN LA BD
+                $result = sizeof($idTrabajador);
+                if($result == 0) {
+                  // NO TIENE HECHO EL REGISTRO
+                  // CREA REGISTRO DE ASISTENCIA
+                  $asistencias = new Asistencia();
+                  $asistencias->Fecha=$fecha;
+                  $asistencias->idUsuario=$request->idUsuario;
+                  $asistencias->Trabajadores_idTrabajador=$id;
+
+                  $asistencias->save();
+                }
+            }
+
+            $nuevoMañana = 0;
+            $nuevoTarde = 0;
+            $nuevoHoraExtra = 0;
+            foreach ($request->idsTodos as $id2) {
+              // VERIFICAR SI TAMBIEN FUE EN LA MAÑANA
+              if($request->tamañoMañana >= 1) {
+                $bandera1 = false;
+                foreach ($request->idsMañana as $idM) {
+                  if($id2 == $idM){
+                    $bandera1 = true;
+                  }
+                }
+                if($bandera1 == true){
+                  $nuevoMañana=$request->diferenciaMañana;
+                }
+              }
+
+              // VERIFICAR SI TAMBIEN FUE EN LA TARDE
+              if($request->tamañoTarde >= 1) {
+                $bandera2 = false;
+                foreach ($request->idsTarde as $idT) {
+                  if($id2 == $idT){
+                    $bandera2 = true;
+                  }
+                }
+                if($bandera2 == true){
+                  $nuevoTarde=$request->diferenciaTarde;
+                }
+              }
+
+              // VERIFICAR SI TAMBIEN FUE A LA HORA EXTRA
+              if($request->tamañoHoraExtra >= 1) {
+                $bandera3 = false;
+                foreach ($request->idsHoraExtra as $idH) {
+                  if($id2 == $idH){
+                    $bandera3 = true;
+                  }
+                }
+                if($bandera3 == true){
+                  $nuevoHoraExtra=$request->diferenciaHoraExtra;
+                }
+              }
+
+              // ACTUALIZAR REGISTRO
+              $actualizar = DB::table('asistencias')
+                ->where('Fecha', $fecha)
+                  ->where('Trabajadores_idTrabajador', $id2)
+                    ->update(
+                      ['Hora_entrada' => $nuevoMañana,
+                      'Hora_salida'   => $nuevoTarde,
+                      'Hora_extra'    => $nuevoHoraExtra,
+                      'idUsuario'     => $request->idUsuario]
+                    );
+            }
+          }
+
+          return response()->json(['success'=>'Se agrego exitosamente']);
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
+    }
+
+    public function horarios()
+    {
+        try
+        {
+          $horarios = DB::table('configuracions')
+            ->select('Hora_entrada', 'Hora_salida', 'Hora_entrada_t', 'Hora_salida_t', 'Hora_estrada_Sab',
+                     'Hora_salida_Sab', 'Hora_entrada_extra', 'Hora_salida_extra', 'Hora_entrada_obra',
+                     'Hora_salida_obra')
+              ->get();
+
+          return $horarios;
+        }
+        catch(\Exception $e){
+           return response()->json(['error'=>'Ocurrio un error']);
+        }
     }
 
     /**
