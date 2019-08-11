@@ -55,12 +55,22 @@ class Carpeta_del_mes extends Controller
         return $detallePagoGasolinas;
     }
 
-    public function facturasSobrantes($fecha){
-        $sql = "SELECT 'egreso' as tipo, Concepto, Folio_factura, Folio_movimiento, Fecha_pago, Tipo_pago, Documento, Total FROM `facturas_sobrantes` WHERE fecha_pago = ?";
+    public function pagoFacturasSobrantes($fecha){
+        $sql = "SELECT * from pago_facturas_sobrantes where fecha = ?";
 
-        $facturasSobrantes = DB::select($sql, array($fecha));
-        return $facturasSobrantes;
+        $pagoFacturasSobrantes = DB::select($sql, array($fecha));
+        return $pagoFacturasSobrantes;
     }
+
+    public function detallePagoFacturasSobrantes($id){
+        $sql = "SELECT facturas_sobrantes.concepto, facturas_sobrantes.folio_factura
+                FROM facturas_sobrantes
+                INNER JOIN facturas_sobrantes_has_pago_facturas_sobrantes on facturas_sobrantes_has_pago_facturas_sobrantes.factura_sobrante_id = facturas_sobrantes.id
+                WHERE facturas_sobrantes_has_pago_facturas_sobrantes.pago_facturas_sobrantes_id = ?";
+        $detallePagoFacturasSobrantes = DB::select($sql, array($id));
+        return $detallePagoFacturasSobrantes;
+    }
+    
     /**
      * Display a listing of the resource.
      *
