@@ -18,7 +18,6 @@ class loginController extends Controller
      */
     public function index()
     {
-        return view('login');
         if(session('Usuario')) {
             return redirect('/');
         } else {
@@ -80,6 +79,7 @@ class loginController extends Controller
                             'Nombre'    => $user->Nombre,
                             'Modulos'   => $modulos
                         ]);
+                        return session('Modulos');
                     return 'true';
                 } else {
                     return 'inactivo';
@@ -96,12 +96,29 @@ class loginController extends Controller
         return 'true';
     }
 
-    public function check_session() {
+    public function check_session($modulo) {
         if(session('Usuario')) {
-            /** Tiene sesión */
+            /** 
+             * Tiene sesión 
+             * La opción de módulos es un arreglo
+             * */
+            $modulos = session('Modulos');
+            foreach ($modulos as $item) {
+                if(is_object($item)) {
+                    if($item->nombre_modulo == $modulo) {
+                        return 'permitir';
+                    }
+                } else {
+                    if($item[0]->nombre_modulo == $modulo) {
+                        return 'permitir';
+                    }
+                }
+            }
 
+            return 'sesion';
         } else {
             /** No tiene sesión */
+            return view('login');
         }
     }
 

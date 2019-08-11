@@ -16,9 +16,16 @@ class carroController extends Controller
      */
     public function index()
     {
-        //
-        $modulo = "Carros";
-	    return view('carros/carro', compact('modulo'));
+        $acceso = (new loginController)->check_session('Carros');
+
+        if($acceso == 'permitir') {
+            $modulo = "Carros";
+            return view('carros/carro', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
     }
 
     /**
