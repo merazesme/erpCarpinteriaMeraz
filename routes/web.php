@@ -56,6 +56,8 @@ Route::prefix('trabajadores')->group(function () {
 		});
 
 		Route::get('asistencias/tabla', 'Asistencias@index');
+		Route::get('asistencias/horarios', 'Asistencias@horarios');
+		Route::post('asistencias/guardarAsistencia', 'Asistencias@store');
 
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
