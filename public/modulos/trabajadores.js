@@ -206,6 +206,7 @@
     // EXTRAER DATOS DE FORMULARIO
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
     if(datosTrabajador.Tipo == "Base"){
+      datosTrabajador.append("tiempo", 0);
       datosTrabajador.append("fecha_inicio", null);
       datosTrabajador.append("fecha_final", null);
     }
@@ -284,6 +285,7 @@
               if(data[0].Tipo=="Temporal"){
                 agregarInputFechas();
                 $("#tipo_temporal").attr('checked', true);
+                $("#tiempo").val(data[0].Tiempo);
                 $("#fecha_inicio").val(data[0].Fecha_inicio);
                 $("#fecha_final").val(data[0].Fecha_final);
               }
@@ -321,6 +323,10 @@
                   <span class="label label-`+ color +` label-rounded">`+ estado + ` </span>
                 </div>
                 <br id="br">`;
+
+              if(data[0].Fecha_final == null){
+                data[0].Fecha_final = "Indefinida";
+              }
 
               if(bandera == "detalles"){
                 htmlDetallesTrabajador=
@@ -373,7 +379,11 @@
                 var htmlHistorialContratos="", htmlHistorialLiquidaciones="";
                 var tam3 = data.length;
                 console.log(tam3);
+                console.log(data);
                 for (var c = 0; c < tam3; c++) {
+                  if(data[c].Fecha_final == null){
+                    data[c].Fecha_final = "Indefinida";
+                  }
                   if(data[c].Estado==0){
                     htmlHistorialContratos+=
                       `<tr>

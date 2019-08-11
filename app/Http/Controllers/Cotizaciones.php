@@ -23,6 +23,12 @@ class Cotizaciones extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function imprimir(){
+         $pdf = \PDF::loadView('cotizaciones/documento');
+         return $pdf->download('cotizaciones/documento.pdf');
+    }
+
     public function index()
     {
         //
@@ -96,6 +102,12 @@ class Cotizaciones extends Controller
         catch(\Exception $e){
            return response()->json(json_encode(1));
         }
+    }
+
+    public function getImagenBase64(Request $request){
+        $im = file_get_contents($request->input('imagen'));
+        $imdata = base64_encode($im);
+        return response()->json(json_encode($imdata));
     }
 
     public function listRecomendados()

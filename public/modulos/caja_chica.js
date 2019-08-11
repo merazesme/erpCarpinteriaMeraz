@@ -221,6 +221,51 @@ function consultar(fechaInicial, fechaFinal){
 	var html ="";
 	var options = { weekday: 'short', month: 'long', day: 'numeric' };
 
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype: "multipart/form-data",
+        url: "/consultarAdeudo",
+        success: function (msg) {
+            for(var i=0; i<msg.length; i++){
+                fechaRegistro = new Date(msg[i].Fecha);
+                fechaRegistro.setDate(fechaRegistro.getDate() + 1);
+                htmlTablaAdeudo+= `<tr>
+                    <td><span class="text-muted">${fechaRegistro.toLocaleDateString("es-ES", options)}</td>
+                    <td>${msg[i].Concepto}</td>
+                    <td>$${msg[i].Total}</td>
+                    <td class="text-nowrap">
+                        <span data-toggle="tooltip" title="Editar">
+                            <a href="#modal" data-toggle="modal" data-whatever="Editar" onclick="montarDatos(${msg[i].id})">
+                                <i class="icon-pencil text-primary m-r-10"></i>
+                            </a>
+                        </span>
+                        <span data-toggle="tooltip" title="Eliminar">
+                            <a href="#" onclick="eliminarRegistro(${msg[i].id})">
+                                <i class="icon-close text-danger"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>`;
+
+                totalAdeudo+=msg[i].Total;
+            }
+
+            datosGeneralesTablas('#bodyTablaAdeudo', htmlTablaAdeudo, totalAdeudo);
+
+        }, error: function(error) {
+                //Error Message
+                console.log(error);
+                Swal.fire({   
+                    title: "Error",   
+                    text: "Hubo algún fallo con la consulta de configuraciones",   
+                    timer: 1500,  
+                    type: "error", 
+                    showConfirmButton: false 
+                });
+        }
+
+    });
 	$.ajax({
         type: "GET",
         dataType: "json",
@@ -262,19 +307,17 @@ function consultar(fechaInicial, fechaFinal){
             			htmlTablaMandados+=html;
             			totalMandados+=msg[i].Total;
             			break;
-            		case 4:
-            			htmlTablaAdeudo+=html;
-            			totalAdeudo+=msg[i].Total;
-            			break;
             	}
-            }    
+            }  
+  
             $.ajax({
 		        type: "GET",
 		        dataType: "json",
 		        enctype: "multipart/form-data",
 		        url: "/consultarConfiguracionCajaChica",
 		        success: function (msg) {
-		            var montoFisicamente = msg[0].monto - (totalOficina + totalTrabajadores + totalMandados - totalAdeudo);
+                    var restar = Math.abs(totalOficina + totalTrabajadores + totalMandados - totalAdeudo);
+                    var montoFisicamente = msg[0].monto - restar;
 		        	$("#totalFisicamente").text("$"+montoFisicamente);
 		        	$("#totalCajaChica").text("$"+msg[0].monto);
 
@@ -294,7 +337,6 @@ function consultar(fechaInicial, fechaFinal){
             datosGeneralesTablas('#bodyTablaOficina', htmlTablaOficina, totalOficina);
             datosGeneralesTablas('#bodyTablaTrabajadores', htmlTablaTrabajadores, totalTrabajadores);
             datosGeneralesTablas('#bodyTablaMandados', htmlTablaMandados, totalMandados);
-            datosGeneralesTablas('#bodyTablaAdeudo', htmlTablaAdeudo, totalAdeudo);
 
         }, error: function(error) {
                 //Error Message
@@ -311,7 +353,7 @@ function consultar(fechaInicial, fechaFinal){
 }
 
 function limpiarModal(){
-    $("#tipo").val("");
+    $("#tipo").val(1);
     $("#fecha").val("");
     $("#concepto").val("");
     $("#cantidad").val("");            
@@ -437,6 +479,9 @@ $("#btnRenovarHoja").click(function(){
     //si aun no ha terminado la semana no podrá generar una nueva hoja
     if (banderaFecharMayor == 1) {
 
+        var f = new Date();
+        f = f.getFullYear() + "-" + (parseInt(f.getMonth())+1) + "-"+ f.getDate();
+        // console.log(f);
     	swalWithBootstrapButtons.fire({
 	      title: '¿Generar nueva hoja?',
 	      text: "",
@@ -461,8 +506,16 @@ $("#btnRenovarHoja").click(function(){
 	                url: "/nuevaHoja",
 	                success: function (msg) {
 	                	var fecha = fechaValida();
+                        console.log(fecha);
 						if (fecha!="") {
 						    consultar(fecha[0], fecha[1]);   
+                            Swal.fire({   
+                                title: "Listo",   
+                                text: "Se ha renovado la hoja de caja chica",   
+                                timer: 1500,  
+                                type: "success", 
+                                showConfirmButton: false 
+                            });
 						}else{
 							Swal.fire({   
 					            title: "Error",   

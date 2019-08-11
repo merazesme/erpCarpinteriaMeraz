@@ -9,7 +9,7 @@ $(document).ready(function() {
   $.ajax({
     type: "GET",
     dataType: "json",
-    url: 'nominaSemanal/confirma/'+anio,
+    url: 'confirma/'+anio,
     success: function (data) {
         if(data['Error'])
           swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -88,7 +88,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: 'nominaAguinaldo/muestra',
+      url: 'muestra',
       success: function (data) {
           console.log(data)
           if(data['Error']) {
@@ -124,7 +124,7 @@ $(document).ready(function() {
     console.log(trabajadores)
     $.ajax({
          type: 'POST',
-         url: 'nominaSemanal/saveNomina',
+         url: 'saveNomina',
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,

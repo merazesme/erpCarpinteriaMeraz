@@ -22,7 +22,7 @@
                     </ul>
                 </li>
                 <li class="nav-devider"></li>
-                <li>
+                {{-- <li>
                     <a href="/cajachica" aria-expanded="false">
                         <i class="mdi mdi-cash-usd"></i>
                         <span class="hide-menu">Caja chica</span>
@@ -105,9 +105,7 @@
                 <li>
                     <a href="/carro" aria-expanded="false">
                         <i class="mdi mdi-car"></i>
-                        <span class="hide-menu">Carros
-                            <!-- <span class="label label-rouded label-danger pull-right">25</span> -->
-                        </span>
+                        <span class="hide-menu">Carros</span>
                     </a>
                 </li>
                 <li>
@@ -121,7 +119,7 @@
                         <i class="mdi mdi-settings"></i>
                         <span class="hide-menu">Configuraciones</span>
                     </a>
-                </li>
+                </li> --}}
 
                 @if (session('Usuario'))
                     @if (is_array(session('Modulos')) || is_object(session('Modulos')))

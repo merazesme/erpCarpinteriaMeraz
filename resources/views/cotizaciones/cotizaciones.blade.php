@@ -7,6 +7,7 @@
 	<div id="main-wrapper">
 		@section('sidebar')
 		@parent
+		<!-- <a href="{{route}}"></a> -->
 		<div class="page-wrapper">
 			<div class="container-fluid">
 				<div class="row">

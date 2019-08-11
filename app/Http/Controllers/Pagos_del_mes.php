@@ -19,18 +19,21 @@ class Pagos_del_mes extends Controller
 
     public function renovarPagos(Request $request)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $Concepto = $_POST['Concepto'];
         $Fecha = $_POST['Fecha'];
         $Cantidad = $_POST['Cantidad'];
         $Estado = 1;
-        $idUsuario = $_POST['idUsuario'];
+
         $data=new Pagos_del_me();
         $data->Concepto=$Concepto;
         $data->Fecha=$Fecha;
         $data->Cantidad=$Cantidad;
         $data->Estado=$Estado;
-        $data->idUsuario=$idUsuario;
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }
@@ -100,6 +103,9 @@ class Pagos_del_mes extends Controller
      */
     public function store(Request $request)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $data=new Pagos_del_me();
         $data->Fecha=$request->input('fechaVencimiento');
@@ -107,7 +113,7 @@ class Pagos_del_mes extends Controller
         $data->Cantidad=$request->input('cantidadPago');
         $data->Observacion=$request->input('observacionPago');
         $data->Estado=1;
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }
@@ -143,12 +149,15 @@ class Pagos_del_mes extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         $data = Pagos_del_me::find($id);
         $data->Fecha=$request->input('fechaVencimiento');
         $data->Concepto=$request->input('nombreConcepto');
         $data->Cantidad=$request->input('cantidadPago');
         $data->Observacion=$request->input('observacionPago');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }
