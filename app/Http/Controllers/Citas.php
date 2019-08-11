@@ -66,8 +66,8 @@ class Citas extends Controller
         $data->Comentario=$request->input('comentario');
         $data->Fecha=$request->input('fecha');
         $data->Estado=$request->input('estatus');
-        $data->idUsuario=$request->input('idUsuario');
-        $data->Clientes_id=$request->session('idUsuario');
+        $data->idUsuario=session('idUsuario');
+        $data->Clientes_id=$request->input('cliente');
         $data->save();
         return $data;
     }
@@ -82,12 +82,15 @@ class Citas extends Controller
 
     public function editarCita(Request $request, $id)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $data = Cita::find($id);
         $data->Comentario=$request->input('comentario');
         $data->Fecha=$request->input('fecha');
         $data->Estado=$request->input('estatus');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->Clientes_id=$request->input('cliente');
         // return $request->all();
         $data->save();
@@ -124,12 +127,15 @@ class Citas extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $data = Cita::find($id);
         $data->Comentario=$request->input('comentario');
         $data->Fecha=$request->input('fecha');
         $data->Estado=$request->input('estatus');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->Clientes_id=$request->input('cliente');
         // return $request->all();
         $data->save();

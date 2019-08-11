@@ -376,7 +376,7 @@ Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGas
 Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
 
 //Rutas del modulo cotizaciones dashboard
-Route::get('/consultarCotizacionesDashboard/{mes}', 'cotizaciones_dashborad@consultarCotizaciones');
+Route::get('/consultarCotizacionesDashboard', 'cotizaciones_dashborad@consultarCotizaciones');
 
 //Rutas del modulo pagos del mes
 Route::get('/consultarPagos', 'pagos_del_mes@listarPagos');
@@ -392,6 +392,7 @@ Route::post('/editarConcepto/{id}', 'pagos_del_mes@update');
 //Rutas del modulo caja chica
 Route::post('/nuevoCajaChica', 'Caja_chicas@store');
 Route::get('/consultarCajaChica/{fechaInicial}/{fechaFinal}', 'Caja_chicas@consultar');
+Route::get('/consultarAdeudo', 'Caja_chicas@consultarAdeudo');
 Route::get('/consultarConfiguracionCajaChica', 'Caja_chicas@consultarConfiguracion');
 Route::get('/montarDatosRegistroCajaChica/{id}', 'Caja_chicas@montarDatos');
 Route::post('/editarRegistroCajaChica/{id}', 'Caja_chicas@update');

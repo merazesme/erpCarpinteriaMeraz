@@ -38,10 +38,13 @@ class Pendientes extends Controller
     public function store(Request $request)
     {
         //preparar datos
+        if(!session('Usuario')) {
+            return 'session';
+        }
         $data=new Pendiente();
         $data->Descripcion=$request->input('descripcionPendiente');
         $data->Estado=$request->input('estatusPendiente');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }
@@ -85,12 +88,14 @@ class Pendientes extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $data = Pendiente::find($id);
-
         $data->Descripcion=$request->input('descripcionPendiente');
         $data->Estado=$request->input('estatusPendiente');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
 
         $data->save();
         return $data;
