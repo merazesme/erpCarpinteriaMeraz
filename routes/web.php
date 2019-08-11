@@ -238,6 +238,8 @@ Route::prefix('/productos')->group(function (){
 
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
+	Route::name('print')->get('/imprimir', 'Cotizaciones@imprimir');
+
 	Route::get('/', function(){
 		$modulo = "Cotizaciones";
 		return view('cotizaciones/cotizaciones', compact('modulo'));

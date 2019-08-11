@@ -23,6 +23,12 @@ class Cotizaciones extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function imprimir(){
+         $pdf = \PDF::loadView('cotizaciones/documento');
+         return $pdf->download('cotizaciones/documento.pdf');
+    }
+
     public function index()
     {
         //
