@@ -23,8 +23,6 @@ class Orden_salidas extends Controller
      public function showTablaOrdenSalida()
      {
          //
-          // ->join('salida_movmateriales', 'salida_movmateriales.Orden_salida_idOrden_Salidas', '=', 'orden_salidas.id')
-          //   ->join('mov_materiales', 'mov_materiales.id', '=', 'salida_movmateriales.Mov_materiale_idMov_Materiales')
          try {
            $data = DB::table('orden_salidas')
            ->join('trabajadores', 'trabajadores.id', '=', 'orden_salidas.Trabajadores_idTrabajadore')
@@ -115,6 +113,25 @@ class Orden_salidas extends Controller
          }
      }
 
+     public function showOrdenSalidaDetalles($id)
+     {
+         //
+
+         try {
+           $data = DB::table('orden_salidas')
+           ->join('salida_movmateriales', 'salida_movmateriales.Orden_salida_idOrden_Salidas', '=', 'orden_salidas.id')
+            ->join('mov_materiales', 'mov_materiales.id', '=', 'salida_movmateriales.Mov_materiale_idMov_Materiales')
+             ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
+              ->select('mov_materiales.Cantidad','materiales.Nombre','materiales.Existencia', 'orden_salidas.Descripcion', 'mov_materiales.Materiales_idMateriale')
+               ->where('orden_salidas.id', '=', $id)
+                ->get();
+           // dd($data);
+           return response()->json(json_encode($data));
+         } catch (\Exception $e) {
+           return response()->json(json_encode(1));
+         }
+     }
+
      public function new_ordeSalida(Request $request)
      {
          //
@@ -135,6 +152,35 @@ class Orden_salidas extends Controller
          catch(\Exception $e){
             return response()->json(json_encode(-1));
          }
+     }
+
+     public function cancel_ordenSalida(Request $request, $id)
+     {
+         //
+         // try
+         // {
+           $materiales = Orden_salida::find($id);
+           $materiales->Estado=$request->input('Estado');
+           $materiales->idUsuario=$request->input('idUsuario');
+
+           $materiales->save();
+           $materiales->id=$materiales->id;
+
+           $data = DB::table('orden_salidas')
+           ->join('salida_movmateriales', 'salida_movmateriales.Orden_salida_idOrden_Salidas', '=', 'orden_salidas.id')
+            ->join('mov_materiales', 'mov_materiales.id', '=', 'salida_movmateriales.Mov_materiale_idMov_Materiales')
+             ->join('materiales', 'materiales.id', '=', 'mov_materiales.Materiales_idMateriale')
+              ->select('mov_materiales.Cantidad','materiales.Nombre','materiales.Existencia', 'orden_salidas.Descripcion', 'mov_materiales.Materiales_idMateriale')
+               ->where('orden_salidas.id', '=', $id)
+                ->get();
+
+           return response()->json(['id'=>$materiales->id, 'Cantidad' =>$data]);
+
+           // return response()->json(json_encode($materiales->id));
+         // }
+         // catch(\Exception $e){
+         //    return response()->json(json_encode(1));
+         // }
      }
 
      public function update_ordenSalida(Request $request, $id)
@@ -173,7 +219,15 @@ class Orden_salidas extends Controller
 
            $data->save();
            $data->id=$data->id;
-           return response()->json(json_encode($data->id));
+           $Materialid = $request->input('Materiales_idMateriale');
+
+           $material = DB::table('materiales')
+            ->select('materiales.Existencia', 'materiales.id AS materialid')
+             ->where('materiales.id', '=', $Materialid)
+              ->get();
+
+           return response()->json(['id'=>$data->id, 'Cantidad' =>$data->Cantidad, 'Existencia' => $material]);
+           // return response()->json(json_encode();
          }
          catch(\Exception $e){
             return response()->json(json_encode(-1));

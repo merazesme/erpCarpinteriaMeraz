@@ -9,7 +9,7 @@ $(document).ready(function() {
   $.ajax({
     type: "GET",
     dataType: "json",
-    url: 'nominaSemanal/confirma/'+anio,
+    url: 'confirma/'+anio,
     success: function (data) {
         if(data['Error'])
           swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -44,17 +44,15 @@ $(document).ready(function() {
         // Falta este
         // bonoExtra
         // bonoPyA
+       tr.Subtotal = Math.round(  (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
        tr.Nomina = {
           xPercepciones: {
             'Bono P y A': tr.bonoPyA = 0,
-            'Subtotal': tr.subtotal = Math.round(  (tr.Sueldo * 2) / 365 * tr.Asistencia_total ),
-            'Bono Extra': tr.bonoExtra = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.subtotal )
+            'Bono Extra': tr.bonoExtra = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal )
           }
         };
-
-        tr.xTotal = tr.Nomina.xPercepciones['Subtotal'] + tr.Nomina.xPercepciones['Bono Extra'] + tr.Nomina.xPercepciones['Bono P y A'];
-
-        totalSubtotal += tr.Nomina.xPercepciones['Subtotal'];
+        tr.xTotal = tr.Subtotal + tr.Nomina.xPercepciones['Bono Extra'] + tr.Nomina.xPercepciones['Bono P y A'];
+        totalSubtotal += tr.Subtotal;
         totalBonoExtra += tr.Nomina.xPercepciones['Bono Extra'];
         totalBonoPyA += tr.Nomina.xPercepciones['Bono P y A'];
         total += tr.xTotal;
@@ -63,7 +61,7 @@ $(document).ready(function() {
                     <td>${tr.Nombre} ${tr.Apellidos}</td>
                     <td>${tr.Asistencia_total}</td>
                     <td>${tr.Sueldo}</td>
-                    <td>${tr.Nomina.xPercepciones['Subtotal']}</td>
+                    <td>${tr.Subtotal}</td>
                     <td>${tr.Nomina.xPercepciones['Bono Extra']}</td>
                     <td>${tr.Nomina.xPercepciones['Bono P y A']}</td>
                     <td>${tr.xTotal}</td>
@@ -90,7 +88,7 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: 'nominaAguinaldo/muestra',
+      url: 'muestra',
       success: function (data) {
           console.log(data)
           if(data['Error']) {
@@ -126,7 +124,7 @@ $(document).ready(function() {
     console.log(trabajadores)
     $.ajax({
          type: 'POST',
-         url: 'nominaSemanal/saveNomina',
+         url: 'saveNomina',
          data: {
            '_token': $('meta[name="csrf-token"]').attr('content'),
            'trabajadores':trabajadores,

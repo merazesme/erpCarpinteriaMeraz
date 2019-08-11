@@ -117,32 +117,32 @@
 				                            <tr>
 				                                <td>Oficina</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$60.00</td>
+				                                <td id="oficinaMiniCJ"></td>
 				                            </tr>
 				                            <tr>
 				                                <td>Trabajadores</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$100.00</td>
+				                                <td id="trabajadoresMiniCJ"></td>
 				                            </tr>
 				                            <tr>
 				                                <td>Caja chica</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$3674.50</td>
+				                                <td id="cajachicaMiniCJ"></td>
 				                            </tr>
 				                            <tr>
-				                                <td>Toluco</td>
+				                                <td>Mandados</td>
 				                                <td><i class="ti-plus" style="color: green"></i></td>
-				                                <td>$200.00</td>
+				                                <td id="mandadosMiniCJ"></td>
 				                            </tr>
 				                            <tr>
 				                                <td>Debe</td>
 				                                <td><i class="ti-minus" style="color: red"></i></td>
-				                                <td>$34.50</td>
+				                                <td id="debeMiniCJ"></td>
 				                            </tr>
 				                            <tr>
 				                                <td><b>Total</b></td>
 				                                <td></td>
-				                                <td><b>$4000.00</b></td>
+				                                <td><b id="totalMiniCJ"></b></td>
 				                            </tr>
 				                        </tbody>
 				                    </table>

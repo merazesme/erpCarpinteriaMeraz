@@ -17,7 +17,7 @@
                         </div>
                         <div class="d-inline-flex">
                             <button type="button" class="btn btn-primary waves-effect waves-light ml-auto"
-                                    onclick="#">
+                                    onclick="abrirModalAgregarCarro()">
                                 <i class="fa fa-plus"></i>
                                 Agregar vehículo
                             </button>
@@ -62,6 +62,67 @@
 
                     </div>
                 </div>
+            </div>
+
+            <div class="modal fade" id="modal_agregar_carro" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Agregar carro</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" id="carro_form">
+                                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                                <div class="row p-t-10">
+                                    <div class="col-6" align="center">
+                                        <label class="control-label">Marca</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-circle-o"></i></span>
+                                            <input type="text" id="carro_marca" name="carro_marca" class="form-control" placeholder="Marca de auto">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6" align="center">
+                                        <label class="control-label">Modelo</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-car"></i></span>
+                                            <input type="text" id="carro_modelo" name="carro_modelo" class="form-control" placeholder="Modelo de auto">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-10">
+                                    <div class="col-6" align="center">
+                                        <label class="control-label">Placas</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
+                                            <input type="text" id="carro_placas" name="carro_placas" class="form-control" placeholder="Placas del carro">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6" align="center">
+                                        <label class="control-label">Trabajador asignado</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="select_auto_span"><i class="fa fa-user-o"></i></span>
+                                            <select class="select2 form-control custom-select" style="width: 100%;" id="carro_trabajador" name="carro_trabajador">
+                                                <option value="">Seleccionar auto</option>
+                                                <optgroup label="Autos">
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" id="agregar_registro" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
         </div>
     </div>

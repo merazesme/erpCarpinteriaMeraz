@@ -90,9 +90,9 @@ $('#boton_pagarCompra').on("click", function(e) {
           <div class="col-md-6">
             <div class="form-group">
                 <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
-                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
+                <input type="text" class="form-control required" id="txtTotal" name="txtTotal" value="0" disabled>
             </div>
-        </div>
+         </div>
       </div>`;
 
       $("#todo").empty().append(html);
@@ -118,12 +118,13 @@ $('#boton_pagarCompra').on("click", function(e) {
           </div>
         </div>
        </div>
-       <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-                <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
-                <input type="text" class="form-control required" id="txtTotal" name="txtTotal">
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">$Total <span class="danger">*</label>
+            <input type="text" class="form-control required" id="txtTotal" name="txtTotal" value="0" disabled>
+          </div>
         </div>
       </div>`;
       $("#todo").empty().append(html);
@@ -709,7 +710,7 @@ function ModificarOrdenCompra(id) {
 
   if($("#TotalModificarCompra").val().length == 0){
       validation($("#TotalModificarCompra"), $("#TotalModificarCompra").parent());
-      // bandera_validar = bandera_validar +1;
+      bandera_validar = bandera_validar +1;
   }
 
   if($("#select_proveedorCompra").val() == 0){
@@ -775,6 +776,7 @@ function ModificarOrdenCompra(id) {
                 datos_material.append("idUsuario", "1");
                 datos_material.append("total", total);
                 datos_material.append("Tipo_mov", "1");
+                datos_material.append("Cantidad", txtTotal);
                 datos_material.append("total_money", total_money);
                 datos_material.append("Estado", "2");
 
@@ -960,10 +962,10 @@ function pagarCompra() {
         bandera_validar = bandera_validar +1;
     }
 
-    if($("#txtTotal").val().length == 0){
-        validation($("#txtTotal"), $("#txtTotal").parent());
-        bandera_validar = bandera_validar +1;
-    }
+    // if($("#txtTotal").val().length == 0){
+    //     validation($("#txtTotal"), $("#txtTotal").parent());
+    //     bandera_validar = bandera_validar +1;
+    // }
 
     if($("#select_proveedorCompraPagar").val() == 0){
         validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
@@ -981,10 +983,10 @@ function pagarCompra() {
         bandera_validar = bandera_validar +1;
     }
 
-    if($("#txtTotal").val().length == 0){
-        validation($("#txtTotal"), $("#txtTotal").parent());
-        bandera_validar = bandera_validar +1;
-    }
+    // if($("#txtTotal").val().length == 0){
+    //     validation($("#txtTotal"), $("#txtTotal").parent());
+    //     bandera_validar = bandera_validar +1;
+    // }
 
     if($("#select_proveedorCompraPagar").val() == 0){
         validation($("#select_proveedorCompraPagar"), $("#select_proveedorCompraPagar").parent());
@@ -1015,13 +1017,13 @@ function pagarCompra() {
     success: function (msg) {
             var data = JSON.parse(msg)
             var adeudo_sobrante = data[0].Adeudo;
-            adeudo_sobrante = adeudo_sobrante - total;
+            // adeudo_sobrante = adeudo_sobrante - total;
 
             datos_pagarOrden = new FormData();
             datos_pagarOrden.append("_token", token);
             datos_pagarOrden.append("idUsuario", "1");
 
-            datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
+            // datos_pagarOrden.append("adeudo_sobrante", adeudo_sobrante);
             datos_pagarOrden.append("Total", total);
             datos_pagarOrden.append("Fecha", "2019-07-26");
             datos_pagarOrden.append("Tipo_Pago", tipo);
@@ -1265,4 +1267,30 @@ $('body').on('change', "#select_CompraProveedor", function(e){
   validation($(this), $(this).parent())
   validation($("#validar").val("1"), $("#cantidadOrdenCompra").parent());
   validation($("#validar").val("1"), $("#num_nota").parent());
+});
+$('body').on('change', "#select_OrdenCompras", function(e){
+  var tipo =  $("#select_OrdenCompras").val();
+  console.log("tipo: ", tipo);
+  if (tipo.length == 0) {
+    $("#txtTotal").val(0);
+  }
+  var temporal = 0;
+  var total = 0;
+  for (var i = 0; i < tipo.length; i++) {
+      var id = tipo[i];
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      enctype: "multipart/form-data",
+      url: base_url+'/inventario/orden_compra/cantidad_compras/'+id,
+      success: function (msg) {
+              var data = JSON.parse(msg)
+              console.log("data: ", data[0].Cantidad);
+              var cantidad = data[0].Cantidad;
+              total = total + cantidad;
+              $("#txtTotal").val(total);
+              console.log("total: ", total);
+            }
+       });
+  }
 });

@@ -111,6 +111,12 @@
                                             <th tabindex="0" rowspan="1" colspan="1">
                                                 Folio
                                             </th>
+                                            <th tabindex="0" rowspan="1" colspan="1">
+                                                Método de pago
+                                            </th>
+                                            <th tabindex="0" rowspan="1" colspan="1">
+                                                Total
+                                            </th>
                                             <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
                                                 Lista de número de ticket pagados
                                             </th>
@@ -120,6 +126,8 @@
                                         <tr>
                                             <th rowspan="1" colspan="1">Fecha</th>
                                             <th rowspan="1" colspan="1">Folio</th>
+                                            <th rowspan="1" colspan="1">Método de pago</th>
+                                            <th rowspan="1" colspan="1">Total</th>
                                             <th rowspan="1" colspan="1">Lista de número de ticket pagados</th>
                                         </tr>
                                     </tfoot>
@@ -232,12 +240,24 @@
                                 <div class="row p-t-10">
                                     <div class="col-md-12">
                                         <div class="form-group">
+                                            <label class="control-label">Método de pago</label>
+                                            <select class="form-control" style="width: 100%;" data-placeholder="Elegir"
+                                                    id="factura_metodo" name="factura_metodo">
+                                                <option value="1">Cheque</option>
+                                                <option value="2">Transferencia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+
+                                <div class="row p-t-10">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
                                             <label class="control-label" id="select_tickets_label">Seleccione los ticket(s) a pagar</label>
                                             <select class="select2 m-b-10 select2-multiple" style="width: 100%;" multiple="multiple" data-placeholder="Elegir"
                                                     id="factura_tickets" name="factura_tickets">
                                                 <optgroup label="Pendientes por pagar">
-                                                    {{-- <option value="AK">Primer pago</option>
-                                                    <option value="HI">Segundo pago</option> --}}
                                                 </optgroup>
                                             </select>
                                         </div>

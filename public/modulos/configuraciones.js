@@ -22,6 +22,14 @@ $("#salida_LV").on('input',function(e){
     validation($(this), $(this).parent())
 });
 
+$("#entrada_LV_T").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
+$("#salida_LV_T").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+
 $("#entrada_S").on('input',function(e){
     validation($(this), $(this).parent())
 });
@@ -114,6 +122,16 @@ function actualizarHorario(){
 
     if($("#salida_LV").val().length == 0){
         validation($("#salida_LV"), $("#salida_LV").parent());
+        banValidation=true;
+    }
+
+    if($("#entrada_LV_T").val().length == 0){
+        validation($("#entrada_LV_T"), $("#entrada_LV_T").parent());
+        banValidation=true;
+    }
+
+    if($("#salida_LV_T").val().length == 0){
+        validation($("#salida_LV_T"), $("#salida_LV_T").parent());
         banValidation=true;
     }
 
@@ -221,6 +239,21 @@ function datosHorarios(){
                 data[0].Hora_salida =data[0].Hora_salida[0]+":"+data[0].Hora_salida[1]
                 $("#salida_LV").val(data[0].Hora_salida);
                 $("#salidaLV_data").empty().append(data[0].Hora_salida);
+            }
+
+            if(data[0].Hora_entrada_t != null){
+                data[0].Hora_entrada_t = data[0].Hora_entrada_t.split(":");
+                data[0].Hora_entrada_t =data[0].Hora_entrada_t[0]+":"+data[0].Hora_entrada_t[1]
+                $("#entrada_LV_T").val(data[0].Hora_entrada_t);
+                $("#entradaLV_T_data").empty().append(data[0].Hora_entrada_t);
+            }
+
+
+            if(data[0].Hora_salida_t != null){
+                data[0].Hora_salida_t = data[0].Hora_salida_t.split(":");
+                data[0].Hora_salida_t =data[0].Hora_salida_t[0]+":"+data[0].Hora_salida_t[1]
+                $("#salida_LV_T").val(data[0].Hora_salida_t);
+                $("#salidaLV_T_data").empty().append(data[0].Hora_salida_t);
             }
 
             if(data[0].Hora_entrada_Sab != null){

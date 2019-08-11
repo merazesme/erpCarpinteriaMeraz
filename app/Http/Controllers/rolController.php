@@ -17,8 +17,16 @@ class rolController extends Controller
      */
     public function index()
     {
-        $modulo = "Roles de usuario";
-        return view('roles.roles', compact('modulo'));
+        $acceso = (new loginController)->check_session('Roles');
+
+        if($acceso == 'permitir') {
+            $modulo = "Roles de usuario";
+            return view('roles.roles', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
     }
 
     /**
@@ -55,9 +63,6 @@ class rolController extends Controller
      */
     public function store(Request $request)
     {
-        $prueba = (new loginController)->check_session();
-        return $prueba;
-
         if(!session('Usuario')) {
             return 'session';
         }

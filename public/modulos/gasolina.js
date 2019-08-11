@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-    // $(".select2").select2();
+    $(".select2").select2();
     $('.mydatepicker, #mdate').datepicker();
     $('.dropify').dropify();
     initialize_data_table('#table_gasolina');
@@ -98,7 +98,7 @@ function datos_gasolina_cheques() {
                 folios_pagos.push(item.Folio_pago)
             });
             folios_pagos = folios_pagos.unique();
-            // console.table(folios_pagos);
+            console.table(datos);
 
             /** Crear la lista */
             folios_pagos.forEach(item_folio_pago => {
@@ -111,10 +111,14 @@ function datos_gasolina_cheques() {
                     }
                     band = false;
                 });
+                const cantidad_pago = datos.find(item => item.Folio_pago === item_folio_pago);
+                const metodo_pago   = (cantidad_pago) ? (cantidad_pago.Folio_pago == 1) ? 'Cheque' : 'Transferencia' : '<em>Error</em>';
                 $('#table_cheques tbody').append(`
                     <tr role="row">
                         <td class="vertical-align-table">${fecha}</td>
                         <td class="vertical-align-table"># ${item_folio_pago}</td>
+                        <td class="vertical-align-table">${metodo_pago}</td>
+                        <td class="vertical-align-table">$${cantidad_pago.Cantidad}</td>
                         <td class="vertical-align-table"><ul style="list-style:none">${lista_tickets}</ul></td>
                     </tr>
                 `);
@@ -133,7 +137,6 @@ function datos_gasolina_cheques() {
         datos.forEach(item => {
             $(`#col_folio${item.Ticket}`).html(`# ${item.Folio_pago}`);
         });
-        console.table(datos);
     })
 }
 function datos_autos() {

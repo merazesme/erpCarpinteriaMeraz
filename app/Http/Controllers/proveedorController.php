@@ -30,8 +30,17 @@ class proveedorController extends Controller
      */
     public function create()
     {
-        $modulo = 'Agregar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Agregar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /**
@@ -41,8 +50,17 @@ class proveedorController extends Controller
      */
     public function gasoline_list()
     {
-        $modulo = 'Facturas de gasolina';
-		return view('proveedores.proveedores_gasolina', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Facturas de gasolina';
+            return view('proveedores.proveedores_gasolina', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+
     }
 
     /**
@@ -161,6 +179,7 @@ class proveedorController extends Controller
         $pago = new Pago();
 
         $pago->Fecha        = $request->fecha;
+        $pago->Metodo_pago  = $request->factura_metodo;
         $pago->Folio_pago   = $request->factura_folio;
         $pago->idUsuario    = session('idUsuario');
 
@@ -176,6 +195,7 @@ class proveedorController extends Controller
     
             $relacion->Gasolina_id = $ticket;
             $relacion->Pago_gasolina_idPago_gasolina = $pago->id;
+            
 
             if(!$relacion->save()) {
                 $errores++;
@@ -188,11 +208,21 @@ class proveedorController extends Controller
             return 'error-relacion';
         }
 
+        $total = 0;
         /** Cambiar de estado a cero a los tickets */
         foreach ($tickets as $ticket) {
             $ticket_update = Gasolina::find($ticket);
             $ticket_update->Estado = 0;
+            $total += $ticket_update->Total;
             $ticket_update->update();
+        }
+
+        $pago->Cantidad = $total;
+
+        if(!$pago->update()) {
+            $this->destroy($pago->id);
+            $this->destroy_multiple($pago->id);
+            return 'error-pago';
         }
         return 'true';
     }
@@ -213,8 +243,16 @@ class proveedorController extends Controller
      */
     public function show($id)
     {
-        $modulo = 'Editar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Editar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'sesion') {
+            return redirect('/login/');
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -224,8 +262,17 @@ class proveedorController extends Controller
      */
     public function list_resources()
     {
-        $modulo = 'Lista de proveedores';
-		return view('proveedores.proveedores_show', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Lista de proveedores';
+            return view('proveedores.proveedores_show', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /** 
@@ -235,11 +282,6 @@ class proveedorController extends Controller
      */
     public function datos_proveedores() 
     {
-        // $query = 
-        //     DB::table('proveedores')
-        //     ->  select('*')
-        //     ->  get();
-        // return $query;
         return Proveedor::all();
     }
 
@@ -272,7 +314,7 @@ class proveedorController extends Controller
                    'gasolina_has_pago_gasolina.Pago_gasolina_idPago_gasolina', '=', 'pago_gasolinas.id')
             ->join('gasolinas', 'gasolinas.id', '=', 'gasolina_has_pago_gasolina.Gasolina_id')
             ->select('pago_gasolinas.id', 'pago_gasolinas.Fecha', 'pago_gasolinas.Folio_pago', 
-                     'gasolinas.Ticket')
+                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago')
             ->get();
         return $registros;
     }
@@ -392,6 +434,23 @@ class proveedorController extends Controller
         //
         $pago = Pago::find($id);
         if(!$pago->delete()) {
+            return 'false';
+        }
+        return 'true';
+    }
+
+    /**
+     * Remove multiples resources from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_multiple($id)
+    {
+        //
+        $relacion = DB::table('gasolina_has_pago_gasolina')
+                    ->where('Pago_gasolina_idPago_gasolina', '=', $id);
+        if(!$relacion->delete()) {
             return 'false';
         }
         return 'true';

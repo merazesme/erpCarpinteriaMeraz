@@ -18,6 +18,11 @@
 			            <div class="col-12">
 			                <div class="card wizard-content">
 			                    <div class="card-body">
+									<div class="row">
+										<div class="col-lg-12">
+											<button type="button" name="button" class="btn btn-primary float-right" onclick="generarDoc()">Generar doc</button>
+										</div>
+									</div>
 			                        <form action="#" class="validation-wizard wizard-circle">
 			                            <!-- Datos Generales -->
 			                            <h6>Datos Generales</h6>
@@ -300,8 +305,9 @@
  		 </div>
 
 	</div>
-@section('footer')
-@parent
+
+	@section('footer')
+	@parent
 
 @endsection
 @endsection

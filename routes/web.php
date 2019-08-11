@@ -1,4 +1,7 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headaers: Content-Type, X-Auth-Token, Origin, Authorization');
 
 /*
 |--------------------------------------------------------------------------
@@ -74,9 +77,9 @@ Route::prefix('trabajadores')->group(function () {
 		Route::get('prestamos/consultarMovimientos/{id}', 'Prestamos@movimientosPrestamo');
 });
 
-Route::get('/pagosdelmes_lista', function(){
+Route::get('/pagosdelmes', function(){
 	$modulo = "Listado";
-	return view('pagosDelMes.pagosdelmes_lista', compact('modulo'));
+	return view('pagosDelMes.pagosdelmes', compact('modulo'));
 });
 
 Route::get('/cajachica', function(){
@@ -111,11 +114,13 @@ Route::prefix('login')->group(function () {
 });
 
 Route::prefix('facturas_sobrantes')->group(function () {
-	/** Temporal routes */
-    Route::get('lista', function () {
-		$modulo = 'Facturas sobrantes';
-		return view('facturas_sobrantes_show', compact('modulo'));
-	});
+	Route::get('lista', 'facturaSobranteController@index');
+
+	Route::get('data', 'facturaSobranteController@datos');
+	Route::get('data/pagos', 'facturaSobranteController@datos_facturas_pagos');
+
+	Route::post('agregar', 'facturaSobranteController@store');
+	Route::post('agregar/pago', 'facturaSobranteController@guardar_pago');
 
 });
 
@@ -150,6 +155,7 @@ Route::prefix('inventario')->group(function () {
 		//Route::post('/eliminarorden/{id}', 'compras@cancelar');
 		Route::get('/lista_compras/{id}', 'compras@showcompras');
 		Route::get('/proveedor_adeudo/{id}', 'compras@showAdeudoProveedor');
+		Route::get('/cantidad_compras/{id}', 'compras@showTotalesCompras');
 		Route::post('/insertar_pago_proveedor/{id}', 'compras@insertar_pago_proveedor');
 
 	});
@@ -167,6 +173,8 @@ Route::prefix('inventario')->group(function () {
 		//Para modificar orden de salida
 		Route::get('/lista_orden_salidas/{id}', 'orden_salidas@showOrdenSalida');
 		Route::post('/modificar_ordenSalida/{id}', 'orden_salidas@update_ordenSalida');
+		Route::post('/eliminar_ordenSalida/{id}', 'orden_salidas@cancel_ordenSalida');
+		Route::get('/detalles_ordenSalida/{id}', 'orden_salidas@showOrdenSalidaDetalles');
 	});
 	/** Temporal routes */
 	Route::get('/materiales', function(){
@@ -216,13 +224,24 @@ Route::prefix('/clientes')->group(function () {
 	Route::get('/especifico/{id}', 	'clientes@edit');
 	Route::post('/modificar/{id}', 'clientes@update');
 	Route::post('/eliminar/{id}', 'clientes@destroy');
+});
 
-	Route::get('/cotizaciones/{id}', 'clientes@getCotizaciones');
-	Route::get('/cotizacionSpecific/{id}', 'clientes@getCotizacion');
+
+Route::prefix('/productos')->group(function (){
+	Route::get('/', function(){
+		$modulo = "Productos";
+		return view('productos', compact('modulo'));
+	});
+
+	Route::get('/lista_productos', 'productos@index');
+	Route::get('/lista_matprima', 'productos@showMateriaPrima');
+	Route::get('/lista_matprima_especifico/{id}', 'productos@showMateriaPrimaEspecifico');
 });
 
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
+	Route::name('print')->get('/imprimir', 'Cotizaciones@imprimir');
+
 	Route::get('/', function(){
 		$modulo = "Cotizaciones";
 		return view('cotizaciones/cotizaciones', compact('modulo'));
@@ -233,7 +252,7 @@ Route::prefix('/cotizaciones')->group(function () {
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
 
-	Route::get('/modificar', function(){
+	Route::get('/modificar/{id}', function(){
 		$modulo = "Modificar Cotización";
 		return view('cotizaciones/nuevaCotizacion', compact('modulo'));
 	});
@@ -249,6 +268,7 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/getSpecificProducto/{id}', 'cotizaciones@showProducto');
 	Route::get('/getSpecificProductoMaterial/{id}', 'cotizaciones@showProductoMaterial');
 	Route::post('/nuevoProducto', 'cotizaciones@storeProducto');
+	Route::post('/modificarProducto/{id}', 'cotizaciones@updateProducto');
 
 	Route::get('/getMateria', 'cotizaciones@listMateria');
 
@@ -257,36 +277,46 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::post('/nuevaCotizacion', 'cotizaciones@store');
 	Route::get('/getCotizaciones', 'cotizaciones@index');
 	Route::post('/cambiarEstado/{id}', 'cotizaciones@updateEstado');
+	Route::get('/cotizacion/{id}', 'cotizaciones@edit');
+	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
+	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
+
+	Route::post('/getImage', 'cotizaciones@getImagenBase64');
+
+	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
+	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
+
+
+	Route::get('/cotizacionDocumento', function(){
+		return view('documentos/base/cotizacion');
+	});
 });
 
 Route::prefix('nomina')->group(function () {
+
+	// Metodos que usan otras nominas
+	Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaController@detalleNomina');
+	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNominaSemanal');
+	Route::post('/saveNomina', 																'NominaController@guardaNomina');
+	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
+	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
+
+	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
-		Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaSemanalController@detalleNomina');
-		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
-		Route::get('/historialNomina/{tipo}', 'NominaSemanalController@historialNominaSemanal');
-		Route::post('/saveNomina', 'NominaSemanalController@nomina');
-		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
+		Route::get('/', 																					'NominaController@nominaSemanal');
+		Route::get('/detalles/{semana}', 													'NominaController@detallesSemanal');
 	});
 
+	// Nomina de aguinados
 	Route::prefix('nominaAguinaldo')->group(function () {
-		Route::get('/', 'NominaAguinaldoController@index');
-		Route::get('/muestra', 'NominaAguinaldoController@create');
-		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
+		Route::get('/', 																					'NominaController@nominaAguinaldo');
+		Route::get('/detalles/{anio}', 													  'NominaController@detallesAguinaldo');
 	});
 
+	// Nomina de vacaciones
 	Route::prefix('nominaVacacional')->group(function () {
-		Route::get('/', function() {
-			$modulo = "Nómina Vacacional";
-			return view('nomina/vacacional/nominaVacacional', compact('modulo'));
-		});
-
-		Route::get('/detalles/{anios}', function($anios){
-			$modulo = "Detalles de Nómina Vacacional";
-			return view('nomina/vacacional/detalles', compact('modulo', 'anios'));
-		});
-
+		Route::get('/', 																					'NominaController@nominaVacacional');
+		Route::get('/detalles/{anios}', 													'NominaController@detallesVacacional');
 	});
 });
 
@@ -319,6 +349,13 @@ Route::prefix('/carro')->group(function () {
 	Route::get('/', 'carroController@index');
 
 	Route::get('data', 'carroController@data');
+	Route::get('dataTrabajadores', 'carroController@dataTrabajadores');
+
+	Route::post('agregar', 	 'carroController@store');
+	Route::post('actualizar/{id}', 'carroController@update');
+	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
+	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
+	
 });
 
 Route::get('/usuarios', function(){
@@ -326,12 +363,59 @@ Route::get('/usuarios', function(){
 	return view('usuarios', compact('modulo'));
 });
 
+//Rutas del modulo de citas
 Route::get('/consultarClientes', 'clientes@listarClientes');
-
 Route::post('/nuevaCita', 'citas@store');
-
 Route::get('/consultarCitas/{week}', 'citas@listarCitas');
-
+Route::get('/consultaCitaFecha/{date}', 'citas@buscarCitaPorFecha');
 Route::get('/montarDatosCita/{id}', 'citas@buscarCita');
-
 Route::post('/editarCita/{id}', 'citas@update');
+Route::post('/eliminarCita', 'citas@destroy');
+
+
+//Rutas del modulo de pendientes
+Route::get('/consultarPendientes', 'pendientes@listarPendientes');
+Route::post('/nuevoPendiente', 'pendientes@store');
+Route::post('/editarPendiente/{id}', 'pendientes@update');
+Route::get('/montarDatosPendiente/{id}', 'pendientes@buscarPendiente');
+Route::post('/actualizarEstatusPendiente', 'pendientes@actualizarEstatusPendiente');
+Route::get('/eliminarPendientes', 'pendientes@destroy');
+
+//Rutas del modulo de reporte del dia
+Route::get('/consultarPagoCompras/{fecha}', 'carpeta_del_mes@pagoCompras');
+Route::get('/consultarDetallePagoCompras/{id}', 'carpeta_del_mes@detallePagoCompras');
+Route::get('/consultarPagoCotizaciones/{fecha}', 'carpeta_del_mes@pagoCotizaciones');
+Route::get('/consultarPagoGasolina/{fecha}', 'carpeta_del_mes@pagoGasolina');
+Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGasolinas');
+Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
+
+//Rutas del modulo cotizaciones dashboard
+Route::get('/consultarCotizacionesDashboard', 'cotizaciones_dashborad@consultarCotizaciones');
+
+//Rutas del modulo pagos del mes
+Route::get('/consultarPagos', 'pagos_del_mes@listarPagos');
+Route::get('/consultarUltimo', 'pagos_del_mes@consultarUltimoMes');
+Route::post('/renovarHojaPagos', 'pagos_del_mes@renovarPagos');
+Route::post('/subirArchivo/{id}', 'pagos_del_mes@pagoConcepto');
+Route::get('/estadoVencido/{id}', 'pagos_del_mes@estadoVencido');
+Route::post('/eliminarConcepto', 'pagos_del_mes@destroy');
+Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos'); 
+Route::post('/nuevoConcepto', 'pagos_del_mes@store');
+Route::post('/editarConcepto/{id}', 'pagos_del_mes@update');
+
+//Rutas del modulo caja chica
+Route::post('/nuevoCajaChica', 'Caja_chicas@store');
+Route::get('/consultarCajaChica/{fechaInicial}/{fechaFinal}', 'Caja_chicas@consultar');
+Route::get('/consultarAdeudo', 'Caja_chicas@consultarAdeudo');
+Route::get('/consultarConfiguracionCajaChica', 'Caja_chicas@consultarConfiguracion');
+Route::get('/montarDatosRegistroCajaChica/{id}', 'Caja_chicas@montarDatos');
+Route::post('/editarRegistroCajaChica/{id}', 'Caja_chicas@update');
+Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy'); 
+Route::get('/consultarUltimoCajaChica', 'Caja_chicas@consultarUltimaSemana');
+Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja'); 
+
+
+//Rutas del header para caja chica
+Route::get('/consultarUltimoCajaChicaHeader', 'Headers@consultarUltimaSemana');
+Route::get('/consultarCajaChicaHeader/{fechaInicial}/{fechaFinal}', 'Headers@consultar');
+Route::get('/consultarConfiguracionCajaChicaHeader', 'Headers@consultarConfiguracion');
