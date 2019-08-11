@@ -52,7 +52,7 @@
                                         <button type="button" id="btnEliminarPendientes" class="btn waves-effect waves-light btn-block btn-primary" href="#modalAgregarRegistroCajaChica" data-toggle="modal"><i></i>Eliminar pendientes realizados</button>
                                     </div>
                                     <div class="ml-auto col-lg-4">
-                                        <button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#modalPendientes" data-whatever="Añadir" id="btnNuevoPendiente" onclick="limpiarModal()"><i class="ti-plus"></i></button>
+                                        <button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#modalPendientes" data-whatever="Añadir" id="btnNuevoPendiente" onclick="limpiarModalPendientes()"><i class="ti-plus"></i></button>
                                     </div>
                                 </div>
                                 <!-- ============================================================== -->

@@ -17,9 +17,17 @@ class Caja_chicas extends Controller
 
     public function consultar($fechaInicial, $fechaFinal)
     {
-        $sql = "SELECT * FROM `caja_chicas` WHERE fecha BETWEEN ? AND ?";
+        $sql = "SELECT * FROM `caja_chicas` WHERE fecha BETWEEN ? AND ? and tipo !=4";
 
         $cajachica = DB::select($sql, array($fechaInicial, $fechaFinal));
+        return $cajachica;
+    } 
+
+    public function consultarAdeudo()
+    {
+        $sql = "SELECT * FROM `caja_chicas` WHERE caja_chicas.Tipo=4";
+
+        $cajachica = DB::select($sql);
         return $cajachica;
     }
 
@@ -70,19 +78,24 @@ class Caja_chicas extends Controller
         $concepto = $_POST['Concepto'];
         $tipo = $_POST['Tipo'];
         $fecha = $_POST['Fecha'];
-        $idUsuario = $_POST['idUsuario'];
+        if(!session('Usuario')) {
+            return 'session';
+        }
 
         $data=new Caja_chica();
         $data->Concepto=$concepto;
         $data->Tipo=$tipo;
         $data->Estado=0;
         $data->Fecha=$fecha;
-        $data->idUsuario=$idUsuario;
+        $data->idUsuario=session('idUsuario');;
         $data->save();
         return $data;
     }
     public function store(Request $request)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         //preparar datos
         $data=new Caja_chica();
         $data->Fecha=$request->input('fecha');
@@ -90,7 +103,7 @@ class Caja_chicas extends Controller
         $data->Total=$request->input('cantidad');
         $data->Tipo=$request->input('tipo');
         $data->Estado=1;
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }
@@ -126,12 +139,15 @@ class Caja_chicas extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!session('Usuario')) {
+            return 'session';
+        }
         $data = Caja_chica::find($id);
         $data->Fecha=$request->input('fecha');
         $data->Concepto=$request->input('concepto');
         $data->Total=$request->input('cantidad');
         $data->Tipo=$request->input('tipo');
-        $data->idUsuario=$request->input('idUsuario');
+        $data->idUsuario=session('idUsuario');
         $data->save();
         return $data;
     }

@@ -20,8 +20,16 @@ class facturaSobranteController extends Controller
      */
     public function index()
     {
-        $modulo = 'Facturas sobrantes';
-		return view('facturas_sobrantes.facturas_sobrantes_show', compact('modulo'));
+        $acceso = (new loginController)->check_session('Facturas sobrantes');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Facturas sobrantes';
+            return view('facturas_sobrantes.facturas_sobrantes_show', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
     }
 
     /**

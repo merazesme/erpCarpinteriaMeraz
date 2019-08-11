@@ -30,8 +30,17 @@ class proveedorController extends Controller
      */
     public function create()
     {
-        $modulo = 'Agregar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Agregar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /**
@@ -41,8 +50,17 @@ class proveedorController extends Controller
      */
     public function gasoline_list()
     {
-        $modulo = 'Facturas de gasolina';
-		return view('proveedores.proveedores_gasolina', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Facturas de gasolina';
+            return view('proveedores.proveedores_gasolina', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+
     }
 
     /**
@@ -225,8 +243,16 @@ class proveedorController extends Controller
      */
     public function show($id)
     {
-        $modulo = 'Editar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Editar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'sesion') {
+            return redirect('/login/');
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -236,8 +262,17 @@ class proveedorController extends Controller
      */
     public function list_resources()
     {
-        $modulo = 'Lista de proveedores';
-		return view('proveedores.proveedores_show', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Lista de proveedores';
+            return view('proveedores.proveedores_show', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /** 
