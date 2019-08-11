@@ -306,28 +306,9 @@
 
 	</div>
 
+	@section('footer')
+	@parent
 
-	<div id="contentPDF">
-	    <!-- el contenido HTML va aqui -->
-		<div class="row">
-		  <div class="col-lg-12">
-		    <h4>HOLA!</h4>
-		  </div>
-		</div>
-		<div class="row">
-		  <div class="col-lg-6">
-			  <button type="button" class="btn btn-success w-100" name="button">Prueba</button>
-		  </div>
-		  <div class="col-lg-6">
-			  <p class="text-danger">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		  </div>
-		</div>
-	</div>
-
-	<div id="elementH"></div>
-@section('footer')
-@parent
-<script src="{{asset('plugins/jsPDF/jspdf.min.js')}}"></script>
 @endsection
 @endsection
 @endsection

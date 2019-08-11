@@ -260,8 +260,15 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
 
+	Route::post('/getImage', 'cotizaciones@getImagenBase64');
+
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
+
+
+	Route::get('/cotizacionDocumento', function(){
+		return view('documentos/base/cotizacion');
+	});
 });
 
 Route::prefix('nomina')->group(function () {

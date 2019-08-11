@@ -98,6 +98,12 @@ class Cotizaciones extends Controller
         }
     }
 
+    public function getImagenBase64(Request $request){
+        $im = file_get_contents($request->input('imagen'));
+        $imdata = base64_encode($im);
+        return response()->json(json_encode($imdata));
+    }
+
     public function listRecomendados()
     {
         //
