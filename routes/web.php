@@ -376,7 +376,8 @@ Route::get('/consultarDetallePagoCompras/{id}', 'carpeta_del_mes@detallePagoComp
 Route::get('/consultarPagoCotizaciones/{fecha}', 'carpeta_del_mes@pagoCotizaciones');
 Route::get('/consultarPagoGasolina/{fecha}', 'carpeta_del_mes@pagoGasolina');
 Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGasolinas');
-Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
+Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@pagoFacturasSobrantes');
+Route::get('/consultarDetallePagoFactutasrSobrantes/{id}', 'carpeta_del_mes@detallePagoFacturasSobrantes');
 
 //Rutas del modulo cotizaciones dashboard
 Route::get('/consultarCotizacionesDashboard', 'cotizaciones_dashborad@consultarCotizaciones');

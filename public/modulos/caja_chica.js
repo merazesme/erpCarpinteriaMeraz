@@ -3,14 +3,16 @@ $(document).ready(function(){
 	var idRegistro=0;
 	var fecha = fechaValida();
 	if (fecha!="") {
+
 		$("#fecha").attr("min", fecha[0]);
 	    $("#fecha").attr("max", fecha[1]);
-
+        
 	    consultar(fecha[0], fecha[1]);   
+
 	}else{
 		Swal.fire({   
-            title: "Error",   
-            text: "No se han podido consultar datos de caja chica",   
+            title: "success",   
+            text: "No se pudieron obtener las fechas",   
             timer: 1500,  
             type: "error", 
             showConfirmButton: false 
@@ -27,37 +29,45 @@ function fechaValida(){
         async:false,
         url: "/consultarUltimoCajaChica",
         success: function (msg) {
-        	var primerDia = new Date(msg[0].Fecha);
-			var ultimoDia = new Date(msg[0].Fecha);
+            var primerDia = "";
+            var ultimoDia = "";
 
-			while(primerDia.getDay() != 1) {
-		     primerDia.setDate(primerDia.getDate() - 1);
-			}
-			while(ultimoDia.getDay() != 6) {
-		     ultimoDia.setDate(ultimoDia.getDate() + 1);
-			}
-			var mes1 = primerDia.getMonth()+1;
-		    var dia1 = primerDia.getDate();
-		    if (parseInt(mes1) < 10) {
-		        mes1 = "0"+mes1;
-		    }
-		    if (parseInt(dia1) < 10) {
-		        dia1 = "0"+dia1;
-		    }
-		    var mes2 = ultimoDia.getMonth()+1;
-		    var dia2 = ultimoDia.getDate();
-		    if (parseInt(mes2) < 10) {
-		        mes2 = "0"+mes2;
-		    }
-		    if (parseInt(dia2) < 10) {
-		        dia2 = "0"+dia2;
-		    }
+            if (msg.length>0) {
+                primerDia = new Date(msg[0].Fecha);
+                ultimoDia = new Date(msg[0].Fecha);
+            }else{
+                primerDia = new Date();
+                ultimoDia = new Date();
+            }
 
-		    primerDia = primerDia.getFullYear() + "-" + mes1 + "-" + dia1;
-		    ultimoDia = ultimoDia.getFullYear() + "-" + mes2 + "-" + dia2;
+                while(primerDia.getDay() != 1) {
+                 primerDia.setDate(primerDia.getDate() - 1);
+                }
+                while(ultimoDia.getDay() != 6) {
+                 ultimoDia.setDate(ultimoDia.getDate() + 1);
+                }
+                var mes1 = primerDia.getMonth()+1;
+                var dia1 = primerDia.getDate();
+                if (parseInt(mes1) < 10) {
+                    mes1 = "0"+mes1;
+                }
+                if (parseInt(dia1) < 10) {
+                    dia1 = "0"+dia1;
+                }
+                var mes2 = ultimoDia.getMonth()+1;
+                var dia2 = ultimoDia.getDate();
+                if (parseInt(mes2) < 10) {
+                    mes2 = "0"+mes2;
+                }
+                if (parseInt(dia2) < 10) {
+                    dia2 = "0"+dia2;
+                }
 
-		    fechas = [primerDia, ultimoDia];
+                primerDia = primerDia.getFullYear() + "-" + mes1 + "-" + dia1;
+                ultimoDia = ultimoDia.getFullYear() + "-" + mes2 + "-" + dia2;
 
+                fechas = [primerDia, ultimoDia];
+            
         }, error: function(error) {
         //Error Message
         console.log(error);
