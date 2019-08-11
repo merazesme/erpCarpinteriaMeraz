@@ -14,7 +14,7 @@ function obtieneDatosHistorial(tipo) {
   $.ajax({
     type: "GET",
     dataType: "json",
-    url: 'nominaSemanal/historialNomina/'+tipo,
+    url: 'historialNomina/'+tipo,
     success: function (data) {
         console.log(data)
         if(data['Error'])

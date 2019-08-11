@@ -265,33 +265,30 @@ Route::prefix('/cotizaciones')->group(function () {
 });
 
 Route::prefix('nomina')->group(function () {
+
+	// Metodos que usan otras nominas
+	Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaController@detalleNomina');
+	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNominaSemanal');
+	Route::post('/saveNomina', 																'NominaController@guardaNomina');
+	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
+	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
+
+	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 'NominaSemanalController@index');
-		Route::get('/detalles/{semana}', 'NominaSemanalController@detalles');
-		Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaSemanalController@detalleNomina');
-		Route::get('/muestra/{fechai}/{fechaf}', 'NominaSemanalController@trabajadores');
-		Route::get('/historialNomina/{tipo}', 'NominaSemanalController@historialNominaSemanal');
-		Route::post('/saveNomina', 'NominaSemanalController@nomina');
-		Route::get('/confirma/{numero}', 'NominaSemanalController@validaNomina');
+		Route::get('/', 																					'NominaController@nominaSemanal');
+		Route::get('/detalles/{semana}', 													'NominaController@detallesSemanal');
 	});
 
+	// Nomina de aguinados
 	Route::prefix('nominaAguinaldo')->group(function () {
-		Route::get('/', 'NominaAguinaldoController@index');
-		Route::get('/muestra', 'NominaAguinaldoController@create');
-		Route::get('/detalles/{semana}', 'NominaAguinaldoController@detalles');
+		Route::get('/', 																					'NominaController@nominaAguinaldo');
+		Route::get('/detalles/{anio}', 													  'NominaController@detallesAguinaldo');
 	});
 
+	// Nomina de vacaciones
 	Route::prefix('nominaVacacional')->group(function () {
-		Route::get('/', function() {
-			$modulo = "Nómina Vacacional";
-			return view('nomina/vacacional/nominaVacacional', compact('modulo'));
-		});
-
-		Route::get('/detalles/{anios}', function($anios){
-			$modulo = "Detalles de Nómina Vacacional";
-			return view('nomina/vacacional/detalles', compact('modulo', 'anios'));
-		});
-
+		Route::get('/', 																					'NominaController@nominaVacacional');
+		Route::get('/detalles/{anios}', 													'NominaController@detallesVacacional');
 	});
 });
 
