@@ -385,34 +385,35 @@ $("#btnRenovarHoja").click(function(){
       },
       buttonsStyling: false,
     })
-    swalWithBootstrapButtons.fire({
-      title: '¿Generar nueva hoja?',
-      text: "",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Generar',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                enctype:"multipart/form-data",
-                url: "/consultarUltimo/",
-                success: function (msg) {
-                    var estado ="";
-                    var banderaConceptoNoPagado=0;
-                    for(var i=0; i < msg.length; i++)
-                    {
-                        // si no se ha pagado el concepto no se puede renovar la hoja
-                        if (msg[i].Estado != '2' && msg[i].Documento == null) {
-                            banderaConceptoNoPagado=1;
-                            break;
-                        }
-                    }
-                    if (banderaConceptoNoPagado == 0) 
-                    {
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        enctype:"multipart/form-data",
+        url: "/consultarUltimo/",
+        success: function (msg) {
+            var estado ="";
+            var banderaConceptoNoPagado=0;
+            for(var i=0; i < msg.length; i++)
+            {
+                // si no se ha pagado el concepto no se puede renovar la hoja
+                if (msg[i].Estado != '2' && msg[i].Documento == null) {
+                    banderaConceptoNoPagado=1;
+                    break;
+                }
+            }
+            if (banderaConceptoNoPagado == 0) 
+            {
+                swalWithBootstrapButtons.fire({
+                  title: '¿Generar nueva hoja?',
+                  text: "",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Generar',
+                  cancelButtonText: 'Cancelar',
+                  reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
                         $.ajax({
                             type: "GET",
                             dataType: "json",
@@ -480,19 +481,19 @@ $("#btnRenovarHoja").click(function(){
                                 }
                             }
                         });
-                    }else
-                    {
-                         Swal.fire({   
-                            title: "Movimiento invalido",   
-                            text: "No se puede renovar la hoja de pagos mensuales si no se han saldado todos los conceptos",
-                            type: "error", 
-                            showConfirmButton: true 
-                        });
-                    }            
-                }
-            });
+                    }
+                })
+            }else
+            {
+                 Swal.fire({   
+                    title: "Movimiento invalido",   
+                    text: "No se puede renovar la hoja de pagos mensuales si no se han saldado todos los conceptos",
+                    type: "error", 
+                    showConfirmButton: true 
+                });
+            }            
         }
-    })
+    });
 });
 
 function montarIdModalSubirArchivo(id){
