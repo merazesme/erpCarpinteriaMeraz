@@ -79,7 +79,7 @@ class loginController extends Controller
                             'Nombre'    => $user->Nombre,
                             'Modulos'   => $modulos
                         ]);
-                        return session('Modulos');
+                        // return session('Modulos');
                     return 'true';
                 } else {
                     return 'inactivo';
