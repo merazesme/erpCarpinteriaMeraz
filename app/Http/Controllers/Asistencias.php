@@ -96,45 +96,46 @@ class Asistencias extends Controller
                 }
             }
 
-            $nuevoMañana = 0;
-            $nuevoTarde = 0;
-            $nuevoHoraExtra = 0;
             foreach ($request->idsTodos as $id2) {
+              $nuevoMañana = 0;
+              $nuevoTarde = 0;
+              $nuevoHoraExtra = 0;
+
               // VERIFICAR SI TAMBIEN FUE EN LA MAÑANA
+              $bandera = 0;
               if($request->tamañoMañana >= 1) {
-                $bandera1 = false;
                 foreach ($request->idsMañana as $idM) {
                   if($id2 == $idM){
-                    $bandera1 = true;
+                    $bandera = 1;
                   }
                 }
-                if($bandera1 == true){
+                if($bandera == 1){
                   $nuevoMañana=$request->diferenciaMañana;
                 }
               }
 
               // VERIFICAR SI TAMBIEN FUE EN LA TARDE
+              $bandera2 = 0;
               if($request->tamañoTarde >= 1) {
-                $bandera2 = false;
                 foreach ($request->idsTarde as $idT) {
                   if($id2 == $idT){
-                    $bandera2 = true;
+                    $bandera2 = 1;
                   }
                 }
-                if($bandera2 == true){
+                if($bandera == 1){
                   $nuevoTarde=$request->diferenciaTarde;
                 }
               }
 
               // VERIFICAR SI TAMBIEN FUE A LA HORA EXTRA
+              $bandera3 = 0;
               if($request->tamañoHoraExtra >= 1) {
-                $bandera3 = false;
                 foreach ($request->idsHoraExtra as $idH) {
                   if($id2 == $idH){
-                    $bandera3 = true;
+                    $bandera3 = 1;
                   }
                 }
-                if($bandera3 == true){
+                if($bandera3 == 1){
                   $nuevoHoraExtra=$request->diferenciaHoraExtra;
                 }
               }

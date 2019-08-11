@@ -242,6 +242,10 @@
     });
 
   $("#btnGuardar").click(function(){
+    console.log(idsMañana);
+    console.log(idsTarde);
+    console.log(idsHoraExtra);
+    console.log("idsTodos: " + idsTodos);
     if(idsMañana.length != 0 || idsTarde.length != 0 || idsHoraExtra.length != 0){
       var datos = [];
       datos[1] = 1;

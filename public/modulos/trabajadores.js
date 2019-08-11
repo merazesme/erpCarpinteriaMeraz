@@ -205,10 +205,9 @@
   function agregarTrabajador(bandera, id){
     // EXTRAER DATOS DE FORMULARIO
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
-    if(datosTrabajador.Tipo == "Base"){
-      datosTrabajador.append("tiempo", 0);
-      datosTrabajador.append("fecha_inicio", null);
-      datosTrabajador.append("fecha_final", null);
+    var variable = $('input:radio[name=tipo]:checked').val();
+    if(variable == "Temporal"){
+      datosTrabajador.append("fecha_final", $("#fecha_final").val());
     }
     datosTrabajador.append("idUsuario", "1");
     for (var concepto of datosTrabajador.entries()) {
@@ -403,6 +402,12 @@
 
                 $("#datos2").before(htmlNombre);
                 $("#historialContratos tbody").empty().append(htmlHistorialContratos);
+                $('#historialContratos').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'pdf', 'print'
+                    ]
+                });
               }
             }
           }
@@ -479,8 +484,10 @@
                                   closeOnCancel: true
                               }, function(isConfirm){
                                   if (isConfirm) {
-                                    // console.log("GENERAR CONTRATO TAMBIEN");
                                     location.href = "/trabajadores/contrato/"+id;
+                                  }
+                                  else{
+                                    tablaTrabajadores();
                                   }
                               });
                             }
