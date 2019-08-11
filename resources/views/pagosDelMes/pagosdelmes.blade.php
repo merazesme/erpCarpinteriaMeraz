@@ -12,12 +12,15 @@
 				<div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-lg-6">
                                 <h4 class="card-title">Pagos del mes</h4>
-                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF &amp; Print</h6>
+                                <h6 class="card-subtitle">Export data to Excel, PDF &amp; Print</h6>
                             </div>
                             <div class="col-lg-3">
-                                <button type="button" class="btn waves-effect waves-light btn-block btn-primary" href="#modalConceptoPagodelMes" data-toggle="modal"><i class="fa fa-plus"></i>Agregar concepto</button>
+                                <button type="button" class="btn waves-effect waves-light btn-block btn-secondary" href="" id="btnRenovarHoja"><i class="fa fa-file-text-o"></i> Generar nuevo</button>
+                            </div>
+                            <div class="col-lg-3">
+                                <button type="button" id="btnAgregarConcepto" class="btn waves-effect waves-light btn-block btn-primary" href="#modalConceptoPagodelMes" data-toggle="modal" data-whatever="Agregar"><i class="fa fa-plus"></i> Agregar concepto</button>
                             </div>
                         </div>
                         <div class="table-responsive m-t-40">
@@ -29,18 +32,18 @@
                                 <tfoot>
                                     <tr><th rowspan="1" colspan="1">Fecha</th><th rowspan="1" colspan="1">Concepto</th><th rowspan="1" colspan="1">Cantidad</th><th rowspan="1" colspan="1">Estatus</th><th rowspan="1" colspan="1">Acciones</th></tr>
                                 </tfoot>
-                                <tbody>
+                                <tbody id="contenedorConceptosPago">
                                 <tr role="row" class="odd">
                                         <td>2008/11/28</td>
                                         <td class="sorting_1">Airi Satou</td>
                                         <td>$1500.00</td>
                                         <td><span class="badge badge-success">Pagado</span></td>
                                         <td class="text-nowrap">
+                                            <a href="#modalConceptoPagodelMes" data-toggle="modal" data-whatever="Editar">
+                                                <i class="icon-pencil text-primary m-r-10"></i>
+                                            </a>
                                             <a href="#modalAdjuntarPagodelMes" data-toggle="modal">
                                             	<i class="icon-check text-success m-r-10"></i>
-                                            </a>
-                                            <a href="#modalConceptoPagodelMes" data-toggle="modal">
-                                                <i class="icon-pencil text-primary m-r-10"></i>
                                             </a>
                                             <a href="#" data-toggle="modal" id="sa-warning">
                                                 <i class="icon-close text-danger"></i>
@@ -61,19 +64,20 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
-                                            <fieldset class="form-group">
-			                                    <label>Seleccione el archivo</label>
-			                                    <label class="custom-file d-block">
-			                                        <input type="file" id="file" class="custom-file-input">
-			                                        <span class="custom-file-control"></span>
-			                                    </label>
+                                        <form id="pagoConcepto">
+                                            <fieldset>
+                                                <div  class="form-group">
+                                                    <label for="pagoconcepto_archivo">Seleccione el archivo</label>
+                                                     <input type="file" id="pagoconcepto_archivo" name="pagoconcepto_archivo" class="dropify" data-max-file-size="4M">
+                                                     <label id="txtArchivo-error" class="text-danger" for="pagoconcepto_archivo" style="display: none;">Seleccione un archivo.</label>
+                                                     <input type="hidden" class="idRegistro">
+                                                </div>
 			                                </fieldset>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                        <button type="button" id="btnSubirPagoConcepto" class="btn btn-success">Guardar</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -81,33 +85,41 @@
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
-                                                <!-- .modal for add task -->
+                        <!-- .modal for add task -->
                         <div class="modal fade" id="modalConceptoPagodelMes" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Agregar concepto</h4>
+                                        <h4 class="modal-title"></h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"> <span aria-hidden="true">&times;</span> </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form>
+                                        <form id="formConceptosPago">
                                             <div class="form-group">
                                                 <label>Fecha de vencimento</label>
-                                                <input class="form-control" type="date" placeholder="Selecione una fecha" id="example-date-input">
+                                                <input class="form-control" type="date" placeholder="Selecione una fecha" id="fechaVencimiento" name="fechaVencimiento">
                                             </div>
                                             <div class="form-group">
                                                 <label>Nombre del concepto</label>
-                                                <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="example-text-input">
+                                                <input class="form-control" type="text" placeholder="Ingrese un nombre de concepto" id="nombreConcepto" name="nombreConcepto">
                                             </div>
                                             <div class="form-group">
                                                 <label>Cantidad</label>
-                                                <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="example-number-input">
+                                                <input class="form-control" type="number" placeholder="Ingrese la cantidad" id="cantidadPago" name="cantidadPago">
                                             </div>
+                                            <div class="form-group">
+                                                <label>Observación</label>
+                                                <textarea class="form-control" type="text" placeholder="Ingrese alguna observación" id="observacionPago" name="observacionPago"></textarea>
+                                            </div>
+                                            <input class="form-control" type="hidden" id="idConceptoModal" name="idConceptoModal">
+
+                                            <!-- AQUI VA EL ID DEL USUARIO -->
+                                            <input class="form-control" type="hidden" id="idUsuario" name="idUsuario" value="1">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                        <button type="button" class="btn btn-success" id="btnGuardarConceptoPago">Guardar</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -172,18 +184,25 @@
                 }
             });
         });
+
     });
     $('#example23').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'excel', 'pdf', 'print'
         ]
     });
+    const url_images = "{{asset('images')}}";
     </script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="{{asset('plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('plugins/dropify/dist/css/dropify.min.css')}}">
+    <script src="{{asset('plugins/dropify/dist/js/dropify.min.js')}}"></script>
+    <script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
+    
 	</div>
 @endsection
 @endsection

@@ -5,17 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Cita;
+use App\Caja_chica;
 
-class Citas extends Controller
+class Caja_chicas extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
+    public function consultar($fechaInicial, $fechaFinal)
+    {
+        $sql = "SELECT * FROM `caja_chicas` WHERE fecha BETWEEN ? AND ?";
+
+        $cajachica = DB::select($sql, array($fechaInicial, $fechaFinal));
+        return $cajachica;
+    }
+
+    public function consultarConfiguracion()
+    {
+        $sql = "SELECT Minimo_caja_chica as monto FROM configuracions";
+
+        $monto = DB::select($sql);
+        return $monto;
+    }
+
+    public function montarDatos($id)
+    {
+        $datosRegistro = Caja_chica::find($id);
+        return $datosRegistro;
+    }
+
+    public function consultarUltimaSemana()
+    {
+        $sql = "SELECT * from caja_chicas where week(Fecha) = (SELECT week(fecha) FROM caja_chicas WHERE id = (SELECT MAX(id) from caja_chicas))";
+
+        $ultimasemana = DB::select($sql);
+        return $ultimasemana;
+    }
     public function index()
     {
         //
@@ -37,62 +65,36 @@ class Citas extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function listarCitas($week)
+    public function nuevaHoja()
     {
-        $sql = "SELECT citas.id, Comentario, Fecha, citas.Estado, clientes.Nombre, clientes.Apellidos FROM `citas` 
-                INNER JOIN clientes ON citas.Clientes_id = clientes.id 
-                WHERE WEEK(Fecha) = ?";
+        $concepto = $_POST['Concepto'];
+        $tipo = $_POST['Tipo'];
+        $fecha = $_POST['Fecha'];
+        $idUsuario = $_POST['idUsuario'];
 
-        $citas = DB::select($sql, array($week));
-        return $citas;
+        $data=new Caja_chica();
+        $data->Concepto=$concepto;
+        $data->Tipo=$tipo;
+        $data->Estado=0;
+        $data->Fecha=$fecha;
+        $data->idUsuario=$idUsuario;
+        $data->save();
+        return $data;
     }
-
-    public function buscarCitaPorFecha($date)
-    {
-        $sql = "SELECT * FROM citas
-                WHERE Fecha = ?";
-
-        $cita = DB::select($sql, array($date));
-        return $cita;
-    }
-
     public function store(Request $request)
     {
         //preparar datos
-        if(!session('Usuario')) {
-            return 'session';
-        }
-        $data=new Cita();
-        $data->Comentario=$request->input('comentario');
+        $data=new Caja_chica();
         $data->Fecha=$request->input('fecha');
-        $data->Estado=$request->input('estatus');
+        $data->Concepto=$request->input('concepto');
+        $data->Total=$request->input('cantidad');
+        $data->Tipo=$request->input('tipo');
+        $data->Estado=1;
         $data->idUsuario=$request->input('idUsuario');
-        $data->Clientes_id=$request->session('idUsuario');
         $data->save();
         return $data;
     }
 
-    public function buscarCita($id)
-    {
-        $datosCita = Cita::find($id);
-        $cita = array($datosCita, $datosCita->Cliente);
-        // var_dump($citaModificar);
-        return $cita[0];
-    }
-
-    public function editarCita(Request $request, $id)
-    {
-        //preparar datos
-        $data = Cita::find($id);
-        $data->Comentario=$request->input('comentario');
-        $data->Fecha=$request->input('fecha');
-        $data->Estado=$request->input('estatus');
-        $data->idUsuario=$request->input('idUsuario');
-        $data->Clientes_id=$request->input('cliente');
-        // return $request->all();
-        $data->save();
-        return $data;
-    }
     /**
      * Display the specified resource.
      *
@@ -124,14 +126,12 @@ class Citas extends Controller
      */
     public function update(Request $request, $id)
     {
-        //preparar datos
-        $data = Cita::find($id);
-        $data->Comentario=$request->input('comentario');
+        $data = Caja_chica::find($id);
         $data->Fecha=$request->input('fecha');
-        $data->Estado=$request->input('estatus');
+        $data->Concepto=$request->input('concepto');
+        $data->Total=$request->input('cantidad');
+        $data->Tipo=$request->input('tipo');
         $data->idUsuario=$request->input('idUsuario');
-        $data->Clientes_id=$request->input('cliente');
-        // return $request->all();
         $data->save();
         return $data;
     }
@@ -145,7 +145,7 @@ class Citas extends Controller
     public function destroy()
     {
         $id = $_POST['id'];
-        $data = Cita::find($id);
+        $data = Caja_chica::find($id);
         $data->delete();
     }
 }
