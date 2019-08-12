@@ -36,7 +36,7 @@
 				                                    <th>Nombre</th>
 				                                    <th>Correo</th>
 													<th>Teléfono</th>
-													<th>Acciones</th>
+													<th></th>
 				                                  </tr>
 				                              </thead>
 				                              <tfoot>
@@ -44,7 +44,7 @@
 				                                      <th>Nombre</th>
 				                                      <th>Correo</th>
 											          <th>Teléfono</th>
-													  <th>Acciones</th>
+													  <th></th>
 				                                  </tr>
 				                              </tfoot>
 				                              <tbody>
@@ -274,7 +274,7 @@
 	                              </div>
 	                              <div class="col-md-6">
 	                                  <div class="form-group">
-	                                      <label for="apellidos">Apellidos: <span class="danger">*</span> </label>
+	                                      <label for="apellidos">Apellidos: </label>
 	                                      <input type="text" class="form-control required" id="txtApellidos" name="txtApellidos">
 	                                  </div>
 	                              </div>

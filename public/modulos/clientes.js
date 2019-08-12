@@ -6,6 +6,16 @@ function validation(children, parent){
     }
 }
 
+function mensajeTimer(titulo, texto, tipo){
+    swal({
+           title: titulo,
+           text: texto,
+           timer: 2000,
+           type: tipo,
+           showConfirmButton: false
+       });
+}
+
 function isValidEmailAddress(emailAddress) {
     var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     return pattern.test(emailAddress);
@@ -55,13 +65,13 @@ $("body").on("click", ".eliminarCliente", function(e){
                     success: function(msg){
                         var data = JSON.parse(msg)
                         if(data == 0){
-                            swal("Eliminado", "El estado del cliente ha sido actuzalizado con éxito", "success");
+                            mensajeTimer("Eliminado", "El estado del cliente ha sido actuzalizado con éxito", "success");
                             tablaClientes();
                         }else{
-                            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                            mensajeTimer("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
                         }
                     }, error: function(error) {
-                        swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                        mensajeTimer("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
                     }
                 });
             }
@@ -79,12 +89,12 @@ $("body").on("click", ".detalleClientes", function(e){
 		type: "GET",
 		dataType: "json",
 		enctype: "multipart/form-data",
-		url: base_url+'/clientes/cotizacionesCliente/'+id,
+		url: base_url+'/cotizaciones/cotizacionesCliente/'+id,
 		success: function (msg) {
             var data = JSON.parse(msg)
             console.log(data);
             if(data[0] == undefined){
-                swal("", "Este cliente no tiene ninguna cotización.", "error");
+                mensajeTimer("", "Este cliente no tiene ninguna cotización.", "error");
             }else{
                 var html = "";
                 for (var i = 0; i < data.length; i++) {
@@ -222,11 +232,6 @@ function nuevoCliente(id){
         banValidation=true;
     }
 
-    if($("#txtApellidos").val().length == 0){
-        validation($("#txtApellidos"), $("#txtApellidos").parent());
-        banValidation=true;
-    }
-
     if($("#txtEmail").val().length == 0){
         validation($("#txtEmail"), $("#txtEmail").parent());
         banValidation=true;
@@ -282,13 +287,13 @@ function nuevoCliente(id){
                 var data = JSON.parse(msg)
                 if(data == 0){
                     $('#modalAgregar').modal('hide')
-                    swal(titulo, mensaje, "success");
+                    mensajeTimer(titulo, mensaje, "success");
                     tablaClientes();
                 }else{
-                    swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                    mensajeTimer(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
             }, error: function(error) {
-                swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                mensajeTimer(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
             }
         });
     }
@@ -299,16 +304,11 @@ $('#modalAgregar').on('hidden.bs.modal', function (e) {
     $("#txtTelefono-error").hide();
     $("#frmCliente")[0].reset();
     $("#txtNombre").parent().removeClass("error");
-    $("#txtApellidos").parent().removeClass("error");
     $("#txtEmail").parent().removeClass("error");
     $("#txtTelefono").parent().removeClass("error");
 })
 
 $("#txtNombre").on('input',function(e){
-    validation($(this), $(this).parent())
-});
-
-$("#txtApellidos").on('input',function(e){
     validation($(this), $(this).parent())
 });
 
@@ -337,6 +337,9 @@ function tablaClientes(){
             if(data.length > 0){
                 for (var i = 0; i < data.length; i++) {
                     var localhtml = "";
+                    if(data[i].Apellidos == null){
+                        data[i].Apellidos = "";
+                    }
                     localhtml=
                     `<tr>
                         <td>${data[i].Nombre} ${data[i].Apellidos}</td>
@@ -365,7 +368,8 @@ function tablaClientes(){
                     $("#clientes tbody").empty().append(htmlActivo);
                 }
 
-                if(htmlInactivo == ""){
+                if(htmlInactivo != ""){
+                    console.log("s");
                     $("#clientesInactivos tbody").empty().append(htmlInactivo);
                 }
             }

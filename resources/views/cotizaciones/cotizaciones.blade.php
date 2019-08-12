@@ -7,7 +7,6 @@
 	<div id="main-wrapper">
 		@section('sidebar')
 		@parent
-		<!-- <a href="{{route}}"></a> -->
 		<div class="page-wrapper">
 			<div class="container-fluid">
 				<div class="row">
@@ -35,7 +34,6 @@
 												 <th class="w-75">Descripción</th>
 												 <th>Estado</th>
 												 <th>Cliente</th>
-												 <th>Precio</th>
 												 <th>Prioridad</th>
 												 <th></th>
 											 </tr>
@@ -47,7 +45,6 @@
 												 <th>Descripción</th>
 												 <th>Estado</th>
 												 <th>Cliente</th>
-												 <th>Precio</th>
 												 <th>Prioridad</th>
 												 <th></th>
 											 </tr>
@@ -116,7 +113,6 @@
 												 <th class="w-75">Descripción</th>
 												 <th>Estado</th>
 												 <th>Cliente</th>
-												 <th>Precio</th>
 												 <th>Prioridad</th>
 												 <th></th>
 											 </tr>
@@ -128,7 +124,6 @@
 												 <th>Descripción</th>
 												 <th>Estado</th>
 												 <th>Cliente</th>
-												 <th>Precio</th>
 												 <th>Prioridad</th>
 												 <th></th>
 											 </tr>
@@ -197,7 +192,6 @@
 												<th class="w-75">Descripción</th>
 												<th>Estado</th>
 												<th>Cliente</th>
-												<th>Precio</th>
 												<th>Prioridad</th>
 												<th></th>
 											</tr>
@@ -209,7 +203,6 @@
 												<th>Descripción</th>
 												<th>Estado</th>
 												<th>Cliente</th>
-												<th>Precio</th>
 												<th>Prioridad</th>
 												<th></th>
 											</tr>
@@ -284,6 +277,11 @@
 	                </div>
 	                <div class="modal-body">
 	                    <h4>Cotizacion</h4>
+						<div class="row">
+						  <div class="col-lg-6">
+							  <p>Costo</p>
+						  </div>
+						</div>
 						<table class="table table-hover" id="tablaDetalleCotizacion">
 	                      <thead>
 	                        <tr>

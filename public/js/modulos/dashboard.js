@@ -217,7 +217,6 @@ function cargarClientes() {
         enctype: "multipart/form-data",
         url: "/consultarClientes",
         success: function (msg) {
-            console.log(msg);
             var html = "";
             var nombreCliente = "";
             html += `
@@ -283,7 +282,6 @@ function montarDatosCita(id){
 }
 
 function obtenerCitaPorFecha(fecha){
-    console.log(fecha);
     var resp = [];
     $.ajax({
         type: "GET",
@@ -503,7 +501,6 @@ $("#btnNuevoPendiente").click(function() {
         enctype: "multipart/form-data",
         url: "/eliminarPendientes",
         success: function (msg) {
-            console.log(msg);
             if (msg==1) {
                 listarPendientes();
                 Swal.fire({   
@@ -986,7 +983,6 @@ function filtarDiaReporteDia(dia){
                         </div>`;
     }
 
-    console.log(todos);
 
     $("#contenedorReporteDiaIngresos")
     .empty()
@@ -1005,7 +1001,6 @@ $("#filtroDiaReportedelDia").on("change", function () {
 $("#selectReporteDia").on("change", function(){
     var option = $("#selectReporteDia").val();
 
-    console.log(option);
     if (option == 1) {
         $("#tituloIngresos").show();
         $("#contenedorReporteDiaIngresos").show();

@@ -1,11 +1,9 @@
 var tablaProductos = [];
 var iva = 0;
-const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-const monthsCompl = ["enero", "febrero", "marzo","abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-    console.log("puto el que lo lea");
+    // console.log("puto el que lo lea");
 
     var url = (location.href).split("/");
     if(url[url.length - 1] == "nueva") {
@@ -24,6 +22,23 @@ $(document).ready(function() {
         datosCotizaciones();
     }
 });
+
+$('#modalRecomendado').on('hidden.bs.modal', function (e) {
+    $("#formRecomendado")[0].reset();
+    $("#porcentajeReco").parent().removeClass("error");
+    $("#nombreReco").parent().removeClass("error");
+})
+
+$('#modalProducto').on('hidden.bs.modal', function (e) {
+    $("#formProducto")[0].reset();
+    $("#descripcionProducto").parent().removeClass("error");
+    $("#subtotalProducto").parent().removeClass("error");
+    $("#ivaProducto").text("$0.00");
+    $("#totalProducto").text("$0.00");
+    var materia = [];
+    $("#selectMateriaPrima").val(materia).trigger("change");
+    $("#selectMateriaPrima-error").hide();
+})
 
 function iniciar(){
     cargarClientes();
@@ -86,6 +101,9 @@ function cargarClientes(id){
             var data = JSON.parse(msg)
             var html = "<option value='-1'>Selecciona un cliente</option>";
             for (var item in data) {
+                if(data[item].Apellidos == null){
+                    data[item].Apellidos = ""
+                }
                 html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
             }
             $("#selectCliente").empty().append(html).trigger('change');
@@ -164,6 +182,8 @@ function mensaje(titulo, msg, tipo){
         type: tipo,
         title: titulo,
         text: msg,
+        timer: 1500,
+        showConfirmButton: false 
     });
 }
 //
@@ -305,7 +325,6 @@ function modalAccionProducto(accion){
         $("#descripcionProducto").val("");
         $("#subtotalProducto").val("");
         $("#ivaProducto").html("$0.00");
-        $("#selectMateriaPrima").val("-1");
         $("#totalProducto").html("$0.00");
 
         $("#botonModalProducto").attr("onclick", "nuevoProducto()");
@@ -543,7 +562,7 @@ function initialize_validate_form(tipo, id) {
 function guardarCotizacion(){
     var costo = 0;
     for (var i = 0; i < tablaProductos.length; i++) {
-        costo  += parseFloat(tablaProductos[i].total);
+        costo  += parseFloat(tablaProductos[i].total*tablaProductos[i].cantidad);
     }
 
     var datos = new FormData();
@@ -807,8 +826,11 @@ $("body").on("click", ".detalleCotizacion", function(e){
         url: base_url+'/cotizaciones/cotizacionDetalle/'+id,
         success: function (msg) {
             var data = JSON.parse(msg)
+            console.log(data);
             var html = "";
             for (var i = 0; i < data.length; i++) {
+                // var costo = parseFloat(data[i].costo).toFixed(2);
+
                 var subtotal = parseFloat(data[i].subtotal)*parseFloat(data[i].Cantidad);
                 var total = parseFloat(data[i].total)*parseFloat(data[i].Cantidad);
                 var iva = parseFloat(data[i].iva)*parseFloat(data[i].Cantidad);
@@ -850,6 +872,7 @@ function datosCotizaciones(){
         url: base_url+'/cotizaciones/getCotizaciones',
         success: function (msg) {
             var data = JSON.parse(msg)
+            console.log(data);
             var htmlActivo = "";
             var htmlTermiado = "";
             var htmlRecha = "";
@@ -857,6 +880,7 @@ function datosCotizaciones(){
                 $("#cotizaciones").DataTable().destroy();
                 $("#cotizacionesTerminadas").DataTable().destroy();
                 $("#cotizacionesRechazadas").DataTable().destroy();
+                const month = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
                 data.forEach(item =>{
                     var html = "";
@@ -869,17 +893,16 @@ function datosCotizaciones(){
                         estado = `<span class="badge badge-warning">En taller</span>`
                         mensaje = "Cambiar estado a Terminado"
                     }else if(item.Estado == 3){
-                        estado = `<span class="label label-light-success">Por confirmar</span>`
+                        estado = `<span class="badge badge-secondary">Por confirmar</span>`
                         mensaje = "Cambiar estado"
                     }else if(item.Estado == 4){
                         estado = `<span class="badge badge-info">Terminado</span>`
                     }
 
-                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note"></i></a>`
+                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note m-r-10"></i></a>`
                     if(item.Estado == 4){
                         cambiarEstado="";
                     }
-                    var total = parseFloat(item.costo).toFixed(2);
 
                     prioridad = `<span class="badge badge-primary">Alta</span>`
                     if(item.Prioridad == 2){
@@ -892,12 +915,16 @@ function datosCotizaciones(){
                     let fecha_fin = '<i class="mdi mdi-minus"></i>'
                     if(item.fecha_inicio){
                         let fecha = new Date(item.fecha_inicio)
-                        fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                        fecha_inicio = fecha.getDate() + "/" + month[fecha.getMonth()] + "/" + fecha.getFullYear()
                     }
 
                     if(item.fecha_fin){
                         let fecha = new Date(item.fecha_fin)
-                        fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                        fecha_fin = fecha.getDate() + "/" + month[fecha.getMonth()] + "/" + fecha.getFullYear()
+                    }
+
+                    if(item.Apellidos == null){
+                        item.Apellidos = "";
                     }
 
                     html += `
@@ -907,12 +934,12 @@ function datosCotizaciones(){
                         <td>${item.Descripcion}</td>
                         <td>${estado}</td>
                         <td>${item.Nombre +" "+ item.Apellidos}</td>
-                        <td>$${total}</td>
                         <td>${prioridad}</td>
                         <td class="text-nowrap" id="${item.id}">
                             <a href="/cotizaciones/modificar/${item.id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
                             <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
                             ${cambiarEstado}
+                            <a class="documentoCotizacion" href="${item.Documento}" data-toggle="tooltip" data-original-title="Descargar Documento"><i class="icon-doc"></i></a>
                         </td>
                     </tr>`
 
@@ -1060,7 +1087,7 @@ function datos_cotizacion_productos(id){
 function actualizar_Cotizacion(id){
     var costo = 0;
     for (var i = 0; i < tablaProductos.length; i++) {
-        costo  += parseFloat(tablaProductos[i].total);
+        costo  += parseFloat(tablaProductos[i].total*tablaProductos[i].cantidad);
     }
 
     var datos = new FormData();
@@ -1197,4 +1224,4 @@ function actualizar_Cotizacion(id){
 //     }
 //     });
 
-}
+// }
