@@ -205,9 +205,9 @@
   function agregarTrabajador(bandera, id){
     // EXTRAER DATOS DE FORMULARIO
     var datosTrabajador = new FormData (document.querySelector('#formularioTrabajador'));
-    if(datosTrabajador.Tipo == "Base"){
-      datosTrabajador.append("fecha_inicio", null);
-      datosTrabajador.append("fecha_final", null);
+    var variable = $('input:radio[name=tipo]:checked').val();
+    if(variable == "Temporal"){
+      datosTrabajador.append("fecha_final", $("#fecha_final").val());
     }
     datosTrabajador.append("idUsuario", "1");
     for (var concepto of datosTrabajador.entries()) {
@@ -284,6 +284,7 @@
               if(data[0].Tipo=="Temporal"){
                 agregarInputFechas();
                 $("#tipo_temporal").attr('checked', true);
+                $("#tiempo").val(data[0].Tiempo);
                 $("#fecha_inicio").val(data[0].Fecha_inicio);
                 $("#fecha_final").val(data[0].Fecha_final);
               }
@@ -321,6 +322,10 @@
                   <span class="label label-`+ color +` label-rounded">`+ estado + ` </span>
                 </div>
                 <br id="br">`;
+
+              if(data[0].Fecha_final == null){
+                data[0].Fecha_final = "Indefinida";
+              }
 
               if(bandera == "detalles"){
                 htmlDetallesTrabajador=
@@ -373,7 +378,11 @@
                 var htmlHistorialContratos="", htmlHistorialLiquidaciones="";
                 var tam3 = data.length;
                 console.log(tam3);
+                console.log(data);
                 for (var c = 0; c < tam3; c++) {
+                  if(data[c].Fecha_final == null){
+                    data[c].Fecha_final = "Indefinida";
+                  }
                   if(data[c].Estado==0){
                     htmlHistorialContratos+=
                       `<tr>
@@ -393,6 +402,12 @@
 
                 $("#datos2").before(htmlNombre);
                 $("#historialContratos tbody").empty().append(htmlHistorialContratos);
+                $('#historialContratos').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'pdf', 'print'
+                    ]
+                });
               }
             }
           }
@@ -469,8 +484,10 @@
                                   closeOnCancel: true
                               }, function(isConfirm){
                                   if (isConfirm) {
-                                    // console.log("GENERAR CONTRATO TAMBIEN");
                                     location.href = "/trabajadores/contrato/"+id;
+                                  }
+                                  else{
+                                    tablaTrabajadores();
                                   }
                               });
                             }

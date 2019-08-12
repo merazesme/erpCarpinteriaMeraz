@@ -259,11 +259,11 @@ function montarDatosCita(id){
             else
                 nombreCompleto=msg.cliente.Nombre + " " + msg.cliente.Apellidos;
 
-            $("#selectClientes option[value="+"'"+msg.Clientes_id+"'"+"]").attr("selected",true);
+            $("#selectClientes").val(msg.Clientes_id);
             $("#select2-selectClientes-container").text(nombreCompleto);
 
             //Montar descripcion
-            $("#comentario").text(msg.Comentario);
+            $("#comentario").val(msg.Comentario);
 
             //Montar fecha
             var dt = msg.Fecha.split(' ');
@@ -303,17 +303,20 @@ function obtenerCitaPorFecha(fecha){
 
 function limpiarModalCitas(){
 
-    $("#selectClientes option[value=0]").attr("selected",true);
-    $("#select2-selectClientes-container").text("Selecciona un cliente");
+    $('#selectClientes').val(0);
 
     //Montar descripcion
-    $("#comentario").text("");
+    $("#comentario").val("");
 
     //Montar fecha
     $("#fechaCita").val("");
     
     //Montar estado
     $("#selectEstadoCitas").val(0);
+
+    $("#txtFecha-error").hide();
+
+    $("#txtEstatus-error").hide();
 }
 
 $("#btnNuevaCita").click(function() {
@@ -490,7 +493,7 @@ $('#modalCita').on('show.bs.modal', function (event) {
 //*********************************** INICIA MODULO: PENDIENTES ***********************************
 $("#btnNuevoPendiente").click(function() {
     banderaPendiente=0;
-    $("#descripcionPendiente").text("");
+    limpiarModalPendientes();
 });
 
  $("#btnEliminarPendientes").click(function() {
@@ -612,6 +615,7 @@ function listarPendientes(){
 }
 
 function montarDatosPendiente(id){
+    limpiarModalPendientes();
     banderaPendiente=1;
     idPendienteModificar=id;
     $.ajax({
@@ -622,7 +626,7 @@ function montarDatosPendiente(id){
         success: function (msg) {
 
             //Montar descripcion
-            $("#descripcionPendiente").text(msg.Descripcion);
+            $("#descripcionPendiente").val(msg.Descripcion);
 
         }, error: function(error) {
             console.log("error");
@@ -722,10 +726,11 @@ $("#btnGuardarPendiente").click(function() {
                 }
             });
         }  
-    }S});
- function limpiarModal(){
+    }
+});
+ function limpiarModalPendientes(){
     $("#descripcionPendiente").parent().removeClass("error");
-    $("#descripcionPendiente").text("");
+    $("#descripcionPendiente").val("");
  }
 $('#modalPendientes').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -829,7 +834,7 @@ function filtarDiaReporteDia(dia){
 
         htmlIngresos += `<div class="activity-item">
                             <div class="m-t-10">
-                                <h5 class="m-b-5 font-medium">${nombreCompleto}<span class="text-muted font-14 m-l-10">| ${tipoPago}</span></h5>
+                                <h5 class="m-b-5 font-medium">${nombreCompleto}<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[0][x].cantidad}</span></h5>
                                 <h6 class="text-muted">${todos[0][x].descripcion}; Recibo no. ${todos[0][x].Num_pago}</h6>
                             </div>
                         </div>`;
@@ -854,16 +859,18 @@ function filtarDiaReporteDia(dia){
                 detallePagoCompra.push(msg);
                 console.log(detallePagoCompra);
                 var notas = "";
-                if (detallePagoCompra[x].length > 1) {
-                    for(var z = 0; z<detallePagoCompra[x].length; z++){
-                        if (z+1 == detallePagoCompra[x].length) {
-                            notas += detallePagoCompra[x][z].notaCompras + ".";
+                if (detallePagoCompra[0].length > 1) {
+                    for(var z = 0; z<detallePagoCompra[0].length; z++){
+
+                        if (z+1 == detallePagoCompra[0].length) {
+                            notas += detallePagoCompra[0][z].notaCompras + ".";
                         }else{
-                             notas += detallePagoCompra[x][z].notaCompras + ", ";
+                             notas += detallePagoCompra[0][z].notaCompras + ", ";
                         }
+
                     }
                 }else{
-                    notas += detallePagoCompra[x][z].notaCompras;
+                    notas += detallePagoCompra[0][z].notaCompras;
                 }
 
                 var tipoPago = "";
@@ -874,8 +881,8 @@ function filtarDiaReporteDia(dia){
 
                 htmlEgresos += `<div class="activity-item">
                                     <div class="m-t-10">
-                                        <h5 class="m-b-5 font-medium">${detallePagoCompra[x][0].nombreProveedores}<span class="text-muted font-14 m-l-10">| ${tipoPago}</span></h5>
-                                        <h6 class="text-muted">Pago de la factura: ${detallePagoCompra[x][0].facturaCompras}; Notas correspondientes: ${notas}</h6>
+                                        <h5 class="m-b-5 font-medium">${detallePagoCompra[0][0].nombreProveedores}<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[1][x].Total}</span></h5>
+                                        <h6 class="text-muted">Pago de la factura: ${detallePagoCompra[0][0].facturaCompras}; Notas correspondientes: ${notas}</h6>
                                     </div>
                                 </div>`;
 
@@ -900,16 +907,17 @@ function filtarDiaReporteDia(dia){
                 detallePagoGasolina.push(msg);
                 console.log(detallePagoGasolina);
                 var tickets = "";
-                if (detallePagoGasolina[x].length > 1) {
-                    for(var z = 0; z<detallePagoGasolina[x].length; z++){
-                        if (z+1 == detallePagoGasolina[x].length) {
-                            tickets += detallePagoGasolina[x][z].Ticket + ".";
+
+                if (detallePagoGasolina[0].length > 1) {
+                    for(var z = 0; z<detallePagoGasolina[0].length; z++){
+                        if (z+1 == detallePagoGasolina[0].length) {
+                            tickets += detallePagoGasolina[0][z].Ticket + ".";
                         }else{
-                             tickets += detallePagoGasolina[x][z].Ticket + ", ";
+                             tickets += detallePagoGasolina[0][z].Ticket + ", ";
                         }
                     }
                 }else{
-                    tickets += detallePagoGasolina[x][z].Ticket;
+                    tickets += detallePagoGasolina[0][z].Ticket;
                 }
 
                 var tipoPago = "";
@@ -920,7 +928,7 @@ function filtarDiaReporteDia(dia){
 
                 htmlEgresos += `<div class="activity-item">
                                     <div class="m-t-10">
-                                        <h5 class="m-b-5 font-medium">Pago de tickets de gasolina<span class="text-muted font-14 m-l-10">| ${tipoPago}</span></h5>
+                                        <h5 class="m-b-5 font-medium">Pago de tickets de gasolina<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[2][x].Cantidad}</span></h5>
                                         <h6 class="text-muted">Pago de la factura: ${todos[2][x].Folio_pago}; Tickets correspondientes: ${tickets}</h6>
                                     </div>
                                 </div>`;
@@ -931,17 +939,45 @@ function filtarDiaReporteDia(dia){
 
     //Egresos: Facturas sobrantes
     for(var x=0; x<todos[3].length; x++){
-        var tipoPago = "";
-        if (todos[3][x].Tipo_pago == 1)
-            tipoPago = "Cheque";
-        else if(todos[3][x].Tipo_pago == 2)
-                tipoPago = "Transferencia";
-        htmlEgresos += `<div class="activity-item">
-                            <div class="m-t-10">
-                                <h5 class="m-b-5 font-medium">${todos[3][x].Concepto}<span class="text-muted font-14 m-l-10">| ${tipoPago}</span></h5>
-                                <h6 class="text-muted">Folio: ${todos[3][x].Folio_factura}</h6>
-                            </div>
-                        </div>`;
+        var detallePagoFacturasSobrantes = [];
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            enctype: "multipart/form-data",
+            async: false,
+            url: "/consultarDetallePagoFactutasrSobrantes/"+todos[3][x].id,
+            success: function (msg) {
+                detallePagoFacturasSobrantes.push(msg);
+                console.log(detallePagoFacturasSobrantes);
+                var facturas = "";
+
+                if (detallePagoFacturasSobrantes[0].length > 1) {
+                    for(var z = 0; z<detallePagoFacturasSobrantes[0].length; z++){
+                        if (z+1 == detallePagoFacturasSobrantes[0].length) {
+                            facturas += detallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura + ".";
+                        }else{
+                             facturas += detallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura + ", ";
+                        }
+                    }
+                }else{
+                    facturas += ddetallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura;
+                }
+
+                var tipoPago = "";
+                if (todos[3][x].Metodo_pago == 1)
+                    tipoPago = "Cheque";
+                else if(todos[3][x].Metodo_pago == 2)
+                    tipoPago = "Transferencia";
+
+                htmlEgresos += `<div class="activity-item">
+                                    <div class="m-t-10">
+                                        <h5 class="m-b-5 font-medium">Pago de facturas sobrantes<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[3][x].Cantidad}</span></h5>
+                                        <h6 class="text-muted">Pago de la factura: ${todos[3][x].Folio_pago}; Facturas correspondientes: ${facturas}</h6>
+                                    </div>
+                                </div>`;
+
+            }
+        });
     }
 
     if (htmlEgresos == "") {
@@ -949,6 +985,8 @@ function filtarDiaReporteDia(dia){
                             <h5 style="display: inline-block; vertical-align: middle; line-height:normal;">No hay egresos en esta fecha</h5>
                         </div>`;
     }
+
+    console.log(todos);
 
     $("#contenedorReporteDiaIngresos")
     .empty()
@@ -992,12 +1030,6 @@ $("#selectReporteDia").on("change", function(){
 
 $("#filtroMesCotizaciones").on("change", function(){
     mostrarCotizaciones();
-    // console.log(.change());
-    // var str = "";
-    // $("#filtroMesCotizaciones option:selected" ).each(function() {
-    //   str += $( this ).text() + " ";
-    // });
-    // $('#filtroMesCotizaciones option[value="'+mesActual+'"]').attr("selected", true);
 });
 
 function llenarFiltroCotizaciones(){
@@ -1018,45 +1050,57 @@ function llenarFiltroCotizaciones(){
 function mostrarCotizaciones(){
     var mes = $("#filtroMesCotizaciones option:selected" ).val();
     mes = parseInt(mes) + 1;
-    console.log(mes);
     var htmlCotizacionesDashboard = "";
     $.ajax({
         type: "GET",
         dataType: "json",
         enctype: "multipart/form-data",
-        url: "/consultarCotizacionesDashboard/"+mes,
+        url: "/consultarCotizacionesDashboard",
         success: function (msg) {
             for(var x=0; x<msg.length; x++){
-                var nombreCompleto = "";
-                if (msg[x].Apellidos == null) {
-                    nombreCompleto = msg[x].Nombre;
 
-                }else{
-                    nombreCompleto = msg[x].Nombre + " " + msg[x].Apellidos;
+                var fechaInicio = new Date(msg[x].fecha_inicio);
+                var fechaFin = new Date(msg[x].fecha_fin);
+
+                var mesFechaInicio = parseInt(fechaInicio.getMonth()) + 1;
+                var mesFechaFin = fechaFin.getMonth()+1;
+
+                if(mesFechaInicio == 12)
+                    mesFechaInicio = 1;
+
+                if (mes>=mesFechaInicio && mes<=mesFechaFin) 
+                {
+                    var nombreCompleto = "";
+                    if (msg[x].Apellidos == null) {
+                        nombreCompleto = msg[x].Nombre;
+
+                    }else{
+                        nombreCompleto = msg[x].Nombre + " " + msg[x].Apellidos;
+                    }
+
+                    var prioridad = "";
+                    if (msg[x].Prioridad == 1)
+                        prioridad = `<span class="badge badge-inverse">Baja</span>`;
+                    else if (msg[x].Prioridad == 2)
+                        prioridad = `<span class="badge badge-info">Media</span>`;
+                    else if (msg[x].Prioridad == 3)
+                        prioridad = `<span class="badge badge-primary">Alta</span>`;
+
+                    htmlCotizacionesDashboard += `<tr>
+                                                    <td>
+                                                        <h5>${nombreCompleto}</h5></td>
+                                                    <td>${msg[x].Descripcion}</td>
+                                                    <td>${prioridad}</td>
+                                                    <td>$${msg[x].Costo}</td>
+                                                  </tr>`;
+                    }
                 }
 
-                var prioridad = "";
-                if (msg[x].Prioridad == 1)
-                    prioridad = `<span class="label label-secondary label-rounded">Baja</span>`;
-                else if (msg[x].Prioridad == 2)
-                    prioridad = `<span class="label label-info label-rounded">Media</span>`;
-                else if (msg[x].Prioridad == 3)
-                    prioridad = `<span class="label label-success label-rounded">Alta</span>`;
-
-                htmlCotizacionesDashboard += `<tr>
-                                                <td>
-                                                    <h5>${nombreCompleto}</h5></td>
-                                                <td>${msg[x].Descripcion}</td>
-                                                <td><span class="label label-success label-rounded">${prioridad}</span></td>
-                                                <td>$${msg[x].Costo}</td>
-                                              </tr>`;
-            }
-
-            if (htmlCotizacionesDashboard == "") {
-                htmlCotizacionesDashboard = `<tr>
-                                                <td colspan="4">
-                                                    <h5>No hay cotizaciones este mes.</h5></td>
-                                              </tr>`;
+                if (htmlCotizacionesDashboard == "") {
+                    htmlCotizacionesDashboard = `<tr>
+                                                    <td colspan="4">
+                                                        <h5>No hay cotizaciones este mes.</h5></td>
+                                                  </tr>`;
             }
 
             $("#contenedorCotizacionesDashboard")

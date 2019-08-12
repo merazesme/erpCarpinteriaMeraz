@@ -26,7 +26,9 @@
 		                        <thead>
 		                            <tr>
 		                              <th>Descripcion</th>
+																	<th>Fecha</th>
 																	<th>Subtotal</th>
+																	<th>Costo adicional</th>
 																	<th>IVA</th>
 		                              <th>Total</th>
 		                              <th>Acciones</th>
@@ -35,7 +37,9 @@
 		                        <tfoot>
 		                          <tr>
 																<th>Descripcion</th>
+																<th>Fecha</th>
 																<th>Subtotal</th>
+																<th>Costo adicional</th>
 																<th>IVA</th>
 																<th>Total</th>
 																<th>Acciones</th>
@@ -51,19 +55,23 @@
 		                    <table id="tabla_productosCancelados" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
 		                        <thead>
 		                            <tr>
-																	<th>#Nota</th>
+																	<th>Descripcion</th>
 																	<th>Fecha</th>
-																	<th>Trabajador</th>
-		                              <th>Descripción</th>
+																	<th>Subtotal</th>
+																	<th>Costo adicional</th>
+																	<th>IVA</th>
+		                              <th>Total</th>
 		                              <th>Acciones</th>
 		                            </tr>
 		                        </thead>
 		                        <tfoot>
 		                          <tr>
-																<th>#Nota</th>
+																<th>Descripcion</th>
 																<th>Fecha</th>
-																<th>Trabajador</th>
-																<th>Descripción</th>
+																<th>Subtotal</th>
+																<th>Costo adicional</th>
+																<th>IVA</th>
+																<th>Total</th>
 																<th>Acciones</th>
 		                          </tr>
 		                      </tfoot>
@@ -80,7 +88,7 @@
 			</div>
 		</div>
 
-		<!-- Modal agregar orden de salida -->
+		<!-- Modal agregar nuevo producto -->
 		<div id="modal_agregar_productos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 				<div class="modal-dialog">
 						<div class="modal-content">
@@ -108,7 +116,7 @@
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="recipient-name" class="control-label">Costos adicionales <span class="danger">*</label>
+														<label for="recipient-name" class="control-label">Costo adicional <span class="danger">*</label>
 														<input type="number" class="form-control" id="txtCostosAdicionales" name="txtCostosAdicionales">
 													</div>
 												</div>
@@ -135,12 +143,74 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
-									<button type="button" id="actionAgregarOrdenSalida" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+									<button type="button" id="actionAgregarProducto" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
 								</div>
 						</div>
 				</div>
 		</div>
-		<!-- end Modal agregar orden de salida -->
+		<!-- end Modal agregar nuevo producto -->
+
+		<!-- Modal modificar producto -->
+		<div id="modal_modificar_productos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h4 class="modal-title">Modificar producto</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								</div>
+								<div class="modal-body">
+										<form>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+															<label for="recipient-name" class="control-label">Descripción <span class="danger">*</label>
+															<textarea class="form-control" id="txtDescripcionProductosModificar" rows="2"></textarea>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group" id="materiaprimaModificar">
+															<!-- <label for="recipient-name" class="control-label">Materia prima <span class="danger">*</label>
+															<select class="form-control" id="select_materiaPrima">
+															</select> -->
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="recipient-name" class="control-label">Costo adicional <span class="danger">*</label>
+														<input type="number" class="form-control" id="txtCostosAdicionalesModificar" name="txtCostosAdicionalesModificar">
+													</div>
+												</div>
+												<div class="col-md-6">
+													<label for="recipient-name" class="control-label"></label>
+													<p></p>
+													<div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-usd"></i>  Subtotal</span>
+                              <input type="number" id="totalMateriaPrimaModificar" name="totalMateriaPrimaModificar" class="form-control" placeholder="0.00" disabled>
+                          </div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+												</div>
+												<div class="col-md-6">
+													<div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-usd"></i>  Total</span>
+                              <input type="number" id="totalMateriaPrimaFinalModificar" name="totalMateriaPrimaFinalModificar" class="form-control" placeholder="0.00" disabled>
+                          </div>
+												</div>
+											</div>
+										</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+									<button type="button" id="actionAgregarProductoModificar" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- end Modal modificar producto-->
 
 		<!-- Modal modificar orden de salida -->
 		<div id="modal_agregar_ordenSalidaModificar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">

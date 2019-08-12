@@ -9,13 +9,11 @@ use App\Http\Controllers\Controller;
 class Cotizaciones_dashborad extends Controller
 {
 
-    public function consultarCotizaciones($mes)
+    public function consultarCotizaciones()
     {
-        $sql = "SELECT Descripcion, Prioridad, Costo, fecha_inicio, fecha_fin, clientes.Nombre, clientes.Apellidos FROM `cotizaciones`
-            INNER JOIN clientes on clientes.id = cotizaciones.Clientes_idCliente
-            WHERE cotizaciones.estado != 0 and MONTH(fecha_inicio) = ? or cotizaciones.estado != 0 and MONTH(fecha_fin) = ?";
+        $sql = "SELECT Descripcion, Prioridad, Costo, fecha_inicio, fecha_fin, clientes.Nombre, clientes.Apellidos FROM `cotizaciones` INNER JOIN clientes on clientes.id = cotizaciones.Clientes_idCliente WHERE cotizaciones.estado != 0 and (fecha_inicio != '' or fecha_fin != '')";
 
-        $Cotizaciones_dashborad = DB::select($sql, array($mes, $mes));
+        $Cotizaciones_dashborad = DB::select($sql/*, array($mes, $mes)*/);
         return $Cotizaciones_dashborad;
     }
     /**

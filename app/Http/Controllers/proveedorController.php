@@ -30,8 +30,17 @@ class proveedorController extends Controller
      */
     public function create()
     {
-        $modulo = 'Agregar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Agregar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /**
@@ -41,8 +50,17 @@ class proveedorController extends Controller
      */
     public function gasoline_list()
     {
-        $modulo = 'Facturas de gasolina';
-		return view('proveedores.proveedores_gasolina', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Facturas de gasolina';
+            return view('proveedores.proveedores_gasolina', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+
     }
 
     /**
@@ -157,12 +175,19 @@ class proveedorController extends Controller
             return 'empty';
         }
 
+        $file = $request->file('factura_archivo');
+        $nombre = time().$file->getClientOriginalName();
+        $location = public_path('images/modulos/proveedor/gasolina/pagos/'.$nombre);
+        // Image::make($file)->resize(250, 450)->save($location);
+        Image::make($file)->save($location);
+
         /** Registrar el pago en la tabla */
         $pago = new Pago();
 
         $pago->Fecha        = $request->fecha;
         $pago->Metodo_pago  = $request->factura_metodo;
         $pago->Folio_pago   = $request->factura_folio;
+        $pago->Documento    = $nombre;
         $pago->idUsuario    = session('idUsuario');
 
         if(!$pago->save()) {
@@ -225,8 +250,16 @@ class proveedorController extends Controller
      */
     public function show($id)
     {
-        $modulo = 'Editar proveedor';
-		return view('proveedores.proveedores_agregar', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Editar proveedor';
+            return view('proveedores.proveedores_agregar', compact('modulo'));
+        } else if($acceso == 'sesion') {
+            return redirect('/login/');
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -236,8 +269,17 @@ class proveedorController extends Controller
      */
     public function list_resources()
     {
-        $modulo = 'Lista de proveedores';
-		return view('proveedores.proveedores_show', compact('modulo'));
+        $acceso = (new loginController)->check_session('Proveedores');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Lista de proveedores';
+            return view('proveedores.proveedores_show', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
+        
     }
 
     /** 
@@ -279,7 +321,8 @@ class proveedorController extends Controller
                    'gasolina_has_pago_gasolina.Pago_gasolina_idPago_gasolina', '=', 'pago_gasolinas.id')
             ->join('gasolinas', 'gasolinas.id', '=', 'gasolina_has_pago_gasolina.Gasolina_id')
             ->select('pago_gasolinas.id', 'pago_gasolinas.Fecha', 'pago_gasolinas.Folio_pago', 
-                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago')
+                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago',
+                     'pago_gasolinas.Documento')
             ->get();
         return $registros;
     }

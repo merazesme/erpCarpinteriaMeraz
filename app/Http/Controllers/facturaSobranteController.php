@@ -20,8 +20,16 @@ class facturaSobranteController extends Controller
      */
     public function index()
     {
-        $modulo = 'Facturas sobrantes';
-		return view('facturas_sobrantes.facturas_sobrantes_show', compact('modulo'));
+        $acceso = (new loginController)->check_session('Facturas sobrantes');
+
+        if($acceso == 'permitir') {
+            $modulo = 'Facturas sobrantes';
+            return view('facturas_sobrantes.facturas_sobrantes_show', compact('modulo'));
+        } else if($acceso == 'denegar') {
+            return redirect('/');
+        } else {
+            return redirect('/login/');
+        }
     }
 
     /**
@@ -46,7 +54,8 @@ class facturaSobranteController extends Controller
                    'facturas_sobrantes_has_pago_facturas_sobrantes.pago_facturas_sobrantes_id', '=', 'pago_facturas_sobrantes.id')
             ->join('facturas_sobrantes', 'facturas_sobrantes.id', '=', 'facturas_sobrantes_has_pago_facturas_sobrantes.factura_sobrante_id')
             ->select('pago_facturas_sobrantes.id', 'pago_facturas_sobrantes.Fecha', 'pago_facturas_sobrantes.Folio_pago', 
-                     'facturas_sobrantes.Folio_factura', 'pago_facturas_sobrantes.Cantidad', 'pago_facturas_sobrantes.Metodo_pago')
+                     'facturas_sobrantes.Folio_factura', 'pago_facturas_sobrantes.Cantidad', 'pago_facturas_sobrantes.Metodo_pago',
+                     'pago_facturas_sobrantes.Documento')
             ->get();
         return $registros;
     }
@@ -121,12 +130,18 @@ class facturaSobranteController extends Controller
             return 'empty';
         }
 
+        $file = $request->file('factura_pago_archivo');
+        $nombre = time().$file->getClientOriginalName();
+        $location = public_path('images/modulos/facturas_sobrantes/pagos/'.$nombre);
+        Image::make($file)->save($location);
+
         /** Registrar el pago en la tabla */
         $pago = new Pago();
 
         $pago->Fecha        = $request->fecha;
         $pago->Metodo_pago  = $request->factura_pago_metodo;
         $pago->Folio_pago   = $request->factura_pago_folio;
+        $pago->Documento    = $nombre;
         $pago->idUsuario    = session('idUsuario');
 
         if(!$pago->save()) {
