@@ -41,6 +41,7 @@ function datosTrabajadores() {
         url: 'carro/dataTrabajadores',
         dataType: 'JSON'
     }).done(function(datos) {
+        console.table(datos);
         if(datos.length !== 0) {
             arrayTrabajadores = datos;
             crearOpcionesTrabajadores(arrayTrabajadores);
@@ -49,6 +50,7 @@ function datosTrabajadores() {
 }
 function abrirModalAgregarCarro(id) {
     if(id) {
+        console.log(id);
         $('#agregar_registro').attr('onclick', `editarCarro(${id})`);
         /** Buscar el registro */
         const carro      = arrayCarros.find(item => item.id === id);
@@ -79,7 +81,7 @@ function limpiarDataTable(id) {
 }
 function crearTablaCarros(datos) {
     datos.forEach(item => {
-        var estatus = item.Estado == 0
+        var estatus = item.Estado == 1
         ? {
             color: 'color-elegant-blue-green',
             icono: '<i class="fa fa-toggle-on"></i>',
@@ -125,7 +127,7 @@ function crearOpcionesTrabajadores(datos) {
         }
         $(`#trabajador_${item.id}`).html(item.Nombre + item.Apellidos);
     });
-    iniciarDataTable('#table_carros');
+    if(arrayCarros.length > 0) iniciarDataTable('#table_carros');
 }
 function agregarCarro() {
     var datos = new FormData(document.querySelector("#carro_form"));

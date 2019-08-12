@@ -100,7 +100,7 @@ class proveedorController extends Controller
         $proveedor->Telefono    = $request->input('proveedor_telefono');
         $proveedor->Email       = $request->input('proveedor_correo');
         $proveedor->Adeudo      = 0;
-        $proveedor->estatus     = 0;
+        $proveedor->estatus     = 1;
         $proveedor->idUsuario   = session('idUsuario');
 
         if(!$proveedor->save()) {
@@ -335,7 +335,7 @@ class proveedorController extends Controller
     public function datos_carros() 
     {
         $registros = DB::table('carros')
-            ->where ('carros.Estado', '=', '0')
+            ->where ('carros.Estado', '=', '1')
             ->select('carros.id', 'carros.Marca', 'carros.Modelo')
             ->get();
         return $registros;

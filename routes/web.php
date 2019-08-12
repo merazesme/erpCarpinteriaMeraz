@@ -363,8 +363,7 @@ Route::prefix('/carro')->group(function () {
 
 	Route::post('agregar', 	 'carroController@store');
 	Route::post('actualizar/{id}', 'carroController@update');
-	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
-	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
+	Route::post('actualizar/estatus/{id}', 'carroController@update_estatus');
 
 });
 
