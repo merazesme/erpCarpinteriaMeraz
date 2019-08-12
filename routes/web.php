@@ -238,7 +238,6 @@ Route::prefix('/productos')->group(function (){
 
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
-	Route::name('print')->get('/imprimir', 'Cotizaciones@imprimir');
 
 	Route::get('/', function(){
 		$modulo = "Cotizaciones";
@@ -278,16 +277,14 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/cotizacion/{id}', 'cotizaciones@edit');
 	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
+	Route::get('/imprimir/{id}', 'Cotizaciones@imprimir');
+	Route::get('/documento/{id}', 'Cotizaciones@documento');
 
 	Route::post('/getImage', 'cotizaciones@getImagenBase64');
 
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 
-
-	Route::get('/cotizacionDocumento', function(){
-		return view('documentos/base/cotizacion');
-	});
 });
 
 Route::prefix('nomina')->group(function () {
@@ -353,7 +350,7 @@ Route::prefix('/carro')->group(function () {
 	Route::post('actualizar/{id}', 'carroController@update');
 	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
 	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
-	
+
 });
 
 Route::get('/usuarios', function(){
@@ -397,7 +394,7 @@ Route::post('/renovarHojaPagos', 'pagos_del_mes@renovarPagos');
 Route::post('/subirArchivo/{id}', 'pagos_del_mes@pagoConcepto');
 Route::get('/estadoVencido/{id}', 'pagos_del_mes@estadoVencido');
 Route::post('/eliminarConcepto', 'pagos_del_mes@destroy');
-Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos'); 
+Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos');
 Route::post('/nuevoConcepto', 'pagos_del_mes@store');
 Route::post('/editarConcepto/{id}', 'pagos_del_mes@update');
 
@@ -408,9 +405,9 @@ Route::get('/consultarAdeudo', 'Caja_chicas@consultarAdeudo');
 Route::get('/consultarConfiguracionCajaChica', 'Caja_chicas@consultarConfiguracion');
 Route::get('/montarDatosRegistroCajaChica/{id}', 'Caja_chicas@montarDatos');
 Route::post('/editarRegistroCajaChica/{id}', 'Caja_chicas@update');
-Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy'); 
+Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy');
 Route::get('/consultarUltimoCajaChica', 'Caja_chicas@consultarUltimaSemana');
-Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja'); 
+Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja');
 
 
 //Rutas del header para caja chica

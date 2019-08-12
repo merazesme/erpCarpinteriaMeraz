@@ -24,9 +24,119 @@ class Cotizaciones extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function imprimir(){
-         $pdf = \PDF::loadView('cotizaciones/documento');
-         return $pdf->download('cotizaciones/documento.pdf');
+    public function imprimir($id){
+        $day = date('d');
+        $m = date('m');
+        $m = (int) $m-1;
+        $year = date('Y');
+        $month = ["enero", "febrero", "marzo","abril", "mayo", "junio", "nulio", "agosto", "septiembre", "octubre", "novimebre", "dicimebre"];
+
+        $cotizacion = (object) [];
+        $prueba = DB::table('cotizaciones')
+            ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
+            ->select('cotizaciones.id', 'cotizaciones.Descripcion','cotizaciones.costo',
+                'clientes.id AS idCliente', 'clientes.Nombre as NombreCliente', 'clientes.Apellidos as ApellidoCliente')
+            ->where('cotizaciones.id', $id)
+            ->get();
+
+        $cotizacion = $prueba[0];
+
+        //Productos de la cotización
+        $sql = "SELECT `productos`.`id` AS idProducto, `productos`.`Descripcion` AS nombreProducto,
+        `productos_has_cotizaciones`.`Productos_id` AS idProductoCotizacion, `productos_has_cotizaciones`.`Cantidad`,
+        `productos_has_cotizaciones`.`subtotal`, `productos_has_cotizaciones`.`iva`, `productos_has_cotizaciones`.`total`,
+        `productos_has_cotizaciones`.`Descripcion` AS descripcion
+        FROM `productos`
+        INNER JOIN `productos_has_cotizaciones` ON `productos_has_cotizaciones`.`Productos_id` = `productos`.`id`
+        WHERE `productos_has_cotizaciones`.`Cotizaciones_id` = ?
+        ORDER BY `productos`.`id` ASC";
+
+        $cotizacion = (array)$cotizacion;
+
+        $cotizacion['iva'] =  0;
+        $cotizacion['suma'] = 0;
+
+        $pruebaProductos = DB::select($sql,array($id));
+        foreach ($pruebaProductos as $key => $value) {
+            $pruebaProductos[$key]->materiales = $this->getMateriales($value->idProducto);
+            $cotizacion['iva'] +=  ($value->iva*$value->Cantidad);
+            $cotizacion['suma'] +=  ($value->subtotal*$value->Cantidad);
+        }
+
+        // echo print_r($pruebaProductos);
+
+        $cotizacion['fecha'] = "Mazatlán Sin. A ".$day." de ".$month[$m]." del ".$year;
+        $cotizacion['productos'] = $pruebaProductos;
+        $cotizacion = (object)$cotizacion;
+
+
+        $dompdf = \PDF::loadView('documentos/base/cotizacion', compact('cotizacion'));
+
+        //Donde guardar el documento
+        $rutaGuardado = public_path('documentos/cotizaciones/');
+        //Nombre del Documento.
+        $nombre = time().$id;
+        $nombreArchivo = $nombre.".pdf";
+        //Guardalo en una variable
+        $output = $dompdf->output();
+        file_put_contents( $rutaGuardado.$nombreArchivo, $output);
+        // Una vez lo guardes en local lo puedes subir o enviar a un ftp.
+
+        return $dompdf->download('cotizaciones/documento.pdf');
+    }
+
+    public function documento($id){
+        $day = date('d');
+        $m = date('m');
+        $m = (int) $m-1;
+        $year = date('Y');
+        $month = ["enero", "febrero", "marzo","abril", "mayo", "junio", "nulio", "agosto", "septiembre", "octubre", "novimebre", "dicimebre"];
+
+        $cotizacion = (object) [];
+        $prueba = DB::table('cotizaciones')
+            ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
+            ->select('cotizaciones.id', 'cotizaciones.Descripcion','cotizaciones.costo',
+                'clientes.id AS idCliente', 'clientes.Nombre as NombreCliente', 'clientes.Apellidos as ApellidoCliente')
+            ->where('cotizaciones.id', $id)
+            ->get();
+
+        $cotizacion = $prueba[0];
+
+        //Productos de la cotización
+        $sql = "SELECT `productos`.`id` AS idProducto, `productos`.`Descripcion` AS nombreProducto,
+        `productos_has_cotizaciones`.`Productos_id` AS idProductoCotizacion, `productos_has_cotizaciones`.`Cantidad`,
+        `productos_has_cotizaciones`.`subtotal`, `productos_has_cotizaciones`.`iva`, `productos_has_cotizaciones`.`total`,
+        `productos_has_cotizaciones`.`Descripcion` AS descripcion
+        FROM `productos`
+        INNER JOIN `productos_has_cotizaciones` ON `productos_has_cotizaciones`.`Productos_id` = `productos`.`id`
+        WHERE `productos_has_cotizaciones`.`Cotizaciones_id` = ?
+        ORDER BY `productos`.`id` ASC";
+
+        $cotizacion = (array)$cotizacion;
+
+        $cotizacion['iva'] =  0;
+        $cotizacion['suma'] = 0;
+
+        $pruebaProductos = DB::select($sql,array($id));
+        foreach ($pruebaProductos as $key => $value) {
+            $pruebaProductos[$key]->materiales = $this->getMateriales($value->idProducto);
+            $cotizacion['iva'] +=  ($value->iva*$value->Cantidad);
+            $cotizacion['suma'] +=  ($value->subtotal*$value->Cantidad);
+        }
+
+        // echo print_r($pruebaProductos);
+
+        $cotizacion['fecha'] = "Mazatlán Sin. A ".$day." de ".$month[$m]." del ".$year;
+        $cotizacion['productos'] = $pruebaProductos;
+
+        echo print_r($cotizacion);
+
+
+        // $cotizacion['nombre'] = "Victor Rueda";
+        // $cotizacion['descripcion'] = "Casa Habitación  Fam. Ibarra García Tomas de rueda #1807-1808 Fracc. El. Cid";
+
+        $cotizacion = (object)$cotizacion;
+        return view('documentos/base/cotizacion', compact('cotizacion'));
     }
 
     public function index()
