@@ -6,7 +6,7 @@ $(document).ready(function() {
     initialize_data_table('#table_facturas');
 
     datos_facturas_sobrantes();
-    datos_gasolina_cheques();
+    datos_facturas_cheques();
 });
 function datos_facturas_sobrantes() {
     $.ajax({
@@ -80,7 +80,7 @@ function datos_facturas_sobrantes() {
         );
     })
 }
-function datos_gasolina_cheques() {
+function datos_facturas_cheques() {
     $.ajax({
         type: 'GET',
         url: '/facturas_sobrantes/data/pagos',
@@ -108,6 +108,11 @@ function datos_gasolina_cheques() {
                 });
                 const cantidad_pago = datos.find(item => item.Folio_pago === item_folio_pago);
                 const metodo_pago   = (cantidad_pago) ? (cantidad_pago.Folio_pago == 1) ? 'Cheque' : 'Transferencia' : '<em>Error</em>';
+
+                if (cantidad_pago.Documento === null || cantidad_pago.Documento === undefined) {
+                    cantidad_pago.Documento = 'error';
+                }
+
                 $('#table_pagos tbody').append(`
                     <tr role="row">
                         <td class="vertical-align-table">${fecha}</td>
@@ -115,6 +120,10 @@ function datos_gasolina_cheques() {
                         <td class="vertical-align-table">${metodo_pago}</td>
                         <td class="vertical-align-table">$${cantidad_pago.Cantidad}</td>
                         <td class="vertical-align-table"><ul style="list-style:none">${lista_facturas}</ul></td>
+                        <td data-toggle="tooltip" data-placement="top" title="Ver imagen">
+                            <i class="fa fa-file-image-o color-elegant-orange"
+                               onclick="alerta_imagen('${item_folio_pago}', '${cantidad_pago.Documento}')"></i>
+                        </td>
                     </tr>
                 `);
             });
@@ -157,7 +166,7 @@ function guardar_factura_sobrante() {
                         2500
                     );
                     datos_facturas_sobrantes();
-                    datos_gasolina_cheques();
+                    datos_facturas_cheques();
                     
                     reset_form('#factura_form', '#factura_archivo');
                 } else if(resp == 'session'){
@@ -218,7 +227,7 @@ function guardar_pagar_factura() {
                         2500
                     );
                     datos_facturas_sobrantes();
-                    datos_gasolina_cheques();
+                    datos_facturas_cheques();
                     
                     reset_form('#pagar_factura_form'); // Falta agregar la imagen
                 } else if(resp == 'session'){

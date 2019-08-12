@@ -34,7 +34,6 @@ $(document).ready(function() {
                <th>Sueldo Base</th>
                <th>Subtotal</th>
                <th>Bono Extra</th>
-               <th>Bono P y A</th>
                <th>Total</th>
              </tr>
          </thead>
@@ -43,29 +42,28 @@ $(document).ready(function() {
         var tr = trabajadores[x];
         // Falta este
         // bonoExtra
-        // bonoPyA
-       tr.Subtotal = Math.round(  (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
-       tr.Nomina = {
-          xPercepciones: {
-            'Bono P y A': tr.bonoPyA = 0,
-            'Bono Extra': tr.bonoExtra = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal )
-          }
-        };
-        tr.xTotal = tr.Subtotal + tr.Nomina.xPercepciones['Bono Extra'] + tr.Nomina.xPercepciones['Bono P y A'];
-        totalSubtotal += tr.Subtotal;
-        totalBonoExtra += tr.Nomina.xPercepciones['Bono Extra'];
-        totalBonoPyA += tr.Nomina.xPercepciones['Bono P y A'];
-        total += tr.xTotal;
-
-        html += `<tr>
-                    <td>${tr.Nombre} ${tr.Apellidos}</td>
-                    <td>${tr.Asistencia_total}</td>
-                    <td>${tr.Sueldo}</td>
-                    <td>${tr.Subtotal}</td>
-                    <td>${tr.Nomina.xPercepciones['Bono Extra']}</td>
-                    <td>${tr.Nomina.xPercepciones['Bono P y A']}</td>
-                    <td>${tr.xTotal}</td>
-                </tr>`;
+        if(tr.Tipo == 'base') {
+           tr.Subtotal = Math.round( (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
+           tr.Nomina = {
+             xPercepciones: {}
+           };
+            if(tr.bonoExtra != 0 || tr.bonoExtra != null) {
+              tr.Nomina.xPercepciones['Bono Extra'] = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal )
+            } else
+              alert('no entro')
+            tr.xTotal = tr.Subtotal + tr.Nomina.xPercepciones['Bono Extra'];
+            totalSubtotal += tr.Subtotal;
+            totalBonoExtra += tr.Nomina.xPercepciones['Bono Extra'];
+            total += tr.xTotal;
+            html += `<tr>
+                        <td>${tr.Nombre} ${tr.Apellidos}</td>
+                        <td>${tr.Asistencia_total}</td>
+                        <td>${tr.Sueldo}</td>
+                        <td>${tr.Subtotal}</td>
+                        <td>${tr.Nomina.xPercepciones['Bono Extra']}</td>
+                        <td>${tr.xTotal}</td>
+                    </tr>`;
+       }
     }
     html += `<tbody>
               <tfoot>
@@ -75,7 +73,6 @@ $(document).ready(function() {
                   <th>Totales</th>
                   <th>${totalSubtotal}</th>
                   <th>${totalBonoExtra}</th>
-                  <th>${totalBonoPyA}</th>
                   <th>${total}</th>
                 </tr>
               </tfoot>

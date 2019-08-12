@@ -117,6 +117,7 @@
                                             <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
                                                 Lista de facturas pagadas
                                             </th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -126,6 +127,7 @@
                                             <th rowspan="1" colspan="1">Método de pago</th>
                                             <th rowspan="1" colspan="1">Total</th>
                                             <th rowspan="1" colspan="1">Lista de facturas pagadas</th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                     <tbody style="cursor: pointer;">
@@ -216,16 +218,14 @@
                             <form action="#" id="pagar_factura_form">
                                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                                 <div class="row p-t-10">
-                                    <div class="col-md-12">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label class="control-label">Número de folio</label>
                                             <input type="text" class="form-control" placeholder="#####" id="factura_pago_folio" name="factura_pago_folio">
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row p-t-10">
-                                    <div class="col-md-12">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label class="control-label">Método de pago</label>
                                             <select class="form-control" style="width: 100%;" data-placeholder="Elegir"
@@ -235,7 +235,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <!--/span-->
                                 </div>
 
                                 <div class="row p-t-10">
@@ -250,6 +249,13 @@
                                         </div>
                                     </div>
                                     <!--/span-->
+                                </div>
+
+                                <div class="row m-b-10" style="max-height: 200px;">
+                                    <div class="col">
+                                        <label for="factura_archivo">Archivo del pago de la factura (PNG|JPG)</label>
+                                        <input type="file" id="factura_pago_archivo" name="factura_pago_archivo" class="dropify" data-max-file-size="4M">
+                                    </div>
                                 </div>
                             </form>
                         </div>

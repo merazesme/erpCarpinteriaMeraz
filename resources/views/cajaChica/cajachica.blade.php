@@ -36,7 +36,7 @@
                                                         <h6 class="card-subtitle">Gastos internos de oficina</h6>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <h2 class="card-title" id="totalFisicamente">$3674.50</h2>
+                                                        <h2 class="card-title" id="totalFisicamente"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -51,7 +51,7 @@
                                                         <h6 class="card-subtitle">Dinero que hay en caja chica</h6>
                                                     </div>
                                                     <div class="col-lg-5">
-                                                        <h2 class="card-title text-info" id="totalCajaChica">$4000.00</h2>
+                                                        <h2 class="card-title text-info" id="totalCajaChica"></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -75,27 +75,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="bodyTablaOficina">
-                                                            <tr>
-                                                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
-                                                                <td>Articulos de papeleria</td>
-                                                                <td>$60.00</td>
-                                                                <td class="text-nowrap">
-                                                                    <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
-                                                                            <i class="icon-pencil text-primary m-r-10"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                    <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
-                                                                            <i class="icon-close text-danger"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"><b>Monto: </b></td>
-                                                                <td colspan="2"><b>$60.00</b></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -118,27 +98,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="bodyTablaTrabajadores">
-                                                            <tr>
-                                                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
-                                                                <td>Adan Santana</td>
-                                                                <td>$100.00</td>
-                                                                <td class="text-nowrap">
-                                                                    <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
-                                                                            <i class="icon-pencil text-primary m-r-10"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                    <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
-                                                                            <i class="icon-close text-danger"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"><b>Monto: </b></td>
-                                                                <td colspan="2"><b>$100.00</b></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -163,27 +123,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="bodyTablaMandados">
-                                                            <tr>
-                                                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
-                                                                <td>Dinero de la semana para mandados</td>
-                                                                <td>$200.00</td>
-                                                                <td class="text-nowrap">
-                                                                    <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
-                                                                            <i class="icon-pencil text-primary m-r-10"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                    <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
-                                                                            <i class="icon-close text-danger"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"><b>Monto: </b></td>
-                                                                <td colspan="2"><b>$200.00</b></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -206,27 +146,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="bodyTablaAdeudo">
-                                                            <tr>
-                                                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 16, 2017</td>
-                                                                <td>Adan Santana</td>
-                                                                <td>$34.50</td>
-                                                                <td class="text-nowrap">
-                                                                    <span data-toggle="tooltip" title="Editar">
-                                                                        <a href="#modalModificarRegistro" data-toggle="modal">
-                                                                            <i class="icon-pencil text-primary m-r-10"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                    <span data-toggle="tooltip" title="Eliminar">
-                                                                        <a href="#" data-toggle="modal" data-target="#eliminar" id="sa-warning">
-                                                                            <i class="icon-close text-danger"></i>
-                                                                        </a>
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"><b>Monto: </b></td>
-                                                                <td colspan="2"><b>$34.50</b></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>

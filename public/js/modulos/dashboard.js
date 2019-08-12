@@ -217,7 +217,6 @@ function cargarClientes() {
         enctype: "multipart/form-data",
         url: "/consultarClientes",
         success: function (msg) {
-            console.log(msg);
             var html = "";
             var nombreCliente = "";
             html += `
@@ -283,7 +282,6 @@ function montarDatosCita(id){
 }
 
 function obtenerCitaPorFecha(fecha){
-    console.log(fecha);
     var resp = [];
     $.ajax({
         type: "GET",
@@ -503,7 +501,6 @@ $("#btnNuevoPendiente").click(function() {
         enctype: "multipart/form-data",
         url: "/eliminarPendientes",
         success: function (msg) {
-            console.log(msg);
             if (msg==1) {
                 listarPendientes();
                 Swal.fire({   
@@ -907,6 +904,7 @@ function filtarDiaReporteDia(dia){
                 detallePagoGasolina.push(msg);
                 console.log(detallePagoGasolina);
                 var tickets = "";
+
                 if (detallePagoGasolina[0].length > 1) {
                     for(var z = 0; z<detallePagoGasolina[0].length; z++){
                         if (z+1 == detallePagoGasolina[0].length) {
@@ -938,17 +936,45 @@ function filtarDiaReporteDia(dia){
 
     //Egresos: Facturas sobrantes
     for(var x=0; x<todos[3].length; x++){
-        var tipoPago = "";
-        if (todos[3][x].Tipo_pago == 1)
-            tipoPago = "Cheque";
-        else if(todos[3][x].Tipo_pago == 2)
-                tipoPago = "Transferencia";
-        htmlEgresos += `<div class="activity-item">
-                            <div class="m-t-10">
-                                <h5 class="m-b-5 font-medium">${todos[3][x].Concepto}<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[3][x].Total}</span></h5>
-                                <h6 class="text-muted">Folio: ${todos[3][x].Folio_factura}</h6>
-                            </div>
-                        </div>`;
+        var detallePagoFacturasSobrantes = [];
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            enctype: "multipart/form-data",
+            async: false,
+            url: "/consultarDetallePagoFactutasrSobrantes/"+todos[3][x].id,
+            success: function (msg) {
+                detallePagoFacturasSobrantes.push(msg);
+                console.log(detallePagoFacturasSobrantes);
+                var facturas = "";
+
+                if (detallePagoFacturasSobrantes[0].length > 1) {
+                    for(var z = 0; z<detallePagoFacturasSobrantes[0].length; z++){
+                        if (z+1 == detallePagoFacturasSobrantes[0].length) {
+                            facturas += detallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura + ".";
+                        }else{
+                             facturas += detallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura + ", ";
+                        }
+                    }
+                }else{
+                    facturas += ddetallePagoFacturasSobrantes[0][z].concepto + ": "+ detallePagoFacturasSobrantes[0][z].folio_factura;
+                }
+
+                var tipoPago = "";
+                if (todos[3][x].Metodo_pago == 1)
+                    tipoPago = "Cheque";
+                else if(todos[3][x].Metodo_pago == 2)
+                    tipoPago = "Transferencia";
+
+                htmlEgresos += `<div class="activity-item">
+                                    <div class="m-t-10">
+                                        <h5 class="m-b-5 font-medium">Pago de facturas sobrantes<span class="text-muted font-14 m-l-10">| ${tipoPago}: $${todos[3][x].Cantidad}</span></h5>
+                                        <h6 class="text-muted">Pago de la factura: ${todos[3][x].Folio_pago}; Facturas correspondientes: ${facturas}</h6>
+                                    </div>
+                                </div>`;
+
+            }
+        });
     }
 
     if (htmlEgresos == "") {
@@ -957,7 +983,6 @@ function filtarDiaReporteDia(dia){
                         </div>`;
     }
 
-    console.log(todos);
 
     $("#contenedorReporteDiaIngresos")
     .empty()
@@ -976,7 +1001,6 @@ $("#filtroDiaReportedelDia").on("change", function () {
 $("#selectReporteDia").on("change", function(){
     var option = $("#selectReporteDia").val();
 
-    console.log(option);
     if (option == 1) {
         $("#tituloIngresos").show();
         $("#contenedorReporteDiaIngresos").show();

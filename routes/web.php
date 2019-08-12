@@ -250,7 +250,6 @@ Route::prefix('/productos')->group(function (){
 
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
-	Route::name('print')->get('/imprimir', 'Cotizaciones@imprimir');
 
 	Route::get('/', function(){
 		$modulo = "Cotizaciones";
@@ -290,23 +289,21 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/cotizacion/{id}', 'cotizaciones@edit');
 	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
+	Route::get('/imprimir/{id}', 'Cotizaciones@imprimir');
+	Route::get('/documento/{id}', 'Cotizaciones@documento');
 
 	Route::post('/getImage', 'cotizaciones@getImagenBase64');
 
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 
-
-	Route::get('/cotizacionDocumento', function(){
-		return view('documentos/base/cotizacion');
-	});
 });
 
 Route::prefix('nomina')->group(function () {
 
 	// Metodos que usan otras nominas
 	Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaController@detalleNomina');
-	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNominaSemanal');
+	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNomina');
 	Route::post('/saveNomina', 																'NominaController@guardaNomina');
 	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
 	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
@@ -365,7 +362,7 @@ Route::prefix('/carro')->group(function () {
 	Route::post('actualizar/{id}', 'carroController@update');
 	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
 	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
-	
+
 });
 
 Route::get('/usuarios', function(){
@@ -397,7 +394,8 @@ Route::get('/consultarDetallePagoCompras/{id}', 'carpeta_del_mes@detallePagoComp
 Route::get('/consultarPagoCotizaciones/{fecha}', 'carpeta_del_mes@pagoCotizaciones');
 Route::get('/consultarPagoGasolina/{fecha}', 'carpeta_del_mes@pagoGasolina');
 Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGasolinas');
-Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
+Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@pagoFacturasSobrantes');
+Route::get('/consultarDetallePagoFactutasrSobrantes/{id}', 'carpeta_del_mes@detallePagoFacturasSobrantes');
 
 //Rutas del modulo cotizaciones dashboard
 Route::get('/consultarCotizacionesDashboard', 'cotizaciones_dashborad@consultarCotizaciones');

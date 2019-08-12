@@ -46,7 +46,7 @@ $(document).ready(function() {
        tr.Nomina = {
           xPercepciones: {
             'Vacaciones': Math.round( tr.Sueldo / 6 * tr.dias ),
-            'Bono Extra': 0 // ?
+            'Bono Extra': tr.Bono_Extra
           },
           xDeducciones: {
              'Infonavit': tr.Infonavit

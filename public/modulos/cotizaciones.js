@@ -1,7 +1,5 @@
 var tablaProductos = [];
 var iva = 0;
-const months = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-const monthsCompl = ["enero", "febrero", "marzo","abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
@@ -543,7 +541,7 @@ function initialize_validate_form(tipo, id) {
 function guardarCotizacion(){
     var costo = 0;
     for (var i = 0; i < tablaProductos.length; i++) {
-        costo  += parseFloat(tablaProductos[i].total);
+        costo  += parseFloat(tablaProductos[i].total*tablaProductos[i].cantidad);
     }
 
     var datos = new FormData();
@@ -857,6 +855,7 @@ function datosCotizaciones(){
                 $("#cotizaciones").DataTable().destroy();
                 $("#cotizacionesTerminadas").DataTable().destroy();
                 $("#cotizacionesRechazadas").DataTable().destroy();
+                const month = ["Ene", "Feb", "Mar","Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
                 data.forEach(item =>{
                     var html = "";
@@ -892,12 +891,12 @@ function datosCotizaciones(){
                     let fecha_fin = '<i class="mdi mdi-minus"></i>'
                     if(item.fecha_inicio){
                         let fecha = new Date(item.fecha_inicio)
-                        fecha_inicio = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                        fecha_inicio = fecha.getDate() + "/" + month[fecha.getMonth()] + "/" + fecha.getFullYear()
                     }
 
                     if(item.fecha_fin){
                         let fecha = new Date(item.fecha_fin)
-                        fecha_fin = fecha.getDate() + "/" + months[fecha.getMonth()] + "/" + fecha.getFullYear()
+                        fecha_fin = fecha.getDate() + "/" + month[fecha.getMonth()] + "/" + fecha.getFullYear()
                     }
 
                     html += `
@@ -1060,7 +1059,7 @@ function datos_cotizacion_productos(id){
 function actualizar_Cotizacion(id){
     var costo = 0;
     for (var i = 0; i < tablaProductos.length; i++) {
-        costo  += parseFloat(tablaProductos[i].total);
+        costo  += parseFloat(tablaProductos[i].total*tablaProductos[i].cantidad);
     }
 
     var datos = new FormData();

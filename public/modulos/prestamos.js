@@ -82,7 +82,7 @@
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'detalles',${prestamos[i].id_prestamo},1)" data-target="#verDetallePrestamo" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'historial',-1,2)" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'editar',${prestamos[i].id_prestamo},1)" data-target="#verEditarPrestamo" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
-                    <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'abonar',${prestamos[i].id_prestamo},1)" data-target="#modalAbonarPrestamo" data-toggle="tooltip" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
+                    <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'abonar',${prestamos[i].id_prestamo},1)" resta="${prestamos[i].Resta}" data-target="#modalAbonarPrestamo" data-toggle="tooltip" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
                   </td>
                 </tr>`;
             }
@@ -144,10 +144,17 @@
     var intento = 0;
     // BOTON ABONAR
     $('body').on('click', "#btnAbonar", function(e){
+      var resta = $(this).parent().attr("resta");
+      console.log(resta);
       $('#mensajeVacio').remove();
       let bandera = 0;
       if($("#montoAbono").val().length == 0){
         validation(0, $("#montoAbono"), $("#montoAbono").parent());
+        bandera += 1;
+      }
+      if($("#montoAbono").val() > resta){
+        $('#validacionAbono').append(
+            `<label style="color:red;" id="mensajeMonto" name="mensajeMonto" class="control-label">Esta cantidad supera el monto a deber.</label>`);
         bandera += 1;
       }
       if($("#comentario").val().length == 0){
@@ -168,7 +175,8 @@
           alerta("Abonar prestamo", "Has superado los intentos permitidos, inténtelo más tarde.", "error");
         }
         else{
-          validarFirma(intento, "abonar");
+          // validarFirma(intento, "abonar");
+          console.log("HOLIS");
         }
       }
     });
@@ -290,6 +298,9 @@
             limpiarModal();
             $('#modalAgregarPrestamo').hide();
             alerta("¡Éxito!", mensaje, "success");
+            if(bandera == "abonar"){
+              consultarMovimientosPrestamo(datosPrestamo.id_prestamo);
+            }
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -444,6 +455,8 @@
                              <div class="form-group">
                                <label for="montoAbono" class="control-label">Monto:</label>
                                <input type="text" class="form-control input-number" id="montoAbono" name="montoAbono">
+                               <div id="validacionAbono" name="validacionAbono">
+                               </div>
                              </div>
                          </div>
                          <div class="col-md-6">
@@ -466,7 +479,7 @@
                  $("#formularioPrestamo").append(hmtlFormularioAbonar);
               }
               else if(bandera == "detalles"){
-                consultarMovimientosPrestamo(data[p].id_prestamo);
+                // consultarMovimientosPrestamo(data[p].id_prestamo);
               }
             }
             else{
@@ -564,8 +577,8 @@
           }
         }
     });
-    $(".select2").select2();
     $('#modalAgregarPrestamo').modal('show');
+    $(".select2").select2();
   }
 
   function consultarMovimientosPrestamo(id_prestamo){
