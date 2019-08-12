@@ -80,6 +80,9 @@
 	<script src="{{asset('plugins/icheck/icheck.min.js')}}"></script>
 	<script src="{{asset('plugins/icheck/icheck.init.js')}}"></script>
 
+    <!-- ======================= JS de los módulos ===================================== -->
+    <script src="{{asset('modulos/header.js')}}"></script>
+
    <!--  <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
     <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
 
