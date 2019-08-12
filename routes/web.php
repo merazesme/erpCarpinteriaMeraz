@@ -285,7 +285,7 @@ Route::prefix('nomina')->group(function () {
 
 	// Metodos que usan otras nominas
 	Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaController@detalleNomina');
-	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNominaSemanal');
+	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNomina');
 	Route::post('/saveNomina', 																'NominaController@guardaNomina');
 	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
 	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
@@ -344,7 +344,7 @@ Route::prefix('/carro')->group(function () {
 	Route::post('actualizar/{id}', 'carroController@update');
 	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
 	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
-	
+
 });
 
 Route::get('/usuarios', function(){
@@ -388,7 +388,7 @@ Route::post('/renovarHojaPagos', 'pagos_del_mes@renovarPagos');
 Route::post('/subirArchivo/{id}', 'pagos_del_mes@pagoConcepto');
 Route::get('/estadoVencido/{id}', 'pagos_del_mes@estadoVencido');
 Route::post('/eliminarConcepto', 'pagos_del_mes@destroy');
-Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos'); 
+Route::get('/montarDatosConcepto/{id}', 'pagos_del_mes@montarDatos');
 Route::post('/nuevoConcepto', 'pagos_del_mes@store');
 Route::post('/editarConcepto/{id}', 'pagos_del_mes@update');
 
@@ -398,9 +398,9 @@ Route::get('/consultarCajaChica/{fechaInicial}/{fechaFinal}', 'Caja_chicas@consu
 Route::get('/consultarConfiguracionCajaChica', 'Caja_chicas@consultarConfiguracion');
 Route::get('/montarDatosRegistroCajaChica/{id}', 'Caja_chicas@montarDatos');
 Route::post('/editarRegistroCajaChica/{id}', 'Caja_chicas@update');
-Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy'); 
+Route::post('/eliminarRegistroCajaChica', 'Caja_chicas@destroy');
 Route::get('/consultarUltimoCajaChica', 'Caja_chicas@consultarUltimaSemana');
-Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja'); 
+Route::post('/nuevaHoja', 'Caja_chicas@nuevaHoja');
 
 
 //Rutas del header para caja chica
