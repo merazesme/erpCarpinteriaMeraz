@@ -59,6 +59,8 @@ Route::prefix('trabajadores')->group(function () {
 		});
 
 		Route::get('asistencias/tabla', 'Asistencias@index');
+		Route::get('asistencias/horarios', 'Asistencias@horarios');
+		Route::post('asistencias/guardarAsistencia', 'Asistencias@store');
 
 		Route::get('/prestamos', function(){
 			$modulo = "Prestamos";
@@ -231,9 +233,19 @@ Route::prefix('/productos')->group(function (){
 		return view('productos', compact('modulo'));
 	});
 
+	//Agregar nuevo producto
 	Route::get('/lista_productos', 'productos@index');
 	Route::get('/lista_matprima', 'productos@showMateriaPrima');
 	Route::get('/lista_matprima_especifico/{id}', 'productos@showMateriaPrimaEspecifico');
+	Route::get('/IVA', 'productos@IVA');
+	Route::post('/nuevo_producto', 'productos@new_producto');
+	Route::post('/nuevo_producto_prima', 'productos@new_producto_has_prima');
+	//Modificar producto
+	Route::get('/lista_productos_especifico/{id}', 'productos@showProductoEspecifico');
+	Route::post('/modificar_producto/{id}', 'productos@update_producto');
+	Route::post('/modificar_producto_prima/{id}', 'productos@update_producto_has_prima');
+	//cancelarproducto
+	Route::post('/cancelar_producto/{id}', 'productos@cancelar');
 });
 
 //Cotizacion vistas y funciones
@@ -291,7 +303,7 @@ Route::prefix('nomina')->group(function () {
 
 	// Metodos que usan otras nominas
 	Route::get('/detalleNomina/{semana}/{fechai?}/{fechaf?}', 'NominaController@detalleNomina');
-	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNominaSemanal');
+	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNomina');
 	Route::post('/saveNomina', 																'NominaController@guardaNomina');
 	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
 	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
@@ -382,7 +394,8 @@ Route::get('/consultarDetallePagoCompras/{id}', 'carpeta_del_mes@detallePagoComp
 Route::get('/consultarPagoCotizaciones/{fecha}', 'carpeta_del_mes@pagoCotizaciones');
 Route::get('/consultarPagoGasolina/{fecha}', 'carpeta_del_mes@pagoGasolina');
 Route::get('/consultarDetallePagoGasolina/{id}', 'carpeta_del_mes@detallePagoGasolinas');
-Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@facturasSobrantes');
+Route::get('/consultarFacturasSobrantes/{fecha}', 'carpeta_del_mes@pagoFacturasSobrantes');
+Route::get('/consultarDetallePagoFactutasrSobrantes/{id}', 'carpeta_del_mes@detallePagoFacturasSobrantes');
 
 //Rutas del modulo cotizaciones dashboard
 Route::get('/consultarCotizacionesDashboard', 'cotizaciones_dashborad@consultarCotizaciones');

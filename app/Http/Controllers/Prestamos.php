@@ -46,8 +46,8 @@ class Prestamos extends Controller
     {
         try{
             $trabajadores = DB::table('trabajadores')
-              ->select('trabajadores.id as id_trabajador', 'trabajadores.Nombre', 'trabajadores.Apellidos')
-                  ->where('trabajadores.Estado', '=', 1)
+              ->select('id as id_trabajador', 'Nombre', 'Apellidos')
+                  ->where('Estado', '=', 1)
                     ->get();
 
             return $trabajadores;
@@ -62,8 +62,8 @@ class Prestamos extends Controller
         try
         {
           $firma_BD = DB::table('trabajadores')
-            ->select('trabajadores.Firma')
-              ->where('trabajadores.id', '=', $id)
+            ->select('Firma')
+              ->where('id', '=', $id)
                 ->get();
 
           $firma_BD = $firma_BD[0]->Firma;

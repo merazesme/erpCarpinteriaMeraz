@@ -98,15 +98,15 @@ $(document).ready(function() {
         if(tr.totalPrestamos == null)
           tr.totalPrestamos = 0;
         for (var i = 0; i < tr.asistencia.length; i++) {
-          //console.log(tr.asistencia[i])
-          if(tr.asistencia[i].Hora_salida === 1 && tr.asistencia[i].Hora_entrada === 1) {
-            tr.horasSabado += 0.5;
+          if(tr.asistencia[i].Hora_salida === 3 && tr.asistencia[i].Hora_entrada === 5) {
             tr.diasTrabajados ++;
           }
-          else if(tr.asistencia[i].Hora_salida === 1 || tr.asistencia[i].Hora_entrada === 1)
-            tr.diasTrabajados +=0.5;
-          if(tr.asistencia[i].Hora_extra === 1)
+          else if(tr.asistencia[i].Hora_salida === 3 || tr.asistencia[i].Hora_entrada === 5)
+            tr.diasTrabajados += 0.5;
+          if(tr.asistencia[i].Hora_extra === 1) {
             tr.horasExtras ++;
+            tr.horasSabado += 0.5;
+          }
         }
         tr.faltasSinJustificar = 6 - tr.diasTrabajados;
         tr.NombreyApodo = tr.Nombre + ' ' + tr.Apellidos + ' (' + tr.Apodo + ')'

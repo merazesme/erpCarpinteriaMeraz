@@ -82,6 +82,7 @@ class Trabajadores extends Controller
 
           $contrato = new Contrato();
           $contrato->Puesto=$request->input('puesto');
+          $contrato->Tiempo=$request->input('tiempo');
           $contrato->Fecha_inicio=$request->input('fecha_inicio');
           $contrato->Fecha_final=$request->input('fecha_final');
           $contrato->Sueldo=$request->input('sueldo');
@@ -173,7 +174,8 @@ class Trabajadores extends Controller
           $contratos = DB::table('contratos')
             ->where('id', $request->input('id_contrato'))
               ->update(
-                ['puesto' => $request->input('puesto'),
+                ['Puesto' => $request->input('puesto'),
+                'Tiempo' => $request->input('tiempo'),
                 'Fecha_inicio' => $request->input('fecha_inicio'),
                 'Fecha_final' => $request->input('fecha_final'),
                 'Sueldo' => $request->input('sueldo'),
@@ -196,7 +198,7 @@ class Trabajadores extends Controller
         try
         {
           // GENERAR LIQUIDACION
-          
+
 
           // CAMBIAR ESTADO DEL CONTRATO
           $contratos = DB::table('contratos')
@@ -254,6 +256,7 @@ class Trabajadores extends Controller
           // SE AGREGA EL NUEVO CONTRATO
           $contrato = new Contrato();
           $contrato->Puesto=$request->input('puesto');
+          $contrato->Tiempo=$request->input('tiempo');
           $contrato->Fecha_inicio=$request->input('fecha_inicio');
           $contrato->Fecha_final=$request->input('fecha_final');
           $contrato->Sueldo=$request->input('sueldo');

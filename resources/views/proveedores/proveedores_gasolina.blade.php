@@ -120,6 +120,7 @@
                                             <th tabindex="0" rowspan="1" colspan="1" data-orderable="false">
                                                 Lista de número de ticket pagados
                                             </th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -129,6 +130,7 @@
                                             <th rowspan="1" colspan="1">Método de pago</th>
                                             <th rowspan="1" colspan="1">Total</th>
                                             <th rowspan="1" colspan="1">Lista de número de ticket pagados</th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                     <tbody style="cursor: pointer;">
@@ -264,6 +266,14 @@
                                     </div>
                                     <!--/span-->
                                 </div>
+
+                                <div class="row m-b-10" style="max-height: 200px;">
+                                    <div class="col">
+                                        <label for="gasolina_archivo">Archivo del pago de la factura (PNG|JPG)</label>
+                                        <input type="file" id="factura_archivo" name="factura_archivo" class="dropify" data-max-file-size="4M">
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         <div class="modal-footer">
