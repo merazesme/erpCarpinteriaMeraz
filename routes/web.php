@@ -250,7 +250,6 @@ Route::prefix('/productos')->group(function (){
 
 //Cotizacion vistas y funciones
 Route::prefix('/cotizaciones')->group(function () {
-	Route::name('print')->get('/imprimir', 'Cotizaciones@imprimir');
 
 	Route::get('/', function(){
 		$modulo = "Cotizaciones";
@@ -290,16 +289,14 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::get('/cotizacion/{id}', 'cotizaciones@edit');
 	Route::get('/cotizacionProducto/{id}', 'cotizaciones@editCotiProducto');
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
+	Route::get('/imprimir/{id}', 'Cotizaciones@imprimir');
+	Route::get('/documento/{id}', 'Cotizaciones@documento');
 
 	Route::post('/getImage', 'cotizaciones@getImagenBase64');
 
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 
-
-	Route::get('/cotizacionDocumento', function(){
-		return view('documentos/base/cotizacion');
-	});
 });
 
 Route::prefix('nomina')->group(function () {
