@@ -82,9 +82,7 @@
 	<!-- =============================================================== -->
 
     <!-- ======================= JS de los módulos ===================================== -->
-    <script src="{{asset('modulos/clientes.js')}}"></script>
-    <script src="{{asset('modulos/cotizaciones.js')}}"></script>
-    <script src="{{asset('modulos/header.js')}}"></script>
+    <!-- <script src="{{asset('modulos/header.js')}}"></script> -->
    <!--  <script src="{{asset('js/modulos/dashboard.js')}}"></script> -->
     <script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
 
