@@ -10,9 +10,6 @@
       this.value = this.value.replace(/[^0-9]/g,'');
     });
 
-    // ACTIVAR VALIDACIÓN FIRMA
-    $('#validarFirma').hide();
-
     // IDENTIFICAR QUE METODO ES
     // console.log(location.href);
     // TABLA
@@ -91,7 +88,7 @@
           , titleTemplate: '<span class="step">#index#</span> #title#'
           , enableCancelButton: true
           , onCanceled: function (event) {
-              reset_form('.validation-wizard');
+              cancelar_registro();
           }
           , labels: {
               cancel: "Cancelar",
@@ -106,11 +103,10 @@
           }
           , onFinished: function (event, currentIndex) {
               if($("#firma").val().length == 6){
-                $('#validarFirma').hide();
                 tipoBotonFormulario();
               }
               else{
-                $('#validarFirma').show();
+                $('#validarFirma').attr( "style", "color:red;" );
               }
           }
       });
@@ -186,14 +182,14 @@
             $('#trabajadoresActivos').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ]
             });
             $("#trabajadoresInactivos tbody").empty().append(htmlInactivo);
             $('#trabajadoresInactivos').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ]
             });
           }
@@ -634,6 +630,8 @@
 
   function agregarInputFechas(){
     $("#divFechas").remove();
+    $("#fechasTemporal").remove();
+    $("#fechasTemporal2").remove();
 
     var htmlSelectTiempo="";
     htmlSelectTiempo=
@@ -742,7 +740,7 @@
 
     var hoy = new Date();
     var h = hoy.toString();
-    var fechaFormulario = new Date(fecha_inicio);
+    var fechaFormulario = new Date(fecha_inicio.replace(/-/g, '\/'));
     var f = fechaFormulario.toString();
 
     var separador = " ";

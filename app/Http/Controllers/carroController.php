@@ -47,9 +47,10 @@ class carroController extends Controller
     public function dataTrabajadores()
     {
         //
+        // return DB::table('trabajadores')->get();
         return DB::table('trabajadores')
                     ->select('trabajadores.id', 'trabajadores.Nombre', 'trabajadores.Apellidos')
-                    ->where('trabajadores.Estado','=','0')
+                    ->where('trabajadores.Estado','=','1')
                     ->get();
     }
 
@@ -91,7 +92,7 @@ class carroController extends Controller
         $carro->Modelo          = $request->carro_modelo;
         $carro->placa           = $request->carro_placas;
         $carro->idTrabajador    = $carro_trabajador;
-        $carro->Estado      = 0;
+        $carro->Estado      = 1;
         $carro->idUsuario   = session('idUsuario');
 
         if(!$carro->save()) {

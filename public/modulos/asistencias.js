@@ -4,6 +4,21 @@
   });
 
   (function () {
+    // FECHA
+    var f = new Date();
+    var fecha = (f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate());
+    $("#fecha").append(`<h5>`+fecha+`</h5>`);
+
+    var idsTodos = [];
+    var idsMañana = [];
+    var idsTarde = [];
+    var idsHoraExtra = [];
+    var idsTodosFINAL = [];
+    var a = "";
+    var diferenciaMañana = 0;
+    var diferenciaTarde = 0;
+    var diferenciaHoraExtra = 0;
+
     // LLENAR TABLA ASISTENCIA
     $.ajax({
         type: 'GET',
@@ -92,20 +107,6 @@
           }
         }
     });
-
-    // FECHA
-    var f = new Date();
-    var fecha = (f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate());
-    $("#fecha").append(`<h5>`+fecha+`</h5>`);
-
-    var idsTodos = [];
-    var idsMañana = [];
-    var idsTarde = [];
-    var idsHoraExtra = [];
-    var a = "";
-    var diferenciaMañana = 0;
-    var diferenciaTarde = 0;
-    var diferenciaHoraExtra = 0;
 
     $.ajax({
         type: 'GET',
@@ -234,18 +235,24 @@
         }
       }
 
-      // console.log(idsMañana);
-      // console.log(idsTarde);
-      // console.log(idsHoraExtra);
+      console.log("idsMañana: " + idsMañana);
+      console.log("idsTarde: " + idsTarde);
+      console.log("idsHoraExtra: " + idsHoraExtra);
       console.log("idsTodos: " + idsTodos);
 
     });
 
   $("#btnGuardar").click(function(){
-    console.log(idsMañana);
-    console.log(idsTarde);
-    console.log(idsHoraExtra);
+    console.log("idsMañana: " + idsMañana);
+    console.log("idsTarde: " + idsTarde);
+    console.log("idsHoraExtra: " + idsHoraExtra);
     console.log("idsTodos: " + idsTodos);
+    for (var i = 0; i < idsTodos.length; i++) {
+      if(idsTodosFINAL.indexOf(idsTodos[i]) === -1){
+        idsTodosFINAL.push(idsTodos[i]);
+      }
+    }
+    console.log("LA QUE SE MANDA: " + idsTodosFINAL);
     if(idsMañana.length != 0 || idsTarde.length != 0 || idsHoraExtra.length != 0){
       var datos = [];
       datos[1] = 1;
@@ -253,7 +260,7 @@
           type: 'POST',
           data:
           { '_token': token,
-            'idsTodos': idsTodos,
+            'idsTodos': idsTodosFINAL,
             'idsMañana': idsMañana,
             'idsTarde':idsTarde,
             'idsHoraExtra': idsHoraExtra,

@@ -14,6 +14,7 @@
 						<div class="card">
 							<div class="card-body">
 									<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="boton_agregarMaterial"> <i class="fa fa-plus"></i> Agregar material</button>
+									<button type="button" style="margin: 0px 5px 0px 0px" class="btn waves-effect waves-light btn-primary float-right" id="boton_nuevoTipoMaterial2"> <i class="fa fa-plus"></i>  Nuevo tipo material</button>
 									<button type="button" style="margin: 0px 5px 0px 0px" class="btn waves-effect waves-light btn-primary float-right" id="boton_nuevoTipoMaterial"> <i class="fa fa-bars"></i>  Tipo material</button>
 									<h4 class="card-title">Materiales</h4>
 									<ul class="nav nav-tabs" role="tablist">
@@ -106,14 +107,14 @@
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-																<label for="recipient-name" class="control-label">Cantidad <span class="danger">*</label>
-																<input type="text" class="form-control required" id="txtCantidadMaterial" name="txtCantidadMaterial">
+																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+																<input type="text" class="form-control required" id="txtNombreMaterial" name="txtNombreMaterial">
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
-																<input type="text" class="form-control required" id="txtNombreMaterial" name="txtNombreMaterial">
+																<label for="recipient-name" class="control-label">Cantidad <span class="danger">*</label>
+																<input type="text" class="form-control input-number required" id="txtCantidadMaterial" name="txtCantidadMaterial">
 														</div>
 													</div>
 												</div>
@@ -162,7 +163,7 @@
 													<div class="col-md-6">
 														<div class="form-group">
 																<label for="recipient-name" class="control-label">Cantidad <span class="danger">*</label>
-																<input type="text" class="form-control required" id="txtCantidadMaterialModificar" name="txtCantidadMaterialModificar">
+																<input type="text" class="form-control input-number required" id="txtCantidadMaterialModificar" name="txtCantidadMaterialModificar">
 														</div>
 													</div>
 
@@ -203,16 +204,16 @@
 		</div>
 		<!-- End Modal Editar MATERIAL -->
 
-		<!-- Start Modal Agregar Tipo material -->
+		<!-- Start Modal eliminar o activar Tipo material -->
 		<div id="modal_agregar_tipoMaterial" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 				<div class="modal-dialog">
 						<div class="modal-content">
 								<div class="modal-header">
-										<h4 class="modal-title" id="agregarTituloTipoMaterial">Agregar nuevo tipo material</h4>
+										<h4 class="modal-title" id="agregarTituloTipoMaterial">Gestionar tipo de material</h4>
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 								</div>
 								<div class="modal-body">
-										<form id="frmAgregarTipoMaterial" name="frmAgregarTipoMaterial">
+										<!-- <form id="frmAgregarTipoMaterial" name="frmAgregarTipoMaterial">
 											<section>
 												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
 														<h6>Agregar nuevo tipo material</h6>
@@ -220,7 +221,7 @@
 																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
 																<input type="text" class="form-control required" id="txtNombreTipoMaterial" name="txtNombreTipoMaterial">
 														</div>
-										</form>
+										</form> -->
 											<div class="row">
 											  <div class="col-md-6">
 													<h6>Eliminar tipo material</h6>
@@ -246,6 +247,34 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
 									<button type="button" id="actionAgregarTipoMaterial" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- End Modal eliminar o activar Tipo material -->
+
+		<!-- Start Modal Agregar Tipo material -->
+		<div id="modal_agregarNuevo_tipoMaterial" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h4 class="modal-title" id="agregarTituloTipoMaterial">Agregar nuevo tipo material</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								</div>
+								<div class="modal-body">
+										<form id="frmAgregarTipoMaterial" name="frmAgregarTipoMaterial">
+											<section>
+												<input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
+														<h6>Agregar nuevo tipo material</h6>
+														<div class="form-group">
+																<label for="recipient-name" class="control-label">Nombre <span class="danger">*</label>
+																<input type="text" class="form-control required" id="txtNombreTipoMaterial2" name="txtNombreTipoMaterial2">
+														</div>
+										</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Cancelar</button>
+									<button type="button" id="actionAgregarTipoMaterial2" class="btn btn-success waves-effect" onclick=""><i class="mdi mdi-content-save"></i> Aceptar</button>
 								</div>
 						</div>
 				</div>

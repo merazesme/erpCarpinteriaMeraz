@@ -70,6 +70,7 @@ $('#tabla_productosActivos').on("click",".modificarProducto", function(e){
                  success: function (msg) {
                          var data = JSON.parse(msg);
                          // console.log("data: ", data);
+                         $("#select_materiaPrimaModificar").empty().append(html);
 
                          var matid = [];
                          var id;
@@ -80,7 +81,7 @@ $('#tabla_productosActivos').on("click",".modificarProducto", function(e){
                          }
 
                          // console.log("matid: ", matid);
-                         $('#select_materiaPrimaModificar').val(["1", "2"]);
+                         $('#select_materiaPrimaModificar').val(matid).trigger('change');;
 
 
                          $("#txtDescripcionProductosModificar").val(data[0].Descripcion);
@@ -88,7 +89,6 @@ $('#tabla_productosActivos').on("click",".modificarProducto", function(e){
                          $("#totalMateriaPrimaModificar").val(data[0].Subtotal);
                          $("#totalMateriaPrimaFinalModificar").val(data[0].Total);
 
-                         $("#select_materiaPrimaModificar").empty().append(html);
                          $('#modal_modificar_productos').modal('show');
                          $("#actionAgregarProductoModificar").attr("onclick", "modificarProducto("+iva+","+idP+")");
                        }
@@ -223,6 +223,8 @@ function nuevoProducto(iva) {
   }
 
   if (bandera_validar == 0) {
+
+    console.log("");
 
     var d = new Date();
     var month = d.getMonth()+1;
@@ -522,6 +524,81 @@ function tablaProductos(){
 
 $("#txtDescripcionProductos").on('input',function(e){
     validation($(this), $(this).parent())
+});
+$("#txtCostosAdicionales").on('input',function(e){
+    validation($(this), $(this).parent())
+    var total = 0;
+    var costo = parseInt($("#txtCostosAdicionales").val());
+    var total_mataprima = parseInt($("#totalMateriaPrima").val());
+    if ($("#totalMateriaPrima").val().length == 0) {
+      total_mataprima = 0;
+    }
+
+    $.ajax({
+    type: "GET",
+    dataType: "json",
+    enctype: "multipart/form-data",
+    url: base_url+'/productos/IVA',
+    success: function (msg) {
+            var data = JSON.parse(msg)
+            var iva = data[0].IVA;
+
+            total = costo + total_mataprima;
+            var tanto = total * iva;
+            var IVA = tanto / 100;
+            total = total + IVA;
+            $("#totalMateriaPrimaFinal").val(total);
+
+          }
+    });
+
+});
+$('body').on('change', "#select_materiaPrima", function(e){
+  var tipo =  $("#select_materiaPrima").val();
+  console.log("tipo: ", tipo);
+  if (tipo.length == 0) {
+    // $("#totalMateriaPrima").prop("value");
+    $("#totalMateriaPrima").val(0);
+  }
+  var temporal = 0;
+  var total = 0;
+
+  $.ajax({
+  type: "GET",
+  dataType: "json",
+  enctype: "multipart/form-data",
+  url: base_url+'/productos/IVA',
+  success: function (msg) {
+          var data = JSON.parse(msg)
+          var iva = data[0].IVA;
+
+          for (var i = 0; i < tipo.length; i++) {
+              var id = tipo[i];
+              $.ajax({
+              type: "GET",
+              dataType: "json",
+              enctype: "multipart/form-data",
+              url: base_url+'/productos/lista_matprima_especifico/'+id,
+              success: function (msg) {
+                      var data = JSON.parse(msg)
+                      var cantidad = data[0].Precio_por_unidad;
+                      total = total + cantidad;
+                      $("#totalMateriaPrima").val(total);
+
+                      var totalA = 0;
+                      var costoA = parseInt($("#txtCostosAdicionales").val());
+                      totalA = costoA + total;
+                      var tanto = totalA * iva;
+                      var IVA = tanto / 100;
+                      totalA = totalA + IVA;
+                      $("#totalMateriaPrimaFinal").val(totalA);
+
+                    }
+               });
+          }
+
+        }
+  });
 });
 $("#txtCostosAdicionales").on('input',function(e){
     validation($(this), $(this).parent())

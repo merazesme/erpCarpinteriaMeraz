@@ -3,7 +3,7 @@ var iva = 0;
 
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle="tooltip"]' });
-    console.log("puto el que lo lea");
+    // console.log("puto el que lo lea");
 
     var url = (location.href).split("/");
     if(url[url.length - 1] == "nueva") {
@@ -22,6 +22,23 @@ $(document).ready(function() {
         datosCotizaciones();
     }
 });
+
+$('#modalRecomendado').on('hidden.bs.modal', function (e){
+    $("#formRecomendado")[0].reset();
+    $("#porcentajeReco").parent().removeClass("error");
+    $("#nombreReco").parent().removeClass("error");
+})
+
+$('#modalProducto').on('hidden.bs.modal', function (e) {
+    $("#formProducto")[0].reset();
+    $("#descripcionProducto").parent().removeClass("error");
+    $("#subtotalProducto").parent().removeClass("error");
+    $("#ivaProducto").text("$0.00");
+    $("#totalProducto").text("$0.00");
+    var materia = [];
+    $("#selectMateriaPrima").val(materia).trigger("change");
+    $("#selectMateriaPrima-error").hide();
+})
 
 function iniciar(){
     cargarClientes();
@@ -84,6 +101,9 @@ function cargarClientes(id){
             var data = JSON.parse(msg)
             var html = "<option value='-1'>Selecciona un cliente</option>";
             for (var item in data) {
+                if(data[item].Apellidos == null){
+                    data[item].Apellidos = ""
+                }
                 html += `<option value="${data[item].id}">${data[item].Nombre} ${data[item].Apellidos}</option>`
             }
             $("#selectCliente").empty().append(html).trigger('change');
@@ -162,6 +182,8 @@ function mensaje(titulo, msg, tipo){
         type: tipo,
         title: titulo,
         text: msg,
+        timer: 1500,
+        showConfirmButton: false
     });
 }
 //
@@ -303,7 +325,6 @@ function modalAccionProducto(accion){
         $("#descripcionProducto").val("");
         $("#subtotalProducto").val("");
         $("#ivaProducto").html("$0.00");
-        $("#selectMateriaPrima").val("-1");
         $("#totalProducto").html("$0.00");
 
         $("#botonModalProducto").attr("onclick", "nuevoProducto()");
@@ -805,8 +826,11 @@ $("body").on("click", ".detalleCotizacion", function(e){
         url: base_url+'/cotizaciones/cotizacionDetalle/'+id,
         success: function (msg) {
             var data = JSON.parse(msg)
+            console.log(data);
             var html = "";
             for (var i = 0; i < data.length; i++) {
+                // var costo = parseFloat(data[i].costo).toFixed(2);
+
                 var subtotal = parseFloat(data[i].subtotal)*parseFloat(data[i].Cantidad);
                 var total = parseFloat(data[i].total)*parseFloat(data[i].Cantidad);
                 var iva = parseFloat(data[i].iva)*parseFloat(data[i].Cantidad);
@@ -848,6 +872,7 @@ function datosCotizaciones(){
         url: base_url+'/cotizaciones/getCotizaciones',
         success: function (msg) {
             var data = JSON.parse(msg)
+            console.log(data);
             var htmlActivo = "";
             var htmlTermiado = "";
             var htmlRecha = "";
@@ -868,17 +893,16 @@ function datosCotizaciones(){
                         estado = `<span class="badge badge-warning">En taller</span>`
                         mensaje = "Cambiar estado a Terminado"
                     }else if(item.Estado == 3){
-                        estado = `<span class="label label-light-success">Por confirmar</span>`
+                        estado = `<span class="badge badge-secondary">Por confirmar</span>`
                         mensaje = "Cambiar estado"
                     }else if(item.Estado == 4){
                         estado = `<span class="badge badge-info">Terminado</span>`
                     }
 
-                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note"></i></a>`
+                    var cambiarEstado = `<a class="cambiarEstado" estado="${item.Estado}" href="#" data-toggle="tooltip" data-original-title="${mensaje}"><i class="text-success icon-note m-r-10"></i></a>`
                     if(item.Estado == 4){
                         cambiarEstado="";
                     }
-                    var total = parseFloat(item.costo).toFixed(2);
 
                     prioridad = `<span class="badge badge-primary">Alta</span>`
                     if(item.Prioridad == 2){
@@ -899,6 +923,10 @@ function datosCotizaciones(){
                         fecha_fin = fecha.getDate() + "/" + month[fecha.getMonth()] + "/" + fecha.getFullYear()
                     }
 
+                    if(item.Apellidos == null){
+                        item.Apellidos = "";
+                    }
+
                     html += `
                     <tr>
                         <td>${fecha_inicio}</td>
@@ -906,12 +934,12 @@ function datosCotizaciones(){
                         <td>${item.Descripcion}</td>
                         <td>${estado}</td>
                         <td>${item.Nombre +" "+ item.Apellidos}</td>
-                        <td>$${total}</td>
                         <td>${prioridad}</td>
                         <td class="text-nowrap" id="${item.id}">
                             <a href="/cotizaciones/modificar/${item.id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
                             <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
                             ${cambiarEstado}
+                            <a class="documentoCotizacion" href="${item.Documento}" data-toggle="tooltip" data-original-title="Descargar Documento"><i class="icon-doc"></i></a>
                         </td>
                     </tr>`
 
@@ -1095,9 +1123,8 @@ function actualizar_Cotizacion(id){
                 Swal.close()
                 var data = JSON.parse(resp)
                 if(data == 0) {
-                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito", "success");
-                    reset_form('.validation-wizard');
-                    datos_cotizacion_especifica(id);
+                    //peticion ajax para generar documento
+                    generarDocumento(id, 2)
                 } else if(data == -1){
                    mensaje("Actualizar cotización", "Ha ocurrido un error al actualizar los productos, inténtelo más tarde.", "error");
                }else if(data == 1){
@@ -1117,83 +1144,32 @@ function actualizar_Cotizacion(id){
                                                                 /*Funciones de crear documento de cotización*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-// function generarDoc(){
-//     console.log("a");
-//     // var doc = new jsPDF();
-//     var datos = new FormData();
-//     datos.append("imagen", "C:/wamp64/www/erpCarpinteriaMeraz/public/images/logoA.jpg");
-//     datos.append("_token", token);
-//     $.ajax({
-//         type: 'POST',
-//         processData: false,
-//         contentType: false,
-//         cache: false,
-//         data: datos,
-//         dataType: false,
-//         enctype: 'multipart/form-data',
-//         url: base_url+"/cotizaciones/getImage",
-//         success: function (msg) {
-//             var data = JSON.parse(msg)
-//             generaDoc2(data);
-//         },
-//         error: function (msg){
-//             console.log(msg);
-//         }
-//     });
-// }
-//
-// function generaDoc2(img){
-//
-//     $.ajax({
-//         type: "GET",
-//         dataType: "HTML",
-//         enctype: 'multipart/form-data',
-//         url: base_url+"/cotizaciones/cotizacionDocumento",
-//         success: function (msg) {
-//             console.log(msg);
-//
-//             var d = new Date();
-//             var day = ((''+d.getDate()).length<2 ? '0' : '')+d.getDate();
-//             console.log(day);
-//
-//             var doc = new jsPDF()
-//             doc.setFontSize(10)
-//             doc.setFont("Times New Roman");
-//             doc.setFontType("bold");
-//             doc.text('Mazatlán Sin. A '+day+' de '+monthsCompl[d.getMonth()]+' del '+d.getFullYear(),
-//              125, 35, {align: "right"})
-//             doc.addImage("data:image/jpg;base64,"+img, 'jpg', 35, 25, 42, 33)
-//
-//             doc.setFontSize(28)
-//             doc.setFont("Arial");
-//             doc.setFontType("bold");
-//             doc.text('Victor de Rueda.',
-//              100, 50, {align: "right"})
-//
-//
-//             // doc.rect(50, 100, 200, 100)
-//
-//             var elementHTML = msg;
-//             var specialElementHandlers = {
-//                 '#elementH': function (element, renderer) {
-//                     return true;
-//                 }
-//             };
-//
-//             doc.fromHTML(elementHTML, 0, 100, {
-//                 'width': 170,
-//                 'elementHandlers': specialElementHandlers
-//             });
-//
-//             // Save the PDF
-//             doc.save('sample-document.pdf');
-//         },
-//     error: function (msg){
-//         console.log(msg);
-//     }
-//     });
-
-// }
+function generarDocumento(id, opcion){
+    console.log(id);
+    if(id && opcion){
+        console.log("a");
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            enctype: "multipart/form-data",
+            url: base_url+'/cotizaciones/imprimir/'+id,
+            success: function (msg) {
+                data = JSON.parse(msg);
+                console.log(data);
+                reset_form('.validation-wizard');
+                if(opcion == 2){
+                    console.log("modificar");
+                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito. En unos momentos se generará el pdf.", "success");
+                    datos_cotizacion_especifica(id);
+                }else{
+                    console.log("agregar");
+                }
+                
+                window.open(base_url+"/documentos/cotizaciones/"+data);
+            }
+        });
+    }else{
+        console.log("b");
+        mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+    }
+}

@@ -94,62 +94,60 @@ class Asistencias extends Controller
 
                   $asistencias->save();
                 }
-            }
 
-            foreach ($request->idsTodos as $id2) {
-              $nuevoMañana = 0;
-              $nuevoTarde = 0;
-              $nuevoHoraExtra = 0;
+                $nuevoMañana = 0;
+                $nuevoTarde = 0;
+                $nuevoHoraExtra = 0;
 
-              // VERIFICAR SI TAMBIEN FUE EN LA MAÑANA
-              $bandera = 0;
-              if($request->tamañoMañana >= 1) {
-                foreach ($request->idsMañana as $idM) {
-                  if($id2 == $idM){
-                    $bandera = 1;
+                // // VERIFICAR SI TAMBIEN FUE EN LA MAÑANA
+                $bandera = false;
+                if($request->tamañoMañana >= 1) {
+                  foreach ($request->idsMañana as $idM) {
+                    if($id == $idM){
+                      $bandera = true;
+                    }
+                  }
+                  if($bandera == true){
+                    $nuevoMañana=$request->diferenciaMañana;
                   }
                 }
-                if($bandera == 1){
-                  $nuevoMañana=$request->diferenciaMañana;
-                }
-              }
 
-              // VERIFICAR SI TAMBIEN FUE EN LA TARDE
-              $bandera2 = 0;
-              if($request->tamañoTarde >= 1) {
-                foreach ($request->idsTarde as $idT) {
-                  if($id2 == $idT){
-                    $bandera2 = 1;
+                // VERIFICAR SI TAMBIEN FUE EN LA TARDE
+                $bandera2 = false;
+                if($request->tamañoTarde >= 1) {
+                  foreach ($request->idsTarde as $idT) {
+                    if($id == $idT){
+                      $bandera2 = true;
+                    }
+                  }
+                  if($bandera2 == true){
+                    $nuevoTarde=$request->diferenciaTarde;
                   }
                 }
-                if($bandera == 1){
-                  $nuevoTarde=$request->diferenciaTarde;
-                }
-              }
 
-              // VERIFICAR SI TAMBIEN FUE A LA HORA EXTRA
-              $bandera3 = 0;
-              if($request->tamañoHoraExtra >= 1) {
-                foreach ($request->idsHoraExtra as $idH) {
-                  if($id2 == $idH){
-                    $bandera3 = 1;
+                // // VERIFICAR SI TAMBIEN FUE A LA HORA EXTRA
+                $bandera3 = false;
+                if($request->tamañoHoraExtra >= 1) {
+                  foreach ($request->idsHoraExtra as $idH) {
+                    if($id == $idH){
+                      $bandera3 = true;
+                    }
+                  }
+                  if($bandera3 == true){
+                    $nuevoHoraExtra=$request->diferenciaHoraExtra;
                   }
                 }
-                if($bandera3 == 1){
-                  $nuevoHoraExtra=$request->diferenciaHoraExtra;
-                }
-              }
 
-              // ACTUALIZAR REGISTRO
-              $actualizar = DB::table('asistencias')
-                ->where('Fecha', $fecha)
-                  ->where('Trabajadores_idTrabajador', $id2)
-                    ->update(
-                      ['Hora_entrada' => $nuevoMañana,
-                      'Hora_salida'   => $nuevoTarde,
-                      'Hora_extra'    => $nuevoHoraExtra,
-                      'idUsuario'     => $request->idUsuario]
-                    );
+                // // ACTUALIZAR REGISTRO
+                $actualizar = DB::table('asistencias')
+                  ->where('Fecha', $fecha)
+                    ->where('Trabajadores_idTrabajador', $id)
+                      ->update(
+                        ['Hora_entrada' => $nuevoMañana,
+                        'Hora_salida'   => $nuevoTarde,
+                        'Hora_extra'    => $nuevoHoraExtra,
+                        'idUsuario'     => $request->idUsuario]
+                      );
             }
           }
 
