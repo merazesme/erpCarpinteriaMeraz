@@ -160,19 +160,19 @@
                   <td>${data[i].Puesto}</td>
                   <td>${data[i].Fecha_final}</td>
                   <td class="text-nowrap" id_trabajador="${data[i].id_trabajador}">
-                    <a class="detallesTrabajador" href="#" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                    <a class="historialTrabajador" href="#" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
+                    <a class="detallesTrabajador" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                    <a class="historialTrabajador" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
                     <a href="/trabajadores/editar/${data[i].id_trabajador}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>`;
               if(data[i].trabajador_estado == 0 && data[i].contrato_estado == 0){
                 // USUARIO INACTIVO
-                html += `<a class="contratarTrabajador" href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
+                html += `<a class="contratarTrabajador" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
                         </td>
                       </tr>`;
                 htmlInactivo += html;
               }
               else if(data[i].trabajador_estado == 1 && data[i].contrato_estado == 1){
                 // USUARIO ACTIVO
-                html += `<a class="liquidarTrabajador" href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
+                html += `<a class="liquidarTrabajador" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
                         </td>
                       </tr>`;
                 htmlActivo += html;

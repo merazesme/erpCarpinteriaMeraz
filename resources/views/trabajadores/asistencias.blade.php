@@ -26,6 +26,7 @@
 					                <th>Mañana</th>
 													<th>Tarde</th>
 													<th>Hora extra</th>
+													<th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -34,6 +35,7 @@
                           <th>Mañana</th>
 													<th>Tarde</th>
 													<th>Hora extra</th>
+													<th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -47,6 +49,41 @@
       	</div>
 			</div>
 		</div>
+
+		<!-- MODAL AGREGAR HORAS -->
+		<div id="modalHoras" name="modalHoras" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Agregar horas</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          </div>
+          <div class="modal-body">
+            <form>
+							<div class="row">
+									<div class="form-group col-lg-6">
+											<label>Llegada:</label>
+											<div class="input-group clockpicker-bottom">
+														<input type="text" class="form-control" value="00:00" id="hora_llegadaMañana" name="hora_llegadaMañana"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+											 </div>
+									</div>
+									<div class="form-group col-lg-6">
+											<label>Salida:</label>
+											<div class="input-group clockpicker-bottom">
+														<input type="text" class="form-control" value="00:00" id="hora_llegadaTarde" name="hora_llegadaTarde"> <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+											 </div>
+									</div>
+							</div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger waves-effect waves-light">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+		<!-- /.MODAL AGREGAR HORAS -->
 		@section('footer')
 		@parent
 		<script src="{{asset('modulos/asistencias.js')}}"></script>

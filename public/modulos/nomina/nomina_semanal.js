@@ -26,36 +26,9 @@ $(document).ready(function() {
 
   $(document).on('click','#genera', function() {
       $(this).attr('disabled', true);
-      obtieneDatos();
+      obtieneDatos('muestra/'+moment(f_i).format()+'/'+moment(f_f).format());
   });
   //obtieneDatos();
-
-  // Funcion que obtiene los datos necesarios para generar la nomina del trabajador
-  function obtieneDatos() {
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: 'muestra/'+moment(f_i).format()+'/'+moment(f_f).format(),
-      success: function (data) {
-          console.log(data)
-          if(data['Error']) {
-            $('#genera').attr('disabled', false);
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          }
-          else {
-            //swal("Nómina generada", "Nómina generada exitosamente.", "success");
-            toastSuccess("Nómina generada exitosamente.");
-            trabajadores = data;
-            muestra();
-            $('#guardar').append(boton);
-            $('#genera').hide("slow");
-          }
-      }, error: function(error) {
-          $('#genera').attr('disabled', false);
-          toastError();
-      }
-    });
-  }
 
   // Funcion que hace los calculos y genera las filas de la tabla
   function muestra() {
