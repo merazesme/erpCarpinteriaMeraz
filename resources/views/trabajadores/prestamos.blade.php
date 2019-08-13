@@ -44,32 +44,33 @@
               </div>
           </div>
       	</div>
-				<!-- MODAL NUEVO PRESTAMO -->
-				<div class="modal" id="modalAgregarPrestamo" role="dialog" aria-labelledby="agregarPrestamo">
-  					<div class="modal-dialog" role="document">
-		            <div class="modal-content">
-	                  <div class="modal-header">
-	                      <button id="cerrar"  name="cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                  </div>
-	                  <div class="modal-body">
-											<div id="prestamo" name="prestamo">
-												<form id="formularioPrestamo" name="formularioPrestamo">
-					                 <input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
-													 <input type="text" class="form-control d-none" id="id_tra" name="id_tra">
-													 <input type="text" class="form-control d-none" id="id_pre" name="id_pre">
-													 <input type="text" class="form-control d-none" id="tituloValor" name="tituloValor">
-						            </form>
-											</div>
-	                  </div>
-	                  <div class="modal-footer">
-	                      <button id="btnCancelar" name="btnCancelar" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-	                  </div>
-	              </div>
-	          </div>
-	      </div>
-	      <!-- /.MODAL AGREGAR -->
 			</div>
 		</div>
+
+		<!-- MODAL NUEVO PRESTAMO -->
+		<div class="modal" id="modalAgregarPrestamo" role="dialog" aria-labelledby="agregarPrestamo">
+				<div class="modal-dialog" role="document">
+						<div class="modal-content">
+								<div class="modal-header">
+										<button id="cerrar"  name="cerrar" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								</div>
+								<div class="modal-body">
+									<div id="prestamo" name="prestamo">
+										<form id="formularioPrestamo" name="formularioPrestamo">
+											 <input type="text" class="form-control d-none" id="token" name="_token" value="{{csrf_token()}}">
+											 <input type="text" class="form-control d-none" id="id_tra" name="id_tra">
+											 <input type="text" class="form-control d-none" id="id_pre" name="id_pre">
+											 <input type="text" class="form-control d-none" id="tituloValor" name="tituloValor">
+										</form>
+									</div>
+								</div>
+								<div class="modal-footer">
+										<button id="btnCancelar" name="btnCancelar" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+								</div>
+						</div>
+				</div>
+		</div>
+		<!-- /.MODAL NUEVO PRESTAMO -->
 		@section('footer')
 		@parent
 		<script src="{{asset('modulos/prestamos.js')}}"></script>

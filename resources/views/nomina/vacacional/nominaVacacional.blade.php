@@ -15,13 +15,14 @@
                   <div class="card-body">
                       <h4 class="card-title">{{ $modulo }}</h4>
 											<br>
-											<ul class="nav nav-tabs customtab2" role="tablist">
-													<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-notepad"></i></span> <span class="hidden-xs-down">Vacacional</span></a> </li>
-													<li class="nav-item" id="historial"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
+											<!-- Nav tabs -->
+											<ul class="nav nav-tabs" role="tablist">
+													<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab"><span class="hidden-sm-up"><i class="ti-notepad"></i></span> <span class="hidden-xs-down">Semanal</span></a> </li>
+													<li class="nav-item" id="historial"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab"><span class="hidden-sm-up"><i class="ti-layers"></i></span> <span class="hidden-xs-down">Historial</span></a> </li>
 											</ul>
-												<!-- Tab panes -->
-												<div class="tab-content">
-													<div class="tab-pane active" id="home7" role="tabpanel">
+											<!-- Tab panes -->
+											<div class="tab-content tabcontent-border">
+													<div class="tab-pane active" id="home" role="tabpanel">
 														<div class="p-20">
 															<div class="text-center" id="btnGenerar">
 
@@ -34,82 +35,17 @@
 																<h5 id="anio-vacacional"></h5>
 															</span>
 															<div class="table-responsive m-t-40 tabla">
-				                          <!-- <table id="clientes" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-				                              <thead>
-				                                  <tr>
-				                                    <th>Nombre</th>
-				                                    <th>Sueldo Base</th>
-																						<th>Vacaciones 3 días</th>
-																						<th>25% Prima</th>
-				                                    <th>Bono Extra</th>
-				                                    <th>Infonavit</th>
-				                                    <th>Total</th>
 
-
-				                                  </tr>
-				                              </thead>
-																			<tfoot>
-																				<tr>
-																					<th>Totales</th>
-																					<th>76565</th>
-																					<th>78678</th>
-																					<th>786786</th>
-																					<th>89797</th>
-																					<th>67576</th>
-																					<th>8676</th>
-																				</tr>
-																			</tfoot>
-				                              <tbody>
-				                                  <tr>
-				                                      <td>Itzel Rendón</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                  </tr>
-				                                  <tr>
-				                                      <td>Itzel Rendón</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                  </tr>
-				                                  <tr>
-				                                      <td>Itzel Rendón</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                  </tr>
-				                                  <tr>
-				                                      <td>Itzel Rendón</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                      <td>123</td>
-				                                  </tr>
-
-				                              </tbody>
-				                          </table> -->
-				                      </div>
+															</div>
 														</div>
 													</div>
-													<div class="tab-pane   p-20" id="profile7" role="tabpanel">
+													<div class="tab-pane  p-20" id="profile" role="tabpanel">
 														<div class="table-responsive m-t-20 tablaHistorial">
 
-			                      </div>
+														</div>
 													</div>
-												</div>
+											</div>
 			              </div>
-
                   </div>
               </div>
           </div>

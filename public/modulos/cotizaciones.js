@@ -23,7 +23,7 @@ $(document).ready(function() {
     }
 });
 
-$('#modalRecomendado').on('hidden.bs.modal', function (e) {
+$('#modalRecomendado').on('hidden.bs.modal', function (e){
     $("#formRecomendado")[0].reset();
     $("#porcentajeReco").parent().removeClass("error");
     $("#nombreReco").parent().removeClass("error");
@@ -183,7 +183,7 @@ function mensaje(titulo, msg, tipo){
         title: titulo,
         text: msg,
         timer: 1500,
-        showConfirmButton: false 
+        showConfirmButton: false
     });
 }
 //
@@ -1123,9 +1123,8 @@ function actualizar_Cotizacion(id){
                 Swal.close()
                 var data = JSON.parse(resp)
                 if(data == 0) {
-                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito", "success");
-                    reset_form('.validation-wizard');
-                    datos_cotizacion_especifica(id);
+                    //peticion ajax para generar documento
+                    generarDocumento(id, 2)
                 } else if(data == -1){
                    mensaje("Actualizar cotización", "Ha ocurrido un error al actualizar los productos, inténtelo más tarde.", "error");
                }else if(data == 1){
@@ -1145,83 +1144,32 @@ function actualizar_Cotizacion(id){
                                                                 /*Funciones de crear documento de cotización*/
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-// function generarDoc(){
-//     console.log("a");
-//     // var doc = new jsPDF();
-//     var datos = new FormData();
-//     datos.append("imagen", "C:/wamp64/www/erpCarpinteriaMeraz/public/images/logoA.jpg");
-//     datos.append("_token", token);
-//     $.ajax({
-//         type: 'POST',
-//         processData: false,
-//         contentType: false,
-//         cache: false,
-//         data: datos,
-//         dataType: false,
-//         enctype: 'multipart/form-data',
-//         url: base_url+"/cotizaciones/getImage",
-//         success: function (msg) {
-//             var data = JSON.parse(msg)
-//             generaDoc2(data);
-//         },
-//         error: function (msg){
-//             console.log(msg);
-//         }
-//     });
-// }
-//
-// function generaDoc2(img){
-//
-//     $.ajax({
-//         type: "GET",
-//         dataType: "HTML",
-//         enctype: 'multipart/form-data',
-//         url: base_url+"/cotizaciones/cotizacionDocumento",
-//         success: function (msg) {
-//             console.log(msg);
-//
-//             var d = new Date();
-//             var day = ((''+d.getDate()).length<2 ? '0' : '')+d.getDate();
-//             console.log(day);
-//
-//             var doc = new jsPDF()
-//             doc.setFontSize(10)
-//             doc.setFont("Times New Roman");
-//             doc.setFontType("bold");
-//             doc.text('Mazatlán Sin. A '+day+' de '+monthsCompl[d.getMonth()]+' del '+d.getFullYear(),
-//              125, 35, {align: "right"})
-//             doc.addImage("data:image/jpg;base64,"+img, 'jpg', 35, 25, 42, 33)
-//
-//             doc.setFontSize(28)
-//             doc.setFont("Arial");
-//             doc.setFontType("bold");
-//             doc.text('Victor de Rueda.',
-//              100, 50, {align: "right"})
-//
-//
-//             // doc.rect(50, 100, 200, 100)
-//
-//             var elementHTML = msg;
-//             var specialElementHandlers = {
-//                 '#elementH': function (element, renderer) {
-//                     return true;
-//                 }
-//             };
-//
-//             doc.fromHTML(elementHTML, 0, 100, {
-//                 'width': 170,
-//                 'elementHandlers': specialElementHandlers
-//             });
-//
-//             // Save the PDF
-//             doc.save('sample-document.pdf');
-//         },
-//     error: function (msg){
-//         console.log(msg);
-//     }
-//     });
-
-// }
+function generarDocumento(id, opcion){
+    console.log(id);
+    if(id && opcion){
+        console.log("a");
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            enctype: "multipart/form-data",
+            url: base_url+'/cotizaciones/imprimir/'+id,
+            success: function (msg) {
+                data = JSON.parse(msg);
+                console.log(data);
+                reset_form('.validation-wizard');
+                if(opcion == 2){
+                    console.log("modificar");
+                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito. En unos momentos se generará el pdf.", "success");
+                    datos_cotizacion_especifica(id);
+                }else{
+                    console.log("agregar");
+                }
+                
+                window.open(base_url+"/documentos/cotizaciones/"+data);
+            }
+        });
+    }else{
+        console.log("b");
+        mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+    }
+}

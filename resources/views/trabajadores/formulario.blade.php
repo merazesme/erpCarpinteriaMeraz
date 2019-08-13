@@ -44,8 +44,8 @@
 	                                    </div>
 	                                    <div class="col-md-6">
 	                                        <div class="form-group">
-	                                            <label for="numero_alternativo">Número alternativo: <span class="danger">*</span> </label>
-	                                            <input type="tel" class="form-control required input-number" id="numero_alternativo" name="numero_alternativo">
+	                                            <label for="numero_alternativo">Número alternativo:</label>
+	                                            <input type="tel" class="form-control input-number" id="numero_alternativo" name="numero_alternativo">
 																					</div>
 	                                    </div>
 	                                </div>
@@ -186,7 +186,7 @@
 																					<div class="input-group">
 	                                            <span class="input-group-addon">$</span>
 	                                            <span class="input-group-addon">0.00</span>
-																							<input type="text" class="form-control required" id="sueldo" name="sueldo">
+																							<input type="text" class="form-control required input-number" id="sueldo" name="sueldo">
                                       		</div>
 															        </div>
 															    </div>
@@ -198,7 +198,7 @@
 																					<div class="input-group">
 	                                            <span class="input-group-addon">$</span>
 	                                            <span class="input-group-addon">0.00</span>
-	                                            <input type="text" class="form-control required" id="hora_extra" name="hora_extra">
+	                                            <input type="text" class="form-control required input-number" id="hora_extra" name="hora_extra">
                                       		</div>
 															        </div>
 															    </div>
@@ -208,7 +208,7 @@
 																					<div class="input-group">
 	                                            <span class="input-group-addon">$</span>
 	                                            <span class="input-group-addon">0.00</span>
-																							<input type="text" class="form-control required" id="bono_asistencia" name="bono_asistencia">
+																							<input type="text" class="form-control required input-number" id="bono_asistencia" name="bono_asistencia">
                                       		</div>
 															        </div>
 															    </div>
@@ -218,7 +218,7 @@
 																					<div class="input-group">
 	                                            <span class="input-group-addon">$</span>
 	                                            <span class="input-group-addon">0.00</span>
-																							<input type="text" class="form-control required" id="bono_extra" name="bono_extra">
+																							<input type="text" class="form-control required input-number" id="bono_extra" name="bono_extra">
                                       		</div>
 															        </div>
 															    </div>
@@ -227,8 +227,8 @@
 															    <div class="col-md-6">
 															        <div class="form-group">
 																					<label for="firma">Firma trabajador: <span class="danger">*</span> </label>
-																					<input type="password" class="form-control required input-number" id="firma" name="firma">
-																					<p id="validarFirma" style="color:red;">Es necesario que el trabajador ingrese una firma de 6 números.</p>
+																					<input type="password" class="form-control required input-number" id="firma" name="firma" minlength="1" maxlength="6">
+																					<p id="validarFirma" style="" name="validarFirma">Nota: la firma debe de tener solo 6 números.</p>
 															        </div>
 															    </div>
 																</div>
