@@ -33,7 +33,6 @@ function datosCotizaciones(){
 
                 data.forEach(item =>{
                     if(item.Estado == 0){
-                        todos.push(item.id);
                         var estado = `<span class="badge badge-success">Aceptada</span>`;
                         var mensaje = "En taller"
                         if(item.Estado == 0){
@@ -75,6 +74,12 @@ function datosCotizaciones(){
                             url_documento = "";
                         }
 
+                        var accionMensaje = `<a class="correoIndividual" href="#" data-toggle="tooltip" data-original-title="Volver a mandar la encuesta"><i class="icon-envelope-open text-primary m-r-10"></i></a>`;
+                        if(item.correoCalidad == 0 || item.correoCalidad == null){
+                            accionMensaje = `<a class="correoIndividual" href="#" data-toggle="tooltip" data-original-title="Mandar encuesta de calidad"><i class="icon-envelope-letter m-r-10"></i></a>`
+                            todos.push(item.id);
+                        }
+
                         html += `
                         <tr id="${item.id}">
                             <td>${fecha_inicio}</td>
@@ -83,7 +88,7 @@ function datosCotizaciones(){
                             <td>${estado}</td>
                             <td>${item.Nombre +" "+ item.Apellidos}</td>
                             <td class="text-nowrap" id="${item.id}">
-                                <a class="correoIndividual" href="#" data-toggle="tooltip" data-original-title="Mandar encuesta de calidad"><i class="icon-envelope-letter m-r-10"></i></a>
+                                ${accionMensaje}
                                 ${url_documento}
                             </td>
                         </tr>`
@@ -103,44 +108,43 @@ function datosCotizaciones(){
 
 $("body").on("click", ".correoIndividual", function(e){
     e.preventDefault();
-    if(todos.length > 0){
-        var datos = new FormData();
-        datos.append("usuarios", JSON.stringify([$(this).parent().attr("id")]));
-        datos.append("_token", token);
-        console.log($(this).parent().attr("id"));
+    var datos = new FormData();
+    datos.append("usuarios", JSON.stringify([$(this).parent().attr("id")]));
+    datos.append("_token", token);
+    console.log($(this).parent().attr("id"));
 
-        Swal.fire({
-            onOpen: function () {
-                Swal.showLoading()
-                $.ajax({
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    data: datos,
-                    dataType: false,
-                    enctype: 'multipart/form-data',
-                    url: base_url+'/crm/correoCalidad/',
-                })
-                .done(function(msg) {
-                    console.log(msg);
-                    Swal.close()
-                    data = JSON.parse(msg);
-                    console.log(data);
-                    if(data == 0){
-                        mensaje("Correo enviado", "Se ha enviado el correo correctamente.", "success");
-                    }else if(data == 1){
-                        mensaje("CRM", "Ha ocurrido un error al enviar la cotización, inténtelo más tarde.", "error");
-                    }else if(data == 2){
-                        mensaje("CRM", "Ha ocurrido un error al obtener la encuesta, inténtelo más tarde.", "error");
-                    }
-                })
-                .fail(function(err) {
-                    mensaje("CRM", "Ha ocurrido un error, inténtelo más tarde.", "error");
-                });
-            }
-        })
-    }
+    Swal.fire({
+        onOpen: function () {
+            Swal.showLoading()
+            $.ajax({
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                cache: false,
+                data: datos,
+                dataType: false,
+                enctype: 'multipart/form-data',
+                url: base_url+'/crm/correoCalidad/',
+            })
+            .done(function(msg) {
+                console.log(msg);
+                Swal.close()
+                data = JSON.parse(msg);
+                console.log(data);
+                if(data == 0){
+                    mensaje("Correo enviado", "Se ha enviado el correo correctamente.", "success");
+                    datosCotizaciones();
+                }else if(data == 1){
+                    mensaje("CRM", "Ha ocurrido un error al enviar la cotización, inténtelo más tarde.", "error");
+                }else if(data == 2){
+                    mensaje("CRM", "Ha ocurrido un error al obtener la encuesta, inténtelo más tarde.", "error");
+                }
+            })
+            .fail(function(err) {
+                mensaje("CRM", "Ha ocurrido un error, inténtelo más tarde.", "error");
+            });
+        }
+    })
 })
 
 function correos(){
@@ -172,6 +176,7 @@ function correos(){
                     console.log(data);
                     if(data == 0){
                         mensaje("Correo enviado", "Se ha enviado el correo correctamente.", "success");
+                        datosCotizaciones();
                     }else if(data == 1){
                         mensaje("CRM", "Ha ocurrido un error al enviar la cotización, inténtelo más tarde.", "error");
                     }else if(data == 2){
@@ -183,5 +188,7 @@ function correos(){
                 });
             }
         })
+    }else{
+        mensaje("CRM", "No hay nuevos correos a mandar.", "error");
     }
 }
