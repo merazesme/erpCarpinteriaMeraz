@@ -42,13 +42,13 @@
         var tr = trabajadores[x];
         // Falta este
         // bonoExtra
-        if(tr.Tipo == 'base') {
+        if(tr.Tipo == 'Base') {
            tr.Subtotal = Math.round( (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
            tr.Nomina = {
              xPercepciones: {}
            };
             if(tr.bonoExtra != 0 || tr.bonoExtra != null) {
-              tr.Nomina.xPercepciones['Bono Extra'] = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal )
+              tr.Nomina.xPercepciones['Bono Extra'] = Math.round( Math.abs((((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal ))
             } else
               alert('no entro')
             tr.xTotal = tr.Subtotal + tr.Nomina.xPercepciones['Bono Extra'];

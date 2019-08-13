@@ -319,7 +319,7 @@
         enctype: 'multipart/form-data',
         url: base_url+'/trabajadores/asistencias/horarios',
         success: function(msg){
-          // console.log(msg);
+          console.log(msg);
           data = msg;
 
           // CALCULAR LAS HORAS QUE SE DEBEN DE TRABAJAR
