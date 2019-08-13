@@ -107,7 +107,7 @@ class facturaSobranteController extends Controller
         $factura->Folio_factura = $request->factura_folio;
         $factura->Documento     = $nombre;
         $factura->Total  = $request->factura_total;
-        $factura->Estado = 1;
+        $factura->Estado = 0;
         $factura->idUsuario = session('idUsuario');
 
         if(!$factura->save()) {
@@ -173,7 +173,7 @@ class facturaSobranteController extends Controller
         /** Cambiar de estado a cero a los facturas */
         foreach ($facturas as $factura) {
             $factura_update = Facturas::find($factura);
-            $factura_update->Estado = 0;
+            $factura_update->Estado = 1;
             $total += $factura_update->Total;
             $factura_update->update();
         }

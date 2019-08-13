@@ -53,7 +53,7 @@
                                     <th rowspan="1" colspan="1">Modelo</th>
                                     <th rowspan="1" colspan="1">Asignado a</th>
                                     <th rowspan="1" colspan="1"></th>
-                                    <th></th>
+                                    <th rowspan="1" colspan="1"></th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -106,8 +106,8 @@
                                         <div class="input-group">
                                             <span class="input-group-addon" id="select_auto_span"><i class="fa fa-user-o"></i></span>
                                             <select class="select2 form-control custom-select" style="width: 100%;" id="carro_trabajador" name="carro_trabajador">
-                                                <option value="">Seleccionar auto</option>
-                                                <optgroup label="Autos">
+                                                <option value="">Trabajador</option>
+                                                <optgroup label="Disponibles">
                                                 </optgroup>
                                             </select>
                                         </div>
