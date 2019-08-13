@@ -6,6 +6,16 @@ function validation(children, parent){
     }
 }
 
+function mensajeTimer(titulo, texto, tipo){
+    swal({
+           title: titulo,
+           text: texto,
+           timer: 2000,
+           type: tipo,
+           showConfirmButton: false
+       });
+}
+
 $("#ivaConfig").on('input',function(e){
     validation($(this), $(this).parent())
 });
@@ -83,14 +93,14 @@ function actualizarGeneral(){
                 var data = JSON.parse(msg)
                 if(data == 0){
                     $('#modalConfiguracion').modal('hide')
-                    swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                    mensajeTimer("Actualizar", "Se han actualizado los datos con éxito", "success");
                     datosGeneral();
                 }else{
-                    swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                    mensajeTimer("Actualizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
             }, error: function(error) {
                 console.log(error);
-                swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                mensajeTimer("Actualizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
             }
         });
     }
@@ -183,15 +193,15 @@ function actualizarHorario(){
                 var data = JSON.parse(msg)
                 if(data == 0){
                     $('#modalConfiguracionHorario').modal('hide')
-                    swal("Actuzalizar", "Se han actualizado los datos con éxito", "success");
+                    mensajeTimer("Actualizar", "Se han actualizado los datos con éxito", "success");
                     datosHorarios();
                 }else{
                     console.log(msg);
-                    swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                    mensajeTimer("Actualizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
                 }
             }, error: function(error) {
                 console.log(error);
-                swal("Actuzalizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                mensajeTimer("Actualizar", "Ha ocurrido un error, inténtelo más tarde.", "error");
             }
         });
     }

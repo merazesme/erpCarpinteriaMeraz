@@ -36,14 +36,14 @@ function datos_facturas_sobrantes() {
             $('#table_facturas').DataTable().clear();
             $('#table_facturas').DataTable().destroy();
             datos.forEach(item => {
-                if(item.Estado == 1) {
+                if(item.Estado == 0) {
                     if(!band) band = true;
                     $('#factura_pago_facturas optgroup').append(`
                         <option value="${item.id}">Factura #${item.Folio_factura}</option>
                     `);
                 }
 
-                var td = item.Estado == 1
+                var td = item.Estado == 0
                 ?`<td class="vertical-align-table" align="right" id="col_folio${item.Folio_factura}"><span class="sin_cheque badge badge-warning w-100">Sin cheque</span></td>
                   <td class="vertical-align-table"><span class="badge badge-danger w-100">Sin pagar</span></td>`
                 :`<td class="vertical-align-table" align="right" id="col_folio${item.Folio_factura}"></td>
