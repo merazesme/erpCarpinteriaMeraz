@@ -109,3 +109,34 @@ function imprime() {
       }]
   });
 }
+// Funcion que obtiene los datos necesarios para generar la nomina del trabajador
+function obtieneDatos(url) {
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    url: url,
+    success: function (data) {
+        console.log(data)
+        if(data['Error']) {
+          $('#genera').attr('disabled', false);
+          swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+        }
+        else {
+          //swal("Nómina generada", "Nómina generada exitosamente.", "success");
+          trabajadores = data;
+          if(trabajadores.length > 0 ) {
+            toastSuccess("Nómina generada exitosamente.");
+            muestra();
+            $('#guardar').append(boton);
+            $('#genera').hide("slow");
+          } else {
+            toastWarning('No hay trabajadores disponibles.');
+            $('#genera').attr('disabled', false);
+          }
+        }
+    }, error: function(error) {
+        $('#genera').attr('disabled', false);
+        toastError();
+    }
+  });
+}

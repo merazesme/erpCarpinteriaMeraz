@@ -310,20 +310,20 @@ Route::prefix('nomina')->group(function () {
 
 	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 																					'NominaController@nominaSemanal');
-		Route::get('/detalles/{semana}', 													'NominaController@detallesSemanal');
+		Route::get('/', 																			  'NominaController@nominaSemanal');
+		Route::get('/detalles/{semana}', 												'NominaController@detallesSemanal');
 	});
 
 	// Nomina de aguinados
 	Route::prefix('nominaAguinaldo')->group(function () {
-		Route::get('/', 																					'NominaController@nominaAguinaldo');
-		Route::get('/detalles/{anio}', 													  'NominaController@detallesAguinaldo');
+		Route::get('/', 																				'NominaController@nominaAguinaldo');
+		Route::get('/detalles/{anio}', 													'NominaController@detallesAguinaldo');
 	});
 
 	// Nomina de vacaciones
 	Route::prefix('nominaVacacional')->group(function () {
-		Route::get('/', 																					'NominaController@nominaVacacional');
-		Route::get('/detalles/{anios}', 													'NominaController@detallesVacacional');
+		Route::get('/', 																				'NominaController@nominaVacacional');
+		Route::get('/detalles/{anios}', 												'NominaController@detallesVacacional');
 	});
 });
 
