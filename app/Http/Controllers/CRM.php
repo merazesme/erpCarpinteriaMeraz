@@ -44,6 +44,11 @@ class CRM extends Controller
                     $msj->subject($subject);
                     $msj->to($for);
                 });
+
+                $dataActualizar = Cotizacion::find($value);
+                $dataActualizar->correoCalidad=1;
+
+                $dataActualizar->save();
             }
             // return view('cotizaciones/email',compact('data'));
             return response()->json(json_encode(0));

@@ -220,7 +220,7 @@ class Cotizaciones extends Controller
         try{
             $data = DB::table('cotizaciones')
                 ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
-                ->select('cotizaciones.id', 'cotizaciones.Descripcion', 'cotizaciones.Estado', 'cotizaciones.Prioridad', 'cotizaciones.Documento',
+                ->select('cotizaciones.id', 'cotizaciones.correoCalidad', 'cotizaciones.Descripcion', 'cotizaciones.Estado', 'cotizaciones.Prioridad', 'cotizaciones.Documento',
                     'cotizaciones.costo', 'clientes.id AS idCliente', 'clientes.Nombre', 'clientes.Apellidos',
                     'cotizaciones.fecha_inicio', 'cotizaciones.fecha_fin')
                 ->get();
@@ -373,7 +373,7 @@ class Cotizaciones extends Controller
             $data->fecha_fin=$request->input('fecha_fin');
             $data->idUsuario=$request->input('idUsuario');
             $data->Clientes_idCliente=$request->input('idCliente');
-
+            $data->correoCalidad=0;
 
             if(!empty( $request->input('idRecomendado'))){
                 $data->Recomendacion_idRecomendacion=$request->input('idRecomendado');
