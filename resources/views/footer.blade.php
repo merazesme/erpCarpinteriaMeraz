@@ -114,9 +114,9 @@
 		<script src="{{asset('modulos/configuraciones.js')}}"></script>
 	@endif
 
-	@if(Request::segment(1) == "inventario")
+	<!-- @if(Request::segment(1) == "inventario")
 		<script src="{{asset('modulos/materiales.js')}}"></script>
-	@endif
+	@endif -->
 
     @if(Request::segment(1) == "")
         <script src="{{asset('js/modulos/dashboard.js')}}"></script>
