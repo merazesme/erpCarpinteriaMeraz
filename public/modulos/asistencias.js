@@ -365,7 +365,10 @@
     idsTodos.push(""+id_trabajador);
     $(checkHoraExtra).prop("checked", true);
 
-    // $('#validarFirma').attr( "style", "color:red;" );
+    var i = idsFaltas.indexOf(id_trabajador);
+    if ( i !== -1 ) {
+      idsFaltas.splice(i, 1);
+    }
   }
 
   function noAsistio(id_trabajador){
@@ -373,43 +376,9 @@
     var checkTarde = "#t-"+id_trabajador;
     var checkHoraExtra = "#h-"+id_trabajador;
 
-    // QUITAR ASISTENCIA MAÑANA
-    var i = idsMañana.indexOf(id_trabajador);
-    if ( i !== -1 ) {
-      idsMañana.splice(i, 1);
-    }
-    var o = idsTodos.indexOf(id_trabajador);
-    if ( o !== -1 ) {
-      idsTodos.splice(o, 1);
-    }
     $(checkMañana).prop("checked", false);
-
-    // QUITAR ASISTENCIA TARDE
-    var i = idsTarde.indexOf(id_trabajador);
-    if ( i !== -1 ) {
-      idsTarde.splice(i, 1);
-    }
-    var o = idsTodos.indexOf(id_trabajador);
-    if ( o !== -1 ) {
-      idsTodos.splice(o, 1);
-    }
     $(checkTarde).prop("checked", false);
-
-    // PONER ASITENCIA HORA EXTRA
-    var i = idsHoraExtra.indexOf(id_trabajador);
-    if ( i !== -1 ) {
-      idsHoraExtra.splice(i, 1);
-    }
-    var o = idsTodos.indexOf(id_trabajador);
-    if ( o !== -1 ) {
-      idsTodos.splice(o, 1);
-    }
     $(checkHoraExtra).prop("checked", false);
-
-    // DESHABILITAR CHECKBOX
-    // $(checkMañana).attr('disabled', true);
-    // $(checkTarde).attr('disabled', true);
-    // $(checkHoraExtra).attr('disabled', true);
 
     // SE AGREGA AL ARRAY FALTAS
     idsFaltas.push(id_trabajador);
