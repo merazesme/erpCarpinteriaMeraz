@@ -10,9 +10,6 @@
       this.value = this.value.replace(/[^0-9]/g,'');
     });
 
-    // ACTIVAR VALIDACIÓN FIRMA
-    $('#validarFirma').hide();
-
     // IDENTIFICAR QUE METODO ES
     // console.log(location.href);
     // TABLA
@@ -48,6 +45,8 @@
     $("#modalHistorial").on('hidden.bs.modal', function () {
       $("#datosTrabajador").remove();
       $("#br").remove();
+      $("#historialContratos").DataTable().clear();
+      $("#historialContratos").DataTable().destroy();
     });
   });
 
@@ -91,7 +90,7 @@
           , titleTemplate: '<span class="step">#index#</span> #title#'
           , enableCancelButton: true
           , onCanceled: function (event) {
-              reset_form('.validation-wizard');
+              cancelar_registro();
           }
           , labels: {
               cancel: "Cancelar",
@@ -106,11 +105,10 @@
           }
           , onFinished: function (event, currentIndex) {
               if($("#firma").val().length == 6){
-                $('#validarFirma').hide();
                 tipoBotonFormulario();
               }
               else{
-                $('#validarFirma').show();
+                $('#validarFirma').attr( "style", "color:red;" );
               }
           }
       });
@@ -164,19 +162,19 @@
                   <td>${data[i].Puesto}</td>
                   <td>${data[i].Fecha_final}</td>
                   <td class="text-nowrap" id_trabajador="${data[i].id_trabajador}">
-                    <a class="detallesTrabajador" href="#" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                    <a class="historialTrabajador" href="#" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
+                    <a class="detallesTrabajador" data-target="#verDetallesTrabajador" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
+                    <a class="historialTrabajador" data-target="#verHistorialTrabajador" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
                     <a href="/trabajadores/editar/${data[i].id_trabajador}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>`;
               if(data[i].trabajador_estado == 0 && data[i].contrato_estado == 0){
                 // USUARIO INACTIVO
-                html += `<a class="contratarTrabajador" href="#" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
+                html += `<a class="contratarTrabajador" data-toggle="tooltip" data-original-title="Contratar"> <i class="mdi mdi-file-document text-inverse m-r-10"></i> </a>
                         </td>
                       </tr>`;
                 htmlInactivo += html;
               }
               else if(data[i].trabajador_estado == 1 && data[i].contrato_estado == 1){
                 // USUARIO ACTIVO
-                html += `<a class="liquidarTrabajador" href="#" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
+                html += `<a class="liquidarTrabajador" data-toggle="tooltip" data-original-title="Liquidar"> <i class="mdi mdi-file-check text-inverse m-r-10"></i> </a>
                         </td>
                       </tr>`;
                 htmlActivo += html;
@@ -186,14 +184,14 @@
             $('#trabajadoresActivos').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ]
             });
             $("#trabajadoresInactivos tbody").empty().append(htmlInactivo);
             $('#trabajadoresInactivos').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ]
             });
           }
@@ -251,7 +249,14 @@
           console.log(msg);
           if(msg['success'] == "Se agrego exitosamente"){
             reset_form('.validation-wizard');
-            success(mensaje);
+            swal({
+              type: "success",
+              title: "¡Éxito!",
+              text: mensaje,
+              showConfirmButton: false,
+              timer: 500
+            });
+            location.href = "/trabajadores/lista";
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -325,6 +330,10 @@
 
               if(data[0].Fecha_final == null){
                 data[0].Fecha_final = "Indefinida";
+              }
+
+              if(data[0].Num_alternativo == null){
+                data[0].Num_alternativo = "-";
               }
 
               if(bandera == "detalles"){
@@ -463,39 +472,28 @@
                 success: function(msg){
                   console.log(msg);
                   if(msg['success'] == "Se liquido exitosamente"){
-                    swal({
-                          title: "¡Éxito!",
-                          type: "success",
-                          closeOnConfirm: false
+                    if(bandera == "liquidar"){
+                      // PREGUNTAR SI DESEA CREAR CONTACTO
+                      var title = "Se liquido con éxito, ¿Deseas generarle un nuevo contrato a este trabajador?";
+                      var boton = "Contratar";
+                      swal({
+                          title: title,
+                          type: "warning",
+                          showCancelButton: true,
+                          confirmButtonColor: "#DD6B55",
+                          confirmButtonText: boton,
+                          cancelButtonText: "Cancelar",
+                          closeOnConfirm: false,
+                          closeOnCancel: true
                       }, function(isConfirm){
                           if (isConfirm) {
-                            if(bandera == "liquidar"){
-                              // PREGUNTAR SI DESEA CREAR CONTACTO
-                              var title = "¿Deseas generarle un nuevo contrato a este trabajador?";
-                              var boton = "Contratar";
-                              swal({
-                                  title: title,
-                                  type: "warning",
-                                  showCancelButton: true,
-                                  confirmButtonColor: "#DD6B55",
-                                  confirmButtonText: boton,
-                                  cancelButtonText: "Cancelar",
-                                  closeOnConfirm: false,
-                                  closeOnCancel: true
-                              }, function(isConfirm){
-                                  if (isConfirm) {
-                                    location.href = "/trabajadores/contrato/"+id;
-                                  }
-                                  else{
-                                    tablaTrabajadores();
-                                  }
-                              });
-                            }
+                            location.href = "/trabajadores/contrato/"+id;
                           }
                           else{
-                            location.href = "/trabajadores/lista";
+                            tablaTrabajadores();
                           }
                       });
+                    }
                   }
                   else if(msg['error'] == "Ocurrio un error"){
                     swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -563,7 +561,7 @@
           console.log(msg);
           if(msg['success'] == "Se contrato exitosamente"){
   	        mensaje = "Contrato generado con éxito.";
-            success(mensaje);
+            swal("¡Éxito!", mensaje, "success");
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal("Generar contrato", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -619,21 +617,10 @@
     });
   }
 
-  function success(mensaje){
-    swal({
-      title: "¡Éxito!",
-      text: mensaje,
-      type: "success",
-      closeOnConfirm: false
-    }, function(isConfirm){
-      if (isConfirm) {
-        location.href = "/trabajadores/lista";
-      }
-    });
-  }
-
   function agregarInputFechas(){
     $("#divFechas").remove();
+    $("#fechasTemporal").remove();
+    $("#fechasTemporal2").remove();
 
     var htmlSelectTiempo="";
     htmlSelectTiempo=
@@ -742,7 +729,7 @@
 
     var hoy = new Date();
     var h = hoy.toString();
-    var fechaFormulario = new Date(fecha_inicio);
+    var fechaFormulario = new Date(fecha_inicio.replace(/-/g, '\/'));
     var f = fechaFormulario.toString();
 
     var separador = " ";

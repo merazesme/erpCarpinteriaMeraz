@@ -20,7 +20,7 @@ function datos_proveedor() {
             $('#table_proveedores').DataTable().clear();
             $('#table_proveedores').DataTable().destroy();
             datos.forEach(item => {
-                var estatus = item.estatus == 0
+                var estatus = item.estatus == 1
                 ? {
                     color: 'color-elegant-blue-green',
                     icono: '<i class="fa fa-toggle-on"></i>',

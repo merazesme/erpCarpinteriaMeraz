@@ -1,4 +1,3 @@
-$(document).ready(function() {
 
   // Boton para guardar nomina
   var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
@@ -89,36 +88,10 @@ $(document).ready(function() {
     $( ".tabla" ).append(html);
     imprime();
   }
-//  obtieneDatos();
-  function obtieneDatos() {
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: 'muestra',
-      success: function (data) {
-          console.log(data)
-          if(data['Error']) {
-            $('#genera').attr('disabled', false);
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          }
-          else {
-            //swal("Nómina generada", "Nómina generada exitosamente.", "success");
-            toastSuccess("Nómina generada exitosamente.");
-            trabajadores = data;
-            muestra();
-            $('#guardar').append(boton);
-            $('#genera').hide("slow");
-          }
-      }, error: function(error) {
-          $('#genera').attr('disabled', false);
-          toastError();
-      }
-    });
-  }
 
   $(document).on('click', '#genera', function() {
       $(this).attr('disabled', true);
-      obtieneDatos();
+      obtieneDatos('muestra');
   });
 
   $(document).on('click','#btnGuardar', function() {

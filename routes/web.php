@@ -291,12 +291,23 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
 	Route::get('/imprimir/{id}', 'Cotizaciones@imprimir');
 	Route::get('/documento/{id}', 'Cotizaciones@documento');
+	Route::get('/correo/{id}', 'Cotizaciones@email')->name('email');
 
 	Route::post('/getImage', 'cotizaciones@getImagenBase64');
 
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 
+});
+
+//Cotizacion vistas y funciones
+Route::prefix('/crm')->group(function () {
+	Route::get('/', function(){
+		$modulo = "CRM";
+		return view('crm/crm', compact('modulo'));
+	});
+
+	Route::post('/correoCalidad', 'CRM@email')->name('email');
 });
 
 Route::prefix('nomina')->group(function () {
@@ -310,20 +321,20 @@ Route::prefix('nomina')->group(function () {
 
 	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {
-		Route::get('/', 																					'NominaController@nominaSemanal');
-		Route::get('/detalles/{semana}', 													'NominaController@detallesSemanal');
+		Route::get('/', 																			  'NominaController@nominaSemanal');
+		Route::get('/detalles/{semana}', 												'NominaController@detallesSemanal');
 	});
 
 	// Nomina de aguinados
 	Route::prefix('nominaAguinaldo')->group(function () {
-		Route::get('/', 																					'NominaController@nominaAguinaldo');
-		Route::get('/detalles/{anio}', 													  'NominaController@detallesAguinaldo');
+		Route::get('/', 																				'NominaController@nominaAguinaldo');
+		Route::get('/detalles/{anio}', 													'NominaController@detallesAguinaldo');
 	});
 
 	// Nomina de vacaciones
 	Route::prefix('nominaVacacional')->group(function () {
-		Route::get('/', 																					'NominaController@nominaVacacional');
-		Route::get('/detalles/{anios}', 													'NominaController@detallesVacacional');
+		Route::get('/', 																				'NominaController@nominaVacacional');
+		Route::get('/detalles/{anios}', 												'NominaController@detallesVacacional');
 	});
 });
 
@@ -360,8 +371,7 @@ Route::prefix('/carro')->group(function () {
 
 	Route::post('agregar', 	 'carroController@store');
 	Route::post('actualizar/{id}', 'carroController@update');
-	// Route::match(['put'], 'actualizar/estatus/{id}', 'carroController@update_estatus')->name('put');
-	Route::put('actualizar/estatus/{id}', 'carroController@update_estatus');
+	Route::post('actualizar/estatus/{id}', 'carroController@update_estatus');
 
 });
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use DB;
+use Mail; //Importante incluir la clase Mail, que será la encargada del envío
+
 
 use App\Cotizacion;
 use App\Cliente;
@@ -25,64 +27,106 @@ class Cotizaciones extends Controller
      */
 
     public function imprimir($id){
-        $day = date('d');
-        $m = date('m');
-        $m = (int) $m-1;
-        $year = date('Y');
-        $month = ["enero", "febrero", "marzo","abril", "mayo", "junio", "nulio", "agosto", "septiembre", "octubre", "novimebre", "dicimebre"];
+        try {
+            $day = date('d')-1;
+            $m = date('m');
+            $m = (int) $m-1;
+            $year = date('Y');
+            $month = ["enero", "febrero", "marzo","abril", "mayo", "junio", "nulio", "agosto", "septiembre", "octubre", "novimebre", "dicimebre"];
 
-        $cotizacion = (object) [];
-        $prueba = DB::table('cotizaciones')
-            ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
-            ->select('cotizaciones.id', 'cotizaciones.Descripcion','cotizaciones.costo',
-                'clientes.id AS idCliente', 'clientes.Nombre as NombreCliente', 'clientes.Apellidos as ApellidoCliente')
-            ->where('cotizaciones.id', $id)
-            ->get();
+            $cotizacion = (object) [];
+            $prueba = DB::table('cotizaciones')
+                ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
+                ->select('cotizaciones.id', 'cotizaciones.Descripcion','cotizaciones.costo',
+                    'clientes.id AS idCliente', 'clientes.Nombre as NombreCliente', 'clientes.Apellidos as ApellidoCliente')
+                ->where('cotizaciones.id', $id)
+                ->get();
 
-        $cotizacion = $prueba[0];
+            $cotizacion = $prueba[0];
 
-        //Productos de la cotización
-        $sql = "SELECT `productos`.`id` AS idProducto, `productos`.`Descripcion` AS nombreProducto,
-        `productos_has_cotizaciones`.`Productos_id` AS idProductoCotizacion, `productos_has_cotizaciones`.`Cantidad`,
-        `productos_has_cotizaciones`.`subtotal`, `productos_has_cotizaciones`.`iva`, `productos_has_cotizaciones`.`total`,
-        `productos_has_cotizaciones`.`Descripcion` AS descripcion
-        FROM `productos`
-        INNER JOIN `productos_has_cotizaciones` ON `productos_has_cotizaciones`.`Productos_id` = `productos`.`id`
-        WHERE `productos_has_cotizaciones`.`Cotizaciones_id` = ?
-        ORDER BY `productos`.`id` ASC";
+            //Productos de la cotización
+            $sql = "SELECT `productos`.`id` AS idProducto, `productos`.`Descripcion` AS nombreProducto,
+            `productos_has_cotizaciones`.`Productos_id` AS idProductoCotizacion, `productos_has_cotizaciones`.`Cantidad`,
+            `productos_has_cotizaciones`.`subtotal`, `productos_has_cotizaciones`.`iva`, `productos_has_cotizaciones`.`total`,
+            `productos_has_cotizaciones`.`Descripcion` AS descripcion
+            FROM `productos`
+            INNER JOIN `productos_has_cotizaciones` ON `productos_has_cotizaciones`.`Productos_id` = `productos`.`id`
+            WHERE `productos_has_cotizaciones`.`Cotizaciones_id` = ?
+            ORDER BY `productos`.`id` ASC";
 
-        $cotizacion = (array)$cotizacion;
+            $cotizacion = (array)$cotizacion;
 
-        $cotizacion['iva'] =  0;
-        $cotizacion['suma'] = 0;
+            $cotizacion['iva'] =  0;
+            $cotizacion['suma'] = 0;
 
-        $pruebaProductos = DB::select($sql,array($id));
-        foreach ($pruebaProductos as $key => $value) {
-            $pruebaProductos[$key]->materiales = $this->getMateriales($value->idProducto);
-            $cotizacion['iva'] +=  ($value->iva*$value->Cantidad);
-            $cotizacion['suma'] +=  ($value->subtotal*$value->Cantidad);
+            $pruebaProductos = DB::select($sql,array($id));
+            foreach ($pruebaProductos as $key => $value) {
+                $pruebaProductos[$key]->materiales = $this->getMateriales($value->idProducto);
+                $cotizacion['iva'] +=  ($value->iva*$value->Cantidad);
+                $cotizacion['suma'] +=  ($value->subtotal*$value->Cantidad);
+            }
+
+            // echo print_r($pruebaProductos);
+
+            $cotizacion['fecha'] = "Mazatlán Sin. A ".$day." de ".$month[$m]." del ".$year;
+            $cotizacion['productos'] = $pruebaProductos;
+            $cotizacion = (object)$cotizacion;
+
+
+            $dompdf = \PDF::loadView('documentos/base/cotizacion', compact('cotizacion'));
+
+            //Donde guardar el documento
+            $rutaGuardado = public_path('documentos/cotizaciones/');
+            //Nombre del Documento.
+            $nombre = time().$id;
+            $nombreArchivo = $nombre.".pdf";
+            //Guardalo en una variable
+            $output = $dompdf->output();
+            file_put_contents( $rutaGuardado.$nombreArchivo, $output);
+            // Una vez lo guardes en local lo puedes subir o enviar a un ftp.
+
+            $ultimoNombre = $this->getLastNameDocCotizacion($id);
+            try {
+                $data = Cotizacion::find($id);
+                $data->Documento=$nombreArchivo;
+                $data->idUsuario=1;
+                if ($data->save()){
+                    if($ultimoNombre != null){
+                        $eliminar = $this->delete_file( $rutaGuardado.$ultimoNombre);
+                    }
+                }
+            } catch (\Exception $e) {
+                return response()->json(json_encode(-2));
+            }
+
+            // return $dompdf->download('cotizaciones/documento.pdf');
+            return response()->json(json_encode($nombreArchivo));
+        } catch (\Exception $e) {
+            return response()->json(json_encode(-1));
         }
+    }
 
-        // echo print_r($pruebaProductos);
+    public function delete_file($path){
+        if(file_exists($path)){
+            if (unlink($path)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }else{
+            return 3;
+        }
+    }
 
-        $cotizacion['fecha'] = "Mazatlán Sin. A ".$day." de ".$month[$m]." del ".$year;
-        $cotizacion['productos'] = $pruebaProductos;
-        $cotizacion = (object)$cotizacion;
-
-
-        $dompdf = \PDF::loadView('documentos/base/cotizacion', compact('cotizacion'));
-
-        //Donde guardar el documento
-        $rutaGuardado = public_path('documentos/cotizaciones/');
-        //Nombre del Documento.
-        $nombre = time().$id;
-        $nombreArchivo = $nombre.".pdf";
-        //Guardalo en una variable
-        $output = $dompdf->output();
-        file_put_contents( $rutaGuardado.$nombreArchivo, $output);
-        // Una vez lo guardes en local lo puedes subir o enviar a un ftp.
-
-        return $dompdf->download('cotizaciones/documento.pdf');
+    public function getLastNameDocCotizacion($id){
+        try{
+            $data = DB::table('cotizaciones')->select('Documento')
+            ->where('id', $id)->get();
+            return $data[0]->Documento;
+       }
+       catch(\Exception $e){
+          return -3;
+       }
     }
 
     public function documento($id){
@@ -138,6 +182,37 @@ class Cotizaciones extends Controller
         $cotizacion = (object)$cotizacion;
         return view('documentos/base/cotizacion', compact('cotizacion'));
     }
+
+    public function email($id){
+        try{
+            $data = DB::table('cotizaciones')
+                ->join('clientes', 'cotizaciones.Clientes_idCliente', '=', 'clientes.id')
+                ->select('cotizaciones.Documento', 'clientes.Email', 'clientes.Nombre', 'clientes.Apellidos',
+                    'cotizaciones.fecha_inicio', 'cotizaciones.fecha_fin')
+                ->where('cotizaciones.id', "=", $id)
+                ->get();
+            $data = $data[0];
+
+            $subject = "Cotización";
+            $for = $data->Email;
+            $documento = public_path('documentos/cotizaciones/').$data->Documento;
+            Mail::send('cotizaciones/email',compact('data'), function($msj) use($subject,$for,$documento){
+                $msj->from("empresa.tunas.mx@gmail.com","Carpintería Meraz");
+                $msj->subject($subject);
+                $msj->to($for);
+                $msj->attach($documento, [
+                    'as' => 'cotizacion.pdf',
+                    'mime' => 'application/pdf',
+                ]);
+            });
+            // return view('cotizaciones/email',compact('data'));
+            return response()->json(json_encode(0));
+        }
+        catch(\Exception $e){
+          return response()->json(json_encode(1));
+        }
+
+   }
 
     public function index()
     {
@@ -293,7 +368,6 @@ class Cotizaciones extends Controller
             $data->Descripcion=$request->input('descripcion');
             $data->Estado="3";
             $data->Prioridad=$request->input('prioridad');
-            $data->Documento=$request->input('documento');
             $data->Costo=$request->input('costo');
             $data->fecha_inicio=$request->input('fecha_inicio');
             $data->fecha_fin=$request->input('fecha_fin');
@@ -324,10 +398,10 @@ class Cotizaciones extends Controller
                     }
                 }
             }
-            return response()->json(json_encode(0));
+            return response()->json(json_encode($data->id));
        }
        catch(\Exception $e){
-          return response()->json(json_encode(1));
+          return response()->json(json_encode(-2));
        }
     }
 
@@ -487,7 +561,6 @@ class Cotizaciones extends Controller
 
             $data->Descripcion=$request->input('descripcion');
             $data->Prioridad=$request->input('prioridad');
-            $data->Documento=$request->input('documento');
             $data->Costo=$request->input('costo');
             $data->fecha_inicio=$request->input('fecha_inicio');
             $data->fecha_fin=$request->input('fecha_fin');
