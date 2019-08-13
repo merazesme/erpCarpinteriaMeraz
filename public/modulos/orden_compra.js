@@ -13,6 +13,8 @@ function validation(children, parent){
 
 //Accion para abrir el modal de nueva orden de compra
 $('#boton_agregarOrdenCompra').on("click", function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
   $("#num_nota").val("");
   $("#cantidadOrdenCompra").val("");
   $("#select_CompraMaterial").val("0");
@@ -24,6 +26,8 @@ $('#boton_agregarOrdenCompra').on("click", function(e){
 //Accion para abrir modal de pagar compras
 $('#boton_pagarCompra').on("click", function(e) {
   // $("#select_CompraMaterial").empty().append(html);
+  e.preventDefault();
+  e.stopImmediatePropagation();
   $("#agregarTituloPagarCompra").html("Pagar compra");
   $('#modal_pagar_ordenCompra').modal('show');
   $("#actionPagarCompra").attr("onclick", "pagarCompra()");
@@ -165,7 +169,7 @@ $('#boton_pagarCompra').on("click", function(e) {
               }
          });
       }else {
-        console.log("0");
+        // console.log("0");
         $("#select_OrdenCompras").attr("disabled",true);
       }
     })
@@ -200,6 +204,8 @@ $('#boton_pagarCompra').on("click", function(e) {
 
 //Accion para abrir el modal de modificar la orden_compra
 $('#tabla_curso').on("click",".modificarOrdenCompra", function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
   validation($("#validar").val("1"), $("#TotalModificarCompra").parent());
   $("#TotalModificarCompra").val("");
   $("#Estado_Curso").prop('checked', false);
@@ -260,6 +266,7 @@ $('#tabla_curso').on("click",".modificarOrdenCompra", function(e){
 $('#tabla_curso').on("click", ".eliminarOrdenCompra", function(e) {
   var id = $(this).parent().attr("data-material");
   e.preventDefault();
+  e.stopImmediatePropagation();
 
   //El objeto que se envia en el POST
   var datos_ordenCompra = ""
@@ -313,8 +320,9 @@ $('#tabla_curso').on("click", ".eliminarOrdenCompra", function(e) {
 })
 $('#tabla_curso').on("click", ".detalleOrdenCompra", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
+  e.stopImmediatePropagation();
 
    $.ajax({
    type: "GET",
@@ -341,8 +349,9 @@ $('#tabla_curso').on("click", ".detalleOrdenCompra", function(e) {
 })
 $('#tabla_recibido').on("click", ".detalleOrdenCompra", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
+  e.stopImmediatePropagation();
 
    $.ajax({
    type: "GET",
@@ -369,8 +378,9 @@ $('#tabla_recibido').on("click", ".detalleOrdenCompra", function(e) {
 })
 $('#tabla_cancelado').on("click", ".detalleOrdenCompra", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
+  e.stopImmediatePropagation();
 
    $.ajax({
    type: "GET",
@@ -397,8 +407,9 @@ $('#tabla_cancelado').on("click", ".detalleOrdenCompra", function(e) {
 })
 $('#tabla_pagado').on("click", ".detalleOrdenCompra", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
+  e.stopImmediatePropagation();
 
    $.ajax({
    type: "GET",
@@ -502,7 +513,7 @@ $('body').on('change', "#select_CompraMaterial", function(e){
         for (var i = 0; i < temp; i++) {
           var t = i+1;
           html2+=
-          '<input type="text" class="form-control" name="cantidadOrdenCompra'+t+'" id="cantidadOrdenCompra'+t+'"><p></p>';
+          '<input type="text" class="form-control input-number" name="cantidadOrdenCompra'+t+'" id="cantidadOrdenCompra'+t+'"><p></p>';
         }
         $("#cantidadcrear").empty().append(html2);
         $("#actionAgregarNuevaCompra").attr("onclick", "nuevoOrdenCompra("+nextinput+")");
@@ -514,7 +525,7 @@ $('body').on('change', "#select_CompraMaterial", function(e){
         for (var i = 0; i < temp2; i++) {
           var t = i+1;
           html+=
-          '<input type="text" class="form-control" name="cantidadOrdenCompra'+t+'" id="cantidadOrdenCompra'+t+'"><p></p>';
+          '<input type="text" class="form-control input-number" name="cantidadOrdenCompra'+t+'" id="cantidadOrdenCompra'+t+'"><p></p>';
         }
         $("#cantidadcrear").empty().append(html);
         $("#actionAgregarNuevaCompra").attr("onclick", "nuevoOrdenCompra("+nextinput+")");
@@ -554,13 +565,13 @@ function nuevoOrdenCompra(para) {
   if (bandera_validar == 0) {
 
     var nombre_material = $("#select_CompraMaterial").val();
-    console.log("materiales: ", nombre_material);
+    // console.log("materiales: ", nombre_material);
     var cantidad_material = [];
     for (var i = 0; i < para; i++) {
             var t = i+1;
             cantidad_material[i] = $("#cantidadOrdenCompra"+t+"").val();
     }
-    console.log("ca: ", cantidad_material);
+    // console.log("ca: ", cantidad_material);
 
     var d = new Date();
     var month = d.getMonth()+1;
@@ -601,7 +612,7 @@ function nuevoOrdenCompra(para) {
           url: url,
           success: function(msg){
               var data = JSON.parse(msg)
-              console.log("data 1: " , data);
+              // console.log("data 1: " , data);
               if(data >= 0){
 
                     var idCompra = data;
@@ -638,7 +649,7 @@ function nuevoOrdenCompra(para) {
                             url: url,
                             success: function(msg){
                                 var data = JSON.parse(msg)
-                                console.log("data 2: " , data);
+                                // console.log("data 2: " , data);
                                 if(data == 0){
                                     $('#modal_nueva_ordenCompra').modal('hide')
                                     swal(titulo, mensaje, "success");
@@ -662,7 +673,7 @@ function nuevoOrdenCompra(para) {
                                     $("#select_CompraProveedor").val("0");
                                 }
                             }, error: function(error) {
-                                console.log("no success");
+                                // console.log("no success");
                                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                                 //limpiar campos
                                 $("#num_nota").val("");
@@ -683,7 +694,7 @@ function nuevoOrdenCompra(para) {
                   $("#select_CompraProveedor").val("0");
               }
           }, error: function(error) {
-              console.log("no success");
+              // console.log("no success");
               swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
               //limpiar campos
               $("#num_nota").val("");
@@ -753,16 +764,16 @@ function ModificarOrdenCompra(id) {
                 movId[i] = data[i].movid;
                 existenciaMaterialFinal[i] = cantidadCompra[i] + existenciaMaterial[i];
               }
-              console.log("cantidadCompra: ", cantidadCompra);
-              console.log("idMaterial: ", idMaterial);//need
-              console.log("existenciaMaterial: ", existenciaMaterial);
-              console.log("idprove: ", idprove);
-              console.log("adeudo: ", adeudo);
-              console.log("txtTotal: ", txtTotal);
-              console.log("movId: ", movId);//need
-
-              console.log("aduedoFinal: ", aduedoFinal);//need
-              console.log("existenciaMaterialFinal: ", existenciaMaterialFinal);//need
+              // console.log("cantidadCompra: ", cantidadCompra);
+              // console.log("idMaterial: ", idMaterial);//need
+              // console.log("existenciaMaterial: ", existenciaMaterial);
+              // console.log("idprove: ", idprove);
+              // console.log("adeudo: ", adeudo);
+              // console.log("txtTotal: ", txtTotal);
+              // console.log("movId: ", movId);//need
+              //
+              // console.log("aduedoFinal: ", aduedoFinal);//need
+              // console.log("existenciaMaterialFinal: ", existenciaMaterialFinal);//need
 
               var datos_material = ""
               datos_material = new FormData();
@@ -822,7 +833,7 @@ function ModificarOrdenCompra(id) {
                               url: url,
                               success: function(msg){
                                   var data = JSON.parse(msg)
-                                  console.log("data a: ", data);
+                                  // console.log("data a: ", data);
                                   if(data == 0){
                                       $('#modal_modificar_ordenCompra').modal('hide')
                                       swal(titulo, mensaje, "success");
@@ -898,7 +909,7 @@ function ModificarOrdenCompra(id) {
         url: url,
         success: function(msg){
             var data = JSON.parse(msg)
-            console.log("data a: ", data);
+            // console.log("data a: ", data);
             if(data == 0){
                 $('#modal_modificar_ordenCompra').modal('hide')
                 swal(titulo, mensaje, "success");
@@ -1045,7 +1056,7 @@ function pagarCompra() {
                 url: url,
                 success: function(msg){
                     var data = JSON.parse(msg)
-                    console.log("data inser: " , data);
+                    // console.log("data inser: " , data);
                     if(data == 0){
 
                         //Para cambiar el estado a las ordenes de compras
@@ -1058,7 +1069,7 @@ function pagarCompra() {
                         datos_ordenCompra.append("Factura", factura);
 
                         var hasta = temp.length;
-                        console.log("hasta: ", hasta);
+                        // console.log("hasta: ", hasta);
                         for (var i = 0; i < temp.length; i++) {
                           var idO = temp[i];
                             $.ajax({
@@ -1072,10 +1083,10 @@ function pagarCompra() {
                                 url: base_url+'/inventario/orden_compra/eliminarorden/'+idO,
                                 success: function(msg){
                                     var data = JSON.parse(msg)
-                                    console.log("data change: ", data);
+                                    // console.log("data change: ", data);
                                     if(data == 0){
 
-                                            console.log("here");
+                                            // console.log("here");
                                             $('#modal_pagar_ordenCompra').modal('hide')
                                             swal(titulo, mensaje, "success");
                                             tablaOrdenCompra(0,"#tabla_curso");
@@ -1117,7 +1128,7 @@ function pagarCompra() {
                         $("#select_OrdenCompras").val("0");
                     }
                 }, error: function(error) {
-                    console.log("no success");
+                    // console.log("no success");
                     swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
                         //limpiar campos
                         $("#txtCheque").val("");
@@ -1240,6 +1251,10 @@ function tablaOrdenCompra(){
 $(document).ready(function () {
 	tablaOrdenCompra();
   $(".select2").select2();
+  // SOLO NÚMEROS
+    $('body').on('input', ".input-number", function(e){
+      this.value = this.value.replace(/[^0-9]/g,'');
+    });
 });
 
 //Validacion de los campos
@@ -1270,7 +1285,7 @@ $('body').on('change', "#select_CompraProveedor", function(e){
 });
 $('body').on('change', "#select_OrdenCompras", function(e){
   var tipo =  $("#select_OrdenCompras").val();
-  console.log("tipo: ", tipo);
+  // console.log("tipo: ", tipo);
   if (tipo.length == 0) {
     $("#txtTotal").val(0);
   }
@@ -1285,11 +1300,11 @@ $('body').on('change', "#select_OrdenCompras", function(e){
       url: base_url+'/inventario/orden_compra/cantidad_compras/'+id,
       success: function (msg) {
               var data = JSON.parse(msg)
-              console.log("data: ", data[0].Cantidad);
+              // console.log("data: ", data[0].Cantidad);
               var cantidad = data[0].Cantidad;
               total = total + cantidad;
               $("#txtTotal").val(total);
-              console.log("total: ", total);
+              // console.log("total: ", total);
             }
        });
   }
