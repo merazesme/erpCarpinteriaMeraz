@@ -1,4 +1,4 @@
-$(document).ready(function() {
+
 
   // Boton para guardar nomina
   var boton = `<button type="button" class="btn waves-effect waves-light btn-primary float-right" id="btnGuardar"><i class="fa fa-plus"></i> Guardar</button>`;
@@ -119,6 +119,3 @@ $(document).ready(function() {
         }
     });
   }
-
-
-});

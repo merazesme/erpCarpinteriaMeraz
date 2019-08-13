@@ -87,6 +87,7 @@
 						return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
 				};
 				var numSemana = new Date().getWeekNumber(); // Resultado
+				// var numSemana = 30; // Resultado
 				//var numSemana = 30; // Resultado
 				var tipo = 'semanal';
 		</script>

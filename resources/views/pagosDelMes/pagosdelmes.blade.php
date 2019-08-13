@@ -33,23 +33,6 @@
                                     <tr><th rowspan="1" colspan="1">Fecha</th><th rowspan="1" colspan="1">Concepto</th><th rowspan="1" colspan="1">Cantidad</th><th rowspan="1" colspan="1">Estatus</th><th rowspan="1" colspan="1">Acciones</th></tr>
                                 </tfoot>
                                 <tbody id="contenedorConceptosPago">
-                                <tr role="row" class="odd">
-                                        <td>2008/11/28</td>
-                                        <td class="sorting_1">Airi Satou</td>
-                                        <td>$1500.00</td>
-                                        <td><span class="badge badge-success">Pagado</span></td>
-                                        <td class="text-nowrap">
-                                            <a href="#modalConceptoPagodelMes" data-toggle="modal" data-whatever="Editar">
-                                                <i class="icon-pencil text-primary m-r-10"></i>
-                                            </a>
-                                            <a href="#modalAdjuntarPagodelMes" data-toggle="modal">
-                                            	<i class="icon-check text-success m-r-10"></i>
-                                            </a>
-                                            <a href="#" data-toggle="modal" id="sa-warning">
-                                                <i class="icon-close text-danger"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

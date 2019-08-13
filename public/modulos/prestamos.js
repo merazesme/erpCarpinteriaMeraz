@@ -72,6 +72,7 @@
               if(prestamos[i].Num_prestamos == 1){
                 txt = "prestamo";
               }
+              // <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'historial',-1,2)" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
               htmlPrestamos+=
                 `<tr>
                   <td>${prestamos[i].Nombre} ${prestamos[i].Apellidos}</td>
@@ -80,7 +81,7 @@
                   <td>$${prestamos[i].Resta}</td>
                   <td class="text-nowrap" id_trabajador="${prestamos[i].id_trabajador}">
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'detalles',${prestamos[i].id_prestamo},1)" data-target="#verDetallePrestamo" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-                    <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'historial',-1,2)" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
+
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'editar',${prestamos[i].id_prestamo},1)" data-target="#verEditarPrestamo" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'abonar',${prestamos[i].id_prestamo},1)" resta="${prestamos[i].Resta}" data-target="#modalAbonarPrestamo" data-toggle="tooltip" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
                   </td>

@@ -223,7 +223,7 @@
             for (var i = 0; i < tam; i++) {
               html+=
                 `<tr>
-                  <td>${trabajadores[i].Nombre} ${trabajadores[i].Apellidos} -----> ${trabajadores[i].id_trabajador}</td>
+                  <td>${trabajadores[i].Nombre} ${trabajadores[i].Apellidos}</td>
                   <td>
                     <div class="switch">
                       <label>
