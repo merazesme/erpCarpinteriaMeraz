@@ -64,7 +64,7 @@ function datos_gasolina_factura() {
                         ${td}
                         <td data-toggle="tooltip" data-placement="top" title="Ver imagen">
                             <i class="fa fa-file-image-o color-elegant-orange"
-                               onclick="alerta_imagen('${item.Ticket}', '${item.Documento}')"></i>
+                               onclick="alerta_imagen('Ticket #${item.Ticket}', '${item.Documento}')"></i>
                         </td>
                     </tr>
                 `);
@@ -113,6 +113,11 @@ function datos_gasolina_cheques() {
                 });
                 const cantidad_pago = datos.find(item => item.Folio_pago === item_folio_pago);
                 const metodo_pago   = (cantidad_pago) ? (cantidad_pago.Folio_pago == 1) ? 'Cheque' : 'Transferencia' : '<em>Error</em>';
+
+                if (cantidad_pago.Documento === null || cantidad_pago.Documento === undefined) {
+                    cantidad_pago.Documento = 'error';
+                }
+
                 $('#table_cheques tbody').append(`
                     <tr role="row">
                         <td class="vertical-align-table">${fecha}</td>
@@ -120,6 +125,10 @@ function datos_gasolina_cheques() {
                         <td class="vertical-align-table">${metodo_pago}</td>
                         <td class="vertical-align-table">$${cantidad_pago.Cantidad}</td>
                         <td class="vertical-align-table"><ul style="list-style:none">${lista_tickets}</ul></td>
+                        <td class="vertical-align-table" data-toggle="tooltip" data-placement="top" title="Ver imagen">
+                            <i class="fa fa-file-image-o color-elegant-orange"
+                               onclick="alerta_imagen('Pago folio: #${cantidad_pago.Ticket}', '${cantidad_pago.Documento}')"></i>
+                        </td>
                     </tr>
                 `);
             });
@@ -306,7 +315,7 @@ function alerta_imagen(title, imageUrl) {
     } else {
         imageUrl = url_images+'/modulos/proveedor/gasolina/'+imageUrl;
     }
-    title = `Ticket #${title}`;
+    // title = `Ticket #${title}`;
 
     Swal.fire({
         title,

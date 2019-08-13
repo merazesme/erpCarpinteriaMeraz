@@ -116,7 +116,7 @@ class NominaController extends Controller
       try {
           // Se buscan los trabajadores activos, ademas de el contrato que tienen vigente
           $data = DB::table('trabajadores')
-                    ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit')
+                    ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit', 'Tipo')
                     ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                     ->where('trabajadores.Estado',1)
                     ->where('contratos.estado', 1)
@@ -177,7 +177,7 @@ class NominaController extends Controller
         $tipoNomina = TipoNomina::where('Concepto', '=', $request->input('tipo'))->first();
         if(!isset($tipoNomina)) {
           $tipoNomina = new TipoNomina;
-          $tipoNomina->idUsuario = 1;
+          $tipoNomina->idUsuario = session('idUsuario');
           $tipoNomina->Concepto  = $request->input('tipo');
           if(!$tipoNomina->save())
             return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
@@ -186,7 +186,7 @@ class NominaController extends Controller
         // Inserta una nueva nomina
         $nominaData = new Nomina();
         $nominaData->Fecha                     = new DateTime();
-        $nominaData->idUsuario                 = 1;
+        $nominaData->idUsuario                 = session('idUsuario');
         $nominaData->Tipo_nomina_idTipo_nomina = $tipoNomina->id;
         $nominaData->Semana                    = $request->input('semana');
         $nominaData->save();
@@ -197,7 +197,7 @@ class NominaController extends Controller
           $dataDetalleNomina->Cantidad                  = $trabajador['xTotal'];
           $dataDetalleNomina->Fecha                     = new DateTime();
           $dataDetalleNomina->Estado                    = 1;
-          $dataDetalleNomina->idUsuario                 = 1;
+          $dataDetalleNomina->idUsuario                 = session('idUsuario');
           $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
           $dataDetalleNomina->Contratos_idContrato      = $trabajador['contrato'];
@@ -220,7 +220,7 @@ class NominaController extends Controller
                       $data = new ConceptosNomina();
                       $data->Descripcion                   = $concepto;
                       $data->Tipo                          = $tipo;
-                      $data->idUsuario                     = 1;
+                      $data->idUsuario                     = session('idUsuario');
                       $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
                       $data->Monto                         = $valor;
                       $data->save();
@@ -249,15 +249,19 @@ class NominaController extends Controller
 
 
     /**
-     * Obtine las nominas que han sido guardadas por el tipo de nomina
+     * Obtiene las nominas que han sido guardadas por el tipo de nomina
      *
      *
      */
-    public function historialNominaSemanal($tipo) {
+    public function historialNomina($tipo) {
       try {
           $tipoNomina = TipoNomina::where('Concepto', '=', $tipo)->first();
           if(!isset($tipoNomina)) {
-              return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+              $tipoNomina = new TipoNomina;
+              $tipoNomina->idUsuario = session('idUsuario');
+              $tipoNomina->Concepto  = $tipo;
+              if(!$tipoNomina->save())
+                return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
           }
           $data = Nomina::join('usuarios', 'usuarios.id', '=', 'nominas.idUsuario')
                           ->select('usuarios.usuario', 'nominas.Fecha', 'nominas.Semana')
@@ -266,7 +270,7 @@ class NominaController extends Controller
                           ->get();
           return response()->json($data);
       } catch (\Exception $e) {
-        return response()->json($e);
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.'.$e]);
       }
     }
 
@@ -329,7 +333,7 @@ class NominaController extends Controller
           $abonoPrestamo = new Mov_prestamo();
           $abonoPrestamo->Abono = $pago;
           $abonoPrestamo->Fecha = new DateTime();
-          $abonoPrestamo->idUsuario = 1;
+          $abonoPrestamo->idUsuario = session('idUsuario');
           $abonoPrestamo->Prestamos_idPrestamo = $prestamo->id;
           $abonoPrestamo->save();
          }

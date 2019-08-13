@@ -100,7 +100,7 @@ class proveedorController extends Controller
         $proveedor->Telefono    = $request->input('proveedor_telefono');
         $proveedor->Email       = $request->input('proveedor_correo');
         $proveedor->Adeudo      = 0;
-        $proveedor->estatus     = 0;
+        $proveedor->estatus     = 1;
         $proveedor->idUsuario   = session('idUsuario');
 
         if(!$proveedor->save()) {
@@ -175,12 +175,19 @@ class proveedorController extends Controller
             return 'empty';
         }
 
+        $file = $request->file('factura_archivo');
+        $nombre = time().$file->getClientOriginalName();
+        $location = public_path('images/modulos/proveedor/gasolina/pagos/'.$nombre);
+        // Image::make($file)->resize(250, 450)->save($location);
+        Image::make($file)->save($location);
+
         /** Registrar el pago en la tabla */
         $pago = new Pago();
 
         $pago->Fecha        = $request->fecha;
         $pago->Metodo_pago  = $request->factura_metodo;
         $pago->Folio_pago   = $request->factura_folio;
+        $pago->Documento    = $nombre;
         $pago->idUsuario    = session('idUsuario');
 
         if(!$pago->save()) {
@@ -314,7 +321,8 @@ class proveedorController extends Controller
                    'gasolina_has_pago_gasolina.Pago_gasolina_idPago_gasolina', '=', 'pago_gasolinas.id')
             ->join('gasolinas', 'gasolinas.id', '=', 'gasolina_has_pago_gasolina.Gasolina_id')
             ->select('pago_gasolinas.id', 'pago_gasolinas.Fecha', 'pago_gasolinas.Folio_pago', 
-                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago')
+                     'gasolinas.Ticket', 'pago_gasolinas.Cantidad', 'pago_gasolinas.Metodo_pago',
+                     'pago_gasolinas.Documento')
             ->get();
         return $registros;
     }
@@ -327,7 +335,7 @@ class proveedorController extends Controller
     public function datos_carros() 
     {
         $registros = DB::table('carros')
-            ->where ('carros.Estado', '=', '0')
+            ->where ('carros.Estado', '=', '1')
             ->select('carros.id', 'carros.Marca', 'carros.Modelo')
             ->get();
         return $registros;
