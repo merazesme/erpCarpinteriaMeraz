@@ -46,7 +46,7 @@ function nuevoMaterial(){
       url = base_url+'/inventario/materiales/agregar_material';
       var mensaje = "El material ha sido agregado con éxito";
       var titulo = "Nuevo material";
-
+      Swal.showLoading()
       $.ajax({
           type: 'POST',
           processData: false,
@@ -68,6 +68,7 @@ function nuevoMaterial(){
                   $("#txtCantidadMaterial").val("");
                   $("#txtNombreMaterial").val("");
                   $("#select_tipoMaterial").val("0")
+                  Swal.close()
 
               }else{
                   swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
