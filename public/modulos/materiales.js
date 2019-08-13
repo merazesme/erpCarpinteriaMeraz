@@ -1,7 +1,7 @@
 //Funcion para validar campos
 function validation(children, parent){
     if (children.length == 0 ) {
-        console.log("Entra");
+        // console.log("Entra");
         parent.removeClass("error");
     }else {
       if(children.val().length == 0 ){
@@ -119,7 +119,7 @@ function ModificarMaterial(id){
         // datos_material.append("idUsuario", "1");
         datos_material.append("idUsuario_material", "1");
         var id_estado = $('input:radio[name=Estado_Modificar]:checked').val();
-        console.log("id_estado: " + id_estado);
+        // console.log("id_estado: " + id_estado);
         datos_material.append("estado_material", id_estado);
         var tipo = $("#select_tipoMaterialModificar").val();
         datos_material.append("select_tipoMaterialModificar",tipo);
@@ -160,7 +160,7 @@ function ModificarMaterial(id){
 function tipo_material(id){
     //Agregar material
     if (id == 1) {
-      console.log("1");
+      // console.log("1");
       $.ajax({
       type: "GET",
       dataType: "json",
@@ -168,7 +168,8 @@ function tipo_material(id){
       url: base_url+'/inventario/materiales/tipo_material/',
       success: function (msg) {
               var data = JSON.parse(msg)
-              console.log(data);
+              // console.log(data);
+              // console.log("a");
               var html = "";
               html+=
               `<option value="0">
@@ -192,6 +193,7 @@ function tipo_material(id){
 
   }else if (id == 2) {
       //Modificar
+      // console.log("2");
       $.ajax({
       type: "GET",
       dataType: "json",
@@ -199,7 +201,7 @@ function tipo_material(id){
       url: base_url+'/inventario/materiales/tipo_material/',
       success: function (msg) {
               var data = JSON.parse(msg)
-              console.log(data);
+              // console.log(data);
               var html = "";
               html+=
               `<option value="0">
@@ -215,11 +217,47 @@ function tipo_material(id){
               }
 
               $("#select_tipoMaterialModificar").empty().append(html);
-              $("#agregarTituloModificar").html("Editar material");
-              $('#modal_editar_material').modal('show');
+              // $("#agregarTituloModificar").html("Editar material");
+              // $('#modal_editar_material').modal('show');
+
+              // console.log("consulta_especifica: " + id);
+              $("#Estado_Activo").prop('checked', false);
+              $("#Estado_Inactivo").prop('checked', false);
+              $.ajax({
+              type: "GET",
+              dataType: "json",
+              enctype: "multipart/form-data",
+              url: base_url+'/inventario/materiales/especifico/'+id,
+              success: function (msg) {
+                      var data = JSON.parse(msg)
+                      // console.log(data);
+
+                      $("#actionAgregarModificar").attr("onclick", "ModificarMaterial("+id+")");
+
+                      $("#txtNombreMaterialModificar").val(data.Nombre);
+                      $("#txtCantidadMaterialModificar").val(data.Existencia);
+                      $("#estado_material").val(data.Estado);
+                      if (data.Estado == 1) {
+                        // console.log("1");
+                        $("#Estado_Activo").prop('checked', true);
+                      }else {
+                        // console.log("0");
+                        $("#Estado_Inactivo").prop('checked', true);
+                      }
+                      $("#idUsuario_material").val(data.idUsuario);
+                      $("#select_tipoMateriall").val(data.Clasificacion_material_idClasificacion_material);
+                      $("#select_tipoMaterialModificar").val(data.Clasificacion_material_idClasificacion_material);
+                      $("#select_tipoMaterialModificar option[value="+ data.Clasificacion_material_idClasificacion_material +"]").attr("selected",true);
+
+                      $("#agregarTituloModificar").html("Editar material");
+                      $('#modal_editar_material').modal('show');
+              }
+            });
+
             }
     });
   }else if(id == 3){
+      // console.log("3");
       //Tipo material
       $.ajax({
       type: "GET",
@@ -228,7 +266,7 @@ function tipo_material(id){
       url: base_url+'/inventario/materiales/tipo_material/',
       success: function (msg) {
               var data = JSON.parse(msg)
-              console.log(data);
+              // console.log(data);
               var html = "";
               var htmlInactivo = "";
               html+=
@@ -264,8 +302,10 @@ function tipo_material(id){
     }
 }
 
-//Funcion para abrir el modal de nuevo tipo de material
+//Funcion para abrir el modal de eliminar o activar tipo material
 $('#boton_nuevoTipoMaterial').on("click", function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
   //Limpiar campos
   $("#select_tipoMaterial_Tipo").val("0");
   $("#select_tipoMaterial_TipoInactivo").val("0");
@@ -274,7 +314,18 @@ $('#boton_nuevoTipoMaterial').on("click", function(e){
   tipo_material(3);
 })
 
-//Funcion para agregar un nuevo tipo de material
+//Funcion para abrir el modal de nuevo tipo de material
+$('#boton_nuevoTipoMaterial2').on("click", function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  //Limpiar campos
+  $("#txtNombreTipoMaterial2").val("");
+
+  $('#modal_agregarNuevo_tipoMaterial').modal('show');
+  $("#actionAgregarTipoMaterial2").attr("onclick", "NuevoTipoMaterial2()");
+})
+
+//Funcion para eliminar o activar un tipo de material
 function NuevoTipoMaterial(id){
 
   var bandera_validar=0;
@@ -291,14 +342,14 @@ function NuevoTipoMaterial(id){
       bandera_validar3 = bandera_validar3 +1;
   }
 
-  if($("#txtNombreTipoMaterial").val().length == 0){
-      // if(bandera_validar2 != 0){
-        validation($("#txtNombreTipoMaterial"), $("#txtNombreTipoMaterial").parent());
-        bandera_validar = bandera_validar +1;
-      // }
-  }
+  // if($("#txtNombreTipoMaterial").val().length == 0){
+  //     // if(bandera_validar2 != 0){
+  //       validation($("#txtNombreTipoMaterial"), $("#txtNombreTipoMaterial").parent());
+  //       bandera_validar = bandera_validar +1;
+  //     // }
+  // }
 
-  if(bandera_validar != 1 && bandera_validar2 == 1 && bandera_validar3 == 1){
+  if(bandera_validar2 == 1 && bandera_validar3 == 1){
     // console.log("Nuevo:");
     var datos_Tipomaterial = ""
     datos_Tipomaterial = new FormData(document.querySelector('#frmAgregarTipoMaterial'));
@@ -358,7 +409,7 @@ function NuevoTipoMaterial(id){
              validation($("#validar").val("1"), $("#txtNombreTipoMaterial").parent());
         }
     });
-  }else if(bandera_validar2 != 1 && bandera_validar == 1 && bandera_validar3 == 1){
+  }else if(bandera_validar2 != 1 && bandera_validar3 == 1){
     // console.log("Eliminar:");
     var datos_Tipomaterial = ""
     datos_Tipomaterial = new FormData(document.querySelector('#frmAgregarTipoMaterial'));
@@ -420,7 +471,7 @@ function NuevoTipoMaterial(id){
              validation($("#validar").val("1"), $("#txtNombreTipoMaterial").parent());
         }
     });
-  }else if (bandera_validar3 != 1 && bandera_validar == 1 && bandera_validar2 == 1) {
+  }else if (bandera_validar3 != 1 && bandera_validar2 == 1) {
     // console.log("Activar:");
     var datos_Tipomaterial = ""
     datos_Tipomaterial = new FormData(document.querySelector('#frmAgregarTipoMaterial'));
@@ -490,9 +541,67 @@ function NuevoTipoMaterial(id){
 
 }
 
+//Funcion para agregar un nuevo tipo de material
+function NuevoTipoMaterial2() {
+  var bandera_validar=0;
+
+  if($("#txtNombreTipoMaterial2").val().length == 0){
+      // if(bandera_validar2 != 0){
+        validation($("#txtNombreTipoMaterial2"), $("#txtNombreTipoMaterial2").parent());
+        bandera_validar = bandera_validar +1;
+      // }
+  }
+  if (bandera_validar == 0) {
+
+    var datos_Tipomaterial = ""
+    datos_Tipomaterial = new FormData(document.querySelector('#frmAgregarTipoMaterial'));
+    datos_Tipomaterial.append("_token", token);
+    datos_Tipomaterial.append("idUsuario_Tipomaterial", "1");
+
+    var url = "";
+    url = base_url+'/inventario/materiales/agregar_Tipomaterial';
+    var mensaje = "El tipo material ha sido agregado con éxito";
+    var titulo = "Nuevo tipo material";
+
+    $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: datos_Tipomaterial,
+        dataType: false,
+        enctype: 'multipart/form-data',
+        url: url,
+        success: function(msg){
+            var data = JSON.parse(msg)
+            if(data == 0){
+                $('#modal_agregarNuevo_tipoMaterial').modal('hide')
+                swal(titulo, mensaje, "success");
+                tablaMateriales(0,"#materiales_tableActivos");
+                tablaMateriales(1,"#materiales_tableInactivos");
+                //Limpiar campos
+                $("#txtNombreTipoMaterial2").val("");
+
+            }else{
+                swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+                //Limpiar campos
+                $("#txtNombreTipoMaterial2").val("");
+            }
+        }, error: function(error) {
+            swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
+            //Limpiar campos
+            $("#txtNombreTipoMaterial2").val("");
+        }
+    });
+
+  }else {
+    swal("Error", "Por favor llenar todos los campos", "error");
+  }
+}
+
 //Funcion para traer la informacion de un material
 function datos_especificos(id){
-  console.log("consulta_especifica: " + id);
+  // console.log("consulta_especifica: " + id);
   $("#Estado_Activo").prop('checked', false);
   $("#Estado_Inactivo").prop('checked', false);
   $.ajax({
@@ -502,7 +611,7 @@ function datos_especificos(id){
   url: base_url+'/inventario/materiales/especifico/'+id,
   success: function (msg) {
           var data = JSON.parse(msg)
-    console.log(data);
+    // console.log(data);
 
           $("#actionAgregarModificar").attr("onclick", "ModificarMaterial("+id+")");
 
@@ -510,10 +619,10 @@ function datos_especificos(id){
           $("#txtCantidadMaterialModificar").val(data.Existencia);
           $("#estado_material").val(data.Estado);
           if (data.Estado == 1) {
-            console.log("1");
+            // console.log("1");
             $("#Estado_Activo").prop('checked', true);
           }else {
-            console.log("0");
+            // console.log("0");
             $("#Estado_Inactivo").prop('checked', true);
           }
           $("#idUsuario_material").val(data.idUsuario);
@@ -526,24 +635,30 @@ function datos_especificos(id){
 
 //Funcion para traer los datos a un select de un modal
 $("#boton_agregarMaterial").on("click", function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
   //limpiar campos
   $("#txtCantidadMaterial").val("");
   $("#txtNombreMaterial").val("");
   $("#select_tipoMaterial").val("0")
+
+  // $('#modal_agregar_material').modal('show');
+  // console.log("btn");
   tipo_material(1);
 })
 
 //Funcion para abrir y cargar datos en el modalModificarMaterial
 $("#materiales_tableActivos").on("click", ".modificarMaterial", function(e){
   var id = $(this).parent().attr("data-material");
-  console.log(id);
+  // console.log(id);
   e.preventDefault();
+  e.stopImmediatePropagation();
   tipo_material(2);
   datos_especificos(id);
 
   $("input[name=Estado_Modificar]").click(function (){
     var id_estado = $('input:radio[name=Estado_Modificar]:checked').val();
-    console.log("id_estado: " + id_estado);
+    // console.log("id_estado: " + id_estado);
   });
 })
 
@@ -551,6 +666,7 @@ $("#materiales_tableActivos").on("click", ".modificarMaterial", function(e){
 $("#materiales_tableActivos").on("click", ".eliminarMaterial", function(e){
   var id = $(this).parent().attr("data-material");
   e.preventDefault();
+  e.stopImmediatePropagation();
   datos_especificos(id);
 
   //El objeto que se envia en el POST
@@ -605,74 +721,23 @@ $("#materiales_tableActivos").on("click", ".eliminarMaterial", function(e){
 //Funcion para abrir y cargar datos en el modalModificarMaterial
 $("#materiales_tableInactivos").on("click", ".modificarMaterial", function(e){
   var id = $(this).parent().attr("data-material");
-  console.log(id);
+  // console.log(id);
   e.preventDefault();
+  e.stopImmediatePropagation();
   tipo_material(2);
   datos_especificos(id);
 
   $("input[name=Estado_Modificar]").click(function (){
     var id_estado = $('input:radio[name=Estado_Modificar]:checked').val();
-    console.log("id_estado: " + id_estado);
+    // console.log("id_estado: " + id_estado);
   });
 })
 
-//Funcion para eliminar un material
-// $("#materiales_tableInactivos").on("click", ".eliminarMaterial", function(e){
-//   var id = $(this).parent().attr("data-material");
-//   e.preventDefault();
-//   datos_especificos(id);
-//
-//   //El objeto que se envia en el POST
-//   var datos_material = ""
-//   datos_material = new FormData(document.querySelector('#frmAgregarMaterial'));
-//   datos_material.append("idUsuario", "1");
-//   datos_material.append("_token", token);
-//
-//   var url = "";
-//   url = base_url+'/inventario/materiales/eliminar/'+id;
-//   mensaje = "El material ha sido eliminado con éxito";
-//   titulo = "Eliminar material";
-//
-//   swal({
-//       title: "¿Deseas eliminar el material?",
-//       // text: "No podrás recuperarlo",
-//       type: "error",
-//       showCancelButton: true,
-//       confirmButtonColor: "#DD6B55",
-//       confirmButtonText: "Eliminar",
-//       cancelButtonText: "Cancelar",
-//       closeOnConfirm: false,
-//       closeOnCancel: true
-//   }, function(isConfirm){
-//       if (isConfirm) {
-//         $.ajax({
-//             type: 'POST',
-//             processData: false,
-//             contentType: false,
-//             cache: false,
-//             data: datos_material,
-//             dataType: false,
-//             enctype: 'multipart/form-data',
-//             url: url,
-//             success: function(msg){
-//                 var data = JSON.parse(msg)
-//                 if(data == 0){
-//                     swal("Eliminado", "El material ha sido eliminado con éxito", "success");
-//                     tablaMateriales(0,"#materiales_tableActivos");
-//                     tablaMateriales(1,"#materiales_tableInactivos");
-//                 }else{
-//                     swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-//                 }
-//             }, error: function(error) {
-//                 swal(titulo, "Ha ocurrido un error, inténtelo más tarde.", "error");
-//             }
-//         });
-//       }
-//   });
-// })
-
 //Validacion de los campos
 $("#txtNombreMaterial").on('input',function(e){
+    validation($(this), $(this).parent())
+});
+$("#txtNombreTipoMaterial2").on('input',function(e){
     validation($(this), $(this).parent())
 });
 $("#txtCantidadMaterial").on('input',function(e){
@@ -755,4 +820,8 @@ function tablaMateriales(){
 //Funcion para ejecuar cuando se carga este script
 $(document).ready(function () {
 	tablaMateriales();
+  // SOLO NÚMEROS
+    $('body').on('input', ".input-number", function(e){
+      this.value = this.value.replace(/[^0-9]/g,'');
+    });
 });

@@ -101,7 +101,7 @@ $('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
             url: url,
             success: function(msg){
                 var data = msg
-                console.log("id ", data);
+                // console.log("id ", data);
                 if(data.id >= 0){
 
                     for (var i = 0; i < data.Cantidad.length; i++) {
@@ -109,10 +109,10 @@ $('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
                       var existencia = data.Cantidad[i].Existencia;
                       var idMaterial = data.Cantidad[i].Materiales_idMateriale;
                       var total = existencia + cantidad;
-                      console.log("cantidad: ", cantidad);
-                      console.log("existencia: ", existencia);
-                      console.log("idMaterial: ", idMaterial);
-                      console.log("total: ", total);
+                      // console.log("cantidad: ", cantidad);
+                      // console.log("existencia: ", existencia);
+                      // console.log("idMaterial: ", idMaterial);
+                      // console.log("total: ", total);
 
                       //STAR modificar material
                       var datos_cantidaM = ""
@@ -132,7 +132,7 @@ $('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
                           url: base_url+'/inventario/orden_salida/modificar_existencia/'+idMaterial,
                           success: function(msg){
                               var data = JSON.parse(msg)
-                              console.log("data update_Existencia: " , data);
+                              // console.log("data update_Existencia: " , data);
                               if(data == 0){
 
                                 swal("Eliminado", mensaje, "success");
@@ -164,7 +164,7 @@ $('#tabla_ordenSalidaActivas').on("click", ".eliminarOrdenSalida", function(e) {
 })
 $('#tabla_ordenSalidaActivas').on("click", ".detalleOrdenSalida", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
 
    $.ajax({
@@ -192,7 +192,7 @@ $('#tabla_ordenSalidaActivas').on("click", ".detalleOrdenSalida", function(e) {
 })
 $('#tabla_ordenSalidaCancelada').on("click", ".detalleOrdenSalida", function(e) {
   var id = $(this).parent().attr("data-material");
-  console.log("id", id);
+  // console.log("id", id);
   e.preventDefault();
 
    $.ajax({
@@ -293,7 +293,7 @@ $('body').on('change', "#select_materialesOrdenSalida", function(e){
         for (var i = 0; i < temp; i++) {
           var t = i+1;
           html2+=
-          '<input type="text" class="form-control" name="cantidadOrdenSalida'+t+'" id="cantidadOrdenSalida'+t+'"><p></p>';
+          '<input type="text" class="form-control input-number" name="cantidadOrdenSalida'+t+'" id="cantidadOrdenSalida'+t+'"><p></p>';
         }
         $("#DinamicoOrdenSalida").empty().append(html2);
         $("#actionAgregarOrdenSalida").attr("onclick", "nuevoOrdenSalida("+nextinput+")");
@@ -384,7 +384,7 @@ function nuevoOrdenSalida(para) {
         url: base_url+'/inventario/orden_salida/agregar_ordenSalida',
         success: function(msg){
             var data = JSON.parse(msg)
-            console.log("data salida: " , data);
+            // console.log("data salida: " , data);
             if(data >= 0){
 
               var datos_materiales = "";
@@ -427,15 +427,15 @@ function nuevoOrdenSalida(para) {
                           // var data = JSON.parse(msg)
                           var id = msg.id;
                           var cantidad = msg.Cantidad;
-                          console.log("d: ", msg);
+                          // console.log("d: ", msg);
                           var existencia = msg.Existencia[0].Existencia;
                           var idMaterial = msg.Existencia[0].materialid;
-                          console.log("data: ", data);
-                          console.log("cantidad: ", cantidad);
-                          console.log("existencia: ", existencia);
-                          console.log("idMaterial: ", idMaterial);
+                          // console.log("data: ", data);
+                          // console.log("cantidad: ", cantidad);
+                          // console.log("existencia: ", existencia);
+                          // console.log("idMaterial: ", idMaterial);
                           var total = existencia - cantidad;
-                          console.log("total: ", total);
+                          // console.log("total: ", total);
                           if(data >= 0){
 
                             var Mov_materiale_idMov_Materiales = id;
@@ -456,7 +456,7 @@ function nuevoOrdenSalida(para) {
                               url: base_url+'/inventario/orden_salida/agregar_salidamovmateriales',
                               success: function(msg){
                                   var data = JSON.parse(msg)
-                                  console.log("data salida_mov_materiales: " , data);
+                                  // console.log("data salida_mov_materiales: " , data);
                                   if(data == 0){
 
                                     // start aaaaaaaaa
@@ -466,7 +466,7 @@ function nuevoOrdenSalida(para) {
 
                                     datos_materiales.append("Existencia", total);
                                     datos_materiales.append("idUsuario", idUsuario);
-                                    console.log("id: ", id);
+                                    // console.log("id: ", id);
 
                                     $.ajax({
                                         type: 'POST',
@@ -479,10 +479,10 @@ function nuevoOrdenSalida(para) {
                                         url: base_url+'/inventario/orden_salida/modificar_existencia/'+idMaterial,
                                         success: function(msg){
                                             var data = JSON.parse(msg)
-                                            console.log("data update_Existencia: " , data);
+                                            // console.log("data update_Existencia: " , data);
                                             if(data == 0){
 
-                                              console.log("hecho, ", id);
+                                              // console.log("hecho, ", id);
 
                                               $('#modal_agregar_ordenSalida').modal('hide')
                                               swal(titulo, mensaje, "success");
@@ -584,7 +584,7 @@ function ModificarOrdenSalida(para) {
     (month<10 ? '0' : '') + month + '-' +
     (day<10 ? '0' : '') + day;
     var fecha = output;
-    console.log("f: ", fecha);
+    // console.log("f: ", fecha);
     var idUsuario = 1;
 
     var datos_ordenSalida = "";
@@ -614,7 +614,7 @@ function ModificarOrdenSalida(para) {
         url: base_url+'/inventario/orden_salida/modificar_ordenSalida/'+para,
         success: function(msg){
             var data = JSON.parse(msg)
-            console.log("data update" , data);
+            // console.log("data update" , data);
             if(data == 0){
 
               $('#modal_agregar_ordenSalidaModificar').modal('hide')
@@ -684,7 +684,7 @@ function tablaOrdenSalida(){
                       <td>${data[i].Fecha}</td>
                       <td>${data[i].Nombre}</td>
                       <td>${data[i].Descripcion}</td>
-                      <td class="text-nowrap" data-material="${data[i].id}">                          
+                      <td class="text-nowrap" data-material="${data[i].id}">
                           <a href="#" class="detalleOrdenSalida" data-toggle="tooltip" data-original-title="Ver detalles"> <i class="icon-eye "></i> </a>
                       </td>
                   </tr>`;
@@ -709,6 +709,9 @@ function tablaOrdenSalida(){
 $(document).ready(function () {
 	tablaOrdenSalida();
   $(".select2").select2();
+  $('body').on('input', ".input-number", function(e){
+    this.value = this.value.replace(/[^0-9]/g,'');
+  });
 });
 
 //Validacion de los campos

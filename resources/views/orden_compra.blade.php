@@ -195,9 +195,8 @@
 												<div class="row">
 													<div class="col-md-12">
 														<div class="form-group">
-																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
-																<select id="select_proCompra" name="select_proCompra" class="form-control">
-																</select>
+																<label for="message-text" class="control-label">$Total <span class="danger">*</label>
+																<input type="text" class="form-control input-number" name="TotalModificarCompra" id="TotalModificarCompra">
 														</div>
 													</div>
 												</div>
@@ -210,8 +209,9 @@
 													</div>
 													<div class="col-md-4">
 														<div class="form-group">
-																<label for="message-text" class="control-label">$Total <span class="danger">*</label>
-																<input type="text" class="form-control" name="TotalModificarCompra" id="TotalModificarCompra">
+																<label for="recipient-name" class="control-label">Proveedor <span class="danger">*</label>
+																<select id="select_proCompra" name="select_proCompra" class="form-control">
+																</select>
 														</div>
 													</div>
 												</div>
