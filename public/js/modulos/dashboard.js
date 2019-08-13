@@ -57,6 +57,8 @@ function saberSemana(){
     var a = new Date().getFullYear();
     var fecha=new Date(a,0,1);
     var fecha2=new Date();
+    fecha2.setDate(fecha2.getDate() + 1);
+    console.log(fecha2);
     var tiempopasado=fecha2-fecha;
     var semana=Math.floor(tiempopasado/1000/60/60/24/7)+1;
     if(semana==0){semana=52}    

@@ -39,8 +39,8 @@ function fechaValida(){
                 primerDia = new Date();
                 ultimoDia = new Date();
             }
-
-                while(primerDia.getDay() != 1) {
+                primerDia.setDate(primerDia.getDate() + 2);
+                while((primerDia.getDay()+1) != 2) {
                  primerDia.setDate(primerDia.getDate() - 1);
                 }
                 while(ultimoDia.getDay() != 6) {
@@ -48,7 +48,7 @@ function fechaValida(){
                 }
                 var mes1 = primerDia.getMonth()+1;
                 var dia1 = primerDia.getDate();
-                if (parseInt(mes1) < 10) {
+                if (parseInt(mes1) < 10) {;
                     mes1 = "0"+mes1;
                 }
                 if (parseInt(dia1) < 10) {
@@ -67,6 +67,7 @@ function fechaValida(){
                 ultimoDia = ultimoDia.getFullYear() + "-" + mes2 + "-" + dia2;
 
                 fechas = [primerDia, ultimoDia];
+                console.log(fechas);
             
         }, error: function(error) {
         //Error Message
@@ -141,6 +142,7 @@ $("#btnGuardar").click(function(){
             success: function(msg){
                 //Success 
                 var fecha = fechaValida();
+                consultarHeader(fecha[0], fecha[1]);
                 consultar(fecha[0], fecha[1]);
                  Swal.fire({   
                     title: "¡Listo!",   
@@ -176,6 +178,7 @@ $("#btnGuardar").click(function(){
                 url: '/editarRegistroCajaChica/'+idRegistro,
                 success: function(msg){
                     var fecha = fechaValida();
+                    consultarHeader(fecha[0], fecha[1]);
                 	consultar(fecha[0], fecha[1]);
                     //Success Message
                      Swal.fire({   
@@ -435,6 +438,7 @@ function eliminarRegistro(id){
             url: "/eliminarRegistroCajaChica",
             success: function (msg) {
                 var fecha = fechaValida();
+                consultarHeader(fecha[0], fecha[1]);
                 consultar(fecha[0], fecha[1]);
                 //Success Message
                  Swal.fire({   
