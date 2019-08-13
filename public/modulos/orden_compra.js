@@ -166,6 +166,14 @@ $('#boton_pagarCompra').on("click", function(e) {
                 }
 
                 $("#select_OrdenCompras").empty().append(html);
+              }, error: function(error) {
+                  Swal.close()
+                  // alerta_temporizador(
+                  //     'error',
+                  //     'Nuevo material',
+                  //     'Ha ocurrido un error, inténtelo más tarde.',
+                  //     2500
+                  // );
               }
          });
       }else {
@@ -197,6 +205,14 @@ $('#boton_pagarCompra').on("click", function(e) {
             }
 
             $("#select_proveedorCompraPagar").empty().append(html);
+          }, error: function(error) {
+              Swal.close()
+              // alerta_temporizador(
+              //     'error',
+              //     'Nuevo material',
+              //     'Ha ocurrido un error, inténtelo más tarde.',
+              //     2500
+              // );
           }
      });
   });
@@ -322,7 +338,7 @@ $('#tabla_curso').on("click", ".eliminarOrdenCompra", function(e) {
                           'success',
                           'Eliminar orden de compra',
                           'La orden de compra ha sido eliminado con éxito',
-                          2000
+                          2500
                       );
                   tablaOrdenCompra(0,"#tabla_curso");
                   tablaOrdenCompra(1,"#tabla_recibido");
@@ -335,7 +351,7 @@ $('#tabla_curso').on("click", ".eliminarOrdenCompra", function(e) {
                           'error',
                           'Eliminar orden de compra',
                           'Ha ocurrido un error, inténtelo más tarde.',
-                          2000
+                          2500
                       );
               }
           }, error: function(error) {
@@ -345,7 +361,7 @@ $('#tabla_curso').on("click", ".eliminarOrdenCompra", function(e) {
                       'error',
                       'Eliminar orden de compra',
                       'Ha ocurrido un error, inténtelo más tarde.',
-                      2000
+                      2500
                   );
           }
       });
@@ -837,7 +853,7 @@ function nuevoOrdenCompra(para) {
                                         'error',
                                         'Nuevo orden de compra',
                                         'Ha ocurrido un error, inténtelo más tarde.',
-                                        2000
+                                        2500
                                     );
                                     //limpiar campos
                                     $("#num_nota").val("");
@@ -853,7 +869,7 @@ function nuevoOrdenCompra(para) {
                                     'error',
                                     'Nuevo orden de compra',
                                     'Ha ocurrido un error, inténtelo más tarde.',
-                                    2000
+                                    2500
                                 );
                                 //limpiar campos
                                 $("#num_nota").val("");
@@ -872,7 +888,7 @@ function nuevoOrdenCompra(para) {
                       'error',
                       'Nuevo orden de compra',
                       'Ha ocurrido un error, inténtelo más tarde.',
-                      2000
+                      2500
                   );
                   //limpiar campos
                   $("#num_nota").val("");
@@ -888,7 +904,7 @@ function nuevoOrdenCompra(para) {
                     'error',
                     'Nuevo orden de compra',
                     'Ha ocurrido un error, inténtelo más tarde.',
-                    2000
+                    2500
                 );
               //limpiar campos
               $("#num_nota").val("");
@@ -906,7 +922,7 @@ function nuevoOrdenCompra(para) {
           'error',
           'Nuevo orden de compra',
           'Por favor llenar todos los campos',
-          2000
+          2500
       );
   }
 
@@ -1048,7 +1064,7 @@ function ModificarOrdenCompra(id) {
                                               'success',
                                               'Actualizar orden de compra',
                                               'La orden de compra ha sido actualizado con éxito',
-                                              2000
+                                              2500
                                           );
                                           tablaOrdenCompra(0,"#tabla_curso");
                                           tablaOrdenCompra(1,"#tabla_recibido");
@@ -1068,7 +1084,7 @@ function ModificarOrdenCompra(id) {
                                               'error',
                                               'Actualizar orden de compra',
                                               'Ha ocurrido un error, inténtelo más tarde.',
-                                              2000
+                                              2500
                                           );
                                           //limpiar campos
                                           $("#num_notaModificar").val("");
@@ -1084,7 +1100,7 @@ function ModificarOrdenCompra(id) {
                                               'error',
                                               'Actualizar orden de compra',
                                               'Ha ocurrido un error, inténtelo más tarde.',
-                                              2000
+                                              2500
                                           );
                                           //limpiar campos
                                           $("#num_notaModificar").val("");
@@ -1102,7 +1118,7 @@ function ModificarOrdenCompra(id) {
                                     'error',
                                     'Actualizar orden de compra',
                                     'Ha ocurrido un error, inténtelo más tarde.',
-                                    2000
+                                    2500
                                 );
                             }
                         }, error: function(error) {
@@ -1112,7 +1128,7 @@ function ModificarOrdenCompra(id) {
                                 'error',
                                 'Actualizar orden de compra',
                                 'Ha ocurrido un error, inténtelo más tarde.',
-                                2000
+                                2500
                             );
                         }
                     });
@@ -1126,7 +1142,7 @@ function ModificarOrdenCompra(id) {
                         'error',
                         'Actualizar orden de compra',
                         'Ha ocurrido un error, inténtelo más tarde.',
-                        2000
+                        2500
                     );
                 }
            });
@@ -1174,7 +1190,7 @@ function ModificarOrdenCompra(id) {
                           'success',
                           'Actualizar orden de compra',
                           'La orden de compra ha sido actualizado con éxito',
-                          2000
+                          2500
                   );
                   tablaOrdenCompra(0,"#tabla_curso");
                   tablaOrdenCompra(1,"#tabla_recibido");
@@ -1194,7 +1210,7 @@ function ModificarOrdenCompra(id) {
                           'error',
                           'Actualizar orden de compra',
                           'Ha ocurrido un error, inténtelo más tarde.',
-                          2000
+                          2500
                   );
                   //limpiar campos
                   $("#num_notaModificar").val("");
@@ -1210,7 +1226,7 @@ function ModificarOrdenCompra(id) {
                           'error',
                           'Actualizar orden de compra',
                           'Ha ocurrido un error, inténtelo más tarde.',
-                          2000
+                          2500
                   );
                   //limpiar campos
                   $("#num_notaModificar").val("");
@@ -1230,7 +1246,7 @@ function ModificarOrdenCompra(id) {
             'error',
             'Actualizar orden de compra',
             'Ha ocurrido un error, inténtelo más tarde.',
-            2000
+            2500
     );
     $("#TotalModificarCompra").val("");
   }
@@ -1241,7 +1257,7 @@ function ModificarOrdenCompra(id) {
             'error',
             'Actualizar orden de compra',
             'Por favor llenar todos los campos',
-            2000
+            2500
     );
   }
 
@@ -1389,7 +1405,7 @@ function pagarCompra() {
                                                   'success',
                                                   'Pago de compras',
                                                   'Se a completado el pago con éxito',
-                                                  2000
+                                                  2500
                                               );
                                               tablaOrdenCompra(0,"#tabla_curso");
                                               tablaOrdenCompra(1,"#tabla_recibido");
@@ -1409,7 +1425,7 @@ function pagarCompra() {
                                               'error',
                                               'Pago de compras',
                                               'Ha ocurrido un error, inténtelo más tarde.',
-                                              2000
+                                              2500
                                           );
                                           //limpiar campos
                                           $("#txtCheque").val("");
@@ -1424,7 +1440,7 @@ function pagarCompra() {
                                           'error',
                                           'Pago de compras',
                                           'Ha ocurrido un error, inténtelo más tarde.',
-                                          2000
+                                          2500
                                       );
                                       //limpiar campos
                                       $("#txtCheque").val("");
@@ -1442,7 +1458,7 @@ function pagarCompra() {
                               'error',
                               'Pago de compras',
                               'Ha ocurrido un error, inténtelo más tarde.',
-                              2000
+                              2500
                           );
                           //limpiar campos
                           $("#txtCheque").val("");
@@ -1458,7 +1474,7 @@ function pagarCompra() {
                               'error',
                               'Pago de compras',
                               'Ha ocurrido un error, inténtelo más tarde.',
-                              2000
+                              2500
                           );
                           //limpiar campos
                           $("#txtCheque").val("");

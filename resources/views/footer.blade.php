@@ -122,7 +122,6 @@
 		<script src="{{asset('modulos/crm.js')}}"></script>
 	@endif
 
-	@if(Request::segment(1) == "inventario")
 	<!-- @if(Request::segment(1) == "inventario")
 		<script src="{{asset('modulos/materiales.js')}}"></script>
 	@endif -->
