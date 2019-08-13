@@ -114,9 +114,17 @@
 		<script src="{{asset('modulos/configuraciones.js')}}"></script>
 	@endif
 
-	@if(Request::segment(1) == "inventario")
-		<script src="{{asset('modulos/materiales.js')}}"></script>
+	@if(Request::segment(1) == "crm")
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.js')}}"></script>
+		<link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
+
+		<script src="{{asset('modulos/crm.js')}}"></script>
 	@endif
+
+	<!-- @if(Request::segment(1) == "inventario")
+		<script src="{{asset('modulos/materiales.js')}}"></script>
+	@endif -->
 
     @if(Request::segment(1) == "")
         <script src="{{asset('js/modulos/dashboard.js')}}"></script>

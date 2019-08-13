@@ -291,12 +291,23 @@ Route::prefix('/cotizaciones')->group(function () {
 	Route::post('/modificarCotizacion/{id}', 'cotizaciones@update');
 	Route::get('/imprimir/{id}', 'Cotizaciones@imprimir');
 	Route::get('/documento/{id}', 'Cotizaciones@documento');
+	Route::get('/correo/{id}', 'Cotizaciones@email')->name('email');
 
 	Route::post('/getImage', 'cotizaciones@getImagenBase64');
 
 	Route::get('/cotizacionesCliente/{id}', 'cotizaciones@getCotizaciones_Cliente');
 	Route::get('/cotizacionDetalle/{id}', 'cotizaciones@getCotizacionDetalle');
 
+});
+
+//Cotizacion vistas y funciones
+Route::prefix('/crm')->group(function () {
+	Route::get('/', function(){
+		$modulo = "CRM";
+		return view('crm/crm', compact('modulo'));
+	});
+
+	Route::post('/correoCalidad', 'CRM@email')->name('email');
 });
 
 Route::prefix('nomina')->group(function () {

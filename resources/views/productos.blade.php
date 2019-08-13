@@ -117,7 +117,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="recipient-name" class="control-label">Costo adicional <span class="danger">*</label>
-														<input type="number" class="form-control" id="txtCostosAdicionales" name="txtCostosAdicionales">
+														<input type="text" class="form-control input-number" id="txtCostosAdicionales" name="txtCostosAdicionales">
 													</div>
 												</div>
 												<div class="col-md-6">
@@ -179,7 +179,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="recipient-name" class="control-label">Costo adicional <span class="danger">*</label>
-														<input type="number" class="form-control" id="txtCostosAdicionalesModificar" name="txtCostosAdicionalesModificar">
+														<input type="text" class="form-control input-number" id="txtCostosAdicionalesModificar" name="txtCostosAdicionalesModificar">
 													</div>
 												</div>
 												<div class="col-md-6">
@@ -292,6 +292,15 @@
 
 		@section('footer')
 		@parent
+
+		<link rel="stylesheet" href="{{asset('plugins/dropify/dist/css/dropify.min.css')}}">
+		<script src="{{asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+		<script src="{{asset('plugins/dropify/dist/js/dropify.min.js')}}"></script>
+
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.js')}}"></script>
+		<link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
+
     <script src="{{asset('modulos/productos.js')}}"></script>
 	</div>
 @endsection
