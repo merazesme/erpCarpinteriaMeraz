@@ -332,6 +332,15 @@
 
 		@section('footer')
 		@parent
+
+		<link rel="stylesheet" href="{{asset('plugins/dropify/dist/css/dropify.min.css')}}">
+		<script src="{{asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+		<script src="{{asset('plugins/dropify/dist/js/dropify.min.js')}}"></script>
+
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.js')}}"></script>
+		<link rel="stylesheet" href="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.min.css')}}">
+		
     <script src="{{asset('modulos/orden_compra.js')}}"></script>
 	</div>
 @endsection

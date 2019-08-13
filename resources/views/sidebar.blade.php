@@ -263,6 +263,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/crm" aria-expanded="false">
+                            <i class="mdi mdi-account-location"></i>
+                            <span class="hide-menu">CRM</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/configuraciones" aria-expanded="false">
                             <i class="mdi mdi-settings"></i>
                             <span class="hide-menu">Configuraciones</span>

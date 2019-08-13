@@ -197,7 +197,6 @@ class NominaController extends Controller
           $dataDetalleNomina->Cantidad                  = $trabajador['xTotal'];
           $dataDetalleNomina->Fecha                     = new DateTime();
           $dataDetalleNomina->Estado                    = 1;
-          $dataDetalleNomina->idUsuario                 = session('idUsuario');
           $dataDetalleNomina->Nomina_idNomina           = $nominaData->id;
           $dataDetalleNomina->Trabajadores_idTrabajador = $trabajador['id'];
           $dataDetalleNomina->Contratos_idContrato      = $trabajador['contrato'];
@@ -220,7 +219,6 @@ class NominaController extends Controller
                       $data = new ConceptosNomina();
                       $data->Descripcion                   = $concepto;
                       $data->Tipo                          = $tipo;
-                      $data->idUsuario                     = session('idUsuario');
                       $data->DetalleNomina_idDetalleNomina = $dataDetalleNomina->id;
                       $data->Monto                         = $valor;
                       $data->save();
