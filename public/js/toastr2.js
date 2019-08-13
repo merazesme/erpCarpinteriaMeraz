@@ -53,3 +53,14 @@ File: js
             hideAfter: 3500
           });
      }
+
+     function toastWarning(mensaje){
+         $.toast({
+          heading: 'Carpintería Meraz',
+          text: mensaje,
+          position: 'top-right',
+          loaderBg:'#ff6849',
+          icon: 'warning',
+          hideAfter: 3500
+        });
+      }
