@@ -570,7 +570,7 @@ function guardarCotizacion(){
     datos.append("descripcion",$("#descripcion").val());
     datos.append("prioridad",$("#selectPrioridad").val());
     datos.append("costo",costo);
-    datos.append("documento","proximamente.docx");
+    // datos.append("documento","proximamente.docx");
     datos.append("fecha_inicio", $("#fechaInicio").val());
     datos.append("fecha_fin", $("#fechaFin").val());
     datos.append("_token", token);
@@ -597,13 +597,12 @@ function guardarCotizacion(){
             .done(function(resp) {
                 Swal.close()
                 var data = JSON.parse(resp)
-                if(data == 0) {
-                    mensaje("Nueva cotización", "Se ha agregado la nueva cotización con éxito", "success");
-                    reset_form('.validation-wizard');
-                } else if(data == -1){
+                if(data == -1){
                    mensaje("Nueva cotización", "Ha ocurrido un error al guardar los productos, inténtelo más tarde.", "error");
-               }else{
+               }else if(data == -2){
                    mensaje("Nueva cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+               }else{
+                   generarDocumento(data, 1);
                }
             })
             .fail(function(err) {
@@ -745,7 +744,7 @@ $("body").on("click", ".eliminarProductoCotizacion", function(e){
     e.preventDefault();
     var id = $(this).parent().attr("id");
     Swal.fire({
-      title: "¿Deseas eliminar el producto de la cotización?",
+      title: "¿Desea eliminar el producto de la cotización?",
       type: "error",
       showCancelButton: true,
       confirmButtonColor: '#DD6B55',
@@ -927,6 +926,11 @@ function datosCotizaciones(){
                         item.Apellidos = "";
                     }
 
+                    var url_documento = `<a class="documentoCotizacion" href="${base_url+"/documentos/cotizaciones/"+item.Documento}" download="${item.Documento}" data-toggle="tooltip" data-original-title="Descargar Documento"><i class="icon-doc"></i></a>`
+                    if(item.Documento == null){
+                        url_documento = "";
+                    }
+
                     html += `
                     <tr>
                         <td>${fecha_inicio}</td>
@@ -939,7 +943,7 @@ function datosCotizaciones(){
                             <a href="/cotizaciones/modificar/${item.id}" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i></a>
                             <a class="detalleCotizacion" href="#" data-toggle="tooltip" data-original-title="Ver detalles"><i class="icon-eye m-r-10"></i></a>
                             ${cambiarEstado}
-                            <a class="documentoCotizacion" href="${item.Documento}" data-toggle="tooltip" data-original-title="Descargar Documento"><i class="icon-doc"></i></a>
+                            ${url_documento}
                         </td>
                     </tr>`
 
@@ -1042,9 +1046,13 @@ function datos_cotizacion_especifica(id){
             $("#fechaFin").val(data.fecha_fin)
             $("#descripcion").val(data.Descripcion)
 
+            console.log(data.Clientes_idCliente);
             cargarClientes(data.Clientes_idCliente);
             cargarRecomendados(data.Recomendacion_idRecomendacion);
             datos_cotizacion_productos(id);
+
+            $("#generarDoc").empty().append(`<button type="button" name="button" class="btn btn-primary float-right" onclick="generarDocumento(${id}, 3)">Generar documento</button>`)
+            $("#generarDoc").append(`<button type="button" name="button" class="btn btn-primary float-right mr-2" onclick="enviarCorreo(${id})">Enviar correo</button>`)
         }
     });
 }
@@ -1091,11 +1099,12 @@ function actualizar_Cotizacion(id){
     }
 
     var datos = new FormData();
+    console.log($("#selectCliente").val());
     datos.append("idCliente",$("#selectCliente").val());
     datos.append("descripcion",$("#descripcion").val());
     datos.append("prioridad",$("#selectPrioridad").val());
     datos.append("costo",costo);
-    datos.append("documento","proximamenteModificado.docx");
+    // datos.append("documento","proximamenteModificado.docx");
     datos.append("fecha_inicio", $("#fechaInicio").val());
     datos.append("fecha_fin", $("#fechaFin").val());
     datos.append("_token", token);
@@ -1145,6 +1154,7 @@ function actualizar_Cotizacion(id){
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 
 function generarDocumento(id, opcion){
+    var data="";
     console.log(id);
     if(id && opcion){
         console.log("a");
@@ -1156,20 +1166,67 @@ function generarDocumento(id, opcion){
             success: function (msg) {
                 data = JSON.parse(msg);
                 console.log(data);
-                reset_form('.validation-wizard');
-                if(opcion == 2){
-                    console.log("modificar");
-                    mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito. En unos momentos se generará el pdf.", "success");
-                    datos_cotizacion_especifica(id);
+                if(data == -1){
+                    mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                }else if(data == -2){
+                    mensaje("Actualizar cotización", "Ha ocurrido un error al guardar el documento, inténtelo más tarde.", "error");
                 }else{
-                    console.log("agregar");
+                    reset_form('.validation-wizard');
+                    if(opcion == 2){
+                        mensaje("Actualizar cotización", "Se ha actuzalizado la cotización con éxito. En unos momentos se generará el documento.", "success");
+                        datos_cotizacion_especifica(id);
+                    }else if(opcion == 1){
+                        mensaje("Nueva cotización", "Se ha agregado la nueva cotización con éxito. En unos momentos se generará el documento.", "success");
+                    }else{
+                        mensaje("Generando Documento", "El documento se generará en unos momentos.", "success");
+                        datos_cotizacion_especifica(id);
+                    }
                 }
-                
-                window.open(base_url+"/documentos/cotizaciones/"+data);
+            }
+        }).done(function() {
+            window.open(base_url+"/documentos/cotizaciones/"+data);
+            if(opcion == 2 || opcion == 3){
+                Swal.fire({
+                    title: "¿Desea mandar el correo electrónico con la cotización nuevamente?",
+                    type: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: '#068f66',
+                    confirmButtonText: "Enviar",
+                    cancelButtonText: "Cancelar",
+                }).then((result) => {
+                    if (result.value) {
+                        enviarCorreo(id);
+                    }
+                })
+            }else{
+                enviarCorreo(id);
             }
         });
     }else{
         console.log("b");
+        mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
+    }
+}
+
+function enviarCorreo(id){
+    console.log(id);
+    if(id){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            enctype: "multipart/form-data",
+            url: base_url+'/cotizaciones/correo/'+id,
+            success: function (msg) {
+                data = JSON.parse(msg);
+                console.log(data);
+                if(data == 0){
+                    mensaje("Correo enviado", "Se ha enviado el correo correctamente.", "success");
+                }else if(data == 1){
+                    mensaje("Cotización", "Ha ocurrido un error al enviar la cotización, inténtelo más tarde.", "error");
+                }
+            }
+        })
+    }else {
         mensaje("Actualizar cotización", "Ha ocurrido un error, inténtelo más tarde.", "error");
     }
 }
