@@ -317,7 +317,7 @@ Route::prefix('nomina')->group(function () {
 	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNomina');
 	Route::post('/saveNomina', 																'NominaController@guardaNomina');
 	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
-	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
+	Route::get('/muestra/{tipo}/{fechai?}/{fechaf?}', 				'NominaController@trabajadores');
 
 	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {

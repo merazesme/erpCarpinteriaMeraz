@@ -112,15 +112,33 @@ class NominaController extends Controller
      *
      *
      */
-    public function trabajadores($fechai = null, $fechaf = null) {
+    public function trabajadores($tipo, $fechai = null, $fechaf = null) {
       try {
           // Se buscan los trabajadores activos, ademas de el contrato que tienen vigente
+          if($tipo == 'todos') {
           $data = DB::table('trabajadores')
                     ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit', 'Tipo')
                     ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
                     ->where('trabajadores.Estado',1)
                     ->where('contratos.estado', 1)
                     ->get();
+          } else if($tipo == 'Base') {
+            $data = DB::table('trabajadores')
+                      ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit', 'Tipo')
+                      ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.Estado',1)
+                      ->where('contratos.estado', 1)
+                      ->where('trabajadores.Tipo', 'Base')
+                      ->get();
+          } else {
+            $data = DB::table('trabajadores')
+                      ->select('trabajadores.id', 'contratos.id as contrato', 'Nombre' ,'Apellidos', 'Apodo', 'Asistencia_total', 'Bono_Produc_Asis', 'Bono_Extra', 'Sueldo', 'Monto_Hora_Extra', 'Infonavit', 'Tipo')
+                      ->join('contratos', 'contratos.Trabajadores_idTrabajador', '=', 'trabajadores.id')
+                      ->where('trabajadores.Estado',1)
+                      ->where('contratos.estado', 1)
+                      ->where('trabajadores.Tipo', 'Temporal')
+                      ->get();
+          }
 
           // Si se mandan las fechas
           // ($fechai = primer dia de la semana)
@@ -162,7 +180,7 @@ class NominaController extends Controller
           }
          return response()->json($data);
       } catch (\Exception $e) {
-        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.']);
+        return response()->json(['Error'=>'Ha ocucurrido un erro al intentar acceder a los datos.'.$e]);
       }
     }
 

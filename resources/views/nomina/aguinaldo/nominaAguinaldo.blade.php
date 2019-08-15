@@ -68,6 +68,7 @@
 			@section('java')
 		<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 		<script src="{{asset('js/toastr2.js')}}"></script>
+		<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
 		<script type="text/javascript">
 			var tipo = 'aguinaldo';
 			var anio = new Date().getFullYear();

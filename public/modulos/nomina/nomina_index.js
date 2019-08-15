@@ -5,40 +5,46 @@ var historial = [];
 $(document).on('click','#historial', function() {
     $("#myTable").DataTable().destroy();
     $("#myTable" ).remove();
-    console.log(tipo)
+    //console.log(tipo)
     obtieneDatosHistorial(tipo);
 });
 
 // Obtiene los datos del historial de nominas
 function obtieneDatosHistorial(tipo) {
-  $.ajax({
-    type: "GET",
-    dataType: "json",
-    url: 'historialNomina/'+tipo,
-    success: function (data) {
-        console.log(data)
-        if(data['Error'])
-          swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-        else {
-          historial = data;
-          var nomina = '';
-          switch (tipo) {
-            case 'semanal':
-                  nomina = 'Semanal';
-            break;
-            case 'aguinaldo':
-                  nomina = 'Aguinaldo';
-            break;
-            case 'vacacional':
-                  nomina = 'Vacacional';
-            break;
-            default:
-            break;
-          }
-          muestraHistorial(nomina);
+  Swal.fire({
+    onOpen: function () {
+      Swal.showLoading();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: 'historialNomina/'+tipo,
+        success: function (data) {
+            //console.log(data)
+            Swal.close();
+            if(data['Error'])
+              Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+            else {
+              historial = data;
+              var nomina = '';
+              switch (tipo) {
+                case 'semanal':
+                      nomina = 'Semanal';
+                break;
+                case 'aguinaldo':
+                      nomina = 'Aguinaldo';
+                break;
+                case 'vacacional':
+                      nomina = 'Vacacional';
+                break;
+                default:
+                break;
+              }
+              muestraHistorial(nomina);
+            }
+        }, error: function(error) {
+            toastError();
         }
-    }, error: function(error) {
-        toastError();
+      });
     }
   });
 }
@@ -114,17 +120,17 @@ function imprime() {
 function obtieneDatos(url) {
   Swal.fire({
     onOpen: function () {
-      Swal.showLoading()
+      Swal.showLoading();
         $.ajax({
           type: "GET",
           dataType: "json",
           url: url,
           success: function (data) {
               console.log(data)
-              Swal.close()y
+              Swal.close();
               if(data['Error']) {
                 $('#genera').attr('disabled', false);
-                swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+                Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
               }
               else {
                 //swal("Nómina generada", "Nómina generada exitosamente.", "success");
