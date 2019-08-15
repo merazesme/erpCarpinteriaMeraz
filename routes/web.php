@@ -336,6 +336,12 @@ Route::prefix('nomina')->group(function () {
 		Route::get('/', 																				'NominaController@nominaVacacional');
 		Route::get('/detalles/{anios}', 												'NominaController@detallesVacacional');
 	});
+
+	// Nomina de vacaciones
+	Route::prefix('nominaUtilidad')->group(function () {
+		Route::get('/', 																				'NominaController@nominaUtilidad');
+		Route::get('/detalles/{anios}', 												'NominaController@detallesUtilidad');
+	});
 });
 
 Route::prefix('roles')->group(function () {

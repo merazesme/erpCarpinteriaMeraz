@@ -59,6 +59,20 @@ class NominaController extends Controller
         $modulo = "Detalles de Nómina Vacacional";
         return view('nomina/vacacional/detalles', compact('modulo', 'anios'));
     }
+    /**
+     * Muestra las vistas de nomina Utilidad
+     *
+     *
+     */
+    public function nominaUtilidad() {
+        $modulo = "Nómina Utilidades";
+        return view('nomina/utilidad/nominaUtilidad', compact('modulo'));
+    }
+
+    public function detallesUtilidad($anios) {
+        $modulo = "Detalles de Nómina Utilidades";
+        return view('nomina/utilidad/detalles', compact('modulo', 'anios'));
+    }
 
     /**
      * Obtine los datos de las nominas guardadas
