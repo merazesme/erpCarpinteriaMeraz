@@ -45,6 +45,8 @@
     $("#modalHistorial").on('hidden.bs.modal', function () {
       $("#datosTrabajador").remove();
       $("#br").remove();
+      $("#historialContratos").DataTable().clear();
+      $("#historialContratos").DataTable().destroy();
     });
   });
 
@@ -247,7 +249,14 @@
           console.log(msg);
           if(msg['success'] == "Se agrego exitosamente"){
             reset_form('.validation-wizard');
-            success(mensaje);
+            swal({
+              type: "success",
+              title: "¡Éxito!",
+              text: mensaje,
+              showConfirmButton: false,
+              timer: 500
+            });
+            location.href = "/trabajadores/lista";
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -321,6 +330,10 @@
 
               if(data[0].Fecha_final == null){
                 data[0].Fecha_final = "Indefinida";
+              }
+
+              if(data[0].Num_alternativo == null){
+                data[0].Num_alternativo = "-";
               }
 
               if(bandera == "detalles"){
@@ -459,39 +472,28 @@
                 success: function(msg){
                   console.log(msg);
                   if(msg['success'] == "Se liquido exitosamente"){
-                    swal({
-                          title: "¡Éxito!",
-                          type: "success",
-                          closeOnConfirm: false
+                    if(bandera == "liquidar"){
+                      // PREGUNTAR SI DESEA CREAR CONTACTO
+                      var title = "Se liquido con éxito, ¿Deseas generarle un nuevo contrato a este trabajador?";
+                      var boton = "Contratar";
+                      swal({
+                          title: title,
+                          type: "warning",
+                          showCancelButton: true,
+                          confirmButtonColor: "#DD6B55",
+                          confirmButtonText: boton,
+                          cancelButtonText: "Cancelar",
+                          closeOnConfirm: false,
+                          closeOnCancel: true
                       }, function(isConfirm){
                           if (isConfirm) {
-                            if(bandera == "liquidar"){
-                              // PREGUNTAR SI DESEA CREAR CONTACTO
-                              var title = "¿Deseas generarle un nuevo contrato a este trabajador?";
-                              var boton = "Contratar";
-                              swal({
-                                  title: title,
-                                  type: "warning",
-                                  showCancelButton: true,
-                                  confirmButtonColor: "#DD6B55",
-                                  confirmButtonText: boton,
-                                  cancelButtonText: "Cancelar",
-                                  closeOnConfirm: false,
-                                  closeOnCancel: true
-                              }, function(isConfirm){
-                                  if (isConfirm) {
-                                    location.href = "/trabajadores/contrato/"+id;
-                                  }
-                                  else{
-                                    tablaTrabajadores();
-                                  }
-                              });
-                            }
+                            location.href = "/trabajadores/contrato/"+id;
                           }
                           else{
-                            location.href = "/trabajadores/lista";
+                            tablaTrabajadores();
                           }
                       });
+                    }
                   }
                   else if(msg['error'] == "Ocurrio un error"){
                     swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -559,7 +561,7 @@
           console.log(msg);
           if(msg['success'] == "Se contrato exitosamente"){
   	        mensaje = "Contrato generado con éxito.";
-            success(mensaje);
+            swal("¡Éxito!", mensaje, "success");
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal("Generar contrato", "Ha ocurrido un error, inténtelo más tarde.", "error");
@@ -612,19 +614,6 @@
       icon: icon,
       hideAfter: 3500,
       stack: 6
-    });
-  }
-
-  function success(mensaje){
-    swal({
-      title: "¡Éxito!",
-      text: mensaje,
-      type: "success",
-      closeOnConfirm: false
-    }, function(isConfirm){
-      if (isConfirm) {
-        location.href = "/trabajadores/lista";
-      }
     });
   }
 

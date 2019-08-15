@@ -180,9 +180,9 @@ class Asistencias extends Controller
         try
         {
           $horarios = DB::table('configuracions')
-            ->select('Hora_entrada', 'Hora_salida', 'Hora_entrada_t', 'Hora_salida_t', 'Hora_estrada_Sab',
-                     'Hora_salida_Sab', 'Hora_entrada_extra', 'Hora_salida_extra', 'Hora_entrada_obra',
-                     'Hora_salida_obra')
+            ->select('Hora_entrada','Hora_salida', 'Hora_entrada_t', 'Hora_salida_t', 
+                'Hora_estrada_Sab', 'Hora_salida_Sab', 'Hora_entrada_extra', 'Hora_salida_extra', 
+                'Hora_entrada_obra', 'Hora_salida_obra')
               ->get();
 
           return $horarios;
