@@ -10,7 +10,7 @@
                         <i class="fa fa-user-o"></i>
                         <span class="hide-menu">
                             @if (session('Usuario'))
-                                {{ session('Nombre').', idUsuario: '.session('idUsuario').', idRol: '.session('idRol') }}
+                                {{ session('Nombre')}}
                             @else
                                 No tiene iniciada la sesión
                             @endif
