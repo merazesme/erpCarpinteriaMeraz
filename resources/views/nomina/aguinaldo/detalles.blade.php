@@ -48,9 +48,10 @@
 			@section('java')
 				<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 				<script src="{{asset('js/toastr2.js')}}"></script>
+				<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
 				<script type="text/javascript">
 					var anio = <?php echo $anio; ?>;
-					var tipo = 'aguinaldo'; 
+					var tipo = 'aguinaldo';
 				</script>
 				<script src="{{asset('modulos/nomina/nomina_aguinaldo_detalle.js')}}"></script>
 				<script src="{{asset('modulos/nomina/nomina_index.js')}}"></script>

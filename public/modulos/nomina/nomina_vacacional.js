@@ -12,7 +12,7 @@
     url: `confirma/${anioAnterior}-${anioActual}`,
     success: function (data) {
         if(data['Error'])
-          swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+          Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
         else if(data['NotFound'])
           $('#btnGenerar').append(botonGenerar);
         else
@@ -91,7 +91,7 @@
 
   $(document).on('click', '#genera', function() {
       $(this).attr('disabled', true);
-      obtieneDatos('muestra');
+      obtieneDatos('muestra/todos');
   });
 
   $(document).on('click','#btnGuardar', function() {
@@ -99,32 +99,38 @@
     saveNomina();
   });
 
+  // ALTER TABLE `nominas` CHANGE `Semana` `Semana` VARCHAR(30) NOT NULL;
+
   function saveNomina() {
     console.log(trabajadores)
-    $.ajax({
-         type: 'POST',
-         url: 'saveNomina',
-         data: {
-           '_token': $('meta[name="csrf-token"]').attr('content'),
-           'trabajadores':trabajadores,
-           'semana': `${anioAnterior}-${anioActual}`,
-           'tipo': 'vacacional'
-         },
-         success: function(data) {
-             console.log(data);
-             if(data['Error']) {
-              $('#btnGuardar').attr('disabled', false);
-              swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-             }
-             else {
-               $('#guardar').hide("slow");
-               toastSuccess("Nómina guardada exitosamente.");
-             }
-        }, error: function(error) {
-            $('#btnGuardar').attr('disabled', false);
-            toastError();
-        }
+    Swal.fire({
+      onOpen: function () {
+        Swal.showLoading();
+        $.ajax({
+             type: 'POST',
+             url: 'saveNomina',
+             data: {
+               '_token': $('meta[name="csrf-token"]').attr('content'),
+               'trabajadores':trabajadores,
+               'semana': `${anioAnterior}-${anioActual}`,
+               'tipo': 'vacacional'
+             },
+             success: function(data) {
+                 console.log(data);
+                 Swal.close();
+                 if(data['Error']) {
+                  $('#btnGuardar').attr('disabled', false);
+                  Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+                 }
+                 else {
+                   $('#guardar').hide("slow");
+                   toastSuccess("Nómina guardada exitosamente.");
+                 }
+            }, error: function(error) {
+                $('#btnGuardar').attr('disabled', false);
+                toastError();
+            }
+        });
+      }
     });
   }
-
-

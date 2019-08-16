@@ -34,7 +34,7 @@ class Asistencias extends Controller
           $fecha = date_format($fecha, 'Y-m-d');
 
           $asistencia = DB::table('asistencias')
-            ->select('id', 'Trabajadores_idTrabajador as id_trabajador', 'Hora_entrada', 'Hora_salida',
+            ->select('id', 'Trabajadores_idTrabajador as id_trabajador', 'Hora_entrada', 'Hora_salida', 'Fecha',
                      'Hora_extra')
               ->where('Fecha', '=', $fecha)
                 ->get();

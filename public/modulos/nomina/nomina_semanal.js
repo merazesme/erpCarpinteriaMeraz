@@ -12,7 +12,7 @@
     url: 'confirma/'+numSemana,
     success: function (data) {
         if(data['Error'])
-          swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+          Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
         else if(data['NotFound'])
           $('#btnGenerar').append(botonGenerar);
         else
@@ -26,7 +26,7 @@
 
   $(document).on('click','#genera', function() {
       $(this).attr('disabled', true);
-      obtieneDatos('muestra/'+moment(f_i).format()+'/'+moment(f_f).format());
+      obtieneDatos('muestra/todos/'+moment(f_i).format()+'/'+moment(f_f).format());
   });
   //obtieneDatos();
 
@@ -225,29 +225,35 @@
   // Funcion que guarda la nomina en la base de datos
   function saveNomina() {
     //console.log(trabajadores)
-    $.ajax({
-         type: 'POST',
-         url: 'saveNomina',
-         data: {
-           '_token': $('meta[name="csrf-token"]').attr('content'),
-           'trabajadores':trabajadores,
-           'semana': numSemana,
-           'tipo': 'semanal'
-         },
-         success: function(data) {
-             //console.log(data);
-             if(data['Error']) {
-              $('#btnGuardar').attr('disabled', false);
-              swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-             }
-             else {
-               toastSuccess("Nómina guardada exitosamente.");
-               $('.modal-edit').hide("slow");
-               $('#guardar').hide("slow");
-             }
-        }, error: function(error) {
-            $('#btnGuardar').attr('disabled', false);
-            toastError();
-        }
+    Swal.fire({
+      onOpen: function () {
+        Swal.showLoading()
+        $.ajax({
+             type: 'POST',
+             url: 'saveNomina',
+             data: {
+               '_token': $('meta[name="csrf-token"]').attr('content'),
+               'trabajadores':trabajadores,
+               'semana': numSemana,
+               'tipo': 'semanal'
+             },
+             success: function(data) {
+                 //console.log(data);
+                 Swal.close()
+                 if(data['Error']) {
+                  $('#btnGuardar').attr('disabled', false);
+                  Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+                 }
+                 else {
+                   toastSuccess("Nómina guardada exitosamente.");
+                   $('.modal-edit').hide("slow");
+                   $('#guardar').hide("slow");
+                 }
+            }, error: function(error) {
+                $('#btnGuardar').attr('disabled', false);
+                toastError();
+            }
+        });
+      }
     });
   }

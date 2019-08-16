@@ -1,23 +1,29 @@
 $(document).ready(function() {
     $('#anio').text(`Años ${anio}`);
     var nomina = [];
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: `${base_url}/nomina/detalleNomina/${anio}`,
-      success: function (data) {
-          console.log(data)
-          if(data['Error'])
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          else if(data['NotFound']) {
-            $('#errorSemana').append('<br><h5 class="text-danger"> Está nómina aún no se ha generado </h5>');
-          } else {
-              toastSuccess("Datos de nómina cargados exitosamente.");
-              nomina = data;
-              muestra();
+    Swal.fire({
+      onOpen: function () {
+        Swal.showLoading();
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: `${base_url}/nomina/detalleNomina/${anio}`,
+          success: function (data) {
+              console.log(data);
+              Swal.close();
+              if(data['Error'])
+                Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+              else if(data['NotFound']) {
+                $('#errorSemana').append('<br><h5 class="text-danger"> Está nómina aún no se ha generado </h5>');
+              } else {
+                  toastSuccess("Datos de nómina cargados exitosamente.");
+                  nomina = data;
+                  muestra();
+              }
+          }, error: function(error) {
+              toastError();
           }
-      }, error: function(error) {
-          toastError();
+        });
       }
     });
 
