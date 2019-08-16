@@ -3,26 +3,31 @@ $(document).ready(function() {
     $('#editar').hide();
     $('#rango-semana').text(`${fechai.date} de ${meses[fechai.months]} de ${fechai.years} al ${fechaf.date} de ${meses[fechaf.months]} de ${fechaf.years}`);
     var nomina = [];
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: `${base_url}/nomina/detalleNomina/${numSemana}/${moment(f_i).format()}'/${moment(f_f).format()}`,
-      success: function (data) {
-          console.log(data)
-          if(data['Error'])
-            swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-          else if(data['NotFound']) {
-            $('#errorSemana').append('<br><h5 class="text-danger"> Está nómina aún no se ha generado </h5>');
-          } else {
-              toastSuccess("Datos de nómina cargados exitosamente.");
-              nomina = data;
-              muestra();
+    Swal.fire({
+      onOpen: function () {
+        Swal.showLoading()
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: `${base_url}/nomina/detalleNomina/${numSemana}/${moment(f_i).format()}'/${moment(f_f).format()}`,
+          success: function (data) {
+              //console.log(data)
+              Swal.close()
+              if(data['Error'])
+                Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+              else if(data['NotFound']) {
+                $('#errorSemana').append('<br><h5 class="text-danger"> Está nómina aún no se ha generado </h5>');
+              } else {
+                  toastSuccess("Datos de nómina cargados exitosamente.");
+                  nomina = data;
+                  muestra();
+              }
+          }, error: function(error) {
+              toastError();
           }
-      }, error: function(error) {
-          toastError();
+        });
       }
     });
-
     // Funcion que hace los calculos y genera las filas de la tabla
     function muestra() {
       var tamanio = nomina['detalleNomina'].length;
@@ -121,7 +126,7 @@ $(document).ready(function() {
     function setData(data) {
       var results = nomina['detalleNomina'].filter(function (trabajador) { return trabajador.id == data; });
       var objeto = (results.length > 0) ? results[0] : null;
-      console.log(objeto)
+      //console.log(objeto)
 
 
       $('#nombre').text(`${objeto.Nombre} ${objeto.Apellidos} (${objeto.Apodo})`);

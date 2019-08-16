@@ -57,6 +57,7 @@
 			@section('java')
 				<script src="{{asset('plugins/toast-master/js/jquery.toast.js')}}"></script>
 				<script src="{{asset('js/toastr2.js')}}"></script>
+				<script src="{{asset('plugins/sweetalert/sweetalert_2/sweetalert2.all.min.js')}}"></script>
 				<script>
 					var tipo = 'vacacional';
 					var anioActual = new Date().getFullYear();

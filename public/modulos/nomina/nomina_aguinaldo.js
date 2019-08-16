@@ -12,7 +12,7 @@
     url: 'confirma/'+anio,
     success: function (data) {
         if(data['Error'])
-          swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
+        Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
         else if(data['NotFound'])
           $('#btnGenerar').append(botonGenerar);
         else
@@ -42,13 +42,15 @@
         var tr = trabajadores[x];
         // Falta este
         // bonoExtra
-        if(tr.Tipo == 'base') {
+        if(tr.Tipo == 'Base') {
            tr.Subtotal = Math.round( (tr.Sueldo * 2) / 365 * tr.Asistencia_total );
            tr.Nomina = {
              xPercepciones: {}
            };
+           tr.Nomina.xPercepciones['Subtotal'] = tr.Subtotal; 
+
             if(tr.bonoExtra != 0 || tr.bonoExtra != null) {
-              tr.Nomina.xPercepciones['Bono Extra'] = Math.round( (((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal )
+              tr.Nomina.xPercepciones['Bono Extra'] = Math.round( Math.abs((((tr.Bono_Extra * 2) / 365) * tr.Asistencia_total) - tr.Subtotal ))
             } else
               alert('no entro')
             tr.xTotal = tr.Subtotal + tr.Nomina.xPercepciones['Bono Extra'];
@@ -84,7 +86,7 @@
 
   $(document).on('click', '#genera', function() {
       $(this).attr('disabled', true);
-      obtieneDatos('muestra');
+      obtieneDatos('muestra/Base');
   });
 
   $(document).on('click','#btnGuardar', function() {
@@ -94,28 +96,34 @@
 
   function saveNomina() {
     console.log(trabajadores)
-    $.ajax({
-         type: 'POST',
-         url: 'saveNomina',
-         data: {
-           '_token': $('meta[name="csrf-token"]').attr('content'),
-           'trabajadores':trabajadores,
-           'semana': anio,
-           'tipo': 'aguinaldo'
-         },
-         success: function(data) {
-             console.log(data);
-             if(data['Error']) {
-              $('#btnGuardar').attr('disabled', false);
-              swal("Error", "Ha ocurrido un error, inténtelo más tarde.", "error");
-             }
-             else {
-               $('#guardar').hide("slow");
-               toastSuccess("Nómina guardada exitosamente.");
-             }
-        }, error: function(error) {
-            $('#btnGuardar').attr('disabled', false);
-            toastError();
-        }
+    Swal.fire({
+      onOpen: function () {
+        Swal.showLoading();
+        $.ajax({
+             type: 'POST',
+             url: 'saveNomina',
+             data: {
+               '_token': $('meta[name="csrf-token"]').attr('content'),
+               'trabajadores':trabajadores,
+               'semana': anio,
+               'tipo': 'aguinaldo'
+             },
+             success: function(data) {
+                 console.log(data);
+                 Swal.close();
+                 if(data['Error']) {
+                  $('#btnGuardar').attr('disabled', false);
+                  Swal.fire({type: 'error',title: 'Error',text: "Ha ocurrido un error, inténtelo más tarde."});
+                 }
+                 else {
+                   $('#guardar').hide("slow");
+                   toastSuccess("Nómina guardada exitosamente.");
+                 }
+            }, error: function(error) {
+                $('#btnGuardar').attr('disabled', false);
+                toastError();
+            }
+        });
+      }
     });
   }

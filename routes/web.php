@@ -317,7 +317,7 @@ Route::prefix('nomina')->group(function () {
 	Route::get('/historialNomina/{tipo}', 										'NominaController@historialNomina');
 	Route::post('/saveNomina', 																'NominaController@guardaNomina');
 	Route::get('/confirma/{numero}', 													'NominaController@validaNomina');
-	Route::get('/muestra/{fechai?}/{fechaf?}', 								'NominaController@trabajadores');
+	Route::get('/muestra/{tipo}/{fechai?}/{fechaf?}', 				'NominaController@trabajadores');
 
 	// Nomina semanal
 	Route::prefix('nominaSemanal')->group(function () {
@@ -335,6 +335,12 @@ Route::prefix('nomina')->group(function () {
 	Route::prefix('nominaVacacional')->group(function () {
 		Route::get('/', 																				'NominaController@nominaVacacional');
 		Route::get('/detalles/{anios}', 												'NominaController@detallesVacacional');
+	});
+
+	// Nomina de vacaciones
+	Route::prefix('nominaUtilidad')->group(function () {
+		Route::get('/', 																				'NominaController@nominaUtilidad');
+		Route::get('/detalles/{anios}', 												'NominaController@detallesUtilidad');
 	});
 });
 
