@@ -72,7 +72,7 @@
               if(prestamos[i].Num_prestamos == 1){
                 txt = "prestamo";
               }
-              // <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'historial',-1,2)" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
+
               htmlPrestamos+=
                 `<tr>
                   <td>${prestamos[i].Nombre} ${prestamos[i].Apellidos}</td>
@@ -81,7 +81,7 @@
                   <td>$${prestamos[i].Resta}</td>
                   <td class="text-nowrap" id_trabajador="${prestamos[i].id_trabajador}">
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'detalles',${prestamos[i].id_prestamo},1)" data-target="#verDetallePrestamo" data-toggle="tooltip" data-original-title="Detalles"> <i class="icon-eye text-inverse m-r-10"></i> </a>
-
+                    <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'historial',-1,2)" data-toggle="tooltip" data-original-title="Historial"> <i class="mdi mdi-information-outline text-inverse m-r-10"></i> </a>
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'editar',${prestamos[i].id_prestamo},1)" data-target="#verEditarPrestamo" data-toggle="tooltip" data-original-title="Editar"> <i class="icon-pencil text-inverse m-r-10"></i> </a>
                     <a onclick="mostrarModalAgregarPrestamo(${prestamos[i].id_trabajador},'abonar',${prestamos[i].id_prestamo},1)" resta="${prestamos[i].Resta}" data-target="#modalAbonarPrestamo" data-toggle="tooltip" data-original-title="Abonar"> <i class="ti-money text-inverse m-r-10"></i> </a>
                   </td>
@@ -343,243 +343,257 @@
             console.log("Ha ocurrido un error, inténtelo más tarde.");
           }
           else{
-            var htmlPrestamos="", htmlTrabajadores="";
-            var num_prestamos = data.length;
-            if(id_trabajador!=0 && bandera!="agregar"){
-              var text = " prestamos";
-              if(num_prestamos==1){
-                text = " prestamo";
-              }
-              // INSERTAR ROW PARA NOMBRE Y SELECT PRESTAMOS
-              var htmlRow="";
-              htmlRow=`
-                <div id="divisiones" name="divisiones" class="row">
-                    <div class="col-md-6">
-                        <div id="nombreTrabajador" name="nombreTrabajador" class="form-group">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="buscarPrestamo" name="buscarPrestamo" class="form-group">
-                        </div>
-                    </div>
-                </div>`;
-
-              $('#prestamo').before(htmlRow);
-
-              // INSERTAR DATOS TRABAJADOR
-              var htmlNombreTrabajador="";
-              htmlNombreTrabajador +=
-                `<div id="datosTrabajador" style="text-align:center;">
-                  <h3 class="m-b-0">${data[0].Nombre} ${data[0].Apellidos}</h3>
-                  <span class="label label-success label-rounded">`+ num_prestamos + text + `</span>
-                 </div>`;
-
-              // INSERTAR SELECT DE PRESTAMOS
-              var htmlBuscarPrestamo="";
-              htmlBuscarPrestamo +=
-                `<form id="escogerPrestamo" name="escogerPrestamo">
-                  <div class="form-group">
-                    <select id="id_prestamo" name="id_prestamo" class="select2 form-control custom-select" style="width: 100%; height:36px;">
-                      <option>Seleccionar</option>
-                      <optgroup id="selectPrestamos" label="Prestamos">`;
-
-              // LLENAR SELECT DE PRESTAMOS
-              for (var i = 0; i < num_prestamos; i++) {
-                htmlBuscarPrestamo+=
-                  `<option value="${data[i].id_prestamo}">${data[i].Concepto}</option>`;
-              }
-
-              htmlBuscarPrestamo +=
-                `</optgroup>
-                    </select>
-                  </div>
-                </form>`;
-
-              // INSERTAR SEPARADOR
-              var htmlSeparador="";
-              htmlSeparador +=
-                `<div id="divSeparador" name="divSeparador" class="activity-box">
-                  <div class="date-devider">
-                    <span>`+bandera+` prestamo</span>
-                  </div>
-                </div>`;
-
-              $("#formularioPrestamo").append(htmlSeparador);
-
-            }
-            if(bandera == "detalles" || bandera == "historial" || bandera == "abonar"){
-              var p = "";
-              if(identificador == -1){
-                p = 0;
-              }
-              else{
-                var i = [];
-                if(num_prestamos!=0){
-                  for (var x = 0; x < num_prestamos; x++) {
-                    // if()
-                    i[x]=data[x].id_prestamo;
-                  }
-                  var ide = parseInt(identificador);
-                  p = i.indexOf(ide);
+            if(data!=0){
+              var htmlPrestamos="", htmlTrabajadores="";
+              var num_prestamos = data.length;
+              if(id_trabajador!=0 && bandera!="agregar"){
+                var text = " prestamos";
+                if(num_prestamos==1){
+                  text = " prestamo";
                 }
-              }
-              // INSERTAR DETALLES PRESTAMO
-              var htmlDetalles="";
-              htmlDetalles +=
-                `<table id="detallesPrestamo" name="detallesPrestamo" class="table vm no-th-brd pro-of-month">
-                  <tbody>
-                    <tr>
-                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Concepto: </strong>${data[p].Concepto}</td>
-                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Descripción </strong>${data[p].Descripción}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Monto: </strong>${data[p].Monto}</td>
-                        <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha: </strong>${data[p].Fecha}</td>
-                    </tr>
-                  </tbody>
-                </table>`;
 
-              $("#buscarPrestamo").append(htmlBuscarPrestamo);
-              $("#nombreTrabajador").append(htmlNombreTrabajador);
-              // $("#formularioPrestamo").append(htmlPrestamos);
-              $("#formularioPrestamo").append(htmlDetalles);
-              $("#id_prestamo").val(data[p].id_prestamo).trigger("change.select2");
-              $("id_tra").val(data[p].id_trabajador);
+                // INSERTAR ROW PARA NOMBRE Y SELECT PRESTAMOS
+                var htmlRow="";
+                htmlRow=`
+                  <div id="divisiones" name="divisiones" class="row">
+                      <div class="col-md-6">
+                          <div id="nombreTrabajador" name="nombreTrabajador" class="form-group">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div id="buscarPrestamo" name="buscarPrestamo" class="form-group">
+                          </div>
+                      </div>
+                  </div>`;
 
-              // INSERTAR OPCIONES DE ABONAR
-              if(bandera == "abonar"){
-                var hmtlFormularioAbonar="";
-                hmtlFormularioAbonar +=
-                  `<div id="divForm" name="divForm">
-                     <div class="row">
-                         <div class="col-md-6">
-                             <div class="form-group">
-                               <label for="montoAbono" class="control-label">Monto:</label>
-                               <input type="text" class="form-control input-number" id="montoAbono" name="montoAbono">
-                               <div id="validacionAbono" name="validacionAbono">
-                               </div>
-                             </div>
-                         </div>
-                         <div class="col-md-6">
-                             <div class="form-group">
-                                 <label for="comentario" class="control-label">Comentario:</label>
-                                 <input type="text" class="form-control" id="comentario" nameS="comentario">
-                             </div>
-                         </div>
-                     </div>
-                     <div class="form-group">
-                         <label>Firma(trabajador):</label>
-                         <input type="password" class="form-control input-number" id="firmaAbono" name="firmaAbono">
-                         <div id="validacionFirma" name="validacionFirma">
-                     </div>
+                $('#prestamo').before(htmlRow);
+
+                // INSERTAR DATOS TRABAJADOR
+                var htmlNombreTrabajador="";
+                htmlNombreTrabajador +=
+                  `<div id="datosTrabajador" style="text-align:center;">
+                    <h3 class="m-b-0">${data[0].Nombre} ${data[0].Apellidos}</h3>
+                    <span class="label label-success label-rounded">`+ num_prestamos + text + `</span>
                    </div>`;
 
-                 var htmlBoton="";
-                 htmlBoton=`<button type="button" id="btnAbonar" class="btn btn-info">Guardar</button>`;
-                 $('#btnCancelar').after(htmlBoton);
-                 $("#formularioPrestamo").append(hmtlFormularioAbonar);
-              }
-              else if(bandera == "detalles"){
-                // consultarMovimientosPrestamo(data[p].id_prestamo);
-              }
-            }
-            else{
-              // INSERTAR FORMULARIO PRESTAMOS
-              htmlPrestamos +=
-                `<div id="divForm" name="divForm">
-                  <div class="form-group">
-                      <label for="id_trabajador" class="control-label">Trabajador <span class="danger">*</span> </label>
-                      <select id="id_trabajador" name="id_trabajador" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                // INSERTAR SELECT DE PRESTAMOS
+                var htmlBuscarPrestamo="";
+                htmlBuscarPrestamo +=
+                  `<form id="escogerPrestamo" name="escogerPrestamo">
+                    <div class="form-group">
+                      <select id="id_prestamo" name="id_prestamo" class="select2 form-control custom-select" style="width: 100%; height:36px;">
                         <option>Seleccionar</option>
-                        <optgroup id="selectTrabajadores" label="Trabajadores">
-                        </optgroup>
+                        <optgroup id="selectPrestamos" label="Prestamos">`;
+
+                // LLENAR SELECT DE PRESTAMOS
+                for (var i = 0; i < num_prestamos; i++) {
+                  htmlBuscarPrestamo+=
+                    `<option value="${data[i].id_prestamo}">${data[i].Concepto}</option>`;
+                }
+
+                htmlBuscarPrestamo +=
+                  `</optgroup>
                       </select>
-                      <div id="validacionTrabajador" name="validacionTrabajador">
-                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="concepto" class="control-label">Concepto: <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="concepto" name="concepto">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="montoPrestamo" class="control-label">Monto: <span class="danger">*</span> </label>
-                              <input type="text" class="form-control input-number" id="montoPrestamo" name="montoPrestamo">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Descripción: <span class="danger">*</span> </label>
-                        <textarea class="form-control" rows="2" id="descripcion" name="descripcion"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="firma">Firma(trabajador): <span class="danger">*</span> </label>
-                        <input type="password" class="form-control input-number" id="firma" name="firma">
-                        <div id="validacionFirma" name="validacionFirma">
-                        </div>
+                  </form>`;
+
+                // INSERTAR SEPARADOR
+                var htmlSeparador="";
+                htmlSeparador +=
+                  `<div id="divSeparador" name="divSeparador" class="activity-box">
+                    <div class="date-devider">
+                      <span>`+bandera+` prestamo</span>
                     </div>
                   </div>`;
 
-              // LLENAR SELECT TRABAJADORES
-              $.ajax({
-                  type: 'GET',
-                  dataType: "json",
-                  enctype: "multipart/form-data",
-                  url: base_url+'/trabajadores/prestamos/trabajadores',
-                  success: function(msg2){
-                    // console.log(msg2);
-                    if(msg2['error'] == "Ocurrio un error"){
-                      console.log("Ha ocurrido un error, inténtelo más tarde.");
-                    }
-                    else{
-                      var data2 = msg2;
-                      // console.log(data2);
-                      var tam = data2.length;
-                      for (var i = 0; i < tam; i++) {
-                        htmlTrabajadores+=
-                          `<option value="${data2[i].id_trabajador}">${data2[i].Nombre} ${data2[i].Apellidos}</option>`;
-                      }
-                      var htmlBoton="";
-                      if(bandera == "agregar"){
-                        htmlBoton=`<button type="button" id="btnAgregar" class="btn btn-info">Guardar</button>`;
+                $("#formularioPrestamo").append(htmlSeparador);
 
-                        $("#formularioPrestamo").append(htmlPrestamos);
-                        $('#selectTrabajadores').after(htmlTrabajadores);
+              }
+              if(bandera == "detalles" || bandera == "historial" || bandera == "abonar"){
+                var p = "";
+                if(identificador == -1){
+                  p = 0;
+                }
+                else{
+                  var i = [];
+                  if(num_prestamos!=0){
+                    for (var x = 0; x < num_prestamos; x++) {
+                      // if()
+                      i[x]=data[x].id_prestamo;
+                    }
+                    var ide = parseInt(identificador);
+                    p = i.indexOf(ide);
+                  }
+                }
+
+                // INSERTAR DETALLES PRESTAMO
+                var htmlDetalles="";
+                htmlDetalles +=
+                  `<table id="detallesPrestamo" name="detallesPrestamo" class="table vm no-th-brd pro-of-month">
+                    <tbody>
+                      <tr>
+                          <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Concepto: </strong>${data[p].Concepto}</td>
+                          <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Descripción </strong>${data[p].Descripción}</td>
+                      </tr>
+                      <tr>
+                          <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Monto: </strong>${data[p].Monto}</td>
+                          <td style="padding: .50rem; border-top:0px;" class="m-b-0"><strong>Fecha: </strong>${data[p].Fecha}</td>
+                      </tr>
+                    </tbody>
+                  </table>`;
+
+                $("#buscarPrestamo").append(htmlBuscarPrestamo);
+                $("#nombreTrabajador").append(htmlNombreTrabajador);
+                // $("#formularioPrestamo").append(htmlPrestamos);
+                $("#formularioPrestamo").append(htmlDetalles);
+                $("#id_prestamo").val(data[p].id_prestamo).trigger("change.select2");
+                $("id_tra").val(data[p].id_trabajador);
+
+                // INSERTAR OPCIONES DE ABONAR
+                if(bandera == "abonar"){
+                  var hmtlFormularioAbonar="";
+                  hmtlFormularioAbonar +=
+                    `<div id="divForm" name="divForm">
+                       <div class="row">
+                           <div class="col-md-6">
+                               <div class="form-group">
+                                 <label for="montoAbono" class="control-label">Monto:</label>
+                                 <input type="text" class="form-control input-number" id="montoAbono" name="montoAbono">
+                                 <div id="validacionAbono" name="validacionAbono">
+                                 </div>
+                               </div>
+                           </div>
+                           <div class="col-md-6">
+                               <div class="form-group">
+                                   <label for="comentario" class="control-label">Comentario:</label>
+                                   <input type="text" class="form-control" id="comentario" nameS="comentario">
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label>Firma(trabajador):</label>
+                           <input type="password" class="form-control input-number" id="firmaAbono" name="firmaAbono">
+                           <div id="validacionFirma" name="validacionFirma">
+                       </div>
+                     </div>`;
+
+                   var htmlBoton="";
+                   htmlBoton=`<button type="button" id="btnAbonar" class="btn btn-info">Guardar</button>`;
+                   $('#btnCancelar').after(htmlBoton);
+                   $("#formularioPrestamo").append(hmtlFormularioAbonar);
+                }
+                else if(bandera == "detalles"){
+                  // consultarMovimientosPrestamo(data[p].id_prestamo);
+                }
+              }
+              else{
+                // INSERTAR FORMULARIO PRESTAMOS
+                htmlPrestamos +=
+                  `<div id="divForm" name="divForm">
+                    <div class="form-group">
+                        <label for="id_trabajador" class="control-label">Trabajador <span class="danger">*</span> </label>
+                        <select id="id_trabajador" name="id_trabajador" class="select2 form-control custom-select" style="width: 100%; height:36px;">
+                          <option>Seleccionar</option>
+                          <optgroup id="selectTrabajadores" label="Trabajadores">
+                          </optgroup>
+                        </select>
+                        <div id="validacionTrabajador" name="validacionTrabajador">
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="concepto" class="control-label">Concepto: <span class="danger">*</span> </label>
+                                  <input type="text" class="form-control" id="concepto" name="concepto">
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="montoPrestamo" class="control-label">Monto: <span class="danger">*</span> </label>
+                                <input type="text" class="form-control input-number" id="montoPrestamo" name="montoPrestamo">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label>Descripción: <span class="danger">*</span> </label>
+                          <textarea class="form-control" rows="2" id="descripcion" name="descripcion"></textarea>
+                      </div>
+                      <div class="form-group">
+                          <label for="firma">Firma(trabajador): <span class="danger">*</span> </label>
+                          <input type="password" class="form-control input-number" id="firma" name="firma">
+                          <div id="validacionFirma" name="validacionFirma">
+                          </div>
+                      </div>
+                    </div>`;
+
+                // LLENAR SELECT TRABAJADORES
+                $.ajax({
+                    type: 'GET',
+                    dataType: "json",
+                    enctype: "multipart/form-data",
+                    url: base_url+'/trabajadores/prestamos/trabajadores',
+                    success: function(msg2){
+                      // console.log(msg2);
+                      if(msg2['error'] == "Ocurrio un error"){
+                        console.log("Ha ocurrido un error, inténtelo más tarde.");
                       }
                       else{
-                        $("#buscarPrestamo").append(htmlBuscarPrestamo);
-                        $("#nombreTrabajador").append(htmlNombreTrabajador);
-                        htmlBoton=`<button type="button" id="btnEditar" class="btn btn-info">Guardar</button>`;
-                        $("#formularioPrestamo").append(htmlPrestamos);
-                        $('#selectTrabajadores').after(htmlTrabajadores);
-                        if(identificador == -1){
-                          llenarCampos(data[0]);
+                        var data2 = msg2;
+                        // console.log(data2);
+                        var tam = data2.length;
+                        for (var i = 0; i < tam; i++) {
+                          htmlTrabajadores+=
+                            `<option value="${data2[i].id_trabajador}">${data2[i].Nombre} ${data2[i].Apellidos}</option>`;
+                        }
+                        var htmlBoton="";
+                        if(bandera == "agregar"){
+                          htmlBoton=`<button type="button" id="btnAgregar" class="btn btn-info">Guardar</button>`;
+
+                          $("#formularioPrestamo").append(htmlPrestamos);
+                          $('#selectTrabajadores').after(htmlTrabajadores);
                         }
                         else{
-                          var i = [];
-                          if(num_prestamos!=0){
-                            for (var x = 0; x < num_prestamos; x++) {
-                              i[x]=data[x].id_prestamo;
+                          $("#buscarPrestamo").append(htmlBuscarPrestamo);
+                          $("#nombreTrabajador").append(htmlNombreTrabajador);
+                          htmlBoton=`<button type="button" id="btnEditar" class="btn btn-info">Guardar</button>`;
+                          $("#formularioPrestamo").append(htmlPrestamos);
+                          $('#selectTrabajadores').after(htmlTrabajadores);
+                          if(identificador == -1){
+                            llenarCampos(data[0]);
+                          }
+                          else{
+                            var i = [];
+                            if(num_prestamos!=0){
+                              for (var x = 0; x < num_prestamos; x++) {
+                                i[x]=data[x].id_prestamo;
+                              }
+                              var ide = parseInt(identificador);
+                              var posicion = i.indexOf(ide);
+                              llenarCampos(data[posicion]);
                             }
-                            var ide = parseInt(identificador);
-                            var posicion = i.indexOf(ide);
-                            llenarCampos(data[posicion]);
                           }
                         }
+                        $('#btnCancelar').after(htmlBoton);
                       }
-                      $('#btnCancelar').after(htmlBoton);
                     }
-                  }
+                });
+              }
+              $('#modalAgregarPrestamo').modal('show');
+              $(".select2").select2();
+            }
+            else if(bandera == "historial"){
+              swal({
+                type: "warning",
+                title: "Historial prestamos",
+                text: "Por el momento no tiene prestamos pasados.",
+                showConfirmButton: false,
+                timer: 1500
               });
             }
           }
         }
     });
-    $('#modalAgregarPrestamo').modal('show');
-    $(".select2").select2();
+
   }
 
   function consultarMovimientosPrestamo(id_prestamo){

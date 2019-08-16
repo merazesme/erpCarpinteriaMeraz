@@ -267,6 +267,7 @@
             idsTarde = [];
             idsHoraExtra = [];
             var asistencia = msg['asistencia'];
+            console.log(asistencia);
             var tam = asistencia.length;
             for (var i = 0; i < tam; i++) {
               var checkMañana = "#m-"+asistencia[i].id_trabajador;

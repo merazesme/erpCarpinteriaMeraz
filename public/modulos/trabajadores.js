@@ -250,13 +250,13 @@
           if(msg['success'] == "Se agrego exitosamente"){
             reset_form('.validation-wizard');
             swal({
-              type: "success",
               title: "¡Éxito!",
-              text: mensaje,
-              showConfirmButton: false,
-              timer: 500
+              text: "Se agrego exitosamente.",
+              type: "success"
+              },
+              function(){
+                window.location.href = "/trabajadores/lista";
             });
-            location.href = "/trabajadores/lista";
           }
           else if(msg['error'] == "Ocurrio un error"){
             swal(mensaje2, "Ha ocurrido un error, inténtelo más tarde.", "error");
